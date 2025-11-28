@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "name": "amadeo-marketplace",
+  "routes": [
+    { "src": "/dashboard", "dest": "/dashboard.html" },
+    { "src": "/faq", "dest": "/faq.html" },
+    { "src": "/landing", "dest": "/landing.html" }
+  ]
+}
