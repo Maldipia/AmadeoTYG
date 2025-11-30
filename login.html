@@ -581,60 +581,127 @@
             };
             
             try {
-                // For demonstration, using fetch with JSONP-like callback
-                const callbackName = 'loginCallback_' + Date.now();
+                // Create hidden iframe for form submission
+                const iframeName = 'loginFrame_' + Date.now();
+                const iframe = document.createElement('iframe');
+                iframe.name = iframeName;
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
                 
-                const script = document.createElement('script');
-                script.src = `${SCRIPT_URL}?action=${formData.action === 'merchantLogin' ? 'merchantLogin' : 'userLogin'}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&callback=${callbackName}`;
+                // Create form for POST submission
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = SCRIPT_URL;
+                form.target = iframeName;
                 
-                window[callbackName] = function(response) {
-                    if (response.success) {
-                        statusDiv.className = 'status-message success';
-                        statusDiv.innerHTML = `<strong>✅ Login Successful!</strong><br>Redirecting...`;
+                // Add form data as hidden inputs
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'payload';
+                input.value = JSON.stringify(formData);
+                form.appendChild(input);
+                
+                document.body.appendChild(form);
+                
+                // Listen for iframe load
+                iframe.onload = function() {
+                    try {
+                        // Try to get response from iframe
+                        const iframeContent = iframe.contentWindow.document.body.innerText;
+                        const response = JSON.parse(iframeContent);
                         
-                        // Store login data
-                        if (document.getElementById('rememberMe').checked) {
-                            localStorage.setItem('amadeo_user', JSON.stringify(response.data));
-                            localStorage.setItem('amadeo_token', response.token);
-                        } else {
-                            sessionStorage.setItem('amadeo_user', JSON.stringify(response.data));
-                            sessionStorage.setItem('amadeo_token', response.token);
-                        }
-                        
-                        // Redirect based on user type
-                        setTimeout(() => {
-                            if (currentLoginType === 'merchant') {
-                                window.location.href = '/dashboard';
+                        if (response.success) {
+                            statusDiv.className = 'status-message success';
+                            statusDiv.innerHTML = `<strong>✅ Login Successful!</strong><br>Redirecting...`;
+                            
+                            // Store login data
+                            if (document.getElementById('rememberMe').checked) {
+                                localStorage.setItem('amadeo_user', JSON.stringify(response.data));
+                                localStorage.setItem('amadeo_token', response.token);
+                                localStorage.setItem('amadeo_login_type', currentLoginType);
                             } else {
-                                window.location.href = '/';
+                                sessionStorage.setItem('amadeo_user', JSON.stringify(response.data));
+                                sessionStorage.setItem('amadeo_token', response.token);
+                                sessionStorage.setItem('amadeo_login_type', currentLoginType);
                             }
-                        }, 1500);
-                    } else {
-                        statusDiv.className = 'status-message error';
-                        statusDiv.textContent = response.error || 'Login failed. Please check your credentials.';
-                        submitBtn.disabled = false;
+                            
+                            // Redirect based on user type
+                            setTimeout(() => {
+                                if (currentLoginType === 'merchant') {
+                                    window.location.href = '/dashboard';
+                                } else {
+                                    window.location.href = '/';
+                                }
+                            }, 1500);
+                        } else {
+                            statusDiv.className = 'status-message error';
+                            statusDiv.textContent = response.error || 'Login failed. Please check your credentials.';
+                            submitBtn.disabled = false;
+                        }
+                    } catch (e) {
+                        // Fallback: Use fetch with redirect follow
+                        fetchLogin(formData, statusDiv, submitBtn);
                     }
                     
                     // Cleanup
-                    delete window[callbackName];
-                    script.remove();
+                    setTimeout(() => {
+                        iframe.remove();
+                        form.remove();
+                    }, 100);
                 };
                 
-                script.onerror = function() {
-                    statusDiv.className = 'status-message error';
-                    statusDiv.textContent = 'Connection error. Please try again.';
-                    submitBtn.disabled = false;
-                    delete window[callbackName];
-                    script.remove();
-                };
-                
-                document.body.appendChild(script);
+                // Submit the form
+                form.submit();
                 
             } catch (error) {
                 statusDiv.className = 'status-message error';
                 statusDiv.textContent = 'Something went wrong. Please try again.';
                 submitBtn.disabled = false;
                 console.error('Error:', error);
+            }
+        }
+        
+        // Fallback fetch method
+        async function fetchLogin(formData, statusDiv, submitBtn) {
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    redirect: 'follow',
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    statusDiv.className = 'status-message success';
+                    statusDiv.innerHTML = `<strong>✅ Login Successful!</strong><br>Redirecting...`;
+                    
+                    if (document.getElementById('rememberMe').checked) {
+                        localStorage.setItem('amadeo_user', JSON.stringify(result.data));
+                        localStorage.setItem('amadeo_token', result.token);
+                        localStorage.setItem('amadeo_login_type', currentLoginType);
+                    } else {
+                        sessionStorage.setItem('amadeo_user', JSON.stringify(result.data));
+                        sessionStorage.setItem('amadeo_token', result.token);
+                        sessionStorage.setItem('amadeo_login_type', currentLoginType);
+                    }
+                    
+                    setTimeout(() => {
+                        if (currentLoginType === 'merchant') {
+                            window.location.href = '/dashboard';
+                        } else {
+                            window.location.href = '/';
+                        }
+                    }, 1500);
+                } else {
+                    statusDiv.className = 'status-message error';
+                    statusDiv.textContent = result.error || 'Login failed. Please check your credentials.';
+                    submitBtn.disabled = false;
+                }
+            } catch (e) {
+                statusDiv.className = 'status-message error';
+                statusDiv.textContent = 'Connection error. Please try again.';
+                submitBtn.disabled = false;
             }
         }
 
