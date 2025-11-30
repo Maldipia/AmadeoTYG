@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Us - Amadeo Verified Marketplace | Grow Your Business</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #1a472a;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #1a472a;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #e8f5e9;
+        }
+
+        .nav-links a.active {
+            background: #1a472a;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: #81c784;
+        }
+
+        .hero p {
+            font-size: 22px;
+            opacity: 0.95;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #1a472a;
+            padding: 16px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 16px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            border: 2px solid white;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #1a472a;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: white;
+            padding: 30px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a472a;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Section Styles */
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            color: #1a472a;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .benefit-icon {
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-card h3 {
+            font-size: 22px;
+            color: #1a472a;
+            margin-bottom: 12px;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .benefit-highlight {
+            background: #e8f5e9;
+            color: #1a472a;
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Problem Section */
+        .problem-section {
+            background: #fff3e0;
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 60px;
+        }
+
+        .problem-section h2 {
+            color: #e65100;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .problems-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .problem-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .problem-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .problem-item p {
+            color: #5d4037;
+            line-height: 1.5;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            background: #e8f5e9;
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 60px;
+        }
+
+        .solution-section h2 {
+            color: #1a472a;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .solutions-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .solution-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .solution-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .solution-item p {
+            color: #1b5e20;
+            line-height: 1.5;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .steps-horizontal {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .step-item {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .step-item:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #1a472a;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1a472a, #2d5a3d);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 auto 15px;
+        }
+
+        .step-item h4 {
+            color: #1a472a;
+            margin-bottom: 10px;
+        }
+
+        .step-item p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Pricing */
+        .pricing-section {
+            margin-bottom: 60px;
+        }
+
+        .pricing-highlight {
+            background: linear-gradient(135deg, #1a472a, #2d5a3d);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .pricing-highlight h3 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .pricing-highlight .price {
+            font-size: 64px;
+            font-weight: 700;
+        }
+
+        .pricing-highlight p {
+            opacity: 0.9;
+            font-size: 18px;
+        }
+
+        .pricing-note {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .included-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .included-item {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .included-icon {
+            font-size: 28px;
+            color: #1a472a;
+        }
+
+        .included-item p {
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Testimonial */
+        .testimonial-section {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 60px;
+        }
+
+        .testimonial-quote {
+            font-size: 24px;
+            color: #333;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            background: #1a472a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .author-info h4 {
+            color: #1a472a;
+            font-size: 18px;
+        }
+
+        .author-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Upgrade Options */
+        .upgrade-section {
+            margin-bottom: 60px;
+        }
+
+        .upgrade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .upgrade-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .upgrade-card:hover {
+            border-color: #1a472a;
+        }
+
+        .upgrade-card.popular {
+            border-color: #1a472a;
+            position: relative;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a472a;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .upgrade-card h4 {
+            color: #1a472a;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .upgrade-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .upgrade-features {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .upgrade-features li {
+            padding: 8px 0;
+            color: #666;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upgrade-features li::before {
+            content: '✓';
+            color: #1a472a;
+            font-weight: 700;
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 60px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            padding: 25px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #1a472a;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1a472a, #2d5a3d);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-contact {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .cta-contact p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a472a;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #81c784;
+            text-decoration: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stats-container {
+                justify-content: center;
+            }
+
+            .stat-item {
+                min-width: 120px;
+            }
+
+            .section-header h2 {
+                font-size: 28px;
+            }
+
+            .problem-section, .solution-section, .how-it-works, .faq-section {
+                padding: 30px 20px;
+            }
+
+            .step-item:not(:last-child)::after {
+                display: none;
+            }
+
+            .pricing-highlight .price {
+                font-size: 48px;
+            }
+
+            .cta-section {
+                padding: 40px 20px;
+            }
+
+            .cta-section h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span class="logo-icon">🏠</span>
+                <span class="logo-text">Amadeo Verified</span>
+            </a>
+            <nav class="nav-links">
+                <a href="/">Shop Now</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/join" class="active">For Merchants</a>
+                <a href="/faq">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🎉 FREE to Join - Limited Founding Member Spots</div>
+            <h1>Grow Your Business with <span>Amadeo's #1 Marketplace</span></h1>
+            <p>Join 100+ local businesses reaching customers across all 13 barangays. Get discovered, manage orders, and grow your sales - all for FREE.</p>
+            <div class="hero-buttons">
+                <a href="#apply" class="btn-primary">
+                    <span>🚀</span> Apply as Merchant
+                </a>
+                <a href="#benefits" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Barangays Covered</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">30K+</div>
+                <div class="stat-label">Potential Customers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">₱0</div>
+                <div class="stat-label">Joining Fee</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">5%</div>
+                <div class="stat-label">Only Commission</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Problem Section -->
+        <section class="problem-section">
+            <h2>😤 Sounds Familiar?</h2>
+            <div class="problems-list">
+                <div class="problem-item">
+                    <span class="problem-icon">😰</span>
+                    <p><strong>Customers order, then you're out of stock.</strong> Manual inventory tracking leads to embarrassing "sorry, wala na" messages.</p>
+                </div>
+                <div class="problem-item">
+                    <span class="problem-icon">📱</span>
+                    <p><strong>Orders scattered everywhere.</strong> Text, Messenger, Viber, calls - it's chaos trying to track who ordered what.</p>
+                </div>
+                <div class="problem-item">
+                    <span class="problem-icon">😔</span>
+                    <p><strong>Customers can't find you.</strong> They scroll Facebook for 30 minutes and end up ordering from Silang instead.</p>
+                </div>
+                <div class="problem-item">
+                    <span class="problem-icon">📊</span>
+                    <p><strong>No idea what's selling.</strong> Without data, you're guessing which products to stock more of.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="solution-section">
+            <h2>✅ With Amadeo Verified Marketplace</h2>
+            <div class="solutions-list">
+                <div class="solution-item">
+                    <span class="solution-icon">📦</span>
+                    <p><strong>Real-time inventory.</strong> Customers see actual stock. No more overselling. System deducts automatically.</p>
+                </div>
+                <div class="solution-item">
+                    <span class="solution-icon">📋</span>
+                    <p><strong>All orders in one place.</strong> Professional dashboard shows all orders with customer details and status.</p>
+                </div>
+                <div class="solution-item">
+                    <span class="solution-icon">🔍</span>
+                    <p><strong>Get discovered instantly.</strong> Customers find you in seconds. One search, not 30 minutes of scrolling.</p>
+                </div>
+                <div class="solution-item">
+                    <span class="solution-icon">📈</span>
+                    <p><strong>See what sells.</strong> Dashboard shows your top products, sales trends, and customer insights.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section id="benefits" class="section">
+            <div class="section-header">
+                <h2>💚 Why Join Amadeo Verified?</h2>
+                <p>Everything you need to grow your business, without the tech headache</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Zero Upfront Cost</h3>
+                    <p>No joining fees. No monthly fees. No setup fees. Just a small <span class="benefit-highlight">5% commission</span> when you make sales. If you don't sell, you don't pay.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">👥</div>
+                    <h3>30,000+ Local Customers</h3>
+                    <p>Amadeo's entire population at your fingertips. Reach customers across all 13 barangays without spending on ads.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📱</div>
+                    <h3>Professional Online Presence</h3>
+                    <p>Get a beautiful listing with your products, prices, and stock levels. Look professional without building a website.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📦</div>
+                    <h3>Real-Time Inventory</h3>
+                    <p>Customers see actual stock before ordering. System automatically deducts when orders come in. No more overselling!</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔔</div>
+                    <h3>Low Stock Alerts</h3>
+                    <p>Get notified when products run low so you can restock before you lose sales. Never miss an opportunity.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3>Sales Dashboard</h3>
+                    <p>See all your orders, track sales, and understand your business better with real data. Make smarter decisions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="section">
+            <div class="section-header">
+                <h2>🚀 Getting Started is Easy</h2>
+                <p>Be live on the marketplace in less than 24 hours</p>
+            </div>
+
+            <div class="how-it-works">
+                <div class="steps-horizontal">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h4>Apply</h4>
+                        <p>Fill out the simple form below. Tell us about your business.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h4>Get Verified</h4>
+                        <p>We'll verify you're a legit Amadeo business (usually same day).</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h4>Add Products</h4>
+                        <p>List your products with prices and stock levels.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <h4>Start Selling!</h4>
+                        <p>You're live! Customers can now find and order from you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="pricing-section">
+            <div class="section-header">
+                <h2>💵 Simple, Fair Pricing</h2>
+                <p>No hidden fees. No surprises.</p>
+            </div>
+
+            <div class="pricing-highlight">
+                <h3>Joining Fee</h3>
+                <div class="price">₱0</div>
+                <p>Yes, really. It's FREE to join.</p>
+                <div class="pricing-note">
+                    <strong>Only 5% commission</strong> on completed orders. No sale = no fee.
+                </div>
+            </div>
+
+            <div class="included-features">
+                <div class="included-item">
+                    <span class="included-icon">✅</span>
+                    <p>Professional business listing</p>
+                </div>
+                <div class="included-item">
+                    <span class="included-icon">✅</span>
+                    <p>Unlimited product listings</p>
+                </div>
+                <div class="included-item">
+                    <span class="included-icon">✅</span>
+                    <p>Real-time inventory management</p>
+                </div>
+                <div class="included-item">
+                    <span class="included-icon">✅</span>
+                    <p>Order management dashboard</p>
+                </div>
+                <div class="included-item">
+                    <span class="included-icon">✅</span>
+                    <p>Low stock email alerts</p>
+                </div>
+                <div class="included-item">
+                    <span class="included-icon">✅</span>
+                    <p>Sales reports & analytics</p>
+                </div>
+                <div class="included-item">
+                    <span class="included-icon">✅</span>
+                    <p>Customer support</p>
+                </div>
+                <div class="included-item">
+                    <span class="included-icon">✅</span>
+                    <p>Featured in marketplace search</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison -->
+        <section class="section">
+            <div class="section-header">
+                <h2>📊 Compare & See the Difference</h2>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card" style="background: #ffebee;">
+                    <div class="benefit-icon">📱</div>
+                    <h3>Facebook Groups</h3>
+                    <p style="color: #c62828;">
+                        ❌ Posts get buried in minutes<br>
+                        ❌ No inventory tracking<br>
+                        ❌ Orders via chat = chaos<br>
+                        ❌ Algorithm controls who sees you<br>
+                        ❌ Competing with everyone
+                    </p>
+                </div>
+                <div class="benefit-card" style="background: #fff3e0;">
+                    <div class="benefit-icon">🚗</div>
+                    <h3>Grab / FoodPanda</h3>
+                    <p style="color: #e65100;">
+                        ⚠️ 25-30% commission (too high!)<br>
+                        ⚠️ Strict requirements<br>
+                        ⚠️ Competing with big chains<br>
+                        ⚠️ They own your customers<br>
+                        ⚠️ Not focused on local
+                    </p>
+                </div>
+                <div class="benefit-card" style="background: #e8f5e9; border: 3px solid #1a472a;">
+                    <div class="benefit-icon">🏠</div>
+                    <h3>Amadeo Verified</h3>
+                    <p style="color: #1b5e20;">
+                        ✅ Only 5% commission<br>
+                        ✅ Real-time inventory<br>
+                        ✅ Professional dashboard<br>
+                        ✅ You keep customer relationship<br>
+                        ✅ 100% local Amadeo focus
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonial -->
+        <section class="testimonial-section">
+            <div class="testimonial-quote">
+                "Before, I was getting orders via text and Messenger - super hirap i-track. Now everything is in one place. I can see my inventory, my orders, my sales. Sobrang organized na!"
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">👩</div>
+                <div class="author-info">
+                    <h4>Aling Rosa</h4>
+                    <p>Lutong Bahay ni Aling Rosa, Buho</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Optional Upgrades -->
+        <section class="upgrade-section">
+            <div class="section-header">
+                <h2>⚡ Want to Level Up?</h2>
+                <p>Optional automation packages for serious growth</p>
+            </div>
+
+            <div class="upgrade-grid">
+                <div class="upgrade-card">
+                    <h4>Starter</h4>
+                    <div class="upgrade-price">₱3,500</div>
+                    <ul class="upgrade-features">
+                        <li>Google Sheet setup</li>
+                        <li>Basic training</li>
+                        <li>Email support</li>
+                    </ul>
+                </div>
+                <div class="upgrade-card popular">
+                    <div class="popular-badge">MOST POPULAR</div>
+                    <h4>Growth</h4>
+                    <div class="upgrade-price">₱6,500</div>
+                    <ul class="upgrade-features">
+                        <li>Everything in Starter</li>
+                        <li>Custom dashboard</li>
+                        <li>Order automation</li>
+                        <li>Priority support</li>
+                    </ul>
+                </div>
+                <div class="upgrade-card">
+                    <h4>Pro</h4>
+                    <div class="upgrade-price">₱12,000</div>
+                    <ul class="upgrade-features">
+                        <li>Everything in Growth</li>
+                        <li>Inventory alerts</li>
+                        <li>Daily reports</li>
+                        <li>Phone support</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 20px; color: #666;">
+                * Upgrades are 100% optional. The FREE listing includes everything you need to start!
+            </p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq-section">
+            <div class="section-header">
+                <h2>❓ Frequently Asked Questions</h2>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How much does it cost to join?</div>
+                <div class="faq-answer">Nothing! Joining is 100% FREE. We only charge a 5% commission when you make a sale. If you don't sell, you don't pay anything.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I get paid?</div>
+                <div class="faq-answer">You collect payment directly from customers (COD or your own GCash). You're in full control of your money. The 5% commission is settled weekly via GCash.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Who handles delivery?</div>
+                <div class="faq-answer">You handle your own delivery, just like you do now. We just help you get more orders and manage them better. You keep your customer relationships.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What if I already have Facebook/Instagram?</div>
+                <div class="faq-answer">Great! This is an additional channel - not a replacement. More visibility = more sales. Plus you get inventory management that social media doesn't offer.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How long does approval take?</div>
+                <div class="faq-answer">Usually same day! We just need to verify you're a real Amadeo business. Once approved, you can start adding products immediately.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Do I need to be tech-savvy?</div>
+                <div class="faq-answer">Not at all! If you can use Facebook, you can use our dashboard. It's designed to be super simple. Plus we provide free training and support.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What types of businesses can join?</div>
+                <div class="faq-answer">Any legitimate Amadeo business! Water refilling, LPG, food, grocery, services (plumbing, electrical), farm products, and more. As long as you serve Amadeo customers, you're welcome!</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is my business information safe?</div>
+                <div class="faq-answer">Yes! Your data is stored in Google's secure servers. Only you and authorized platform admins can access your business information.</div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="apply" class="cta-section">
+            <h2>Ready to Grow Your Business? 🚀</h2>
+            <p>Join the leading marketplace for Amadeo businesses. Get discovered by thousands of local customers today!</p>
+            
+            <div class="cta-buttons">
+                <a href="https://forms.gle/YOUR_GOOGLE_FORM_ID" class="btn-primary" target="_blank">
+                    <span>📝</span> Apply Now - It's FREE
+                </a>
+                <a href="https://m.me/YOUR_MESSENGER_ID" class="btn-secondary">
+                    💬 Message Us
+                </a>
+            </div>
+
+            <div class="cta-contact">
+                <p>Have questions? Contact us directly:</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📱</span> 0966 960 6060
+                    </div>
+                    <div class="contact-item">
+                        <span>📧</span> tygfsb@gmail.com
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p><strong>Amadeo Verified Marketplace</strong></p>
+            <p>Empowering Local Businesses 💚</p>
+            <p style="margin-top: 15px;">
+                Powered by <a href="https://tygservices.com">TYG Services</a> | 100,000+ automated transactions
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
