@@ -164,19 +164,36 @@
             padding: 15px 0;
             margin-bottom: 20px;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) #f0f0f0;
+        }
+
+        .categories::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .categories::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 3px;
+        }
+
+        .categories::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
         }
         
         .category-btn {
             background: white;
             border: 2px solid var(--gray-200);
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             white-space: nowrap;
             transition: all 0.2s;
             font-family: inherit;
+            flex-shrink: 0;
         }
         
         .category-btn:hover,
@@ -256,6 +273,148 @@
         
         .product-card.out-of-stock {
             opacity: 0.7;
+        }
+
+        /* Delivery/Pickup Service Badges */
+        .service-badges {
+            display: flex;
+            gap: 6px;
+            margin: 8px 0;
+            flex-wrap: wrap;
+        }
+
+        .service-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-delivery {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .badge-pickup {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .badge-radius {
+            background: #f3e5f5;
+            color: #7b1fa2;
+            font-size: 10px;
+        }
+
+        .no-delivery {
+            background: #ffebee;
+            color: #c62828;
+            font-size: 10px;
+        }
+
+        /* Open/Closed Status Badge */
+        .store-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .store-status.open {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .store-status.closed {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .store-hours {
+            font-size: 10px;
+            color: #666;
+            margin-left: 5px;
+        }
+
+        /* Contact Buttons */
+        .contact-buttons {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .contact-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            text-decoration: none;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .contact-btn:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+
+        .contact-btn.call {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .contact-btn.sms {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .contact-btn.chat {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        /* Merchant Header with Services */
+        .merchant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .merchant-services {
+            display: flex;
+            gap: 6px;
+        }
+
+        .service-icon {
+            font-size: 16px;
+            opacity: 0.3;
+        }
+
+        .service-icon.active {
+            opacity: 1;
+        }
+        
+        .service-icon.delivery {
+            color: #1565c0;
+        }
+
+        .service-icon.pickup {
+            color: #ef6c00;
         }
         
         .product-image {
@@ -840,15 +999,18 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div class="logo">
+            <a href="/" class="logo" style="text-decoration: none; color: inherit;">
                 <span class="logo-icon">🏠</span>
                 <span>Amadeo Verified</span>
-            </div>
-            <div class="header-actions">
+            </a>
+            <nav class="nav-links" style="display: flex; gap: 15px; align-items: center;">
+                <a href="/how-it-works" style="color: #1a472a; text-decoration: none; font-weight: 500; font-size: 14px;">How It Works</a>
+                <a href="/join" style="color: #1a472a; text-decoration: none; font-weight: 500; font-size: 14px;">For Merchants</a>
+                <a href="/faq" style="color: #1a472a; text-decoration: none; font-weight: 500; font-size: 14px;">FAQ</a>
                 <button class="cart-btn" onclick="openCart()">
                     🛒 Cart <span class="cart-count" id="cartCount">0</span>
                 </button>
-            </div>
+            </nav>
         </div>
     </header>
 
@@ -871,10 +1033,15 @@
             <button class="category-btn active" onclick="filterCategory('all', this)">All</button>
             <button class="category-btn" onclick="filterCategory('Water', this)">💧 Water</button>
             <button class="category-btn" onclick="filterCategory('LPG', this)">🔥 LPG</button>
-            <button class="category-btn" onclick="filterCategory('Food', this)">🍱 Food</button>
+            <button class="category-btn" onclick="filterCategory('Ready to Eat', this)">🍕 Ready to Eat</button>
             <button class="category-btn" onclick="filterCategory('Grocery', this)">🛒 Grocery</button>
-            <button class="category-btn" onclick="filterCategory('Services', this)">🔧 Services</button>
-            <button class="category-btn" onclick="filterCategory('Farm', this)">🌾 Farm Products</button>
+            <button class="category-btn" onclick="filterCategory('Transport', this)">🚗 Transport</button>
+            <button class="category-btn" onclick="filterCategory('Accommodation', this)">🏡 Stays</button>
+            <button class="category-btn" onclick="filterCategory('Wellness', this)">💆 Wellness</button>
+            <button class="category-btn" onclick="filterCategory('Auto', this)">🔧 Auto</button>
+            <button class="category-btn" onclick="filterCategory('Home Services', this)">🏠 Home</button>
+            <button class="category-btn" onclick="filterCategory('Events', this)">🎉 Events</button>
+            <button class="category-btn" onclick="filterCategory('Farm', this)">🌾 Farm</button>
         </div>
 
         <!-- Filters -->
@@ -884,6 +1051,14 @@
                 <div class="filter-toggle">
                     <button class="active" onclick="filterStock('all', this)">All</button>
                     <button onclick="filterStock('instock', this)">In Stock Only</button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">Service:</span>
+                <div class="filter-toggle">
+                    <button class="active" onclick="filterService('all', this)">All</button>
+                    <button onclick="filterService('delivery', this)">🚚 Delivery</button>
+                    <button onclick="filterService('pickup', this)">🏪 Pickup</button>
                 </div>
             </div>
             <div class="results-count">
@@ -1060,6 +1235,7 @@
         let cart = [];
         let currentCategory = 'all';
         let currentStockFilter = 'all';
+        let currentServiceFilter = 'all';
         let searchQuery = '';
         
         // ═══════════════════════════════════════════════════════════════════════
@@ -1081,38 +1257,169 @@
             loadSampleProducts();
         }
         
+        // Merchant data with operating hours and contact info
+        const merchantData = {
+            // Water
+            'M001': { phone: '09171234567', openTime: '06:00', closeTime: '20:00', daysOpen: 'Mon-Sat' },
+            'M002': { phone: '09181234567', openTime: '07:00', closeTime: '19:00', daysOpen: 'Mon-Sun' },
+            // LPG
+            'M003': { phone: '09191234567', openTime: '06:00', closeTime: '21:00', daysOpen: 'Mon-Sun' },
+            'M004': { phone: '09201234567', openTime: '07:00', closeTime: '20:00', daysOpen: 'Mon-Sat' },
+            // Ready to Eat
+            'M005': { phone: '09211234567', openTime: '10:00', closeTime: '20:00', daysOpen: 'Mon-Sun' },
+            'M006': { phone: '09221234567', openTime: '09:00', closeTime: '19:00', daysOpen: 'Tue-Sun' },
+            // Grocery
+            'M007': { phone: '09231234567', openTime: '06:00', closeTime: '21:00', daysOpen: 'Mon-Sun' },
+            // Home Services (Plumbing, Electrical)
+            'M008': { phone: '09241234567', openTime: '07:00', closeTime: '18:00', daysOpen: 'Mon-Sat' },
+            'M009': { phone: '09251234567', openTime: '08:00', closeTime: '17:00', daysOpen: 'Mon-Fri' },
+            // Farm
+            'M010': { phone: '09261234567', openTime: '05:00', closeTime: '18:00', daysOpen: 'Mon-Sun' },
+            'M011': { phone: '09271234567', openTime: '07:00', closeTime: '19:00', daysOpen: 'Mon-Sun' },
+            // Ready to Eat (new)
+            'M012': { phone: '09281234567', openTime: '10:00', closeTime: '22:00', daysOpen: 'Mon-Sun' },  // Pizza Amadeo
+            'M013': { phone: '09291234567', openTime: '05:00', closeTime: '14:00', daysOpen: 'Mon-Sun' },  // Bulalohan sa Kanto
+            'M014': { phone: '09301234567', openTime: '05:30', closeTime: '18:00', daysOpen: 'Mon-Sat' },  // Kape at Tinapay
+            'M015': { phone: '09311234567', openTime: '07:00', closeTime: '20:00', daysOpen: 'Mon-Sun' },  // Grocery Lane Amadeo
+            // Transport
+            'M016': { phone: '09321234567', openTime: '05:00', closeTime: '22:00', daysOpen: 'Mon-Sun' },  // Tricycle Toda Poblacion
+            'M017': { phone: '09331234567', openTime: '06:00', closeTime: '21:00', daysOpen: 'Mon-Sun' },  // Van Rental Amadeo
+            'M018': { phone: '09341234567', openTime: '00:00', closeTime: '23:59', daysOpen: 'Mon-Sun' },  // Carpool Amadeo (24/7)
+            // Accommodation
+            'M019': { phone: '09351234567', openTime: '06:00', closeTime: '22:00', daysOpen: 'Mon-Sun' },  // Luntian Log Cabin
+            'M020': { phone: '09361234567', openTime: '08:00', closeTime: '20:00', daysOpen: 'Mon-Sun' },  // Amadeo Garden Resort
+            'M021': { phone: '09371234567', openTime: '00:00', closeTime: '23:59', daysOpen: 'Mon-Sun' },  // Casa Amadeo (Airbnb)
+            // Wellness
+            'M022': { phone: '09381234567', openTime: '10:00', closeTime: '22:00', daysOpen: 'Mon-Sun' },  // Healing Hands Spa
+            'M023': { phone: '09391234567', openTime: '09:00', closeTime: '20:00', daysOpen: 'Tue-Sun' },  // Glow Up Salon
+            'M024': { phone: '09401234567', openTime: '12:00', closeTime: '23:00', daysOpen: 'Mon-Sun' },  // Masahe Express
+            // Auto Services
+            'M025': { phone: '09411234567', openTime: '07:00', closeTime: '18:00', daysOpen: 'Mon-Sat' },  // Carwash King
+            'M026': { phone: '09421234567', openTime: '07:00', closeTime: '19:00', daysOpen: 'Mon-Sun' },  // Mang Tonyo Vulcanizing
+            'M027': { phone: '09431234567', openTime: '08:00', closeTime: '17:00', daysOpen: 'Mon-Sat' },  // AutoDoc Mechanic
+            // Events
+            'M028': { phone: '09441234567', openTime: '08:00', closeTime: '20:00', daysOpen: 'Mon-Sun' },  // Catering ni Aling Beth
+            'M029': { phone: '09451234567', openTime: '09:00', closeTime: '21:00', daysOpen: 'Mon-Sun' },  // Sound System Rental
+            'M030': { phone: '09461234567', openTime: '08:00', closeTime: '18:00', daysOpen: 'Mon-Sun' }   // Snap & Click Photography
+        };
+
+        function isStoreOpen(merchantId) {
+            const merchant = merchantData[merchantId];
+            if (!merchant) return true;
+            
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            const [openH, openM] = merchant.openTime.split(':').map(Number);
+            const [closeH, closeM] = merchant.closeTime.split(':').map(Number);
+            const openMinutes = openH * 60 + openM;
+            const closeMinutes = closeH * 60 + closeM;
+            
+            return currentTime >= openMinutes && currentTime < closeMinutes;
+        }
+
+        function getStoreHours(merchantId) {
+            const merchant = merchantData[merchantId];
+            if (!merchant) return '';
+            return `${merchant.openTime} - ${merchant.closeTime}`;
+        }
+
+        function getMerchantPhone(merchantId) {
+            const merchant = merchantData[merchantId];
+            return merchant ? merchant.phone : '';
+        }
+        
         function loadSampleProducts() {
-            // Sample products with real-time inventory
+            // Sample products with real-time inventory and delivery options
             products = [
-                // Water
-                { ProductId: 'P001', MerchantId: 'M001', merchantName: 'Aqua Pure Amadeo', Name: 'Purified Water 5gal', Category: 'Water', Price: 50, available: 45, stockStatus: 'in_stock', icon: '💧' },
-                { ProductId: 'P002', MerchantId: 'M001', merchantName: 'Aqua Pure Amadeo', Name: 'Mineral Water 5gal', Category: 'Water', Price: 60, available: 8, stockStatus: 'low', icon: '💧' },
-                { ProductId: 'P003', MerchantId: 'M001', merchantName: 'Aqua Pure Amadeo', Name: 'Alkaline Water 5gal', Category: 'Water', Price: 70, available: 3, stockStatus: 'critical', icon: '💧' },
-                { ProductId: 'P004', MerchantId: 'M002', merchantName: 'Crystal Clear Water', Name: 'Distilled Water 5gal', Category: 'Water', Price: 55, available: 0, stockStatus: 'out', icon: '💧' },
+                // Water - Aqua Pure (Delivery 5km, Pickup available)
+                { ProductId: 'P001', MerchantId: 'M001', merchantName: 'Aqua Pure Amadeo', Name: 'Purified Water 5gal', Category: 'Water', Price: 50, available: 45, stockStatus: 'in_stock', icon: '💧', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
+                { ProductId: 'P002', MerchantId: 'M001', merchantName: 'Aqua Pure Amadeo', Name: 'Mineral Water 5gal', Category: 'Water', Price: 60, available: 8, stockStatus: 'low', icon: '💧', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
+                { ProductId: 'P003', MerchantId: 'M001', merchantName: 'Aqua Pure Amadeo', Name: 'Alkaline Water 5gal', Category: 'Water', Price: 70, available: 3, stockStatus: 'critical', icon: '💧', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
+                { ProductId: 'P004', MerchantId: 'M002', merchantName: 'Crystal Clear Water', Name: 'Distilled Water 5gal', Category: 'Water', Price: 55, available: 0, stockStatus: 'out', icon: '💧', hasDelivery: true, hasPickup: false, deliveryRadius: 3 },
                 
-                // LPG
-                { ProductId: 'P005', MerchantId: 'M003', merchantName: 'Gasul Amadeo Express', Name: 'LPG Tank 11kg', Category: 'LPG', Price: 950, available: 20, stockStatus: 'in_stock', icon: '🔥' },
-                { ProductId: 'P006', MerchantId: 'M003', merchantName: 'Gasul Amadeo Express', Name: 'LPG Tank 22kg', Category: 'LPG', Price: 1800, available: 5, stockStatus: 'low', icon: '🔥' },
-                { ProductId: 'P007', MerchantId: 'M004', merchantName: 'Solane Dealer Amadeo', Name: 'Solane 11kg Refill', Category: 'LPG', Price: 980, available: 15, stockStatus: 'in_stock', icon: '🔥' },
+                // LPG - Gasul (Delivery 10km, No Pickup)
+                { ProductId: 'P005', MerchantId: 'M003', merchantName: 'Gasul Amadeo Express', Name: 'LPG Tank 11kg', Category: 'LPG', Price: 950, available: 20, stockStatus: 'in_stock', icon: '🔥', hasDelivery: true, hasPickup: false, deliveryRadius: 10 },
+                { ProductId: 'P006', MerchantId: 'M003', merchantName: 'Gasul Amadeo Express', Name: 'LPG Tank 22kg', Category: 'LPG', Price: 1800, available: 5, stockStatus: 'low', icon: '🔥', hasDelivery: true, hasPickup: false, deliveryRadius: 10 },
+                { ProductId: 'P007', MerchantId: 'M004', merchantName: 'Solane Dealer Amadeo', Name: 'Solane 11kg Refill', Category: 'LPG', Price: 980, available: 15, stockStatus: 'in_stock', icon: '🔥', hasDelivery: true, hasPickup: true, deliveryRadius: 8 },
                 
-                // Food
-                { ProductId: 'P008', MerchantId: 'M005', merchantName: 'Lutong Bahay ni Aling Rosa', Name: 'Adobo (Family Size)', Category: 'Food', Price: 280, available: 10, stockStatus: 'in_stock', icon: '🍱' },
-                { ProductId: 'P009', MerchantId: 'M005', merchantName: 'Lutong Bahay ni Aling Rosa', Name: 'Sinigang na Baboy', Category: 'Food', Price: 320, available: 8, stockStatus: 'in_stock', icon: '🍲' },
-                { ProductId: 'P010', MerchantId: 'M006', merchantName: 'Lechon Manok Express', Name: 'Lechon Manok (Whole)', Category: 'Food', Price: 380, available: 2, stockStatus: 'critical', icon: '🍗' },
+                // Ready to Eat - Lutong Bahay (Delivery 3km, Pickup available)
+                { ProductId: 'P008', MerchantId: 'M005', merchantName: 'Lutong Bahay ni Aling Rosa', Name: 'Adobo (Family Size)', Category: 'Ready to Eat', Price: 280, available: 10, stockStatus: 'in_stock', icon: '🍱', hasDelivery: true, hasPickup: true, deliveryRadius: 3 },
+                { ProductId: 'P009', MerchantId: 'M005', merchantName: 'Lutong Bahay ni Aling Rosa', Name: 'Sinigang na Baboy', Category: 'Ready to Eat', Price: 320, available: 8, stockStatus: 'in_stock', icon: '🍲', hasDelivery: true, hasPickup: true, deliveryRadius: 3 },
+                { ProductId: 'P010', MerchantId: 'M006', merchantName: 'Lechon Manok Express', Name: 'Lechon Manok (Whole)', Category: 'Ready to Eat', Price: 380, available: 2, stockStatus: 'critical', icon: '🍗', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P019', MerchantId: 'M012', merchantName: 'Pizza Amadeo', Name: 'Hawaiian Pizza (Large)', Category: 'Ready to Eat', Price: 350, available: 15, stockStatus: 'in_stock', icon: '🍕', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
+                { ProductId: 'P020', MerchantId: 'M012', merchantName: 'Pizza Amadeo', Name: 'Pepperoni Pizza (Large)', Category: 'Ready to Eat', Price: 380, available: 12, stockStatus: 'in_stock', icon: '🍕', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
+                { ProductId: 'P021', MerchantId: 'M013', merchantName: 'Bulalohan sa Kanto', Name: 'Bulalo Special', Category: 'Ready to Eat', Price: 450, available: 8, stockStatus: 'in_stock', icon: '🥣', hasDelivery: true, hasPickup: true, deliveryRadius: 4 },
+                { ProductId: 'P022', MerchantId: 'M013', merchantName: 'Bulalohan sa Kanto', Name: 'Goto (Large)', Category: 'Ready to Eat', Price: 120, available: 20, stockStatus: 'in_stock', icon: '🥣', hasDelivery: true, hasPickup: true, deliveryRadius: 4 },
+                { ProductId: 'P023', MerchantId: 'M014', merchantName: 'Kape at Tinapay', Name: 'Brewed Coffee (Hot)', Category: 'Ready to Eat', Price: 60, available: 99, stockStatus: 'in_stock', icon: '☕', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P024', MerchantId: 'M014', merchantName: 'Kape at Tinapay', Name: 'Pandesal (10pcs)', Category: 'Ready to Eat', Price: 50, available: 30, stockStatus: 'in_stock', icon: '🥖', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
                 
-                // Grocery
-                { ProductId: 'P011', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Rice Premium 25kg', Category: 'Grocery', Price: 1450, available: 30, stockStatus: 'in_stock', icon: '🍚' },
-                { ProductId: 'P012', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Rice Standard 25kg', Category: 'Grocery', Price: 1250, available: 0, stockStatus: 'out', icon: '🍚' },
-                { ProductId: 'P013', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Cooking Oil 1L', Category: 'Grocery', Price: 85, available: 50, stockStatus: 'in_stock', icon: '🫗' },
+                // Grocery - Tindahan (No Delivery, Pickup Only)
+                { ProductId: 'P011', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Rice Premium 25kg', Category: 'Grocery', Price: 1450, available: 30, stockStatus: 'in_stock', icon: '🍚', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P012', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Rice Standard 25kg', Category: 'Grocery', Price: 1250, available: 0, stockStatus: 'out', icon: '🍚', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P013', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Cooking Oil 1L', Category: 'Grocery', Price: 85, available: 50, stockStatus: 'in_stock', icon: '🫗', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P025', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Sugar 1kg', Category: 'Grocery', Price: 75, available: 40, stockStatus: 'in_stock', icon: '🧂', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P026', MerchantId: 'M015', merchantName: 'Grocery Lane Amadeo', Name: 'Sardines (Big)', Category: 'Grocery', Price: 45, available: 100, stockStatus: 'in_stock', icon: '🥫', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
+                { ProductId: 'P027', MerchantId: 'M015', merchantName: 'Grocery Lane Amadeo', Name: 'Corned Beef', Category: 'Grocery', Price: 65, available: 80, stockStatus: 'in_stock', icon: '🥫', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
+                { ProductId: 'P028', MerchantId: 'M015', merchantName: 'Grocery Lane Amadeo', Name: 'Instant Noodles (5pcs)', Category: 'Grocery', Price: 75, available: 200, stockStatus: 'in_stock', icon: '🍜', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
+                { ProductId: 'P029', MerchantId: 'M015', merchantName: 'Grocery Lane Amadeo', Name: 'Evaporated Milk', Category: 'Grocery', Price: 35, available: 60, stockStatus: 'in_stock', icon: '🥛', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
                 
-                // Services
-                { ProductId: 'P014', MerchantId: 'M008', merchantName: 'Tubero Express', Name: 'Plumbing - Basic', Category: 'Services', Price: 500, available: 99, stockStatus: 'in_stock', icon: '🔧' },
-                { ProductId: 'P015', MerchantId: 'M009', merchantName: 'Kuryente Master', Name: 'Electrical Repair', Category: 'Services', Price: 600, available: 99, stockStatus: 'in_stock', icon: '⚡' },
+                // Home Services - Plumbing, Electrical
+                { ProductId: 'P014', MerchantId: 'M008', merchantName: 'Tubero Express', Name: 'Plumbing - Basic', Category: 'Home Services', Price: 500, available: 99, stockStatus: 'in_stock', icon: '🔧', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
+                { ProductId: 'P015', MerchantId: 'M009', merchantName: 'Kuryente Master', Name: 'Electrical Repair', Category: 'Home Services', Price: 600, available: 99, stockStatus: 'in_stock', icon: '⚡', hasDelivery: true, hasPickup: false, deliveryRadius: 20 },
+                { ProductId: 'P030', MerchantId: 'M008', merchantName: 'Tubero Express', Name: 'Plumbing - Major Repair', Category: 'Home Services', Price: 1500, available: 99, stockStatus: 'in_stock', icon: '🔧', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
+                { ProductId: 'P031', MerchantId: 'M009', merchantName: 'Kuryente Master', Name: 'Electrical Installation', Category: 'Home Services', Price: 2000, available: 99, stockStatus: 'in_stock', icon: '⚡', hasDelivery: true, hasPickup: false, deliveryRadius: 20 },
                 
-                // Farm
-                { ProductId: 'P016', MerchantId: 'M010', merchantName: 'Amadeo Fresh Farm', Name: 'Fresh Eggs (30pcs)', Category: 'Farm', Price: 250, available: 25, stockStatus: 'in_stock', icon: '🥚' },
-                { ProductId: 'P017', MerchantId: 'M010', merchantName: 'Amadeo Fresh Farm', Name: 'Native Chicken (Live)', Category: 'Farm', Price: 450, available: 6, stockStatus: 'low', icon: '🐔' },
-                { ProductId: 'P018', MerchantId: 'M011', merchantName: 'Kape Amadeo', Name: 'Barako Coffee 250g', Category: 'Farm', Price: 180, available: 40, stockStatus: 'in_stock', icon: '☕' }
+                // Transport Services
+                { ProductId: 'P032', MerchantId: 'M016', merchantName: 'Tricycle Toda Poblacion', Name: 'Tricycle - Within Amadeo', Category: 'Transport', Price: 50, available: 99, stockStatus: 'in_stock', icon: '🛺', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
+                { ProductId: 'P033', MerchantId: 'M016', merchantName: 'Tricycle Toda Poblacion', Name: 'Tricycle - To Tagaytay', Category: 'Transport', Price: 200, available: 99, stockStatus: 'in_stock', icon: '🛺', hasDelivery: true, hasPickup: false, deliveryRadius: 30 },
+                { ProductId: 'P034', MerchantId: 'M017', merchantName: 'Van Rental Amadeo', Name: 'Van Rental - Half Day', Category: 'Transport', Price: 2500, available: 5, stockStatus: 'in_stock', icon: '🚐', hasDelivery: true, hasPickup: true, deliveryRadius: 50 },
+                { ProductId: 'P035', MerchantId: 'M017', merchantName: 'Van Rental Amadeo', Name: 'Van Rental - Full Day', Category: 'Transport', Price: 4500, available: 5, stockStatus: 'in_stock', icon: '🚐', hasDelivery: true, hasPickup: true, deliveryRadius: 50 },
+                { ProductId: 'P036', MerchantId: 'M018', merchantName: 'Carpool Amadeo', Name: 'Carpool to Manila', Category: 'Transport', Price: 350, available: 8, stockStatus: 'in_stock', icon: '🚗', hasDelivery: true, hasPickup: true, deliveryRadius: 100 },
+                { ProductId: 'P037', MerchantId: 'M018', merchantName: 'Carpool Amadeo', Name: 'Carpool to Tagaytay', Category: 'Transport', Price: 100, available: 10, stockStatus: 'in_stock', icon: '🚗', hasDelivery: true, hasPickup: true, deliveryRadius: 30 },
+                
+                // Accommodation / Stays
+                { ProductId: 'P038', MerchantId: 'M019', merchantName: 'Luntian Log Cabin', Name: 'Cabin Stay (Overnight)', Category: 'Accommodation', Price: 3500, available: 3, stockStatus: 'in_stock', icon: '🏡', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P039', MerchantId: 'M019', merchantName: 'Luntian Log Cabin', Name: 'Cabin Stay (Day Tour)', Category: 'Accommodation', Price: 2000, available: 3, stockStatus: 'in_stock', icon: '🏡', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P040', MerchantId: 'M020', merchantName: 'Amadeo Garden Resort', Name: 'Resort - Day Tour (10pax)', Category: 'Accommodation', Price: 3000, available: 10, stockStatus: 'in_stock', icon: '🏊', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P041', MerchantId: 'M020', merchantName: 'Amadeo Garden Resort', Name: 'Resort - Overnight (10pax)', Category: 'Accommodation', Price: 6000, available: 5, stockStatus: 'in_stock', icon: '🏊', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P042', MerchantId: 'M021', merchantName: 'Casa Amadeo Homestay', Name: 'Private Room (2pax)', Category: 'Accommodation', Price: 1500, available: 4, stockStatus: 'in_stock', icon: '🏠', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P043', MerchantId: 'M021', merchantName: 'Casa Amadeo Homestay', Name: 'Entire House (8pax)', Category: 'Accommodation', Price: 5000, available: 2, stockStatus: 'in_stock', icon: '🏠', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                
+                // Wellness - Spa, Salon, Massage
+                { ProductId: 'P044', MerchantId: 'M022', merchantName: 'Healing Hands Spa', Name: 'Swedish Massage (1hr)', Category: 'Wellness', Price: 500, available: 99, stockStatus: 'in_stock', icon: '💆', hasDelivery: true, hasPickup: true, deliveryRadius: 10 },
+                { ProductId: 'P045', MerchantId: 'M022', merchantName: 'Healing Hands Spa', Name: 'Hot Stone Massage', Category: 'Wellness', Price: 800, available: 99, stockStatus: 'in_stock', icon: '💆', hasDelivery: true, hasPickup: true, deliveryRadius: 10 },
+                { ProductId: 'P046', MerchantId: 'M023', merchantName: 'Glow Up Salon', Name: 'Haircut - Ladies', Category: 'Wellness', Price: 200, available: 99, stockStatus: 'in_stock', icon: '💇', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P047', MerchantId: 'M023', merchantName: 'Glow Up Salon', Name: 'Haircut - Men', Category: 'Wellness', Price: 100, available: 99, stockStatus: 'in_stock', icon: '💇', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P048', MerchantId: 'M023', merchantName: 'Glow Up Salon', Name: 'Hair Color', Category: 'Wellness', Price: 800, available: 99, stockStatus: 'in_stock', icon: '💇', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P049', MerchantId: 'M023', merchantName: 'Glow Up Salon', Name: 'Manicure + Pedicure', Category: 'Wellness', Price: 350, available: 99, stockStatus: 'in_stock', icon: '💅', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P050', MerchantId: 'M024', merchantName: 'Masahe Express', Name: 'Home Service Massage (1hr)', Category: 'Wellness', Price: 400, available: 99, stockStatus: 'in_stock', icon: '💆', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
+                { ProductId: 'P051', MerchantId: 'M024', merchantName: 'Masahe Express', Name: 'Home Service Massage (2hrs)', Category: 'Wellness', Price: 700, available: 99, stockStatus: 'in_stock', icon: '💆', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
+                
+                // Auto Services - Car Wash, Vulcanizing, Mechanic
+                { ProductId: 'P052', MerchantId: 'M025', merchantName: 'Carwash King', Name: 'Car Wash - Basic', Category: 'Auto', Price: 150, available: 99, stockStatus: 'in_stock', icon: '🚿', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P053', MerchantId: 'M025', merchantName: 'Carwash King', Name: 'Car Wash - Full Detail', Category: 'Auto', Price: 500, available: 99, stockStatus: 'in_stock', icon: '🚿', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P054', MerchantId: 'M025', merchantName: 'Carwash King', Name: 'Motorcycle Wash', Category: 'Auto', Price: 80, available: 99, stockStatus: 'in_stock', icon: '🏍️', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P055', MerchantId: 'M026', merchantName: 'Mang Tonyo Vulcanizing', Name: 'Flat Tire Repair', Category: 'Auto', Price: 100, available: 99, stockStatus: 'in_stock', icon: '🔩', hasDelivery: true, hasPickup: true, deliveryRadius: 10 },
+                { ProductId: 'P056', MerchantId: 'M026', merchantName: 'Mang Tonyo Vulcanizing', Name: 'Tire Change', Category: 'Auto', Price: 50, available: 99, stockStatus: 'in_stock', icon: '🔩', hasDelivery: true, hasPickup: true, deliveryRadius: 10 },
+                { ProductId: 'P057', MerchantId: 'M027', merchantName: 'AutoDoc Mechanic', Name: 'Oil Change', Category: 'Auto', Price: 500, available: 99, stockStatus: 'in_stock', icon: '🔧', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P058', MerchantId: 'M027', merchantName: 'AutoDoc Mechanic', Name: 'PMS (Preventive Maintenance)', Category: 'Auto', Price: 2000, available: 99, stockStatus: 'in_stock', icon: '🔧', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P059', MerchantId: 'M027', merchantName: 'AutoDoc Mechanic', Name: 'Battery Jump Start', Category: 'Auto', Price: 300, available: 99, stockStatus: 'in_stock', icon: '🔋', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
+                
+                // Events - Catering, Sound System, Photography
+                { ProductId: 'P060', MerchantId: 'M028', merchantName: 'Catering ni Aling Beth', Name: 'Party Package (25pax)', Category: 'Events', Price: 8000, available: 10, stockStatus: 'in_stock', icon: '🍽️', hasDelivery: true, hasPickup: true, deliveryRadius: 20 },
+                { ProductId: 'P061', MerchantId: 'M028', merchantName: 'Catering ni Aling Beth', Name: 'Party Package (50pax)', Category: 'Events', Price: 15000, available: 10, stockStatus: 'in_stock', icon: '🍽️', hasDelivery: true, hasPickup: true, deliveryRadius: 20 },
+                { ProductId: 'P062', MerchantId: 'M028', merchantName: 'Catering ni Aling Beth', Name: 'Lechon Baboy (Whole)', Category: 'Events', Price: 8500, available: 5, stockStatus: 'in_stock', icon: '🐷', hasDelivery: true, hasPickup: true, deliveryRadius: 20 },
+                { ProductId: 'P063', MerchantId: 'M029', merchantName: 'Sound System Rental', Name: 'Basic Sound System', Category: 'Events', Price: 2500, available: 5, stockStatus: 'in_stock', icon: '🔊', hasDelivery: true, hasPickup: true, deliveryRadius: 25 },
+                { ProductId: 'P064', MerchantId: 'M029', merchantName: 'Sound System Rental', Name: 'Premium Sound + Lights', Category: 'Events', Price: 5000, available: 3, stockStatus: 'in_stock', icon: '🔊', hasDelivery: true, hasPickup: true, deliveryRadius: 25 },
+                { ProductId: 'P065', MerchantId: 'M029', merchantName: 'Sound System Rental', Name: 'Videoke Machine Rental', Category: 'Events', Price: 1500, available: 8, stockStatus: 'in_stock', icon: '🎤', hasDelivery: true, hasPickup: true, deliveryRadius: 25 },
+                { ProductId: 'P066', MerchantId: 'M030', merchantName: 'Snap & Click Photography', Name: 'Event Photography (4hrs)', Category: 'Events', Price: 5000, available: 99, stockStatus: 'in_stock', icon: '📸', hasDelivery: true, hasPickup: false, deliveryRadius: 30 },
+                { ProductId: 'P067', MerchantId: 'M030', merchantName: 'Snap & Click Photography', Name: 'Event Photography (8hrs)', Category: 'Events', Price: 8000, available: 99, stockStatus: 'in_stock', icon: '📸', hasDelivery: true, hasPickup: false, deliveryRadius: 30 },
+                { ProductId: 'P068', MerchantId: 'M030', merchantName: 'Snap & Click Photography', Name: 'Video Coverage (Full Day)', Category: 'Events', Price: 12000, available: 99, stockStatus: 'in_stock', icon: '🎥', hasDelivery: true, hasPickup: false, deliveryRadius: 30 },
+                
+                // Farm - Amadeo Fresh (Both available)
+                { ProductId: 'P016', MerchantId: 'M010', merchantName: 'Amadeo Fresh Farm', Name: 'Fresh Eggs (30pcs)', Category: 'Farm', Price: 250, available: 25, stockStatus: 'in_stock', icon: '🥚', hasDelivery: true, hasPickup: true, deliveryRadius: 7 },
+                { ProductId: 'P017', MerchantId: 'M010', merchantName: 'Amadeo Fresh Farm', Name: 'Native Chicken (Live)', Category: 'Farm', Price: 450, available: 6, stockStatus: 'low', icon: '🐔', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
+                { ProductId: 'P018', MerchantId: 'M011', merchantName: 'Kape Amadeo', Name: 'Barako Coffee 250g', Category: 'Farm', Price: 180, available: 40, stockStatus: 'in_stock', icon: '☕', hasDelivery: true, hasPickup: true, deliveryRadius: 10 }
             ];
             
             applyFilters();
@@ -1129,6 +1436,10 @@
                 
                 // Stock filter
                 if (currentStockFilter === 'instock' && p.stockStatus === 'out') return false;
+                
+                // Service filter (delivery/pickup)
+                if (currentServiceFilter === 'delivery' && !p.hasDelivery) return false;
+                if (currentServiceFilter === 'pickup' && !p.hasPickup) return false;
                 
                 // Search filter
                 if (searchQuery) {
@@ -1154,7 +1465,14 @@
         
         function filterStock(filter, btn) {
             currentStockFilter = filter;
-            document.querySelectorAll('.filter-toggle button').forEach(b => b.classList.remove('active'));
+            btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        }
+        
+        function filterService(filter, btn) {
+            currentServiceFilter = filter;
+            btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             applyFilters();
         }
@@ -1186,7 +1504,12 @@
                 return;
             }
             
-            grid.innerHTML = filteredProducts.map(p => `
+            grid.innerHTML = filteredProducts.map(p => {
+                const isOpen = isStoreOpen(p.MerchantId);
+                const hours = getStoreHours(p.MerchantId);
+                const phone = getMerchantPhone(p.MerchantId);
+                
+                return `
                 <div class="product-card ${p.stockStatus === 'out' ? 'out-of-stock' : ''}">
                     <div class="product-image">
                         ${p.icon || '📦'}
@@ -1195,7 +1518,24 @@
                         </div>
                     </div>
                     <div class="product-info">
-                        <div class="product-merchant">${p.merchantName}</div>
+                        <div class="merchant-header">
+                            <div class="product-merchant">${p.merchantName}</div>
+                            <div class="merchant-services">
+                                <span class="service-icon delivery ${p.hasDelivery ? 'active' : ''}" title="${p.hasDelivery ? 'Delivery Available' : 'No Delivery'}">🚚</span>
+                                <span class="service-icon pickup ${p.hasPickup ? 'active' : ''}" title="${p.hasPickup ? 'Pickup Available' : 'No Pickup'}">🏪</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <span class="store-status ${isOpen ? 'open' : 'closed'}">
+                                ${isOpen ? '🟢 OPEN' : '🔴 CLOSED'}
+                            </span>
+                            <span class="store-hours">🕐 ${hours}</span>
+                        </div>
+                        <div class="service-badges">
+                            ${p.hasDelivery ? `<span class="service-badge badge-delivery">🚚 Delivery</span>` : ''}
+                            ${p.hasPickup ? `<span class="service-badge badge-pickup">🏪 Pickup</span>` : ''}
+                            ${p.hasDelivery && p.deliveryRadius ? `<span class="service-badge badge-radius">📍 ${p.deliveryRadius}km</span>` : ''}
+                        </div>
                         <div class="product-name">${p.Name}</div>
                         <div class="product-category">${p.Category}</div>
                         <div class="product-footer">
@@ -1214,9 +1554,14 @@
                                 ${p.stockStatus === 'out' ? 'Sold Out' : 'Add'}
                             </button>
                         </div>
+                        <div class="contact-buttons">
+                            <a href="tel:${phone}" class="contact-btn call">📞 Call</a>
+                            <a href="sms:${phone}" class="contact-btn sms">💬 Text</a>
+                            <a href="https://m.me/${phone}" class="contact-btn chat" target="_blank">💜 Chat</a>
+                        </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
         
         function getStockBadgeClass(status) {

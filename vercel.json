@@ -7,6 +7,10 @@
     { "src": "/landing", "dest": "/landing.html" },
     { "src": "/how-it-works", "dest": "/how-it-works.html" },
     { "src": "/join", "dest": "/join.html" },
-    { "src": "/for-merchants", "dest": "/join.html" }
+    { "src": "/for-merchants", "dest": "/join.html" },
+    { "src": "/register", "dest": "/register.html" },
+    { "src": "/terms", "dest": "/terms.html" },
+    { "src": "/admin", "dest": "/admin.html" },
+    { "src": "/qr", "dest": "/qr.html" }
   ]
 }
