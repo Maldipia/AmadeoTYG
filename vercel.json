@@ -1,16 +1,17 @@
 {
-  "version": 2,
-  "name": "amadeo-marketplace",
-  "routes": [
-    { "src": "/dashboard", "dest": "/dashboard.html" },
-    { "src": "/faq", "dest": "/faq.html" },
-    { "src": "/landing", "dest": "/landing.html" },
-    { "src": "/how-it-works", "dest": "/how-it-works.html" },
-    { "src": "/join", "dest": "/join.html" },
-    { "src": "/for-merchants", "dest": "/join.html" },
-    { "src": "/register", "dest": "/register.html" },
-    { "src": "/terms", "dest": "/terms.html" },
-    { "src": "/admin", "dest": "/admin.html" },
-    { "src": "/qr", "dest": "/qr.html" }
+  "rewrites": [
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/register", "destination": "/register.html" },
+    { "source": "/signup", "destination": "/signup.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/faq", "destination": "/faq.html" },
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/forgot-password", "destination": "/forgot-password.html" },
+    { "source": "/how-it-works", "destination": "/how-it-works.html" },
+    { "source": "/join", "destination": "/join.html" },
+    { "source": "/landing", "destination": "/landing.html" },
+    { "source": "/qr", "destination": "/qr.html" }
   ]
 }
