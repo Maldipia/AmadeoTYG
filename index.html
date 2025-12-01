@@ -15,19 +15,21 @@
         .search-bar { flex: 1; max-width: 500px; display: flex; }
         .search-bar input { flex: 1; padding: 12px 20px; border: none; border-radius: 25px 0 0 25px; font-size: 16px; }
         .search-bar button { padding: 12px 25px; background: #134e4a; border: none; border-radius: 0 25px 25px 0; cursor: pointer; font-weight: 600; color: white; }
-        .header-actions { display: flex; align-items: center; gap: 15px; }
-        .header-actions a { color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 14px; transition: background 0.3s; }
-        .header-actions a:hover { background: rgba(255,255,255,0.1); }
-        .cart-btn { background: #134e4a !important; font-weight: 600; position: relative; }
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+        .header-actions a { color: white; text-decoration: none; padding: 8px 12px; border-radius: 20px; font-size: 14px; transition: background 0.3s; }
+        .header-actions a:hover { background: rgba(255,255,255,0.15); }
+        .cart-btn { background: #134e4a !important; font-weight: 600; position: relative; cursor: pointer; }
         .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; width: 20px; height: 20px; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+        .logout-btn { background: #dc2626 !important; }
+        .logout-btn:hover { background: #b91c1c !important; }
         
         .hero { background: linear-gradient(135deg, #134e4a 0%, #0f766e 50%, #14b8a6 100%); color: white; padding: 60px 20px; text-align: center; }
         .hero h1 { font-size: 42px; margin-bottom: 15px; }
         .hero p { font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto; }
         
         .categories-bar { background: white; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); overflow-x: auto; }
-        .categories-container { max-width: 1400px; margin: 0 auto; display: flex; gap: 10px; justify-content: center; }
-        .category-btn { padding: 10px 20px; background: #f0f0f0; border: none; border-radius: 25px; cursor: pointer; font-size: 14px; white-space: nowrap; transition: all 0.3s; }
+        .categories-container { max-width: 1400px; margin: 0 auto; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .category-btn { padding: 10px 18px; background: #f0f0f0; border: none; border-radius: 25px; cursor: pointer; font-size: 14px; white-space: nowrap; transition: all 0.3s; }
         .category-btn:hover, .category-btn.active { background: #0f766e; color: white; }
         
         .main-content { max-width: 1400px; margin: 0 auto; padding: 30px 20px; display: grid; grid-template-columns: 250px 1fr; gap: 30px; }
@@ -58,6 +60,7 @@
         .add-to-cart:hover { opacity: 0.9; }
         .add-to-cart:disabled { background: #ccc; cursor: not-allowed; }
         
+        /* Cart Sidebar */
         .cart-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; }
         .cart-overlay.active { display: block; }
         .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100vh; background: white; z-index: 201; transition: right 0.3s; display: flex; flex-direction: column; }
@@ -68,52 +71,77 @@
         .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
         .cart-empty { text-align: center; padding: 40px; color: #666; }
         .cart-item { display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #eee; }
-        .cart-item-image { width: 70px; height: 70px; background: #f0fdfa; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+        .cart-item-image { width: 70px; height: 70px; background: #f0fdfa; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
         .cart-item-details { flex: 1; }
-        .cart-item-name { font-weight: 600; color: #134e4a; margin-bottom: 5px; }
+        .cart-item-name { font-weight: 600; color: #134e4a; margin-bottom: 5px; font-size: 14px; }
         .cart-item-merchant { font-size: 12px; color: #666; margin-bottom: 8px; }
         .cart-item-price { font-weight: 600; color: #0f766e; }
         .cart-item-qty { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
         .qty-btn { width: 28px; height: 28px; border: 1px solid #ddd; background: white; border-radius: 6px; cursor: pointer; font-size: 16px; }
         .qty-btn:hover { background: #f0f0f0; }
-        .cart-item-remove { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 20px; }
+        .cart-item-remove { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 20px; align-self: flex-start; }
         .cart-footer { padding: 20px; border-top: 1px solid #eee; background: #f9f9f9; }
-        .cart-subtotal { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .cart-subtotal { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; }
         .cart-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; color: #0f766e; margin-bottom: 15px; }
         .checkout-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; }
         .checkout-btn:hover { opacity: 0.9; }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 300; display: none; align-items: center; justify-content: center; padding: 20px; }
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 300; display: none; align-items: flex-start; justify-content: center; padding: 20px; overflow-y: auto; }
         .modal-overlay.active { display: flex; }
-        .modal { background: white; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal { background: white; border-radius: 16px; width: 100%; max-width: 600px; margin: 20px auto; }
         .modal-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
         .modal-header h2 { color: #0f766e; }
         .modal-close { background: none; border: none; font-size: 28px; cursor: pointer; color: #666; }
         .modal-body { padding: 20px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; font-size: 14px; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
         .form-group input:focus, .form-group select:focus { outline: none; border-color: #0f766e; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .payment-options { display: flex; gap: 15px; flex-wrap: wrap; }
-        .payment-option { flex: 1; min-width: 120px; padding: 15px; border: 2px solid #ddd; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.3s; }
-        .payment-option:hover { border-color: #0f766e; }
+        
+        /* Payment Options */
+        .payment-section h3 { color: #0f766e; margin-bottom: 15px; font-size: 16px; }
+        .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .payment-option { padding: 20px 15px; border: 2px solid #ddd; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .payment-option:hover { border-color: #14b8a6; }
         .payment-option.selected { border-color: #0f766e; background: #f0fdfa; }
         .payment-option input { display: none; }
-        .payment-option span { display: block; font-size: 24px; margin-bottom: 5px; }
-        .order-summary { background: #f9f9f9; padding: 20px; border-radius: 10px; margin-top: 20px; }
-        .summary-row { display: flex; justify-content: space-between; padding: 8px 0; }
-        .summary-row.total { border-top: 2px solid #ddd; margin-top: 10px; padding-top: 15px; font-size: 18px; font-weight: 700; }
+        .payment-option .pay-icon { font-size: 28px; margin-bottom: 8px; }
+        .payment-option .pay-name { font-weight: 600; color: #333; margin-bottom: 4px; }
+        .payment-option .pay-fee { font-size: 12px; color: #666; }
+        .payment-option.selected .pay-fee { color: #0f766e; font-weight: 600; }
+        
+        /* Order Summary */
+        .order-summary { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-top: 20px; }
+        .order-summary h4 { color: #0f766e; margin-bottom: 15px; }
+        .summary-items { max-height: 150px; overflow-y: auto; margin-bottom: 15px; }
+        .summary-item { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee; }
+        .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 15px; }
+        .summary-row.fee { color: #666; }
+        .summary-row.fee.zero { color: #10b981; }
+        .summary-row.total { border-top: 2px solid #ddd; margin-top: 10px; padding-top: 15px; font-size: 20px; font-weight: 700; color: #0f766e; }
+        .fee-note { font-size: 12px; color: #666; margin-top: 5px; padding: 10px; background: #fef3c7; border-radius: 8px; }
+        .fee-note.online { background: #dbeafe; color: #1e40af; }
+        
         .place-order-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; margin-top: 20px; }
         .place-order-btn:hover { opacity: 0.9; }
         .place-order-btn:disabled { background: #ccc; cursor: not-allowed; }
         
-        .order-success { text-align: center; padding: 40px; }
-        .order-success .icon { font-size: 80px; margin-bottom: 20px; }
-        .order-success h2 { color: #0f766e; margin-bottom: 10px; }
-        .order-success .order-id { font-size: 24px; font-weight: 700; color: #134e4a; margin: 20px 0; padding: 15px; background: #f0fdfa; border-radius: 10px; }
-        .track-order-btn { display: inline-block; padding: 15px 40px; background: #0f766e; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; margin-top: 20px; }
+        /* Success Modal */
+        .order-success { text-align: center; padding: 40px 20px; }
+        .order-success .success-icon { font-size: 80px; margin-bottom: 20px; }
+        .order-success h2 { color: #0f766e; margin-bottom: 10px; font-size: 28px; }
+        .order-success .success-msg { color: #666; margin-bottom: 20px; }
+        .order-success .order-id-box { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); padding: 20px; border-radius: 12px; margin: 20px 0; border: 2px solid #14b8a6; }
+        .order-success .order-id-label { font-size: 14px; color: #0f766e; margin-bottom: 5px; }
+        .order-success .order-id-value { font-size: 28px; font-weight: 700; color: #134e4a; font-family: monospace; letter-spacing: 2px; }
+        .order-success .order-details { background: #f9f9f9; padding: 15px; border-radius: 10px; margin: 20px 0; text-align: left; }
+        .order-success .order-details p { padding: 5px 0; font-size: 14px; }
+        .order-success .track-btn { display: inline-block; padding: 15px 40px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; margin-top: 15px; }
+        .order-success .continue-btn { display: block; margin-top: 15px; background: none; border: none; color: #0f766e; cursor: pointer; font-size: 15px; text-decoration: underline; }
         
+        /* Footer */
         .footer { background: #134e4a; color: white; padding: 50px 20px 20px; margin-top: 50px; }
         .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
         .footer-section h4 { margin-bottom: 20px; color: #14b8a6; }
@@ -130,42 +158,43 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         
         @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } .sidebar { display: none; } .hero h1 { font-size: 28px; } }
-        @media (max-width: 600px) { .header-content { flex-wrap: wrap; } .search-bar { order: 3; width: 100%; max-width: none; margin-top: 10px; } .cart-sidebar { width: 100%; right: -100%; } .form-row { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .header-content { flex-wrap: wrap; } .search-bar { order: 3; width: 100%; max-width: none; margin-top: 10px; } .cart-sidebar { width: 100%; right: -100%; } .form-row { grid-template-columns: 1fr; } .payment-options { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-content">
-            <div class="logo"><a href="/">🏪 Amadeo Marketplace</a></div>
+            <div class="logo"><a href="/">Amadeo Marketplace</a></div>
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Search products, merchants...">
-                <button onclick="searchProducts()">🔍 Search</button>
+                <button onclick="searchProducts()">Search</button>
             </div>
             <div class="header-actions">
-                <a href="/track">📦 Track Order</a>
-                <a href="/account" id="accountLink">👤 Account</a>
-                <a href="#" class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></a>
+                <a href="/track">Track Order</a>
+                <a href="/account" id="accountLink">Account</a>
+                <a href="#" id="logoutLink" class="logout-btn" style="display:none;" onclick="logout(); return false;">Logout</a>
+                <a href="#" class="cart-btn" onclick="toggleCart(); return false;">Cart <span class="cart-count" id="cartCount">0</span></a>
             </div>
         </div>
     </header>
 
     <section class="hero">
-        <h1>🌴 Shop Local in Amadeo, Cavite</h1>
+        <h1>Shop Local in Amadeo, Cavite</h1>
         <p>Discover fresh products, local food, and services from your trusted neighborhood merchants</p>
     </section>
 
     <nav class="categories-bar">
         <div class="categories-container">
             <button class="category-btn active" onclick="filterCategory('all', this)">All</button>
-            <button class="category-btn" onclick="filterCategory('Water', this)">💧 Water</button>
-            <button class="category-btn" onclick="filterCategory('Food', this)">🍱 Food</button>
-            <button class="category-btn" onclick="filterCategory('Coffee', this)">☕ Coffee</button>
-            <button class="category-btn" onclick="filterCategory('Bakery', this)">🥖 Bakery</button>
-            <button class="category-btn" onclick="filterCategory('Rice', this)">🌾 Rice</button>
-            <button class="category-btn" onclick="filterCategory('Meat', this)">🥩 Meat</button>
-            <button class="category-btn" onclick="filterCategory('Produce', this)">🥬 Produce</button>
-            <button class="category-btn" onclick="filterCategory('Grocery', this)">🛒 Grocery</button>
-            <button class="category-btn" onclick="filterCategory('Services', this)">🔧 Services</button>
+            <button class="category-btn" onclick="filterCategory('Water', this)">Water</button>
+            <button class="category-btn" onclick="filterCategory('Food', this)">Food</button>
+            <button class="category-btn" onclick="filterCategory('Coffee', this)">Coffee</button>
+            <button class="category-btn" onclick="filterCategory('Bakery', this)">Bakery</button>
+            <button class="category-btn" onclick="filterCategory('Rice', this)">Rice</button>
+            <button class="category-btn" onclick="filterCategory('Meat', this)">Meat</button>
+            <button class="category-btn" onclick="filterCategory('Produce', this)">Produce</button>
+            <button class="category-btn" onclick="filterCategory('Grocery', this)">Grocery</button>
+            <button class="category-btn" onclick="filterCategory('Services', this)">Services</button>
         </div>
     </nav>
 
@@ -200,61 +229,164 @@
         </section>
     </main>
 
+    <!-- Cart Sidebar -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header"><h3>🛒 Your Cart</h3><button class="cart-close" onclick="toggleCart()">&times;</button></div>
-        <div class="cart-items" id="cartItems"><div class="cart-empty"><p style="font-size:50px;margin-bottom:15px;">🛒</p><p>Your cart is empty</p></div></div>
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <p style="font-size:40px;margin-bottom:15px;">🛒</p>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
         <div class="cart-footer" id="cartFooter" style="display:none;">
-            <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">₱0</span></div>
-            <div class="cart-subtotal"><span>Platform Fee (5%)</span><span id="cartFee">₱0</span></div>
-            <div class="cart-total"><span>Total</span><span id="cartTotal">₱0</span></div>
+            <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">P0</span></div>
+            <div class="cart-total"><span>Total</span><span id="cartTotal">P0</span></div>
             <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
         </div>
     </div>
 
+    <!-- Checkout Modal -->
     <div class="modal-overlay" id="checkoutModal">
         <div class="modal">
-            <div class="modal-header"><h2>📝 Checkout</h2><button class="modal-close" onclick="closeModal('checkoutModal')">&times;</button></div>
-            <div class="modal-body" id="checkoutBody">
+            <div class="modal-header">
+                <h2>Checkout</h2>
+                <button class="modal-close" onclick="closeModal('checkoutModal')">&times;</button>
+            </div>
+            <div class="modal-body">
                 <form id="checkoutForm" onsubmit="placeOrder(event)">
-                    <h3 style="margin-bottom:20px;color:#0f766e;">Delivery Information</h3>
+                    <h3 style="color:#0f766e;margin-bottom:15px;">Delivery Information</h3>
+                    
                     <div class="form-row">
-                        <div class="form-group"><label>Full Name *</label><input type="text" id="customerName" required></div>
-                        <div class="form-group"><label>Phone Number *</label><input type="tel" id="customerPhone" required placeholder="09XX XXX XXXX"></div>
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="customerName" required placeholder="Your full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" id="customerPhone" required placeholder="09XX XXX XXXX">
+                        </div>
                     </div>
-                    <div class="form-group"><label>Email</label><input type="email" id="customerEmail" placeholder="optional"></div>
-                    <div class="form-group"><label>Delivery Address *</label><textarea id="customerAddress" rows="2" required placeholder="House/Unit No., Street, Landmark"></textarea></div>
-                    <div class="form-group"><label>Barangay *</label>
+                    
+                    <div class="form-group">
+                        <label>Email (optional)</label>
+                        <input type="email" id="customerEmail" placeholder="your@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Delivery Address *</label>
+                        <textarea id="customerAddress" rows="2" required placeholder="House/Unit No., Street, Landmark"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Barangay *</label>
                         <select id="customerBarangay" required>
                             <option value="">Select Barangay</option>
-                            <option value="Poblacion">Poblacion</option><option value="Dagatan">Dagatan</option><option value="Halang">Halang</option><option value="Iba">Iba</option><option value="Kaysuyo">Kaysuyo</option><option value="Lalaan I">Lalaan I</option><option value="Lalaan II">Lalaan II</option><option value="Maymangga">Maymangga</option><option value="Minantok East">Minantok East</option><option value="Minantok West">Minantok West</option><option value="Pangil">Pangil</option><option value="Salaban">Salaban</option><option value="Talon">Talon</option><option value="Tamlong">Tamlong</option><option value="Banaybanay">Banaybanay</option><option value="Buho">Buho</option><option value="Kabigting">Kabigting</option><option value="Labac">Labac</option><option value="Luksuhin">Luksuhin</option><option value="Maitim">Maitim</option><option value="Mahabang Kahoy">Mahabang Kahoy</option><option value="Paligawan">Paligawan</option><option value="San Agustin">San Agustin</option><option value="Tiambong">Tiambong</option>
+                            <option value="Poblacion">Poblacion</option>
+                            <option value="Dagatan">Dagatan</option>
+                            <option value="Halang">Halang</option>
+                            <option value="Iba">Iba</option>
+                            <option value="Kaysuyo">Kaysuyo</option>
+                            <option value="Lalaan I">Lalaan I</option>
+                            <option value="Lalaan II">Lalaan II</option>
+                            <option value="Maymangga">Maymangga</option>
+                            <option value="Minantok East">Minantok East</option>
+                            <option value="Minantok West">Minantok West</option>
+                            <option value="Pangil">Pangil</option>
+                            <option value="Salaban">Salaban</option>
+                            <option value="Talon">Talon</option>
+                            <option value="Tamlong">Tamlong</option>
+                            <option value="Banaybanay">Banaybanay</option>
+                            <option value="Buho">Buho</option>
+                            <option value="Kabigting">Kabigting</option>
+                            <option value="Labac">Labac</option>
+                            <option value="Luksuhin">Luksuhin</option>
+                            <option value="Maitim">Maitim</option>
+                            <option value="Mahabang Kahoy">Mahabang Kahoy</option>
+                            <option value="Paligawan">Paligawan</option>
+                            <option value="San Agustin">San Agustin</option>
+                            <option value="Tiambong">Tiambong</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Delivery Notes</label><textarea id="deliveryNotes" rows="2" placeholder="Special instructions"></textarea></div>
-                    <h3 style="margin:30px 0 20px;color:#0f766e;">Payment Method</h3>
-                    <div class="payment-options">
-                        <label class="payment-option selected" onclick="selectPayment(this)"><input type="radio" name="payment" value="COD" checked><span>💵</span>Cash on Delivery</label>
-                        <label class="payment-option" onclick="selectPayment(this)"><input type="radio" name="payment" value="GCash"><span>📱</span>GCash</label>
+                    
+                    <div class="form-group">
+                        <label>Delivery Notes (optional)</label>
+                        <textarea id="deliveryNotes" rows="2" placeholder="Special instructions for delivery"></textarea>
                     </div>
-                    <div class="order-summary"><h4 style="margin-bottom:15px;">Order Summary</h4><div id="checkoutItems"></div><div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">₱0</span></div><div class="summary-row"><span>Platform Fee (5%)</span><span id="summaryFee">₱0</span></div><div class="summary-row total"><span>Total</span><span id="summaryTotal">₱0</span></div></div>
+                    
+                    <!-- Payment Method -->
+                    <div class="payment-section">
+                        <h3>Payment Method</h3>
+                        <div class="payment-options">
+                            <label class="payment-option selected" onclick="selectPayment('COD', this)">
+                                <input type="radio" name="payment" value="COD" checked>
+                                <div class="pay-icon">💵</div>
+                                <div class="pay-name">Cash on Delivery</div>
+                                <div class="pay-fee">No platform fee</div>
+                            </label>
+                            <label class="payment-option" onclick="selectPayment('GCash', this)">
+                                <input type="radio" name="payment" value="GCash">
+                                <div class="pay-icon">📱</div>
+                                <div class="pay-name">GCash</div>
+                                <div class="pay-fee">5% platform fee</div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Order Summary -->
+                    <div class="order-summary">
+                        <h4>Order Summary</h4>
+                        <div class="summary-items" id="checkoutItems"></div>
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="summarySubtotal">P0</span>
+                        </div>
+                        <div class="summary-row fee" id="feeRow">
+                            <span>Platform Fee (5%)</span>
+                            <span id="summaryFee">P0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="summaryTotal">P0</span>
+                        </div>
+                        <div class="fee-note" id="feeNote">
+                            COD orders have no platform fee. You pay the exact product price to the merchant.
+                        </div>
+                    </div>
+                    
                     <button type="submit" class="place-order-btn" id="placeOrderBtn">Place Order</button>
                 </form>
             </div>
         </div>
     </div>
 
+    <!-- Success Modal -->
     <div class="modal-overlay" id="successModal">
         <div class="modal">
             <div class="modal-body">
                 <div class="order-success">
-                    <div class="icon">✅</div>
+                    <div class="success-icon">✅</div>
                     <h2>Order Placed Successfully!</h2>
-                    <p>Thank you for shopping with Amadeo Marketplace</p>
-                    <div class="order-id" id="successOrderId">ORD-XXXXXXXX</div>
-                    <p>You will receive a confirmation via SMS/call from the merchant</p>
-                    <a href="#" class="track-order-btn" id="trackOrderBtn">Track Your Order</a>
-                    <br><br>
-                    <button onclick="closeModal('successModal'); location.reload();" style="background:none;border:none;color:#0f766e;cursor:pointer;font-size:16px;">Continue Shopping</button>
+                    <p class="success-msg">Thank you for shopping with Amadeo Marketplace</p>
+                    
+                    <div class="order-id-box">
+                        <div class="order-id-label">Your Order ID</div>
+                        <div class="order-id-value" id="successOrderId">ORD-XXXXXXXX</div>
+                    </div>
+                    
+                    <div class="order-details">
+                        <p><strong>Payment:</strong> <span id="successPayment">COD</span></p>
+                        <p><strong>Total:</strong> <span id="successTotal">P0</span></p>
+                        <p><strong>Status:</strong> Pending confirmation from merchant</p>
+                    </div>
+                    
+                    <p style="color:#666;font-size:14px;">You will receive a confirmation via SMS/call from the merchant shortly.</p>
+                    
+                    <a href="#" class="track-btn" id="trackOrderBtn">Track Your Order</a>
+                    <button class="continue-btn" onclick="closeSuccessAndReload()">Continue Shopping</button>
                 </div>
             </div>
         </div>
@@ -262,108 +394,452 @@
 
     <footer class="footer">
         <div class="footer-content">
-            <div class="footer-section"><h4>🏪 Amadeo Marketplace</h4><p style="color:rgba(255,255,255,0.7);line-height:1.6;">Supporting local businesses in Amadeo, Cavite. Shop fresh, shop local!</p></div>
-            <div class="footer-section"><h4>Quick Links</h4><a href="/">Home</a><a href="/track">Track Order</a><a href="/faq">FAQ</a><a href="/register">Become a Merchant</a></div>
-            <div class="footer-section"><h4>Contact Us</h4><p style="color:rgba(255,255,255,0.7);">📞 0966 960 6060</p><p style="color:rgba(255,255,255,0.7);">✉️ tygfsb@gmail.com</p><p style="color:rgba(255,255,255,0.7);">📍 Amadeo, Cavite</p></div>
+            <div class="footer-section">
+                <h4>Amadeo Marketplace</h4>
+                <p style="color:rgba(255,255,255,0.7);line-height:1.6;">Supporting local businesses in Amadeo, Cavite. Shop fresh, shop local!</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="/">Home</a>
+                <a href="/track">Track Order</a>
+                <a href="/faq">FAQ</a>
+                <a href="/register">Become a Merchant</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p style="color:rgba(255,255,255,0.7);">Phone: 0966 960 6060</p>
+                <p style="color:rgba(255,255,255,0.7);">Email: tygfsb@gmail.com</p>
+                <p style="color:rgba(255,255,255,0.7);">Location: Amadeo, Cavite</p>
+            </div>
         </div>
-        <div class="footer-bottom"><p>© 2024 Amadeo Marketplace by TYG Services. All rights reserved.</p></div>
+        <div class="footer-bottom">
+            <p>© 2024 Amadeo Marketplace by TYG Services. All rights reserved.</p>
+        </div>
     </footer>
 
     <div class="toast" id="toast"></div>
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
-        let allProducts = [], allMerchants = [], cart = JSON.parse(localStorage.getItem('amadeo_cart')) || [], currentCategory = 'all';
-        const categoryIcons = {'Water':'💧','Food':'🍱','Coffee':'☕','Bakery':'🥖','Rice':'🌾','Meat':'🥩','Produce':'🥬','Grocery':'🛒','Services':'🔧','Hardware':'🔨','Health':'💊','Other':'📦'};
         
-        document.addEventListener('DOMContentLoaded', () => { loadProducts(); updateCartUI(); checkLogin(); document.getElementById('searchInput').addEventListener('keypress', e => { if(e.key==='Enter') searchProducts(); }); });
-        function checkLogin() { const user = sessionStorage.getItem('amadeo_user'); if(user) { const d = JSON.parse(user); document.getElementById('accountLink').textContent = '👤 ' + (d.name||'Account'); } }
+        let allProducts = [];
+        let allMerchants = [];
+        let cart = JSON.parse(localStorage.getItem('amadeo_cart')) || [];
+        let currentCategory = 'all';
+        let selectedPayment = 'COD';
+        
+        // Category icons for display
+        const categoryIcons = {
+            'Water': '💧', 'Food': '🍱', 'Coffee': '☕', 'Bakery': '🥖',
+            'Rice': '🌾', 'Meat': '🥩', 'Produce': '🥬', 'Grocery': '🛒',
+            'Services': '🔧', 'Hardware': '🔨', 'Health': '💊', 'Other': '📦'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            updateCartUI();
+            checkLogin();
+            document.getElementById('searchInput').addEventListener('keypress', e => {
+                if (e.key === 'Enter') searchProducts();
+            });
+        });
+
+        // Check login status
+        function checkLogin() {
+            const user = sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user');
+            const loginType = sessionStorage.getItem('amadeo_login_type') || localStorage.getItem('amadeo_login_type');
+            
+            if (user) {
+                const userData = JSON.parse(user);
+                document.getElementById('accountLink').textContent = userData.name || 'Account';
+                document.getElementById('logoutLink').style.display = 'inline-block';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('amadeo_user');
+            sessionStorage.removeItem('amadeo_token');
+            sessionStorage.removeItem('amadeo_login_type');
+            localStorage.removeItem('amadeo_user');
+            localStorage.removeItem('amadeo_token');
+            localStorage.removeItem('amadeo_login_type');
+            showToast('Logged out successfully');
+            setTimeout(() => location.reload(), 1000);
+        }
+
+        // Load products from API
         async function loadProducts() {
             try {
-                const [pRes, mRes] = await Promise.all([fetch(SCRIPT_URL+'?action=getProducts'), fetch(SCRIPT_URL+'?action=getMerchants')]);
-                const pData = await pRes.json(), mData = await mRes.json();
-                if(pData.success) allProducts = pData.data || [];
-                if(mData.success) allMerchants = mData.data || [];
+                const [productsRes, merchantsRes] = await Promise.all([
+                    fetch(SCRIPT_URL + '?action=getProducts'),
+                    fetch(SCRIPT_URL + '?action=getMerchants')
+                ]);
+                
+                const productsData = await productsRes.json();
+                const merchantsData = await merchantsRes.json();
+                
+                if (productsData.success) allProducts = productsData.data || [];
+                if (merchantsData.success) allMerchants = merchantsData.data || [];
+                
                 renderProducts();
-            } catch(e) { document.getElementById('productsGrid').innerHTML = '<div class="loading-products"><p>⚠️ Unable to load products</p><button onclick="loadProducts()" style="margin-top:15px;padding:10px 20px;cursor:pointer;">Retry</button></div>'; }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('productsGrid').innerHTML = `
+                    <div class="loading-products">
+                        <p style="font-size:40px;margin-bottom:15px;">⚠️</p>
+                        <p>Unable to load products</p>
+                        <button onclick="loadProducts()" style="margin-top:15px;padding:10px 25px;cursor:pointer;background:#0f766e;color:white;border:none;border-radius:8px;">Retry</button>
+                    </div>`;
+            }
         }
+
+        // Render products
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
             let products = applyAllFilters([...allProducts]);
-            if(products.length === 0) { grid.innerHTML = '<div class="loading-products"><p style="font-size:50px;margin-bottom:20px;">🔍</p><p>No products found</p></div>'; return; }
-            grid.innerHTML = products.map(p => {
-                const m = allMerchants.find(x => x.MerchantId === p.MerchantId), mName = m ? m.BusinessName : 'Local Merchant', icon = categoryIcons[p.Category] || '📦', stock = p.available || p.Stock || 0, inStock = stock > 0;
-                return `<div class="product-card"><div class="product-image">${p.ImageURL ? `<img src="${p.ImageURL}" alt="${p.Name}" onerror="this.parentElement.innerHTML='${icon}'">` : icon}${!inStock ? '<div class="product-badge">Out of Stock</div>' : ''}</div><div class="product-info"><div class="product-merchant">🏪 ${mName}</div><div class="product-name">${p.Name}</div><div class="product-price">₱${(p.Price||0).toLocaleString()}</div><div class="product-stock ${stock<5?'low':''}">${inStock ? stock+' available' : 'Out of stock'}</div><button class="add-to-cart" onclick="addToCart('${p.ProductId}')" ${!inStock?'disabled':''}>${inStock ? '🛒 Add to Cart' : 'Out of Stock'}</button></div></div>`;
+            
+            if (products.length === 0) {
+                grid.innerHTML = `
+                    <div class="loading-products">
+                        <p style="font-size:40px;margin-bottom:15px;">🔍</p>
+                        <p>No products found</p>
+                    </div>`;
+                return;
+            }
+            
+            grid.innerHTML = products.map(product => {
+                const merchant = allMerchants.find(m => m.MerchantId === product.MerchantId);
+                const merchantName = merchant ? merchant.BusinessName : 'Local Merchant';
+                const icon = categoryIcons[product.Category] || '📦';
+                const stock = product.available || product.Stock || 0;
+                const inStock = stock > 0;
+                
+                return `
+                    <div class="product-card">
+                        <div class="product-image">
+                            ${product.ImageURL ? 
+                                `<img src="${product.ImageURL}" alt="${product.Name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size:60px\\'>${icon}</span>';">` : 
+                                `<span style="font-size:60px">${icon}</span>`
+                            }
+                            ${!inStock ? '<div class="product-badge">Out of Stock</div>' : ''}
+                        </div>
+                        <div class="product-info">
+                            <div class="product-merchant">${merchantName}</div>
+                            <div class="product-name">${product.Name}</div>
+                            <div class="product-price">P${(product.Price || 0).toLocaleString()}</div>
+                            <div class="product-stock ${stock < 5 ? 'low' : ''}">${inStock ? stock + ' available' : 'Out of stock'}</div>
+                            <button class="add-to-cart" onclick="addToCart('${product.ProductId}')" ${!inStock ? 'disabled' : ''}>
+                                ${inStock ? 'Add to Cart' : 'Out of Stock'}
+                            </button>
+                        </div>
+                    </div>`;
             }).join('');
         }
+
+        // Apply all filters
         function applyAllFilters(products) {
-            if(currentCategory !== 'all') products = products.filter(p => p.Category === currentCategory);
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            if(search) products = products.filter(p => (p.Name||'').toLowerCase().includes(search) || (p.Category||'').toLowerCase().includes(search));
-            const minP = parseFloat(document.getElementById('priceMin').value) || 0, maxP = parseFloat(document.getElementById('priceMax').value) || Infinity;
-            products = products.filter(p => p.Price >= minP && p.Price <= maxP);
-            if(document.getElementById('inStockOnly').checked) products = products.filter(p => (p.available||p.Stock||0) > 0);
+            // Category filter
+            if (currentCategory !== 'all') {
+                products = products.filter(p => p.Category === currentCategory);
+            }
+            
+            // Search filter
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (search) {
+                products = products.filter(p => 
+                    (p.Name || '').toLowerCase().includes(search) || 
+                    (p.Category || '').toLowerCase().includes(search)
+                );
+            }
+            
+            // Price filter
+            const minPrice = parseFloat(document.getElementById('priceMin').value) || 0;
+            const maxPrice = parseFloat(document.getElementById('priceMax').value) || Infinity;
+            products = products.filter(p => p.Price >= minPrice && p.Price <= maxPrice);
+            
+            // Stock filter
+            if (document.getElementById('inStockOnly').checked) {
+                products = products.filter(p => (p.available || p.Stock || 0) > 0);
+            }
+            
+            // Sort
             const sort = document.getElementById('sortSelect').value;
-            if(sort==='price-low') products.sort((a,b) => a.Price-b.Price);
-            else if(sort==='price-high') products.sort((a,b) => b.Price-a.Price);
-            else if(sort==='name') products.sort((a,b) => (a.Name||'').localeCompare(b.Name||''));
+            if (sort === 'price-low') products.sort((a, b) => a.Price - b.Price);
+            else if (sort === 'price-high') products.sort((a, b) => b.Price - a.Price);
+            else if (sort === 'name') products.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
+            
             return products;
         }
-        function filterCategory(cat, btn) { currentCategory = cat; document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active')); if(btn) btn.classList.add('active'); document.getElementById('productsTitle').textContent = cat==='all' ? 'All Products' : (categoryIcons[cat]||'') + ' ' + cat; renderProducts(); }
+
+        // Filter by category
+        function filterCategory(category, btn) {
+            currentCategory = category;
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('productsTitle').textContent = category === 'all' ? 'All Products' : category;
+            renderProducts();
+        }
+
         function applyFilters() { renderProducts(); }
         function searchProducts() { renderProducts(); }
-        function addToCart(productId) { const p = allProducts.find(x => x.ProductId === productId); if(!p) return; const existing = cart.find(i => i.ProductId === productId); if(existing) existing.Quantity += 1; else cart.push({ProductId:p.ProductId,MerchantId:p.MerchantId,Name:p.Name,Price:p.Price,Quantity:1,Category:p.Category}); saveCart(); updateCartUI(); showToast('✅ Added to cart!'); }
-        function updateQuantity(productId, change) { const item = cart.find(i => i.ProductId === productId); if(!item) return; item.Quantity += change; if(item.Quantity <= 0) cart = cart.filter(i => i.ProductId !== productId); saveCart(); updateCartUI(); }
-        function removeFromCart(productId) { cart = cart.filter(i => i.ProductId !== productId); saveCart(); updateCartUI(); }
-        function saveCart() { localStorage.setItem('amadeo_cart', JSON.stringify(cart)); }
-        function updateCartUI() {
-            const total = cart.reduce((s,i) => s + i.Quantity, 0);
-            document.getElementById('cartCount').textContent = total;
-            const el = document.getElementById('cartItems'), footer = document.getElementById('cartFooter');
-            if(cart.length === 0) { el.innerHTML = '<div class="cart-empty"><p style="font-size:50px;margin-bottom:15px;">🛒</p><p>Your cart is empty</p></div>'; footer.style.display = 'none'; return; }
-            el.innerHTML = cart.map(item => { const icon = categoryIcons[item.Category]||'📦', m = allMerchants.find(x => x.MerchantId === item.MerchantId); return `<div class="cart-item"><div class="cart-item-image">${icon}</div><div class="cart-item-details"><div class="cart-item-name">${item.Name}</div><div class="cart-item-merchant">${m?.BusinessName||'Merchant'}</div><div class="cart-item-price">₱${(item.Price*item.Quantity).toLocaleString()}</div><div class="cart-item-qty"><button class="qty-btn" onclick="updateQuantity('${item.ProductId}',-1)">-</button><span>${item.Quantity}</span><button class="qty-btn" onclick="updateQuantity('${item.ProductId}',1)">+</button></div></div><button class="cart-item-remove" onclick="removeFromCart('${item.ProductId}')">&times;</button></div>`; }).join('');
-            const subtotal = cart.reduce((s,i) => s + (i.Price*i.Quantity), 0), fee = Math.round(subtotal*0.05), totalAmt = subtotal + fee;
-            document.getElementById('cartSubtotal').textContent = '₱' + subtotal.toLocaleString();
-            document.getElementById('cartFee').textContent = '₱' + fee.toLocaleString();
-            document.getElementById('cartTotal').textContent = '₱' + totalAmt.toLocaleString();
-            footer.style.display = 'block';
+
+        // Cart functions
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.ProductId === productId);
+            if (!product) return;
+            
+            const existing = cart.find(item => item.ProductId === productId);
+            if (existing) {
+                existing.Quantity += 1;
+            } else {
+                cart.push({
+                    ProductId: product.ProductId,
+                    MerchantId: product.MerchantId,
+                    Name: product.Name,
+                    Price: product.Price,
+                    Quantity: 1,
+                    Category: product.Category
+                });
+            }
+            
+            saveCart();
+            updateCartUI();
+            showToast('Added to cart!');
         }
-        function toggleCart() { document.getElementById('cartOverlay').classList.toggle('active'); document.getElementById('cartSidebar').classList.toggle('active'); }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(i => i.ProductId === productId);
+            if (!item) return;
+            
+            item.Quantity += change;
+            if (item.Quantity <= 0) {
+                cart = cart.filter(i => i.ProductId !== productId);
+            }
+            
+            saveCart();
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.ProductId !== productId);
+            saveCart();
+            updateCartUI();
+        }
+
+        function saveCart() {
+            localStorage.setItem('amadeo_cart', JSON.stringify(cart));
+        }
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.Quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+            
+            const cartItemsEl = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = `
+                    <div class="cart-empty">
+                        <p style="font-size:40px;margin-bottom:15px;">🛒</p>
+                        <p>Your cart is empty</p>
+                    </div>`;
+                cartFooter.style.display = 'none';
+                return;
+            }
+            
+            cartItemsEl.innerHTML = cart.map(item => {
+                const icon = categoryIcons[item.Category] || '📦';
+                const merchant = allMerchants.find(m => m.MerchantId === item.MerchantId);
+                
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-image">${icon}</div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.Name}</div>
+                            <div class="cart-item-merchant">${merchant?.BusinessName || 'Merchant'}</div>
+                            <div class="cart-item-price">P${(item.Price * item.Quantity).toLocaleString()}</div>
+                            <div class="cart-item-qty">
+                                <button class="qty-btn" onclick="updateQuantity('${item.ProductId}', -1)">-</button>
+                                <span>${item.Quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity('${item.ProductId}', 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart('${item.ProductId}')">&times;</button>
+                    </div>`;
+            }).join('');
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.Price * item.Quantity), 0);
+            document.getElementById('cartSubtotal').textContent = 'P' + subtotal.toLocaleString();
+            document.getElementById('cartTotal').textContent = 'P' + subtotal.toLocaleString();
+            cartFooter.style.display = 'block';
+        }
+
+        function toggleCart() {
+            document.getElementById('cartOverlay').classList.toggle('active');
+            document.getElementById('cartSidebar').classList.toggle('active');
+        }
+
+        // Checkout functions
         function openCheckout() {
-            if(cart.length === 0) return;
+            if (cart.length === 0) return;
+            
             toggleCart();
-            const user = JSON.parse(sessionStorage.getItem('amadeo_user')||'{}');
-            if(user.name) document.getElementById('customerName').value = user.name;
-            if(user.phone) document.getElementById('customerPhone').value = user.phone;
-            if(user.email) document.getElementById('customerEmail').value = user.email;
-            if(user.address) document.getElementById('customerAddress').value = user.address;
-            if(user.barangay) document.getElementById('customerBarangay').value = user.barangay;
-            const subtotal = cart.reduce((s,i) => s + (i.Price*i.Quantity), 0), fee = Math.round(subtotal*0.05), total = subtotal + fee;
-            document.getElementById('checkoutItems').innerHTML = cart.map(i => `<div class="summary-row"><span>${i.Name} x${i.Quantity}</span><span>₱${(i.Price*i.Quantity).toLocaleString()}</span></div>`).join('');
-            document.getElementById('summarySubtotal').textContent = '₱' + subtotal.toLocaleString();
-            document.getElementById('summaryFee').textContent = '₱' + fee.toLocaleString();
-            document.getElementById('summaryTotal').textContent = '₱' + total.toLocaleString();
+            
+            // Pre-fill user data if logged in
+            const user = JSON.parse(sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user') || '{}');
+            if (user.name) document.getElementById('customerName').value = user.name;
+            if (user.phone) document.getElementById('customerPhone').value = user.phone;
+            if (user.email) document.getElementById('customerEmail').value = user.email;
+            if (user.address) document.getElementById('customerAddress').value = user.address;
+            if (user.barangay) document.getElementById('customerBarangay').value = user.barangay;
+            
+            // Reset to COD
+            selectedPayment = 'COD';
+            document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+            document.querySelector('.payment-option').classList.add('selected');
+            document.querySelector('input[value="COD"]').checked = true;
+            
+            updateCheckoutSummary();
             document.getElementById('checkoutModal').classList.add('active');
         }
-        function selectPayment(el) { document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected')); el.classList.add('selected'); el.querySelector('input').checked = true; }
+
+        function selectPayment(method, element) {
+            selectedPayment = method;
+            document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+            updateCheckoutSummary();
+        }
+
+        function updateCheckoutSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.Price * item.Quantity), 0);
+            
+            // 5% fee ONLY for online payment (GCash), 0% for COD
+            const fee = selectedPayment === 'GCash' ? Math.round(subtotal * 0.05) : 0;
+            const total = subtotal + fee;
+            
+            // Update checkout items
+            document.getElementById('checkoutItems').innerHTML = cart.map(item => `
+                <div class="summary-item">
+                    <span>${item.Name} x${item.Quantity}</span>
+                    <span>P${(item.Price * item.Quantity).toLocaleString()}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('summarySubtotal').textContent = 'P' + subtotal.toLocaleString();
+            
+            const feeRow = document.getElementById('feeRow');
+            const feeNote = document.getElementById('feeNote');
+            
+            if (selectedPayment === 'GCash') {
+                feeRow.classList.remove('zero');
+                feeRow.innerHTML = `<span>Platform Fee (5%)</span><span id="summaryFee">P${fee.toLocaleString()}</span>`;
+                feeNote.className = 'fee-note online';
+                feeNote.innerHTML = 'GCash payments include a 5% platform fee. You will receive payment instructions after placing the order.';
+            } else {
+                feeRow.classList.add('zero');
+                feeRow.innerHTML = `<span>Platform Fee</span><span id="summaryFee" style="color:#10b981;">FREE</span>`;
+                feeNote.className = 'fee-note';
+                feeNote.innerHTML = 'COD orders have no platform fee. You pay the exact product price to the merchant upon delivery.';
+            }
+            
+            document.getElementById('summaryTotal').textContent = 'P' + total.toLocaleString();
+        }
+
         async function placeOrder(e) {
             e.preventDefault();
+            
             const btn = document.getElementById('placeOrderBtn');
-            btn.disabled = true; btn.textContent = 'Processing...';
-            const subtotal = cart.reduce((s,i) => s + (i.Price*i.Quantity), 0), fee = Math.round(subtotal*0.05), total = subtotal + fee;
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.Price * item.Quantity), 0);
+            const fee = selectedPayment === 'GCash' ? Math.round(subtotal * 0.05) : 0;
+            const total = subtotal + fee;
+            
+            const orderData = {
+                action: 'createOrder',
+                customerName: document.getElementById('customerName').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                customerEmail: document.getElementById('customerEmail').value || '',
+                customerAddress: document.getElementById('customerAddress').value,
+                barangay: document.getElementById('customerBarangay').value,
+                deliveryNotes: document.getElementById('deliveryNotes').value || '',
+                paymentMethod: selectedPayment,
+                items: cart.map(item => ({
+                    productId: item.ProductId,
+                    merchantId: item.MerchantId,
+                    name: item.Name,
+                    price: item.Price,
+                    quantity: item.Quantity
+                })),
+                subtotal: subtotal,
+                platformFee: fee,
+                total: total
+            };
+            
             try {
-                const response = await fetch(SCRIPT_URL, { method: 'POST', headers: {'Content-Type':'text/plain'}, body: JSON.stringify({
-                    action: 'createOrder', customerName: document.getElementById('customerName').value, customerPhone: document.getElementById('customerPhone').value, customerEmail: document.getElementById('customerEmail').value||'', customerAddress: document.getElementById('customerAddress').value, barangay: document.getElementById('customerBarangay').value, deliveryNotes: document.getElementById('deliveryNotes').value||'', paymentMethod: document.querySelector('input[name="payment"]:checked').value,
-                    items: cart.map(i => ({productId:i.ProductId,merchantId:i.MerchantId,name:i.Name,price:i.Price,quantity:i.Quantity})), subtotal:subtotal, platformFee:fee, total:total
-                })});
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(orderData)
+                });
+                
                 const result = await response.json();
-                if(result.success) { cart = []; saveCart(); updateCartUI(); closeModal('checkoutModal'); document.getElementById('successOrderId').textContent = result.orderId; document.getElementById('trackOrderBtn').href = '/track?id='+result.orderId; document.getElementById('successModal').classList.add('active'); }
-                else { alert('Error: '+(result.error||'Unable to place order')); btn.disabled = false; btn.textContent = 'Place Order'; }
-            } catch(e) { alert('Network error. Please try again.'); btn.disabled = false; btn.textContent = 'Place Order'; }
+                
+                if (result.success) {
+                    // Clear cart
+                    cart = [];
+                    saveCart();
+                    updateCartUI();
+                    
+                    // Close checkout, show success
+                    closeModal('checkoutModal');
+                    
+                    // Show success with order details
+                    document.getElementById('successOrderId').textContent = result.orderId;
+                    document.getElementById('successPayment').textContent = selectedPayment === 'GCash' ? 'GCash (Online)' : 'Cash on Delivery';
+                    document.getElementById('successTotal').textContent = 'P' + total.toLocaleString();
+                    document.getElementById('trackOrderBtn').href = '/track?id=' + result.orderId;
+                    
+                    document.getElementById('successModal').classList.add('active');
+                } else {
+                    alert('Error: ' + (result.error || 'Unable to place order'));
+                    btn.disabled = false;
+                    btn.textContent = 'Place Order';
+                }
+            } catch (error) {
+                console.error('Order error:', error);
+                alert('Network error. Please try again.');
+                btn.disabled = false;
+                btn.textContent = 'Place Order';
+            }
         }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
-        document.querySelectorAll('.modal-overlay').forEach(o => { o.addEventListener('click', e => { if(e.target === o) o.classList.remove('active'); }); });
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function closeSuccessAndReload() {
+            closeModal('successModal');
+            location.reload();
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Close modals on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', e => {
+                if (e.target === overlay) overlay.classList.remove('active');
+            });
+        });
     </script>
 </body>
 </html>
