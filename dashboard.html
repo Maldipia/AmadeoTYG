@@ -241,8 +241,8 @@
                 <!-- Notification Upsell Banner -->
                 <div class="upsell-banner" id="upsellBanner">
                     <div class="upsell-content">
-                        <h3>📧 Want Email Notifications?</h3>
-                        <p>Get instant email alerts for new orders! Free for first 3 months, then 5% per transaction.</p>
+                        <h3>🔔 Want Instant Order Notifications?</h3>
+                        <p>Get Email or WhatsApp alerts for new orders! <strong>FREE for first 3 months</strong>, then 5% per transaction.</p>
                     </div>
                     <div>
                         <button class="upsell-btn" onclick="showNotificationInfo()">Learn More</button>
@@ -564,27 +564,53 @@
     <div class="modal-overlay" id="notificationModal">
         <div class="modal">
             <div class="modal-header">
-                <h2>Email Notification Service</h2>
+                <h2>Order Notification Service</h2>
                 <button class="modal-close" onclick="closeModal('notificationModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div style="text-align:center;padding:20px;">
-                    <div style="font-size:60px;margin-bottom:20px;">📧</div>
+                    <div style="font-size:60px;margin-bottom:20px;">🔔</div>
                     <h3 style="color:#0f766e;margin-bottom:15px;">Get Instant Order Alerts!</h3>
-                    <p style="color:#666;margin-bottom:20px;">Receive email notifications whenever you get a new order, so you never miss a sale.</p>
+                    <p style="color:#666;margin-bottom:20px;">Never miss a sale! Get notified the moment a customer places an order.</p>
                     
-                    <div style="background:#f0fdfa;padding:20px;border-radius:12px;margin-bottom:20px;">
+                    <div style="display:flex;gap:15px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;">
+                        <div style="background:#f0fdfa;padding:20px;border-radius:12px;flex:1;min-width:140px;">
+                            <div style="font-size:30px;margin-bottom:10px;">📧</div>
+                            <div style="font-weight:600;color:#0f766e;">Email</div>
+                        </div>
+                        <div style="background:#d1fae5;padding:20px;border-radius:12px;flex:1;min-width:140px;">
+                            <div style="font-size:30px;margin-bottom:10px;">💬</div>
+                            <div style="font-weight:600;color:#065f46;">WhatsApp</div>
+                        </div>
+                        <div style="background:#dbeafe;padding:20px;border-radius:12px;flex:1;min-width:140px;">
+                            <div style="font-size:30px;margin-bottom:10px;">📧💬</div>
+                            <div style="font-weight:600;color:#1e40af;">Both</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background:#f0fdfa;padding:20px;border-radius:12px;margin-bottom:20px;border:2px solid #14b8a6;">
                         <h4 style="color:#0f766e;margin-bottom:10px;">Pricing</h4>
-                        <p style="font-size:24px;font-weight:700;color:#0f766e;">5% per transaction</p>
-                        <p style="color:#666;font-size:14px;">Only charged on orders where you use notifications</p>
+                        <p style="font-size:28px;font-weight:700;color:#0f766e;">5%</p>
+                        <p style="color:#666;font-size:14px;">per transaction</p>
+                        <p style="color:#0f766e;font-size:13px;margin-top:8px;font-weight:500;">Same rate for Email, WhatsApp, or Both!</p>
                     </div>
                     
                     <div style="background:#fef3c7;padding:15px;border-radius:8px;margin-bottom:20px;">
                         <p style="color:#92400e;font-weight:600;">🎉 FREE for first 3 months!</p>
-                        <p style="color:#a16207;font-size:14px;">Try it out with no commitment</p>
+                        <p style="color:#a16207;font-size:14px;">Try Email, WhatsApp, or both - no commitment</p>
                     </div>
                     
-                    <p style="color:#666;font-size:14px;">Contact us to enable: <strong>0966 960 6060</strong></p>
+                    <div style="background:#f9f9f9;padding:15px;border-radius:8px;margin-bottom:20px;text-align:left;">
+                        <p style="font-weight:600;margin-bottom:10px;">What you'll receive:</p>
+                        <p style="font-size:14px;color:#666;margin-bottom:5px;">✅ Instant alert when order is placed</p>
+                        <p style="font-size:14px;color:#666;margin-bottom:5px;">✅ Customer name, phone, and address</p>
+                        <p style="font-size:14px;color:#666;margin-bottom:5px;">✅ Order items and total amount</p>
+                        <p style="font-size:14px;color:#666;">✅ Payment method (COD/GCash)</p>
+                    </div>
+                    
+                    <p style="color:#0f766e;font-weight:600;font-size:16px;">Contact us to enable:</p>
+                    <p style="font-size:18px;margin-top:5px;"><strong>📱 0966 960 6060</strong></p>
+                    <p style="font-size:14px;color:#666;margin-top:5px;">or message us on Facebook</p>
                 </div>
             </div>
         </div>
