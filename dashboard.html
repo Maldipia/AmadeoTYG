@@ -499,7 +499,7 @@
             document.getElementById('productStock').value = p.available || p.Stock || 0;
             document.getElementById('productUnit').value = p.Unit || '';
             document.getElementById('productDescription').value = p.Description || '';
-            if (p.ImageURL || p.imageUrl) { handleImageUrl(p.ImageURL || p.imageUrl); } else { removeImage(); }
+            if (p.ImageUrl || p.ImageURL || p.imageUrl) { handleImageUrl(p.ImageUrl || p.ImageURL || p.imageUrl); } else { removeImage(); }
             document.getElementById('productModal').classList.add('active');
         }
         
@@ -661,7 +661,7 @@
         
         function renderProducts() {
             const icons = { Water:'💧', Food:'🍱', Coffee:'☕', Bakery:'🥖', Rice:'🌾', Meat:'🥩', Produce:'🥬', Grocery:'🛒', Services:'🔧', Hardware:'🔨', Health:'💊', Other:'📦' };
-            document.getElementById('productsTable').innerHTML = allProducts.length > 0 ? allProducts.map(p => { const img = p.ImageURL || p.imageUrl || ''; const icon = icons[p.Category] || '📦'; return '<tr><td>' + (img ? '<img src="' + img + '" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.outerHTML=\'<span style=font-size:30px>' + icon + '</span>\'">' : '<span style="font-size:30px">' + icon + '</span>') + '</td><td><strong>' + p.Name + '</strong></td><td>' + p.Category + '</td><td>₱' + (p.Price||0).toLocaleString() + '</td><td>' + (p.available || p.Stock || 0) + '</td><td><span class="status-badge status-completed">Active</span></td><td><div class="action-btns"><button class="btn btn-sm btn-outline" onclick="editProduct(\'' + p.ProductId + '\')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteProduct(\'' + p.ProductId + '\')">Delete</button></div></td></tr>'; }).join('') : '<tr><td colspan="7" style="text-align:center;padding:30px;color:#666;">No products. Click "Add Product" to start!</td></tr>';
+            document.getElementById('productsTable').innerHTML = allProducts.length > 0 ? allProducts.map(p => { const img = p.ImageUrl || p.ImageURL || p.imageUrl || ''; const icon = icons[p.Category] || '📦'; return '<tr><td>' + (img ? '<img src="' + img + '" style="width:50px;height:50px;object-fit:cover;border-radius:8px;" onerror="this.outerHTML=\'<span style=font-size:30px>' + icon + '</span>\'">' : '<span style="font-size:30px">' + icon + '</span>') + '</td><td><strong>' + p.Name + '</strong></td><td>' + p.Category + '</td><td>₱' + (p.Price||0).toLocaleString() + '</td><td>' + (p.available || p.Stock || 0) + '</td><td><span class="status-badge status-completed">Active</span></td><td><div class="action-btns"><button class="btn btn-sm btn-outline" onclick="editProduct(\'' + p.ProductId + '\')">Edit</button><button class="btn btn-sm btn-danger" onclick="deleteProduct(\'' + p.ProductId + '\')">Delete</button></div></td></tr>'; }).join('') : '<tr><td colspan="7" style="text-align:center;padding:30px;color:#666;">No products. Click "Add Product" to start!</td></tr>';
         }
         
         function renderInventory() {

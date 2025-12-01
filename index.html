@@ -112,6 +112,34 @@
         .payment-option .pay-fee { font-size: 12px; color: #666; }
         .payment-option.selected .pay-fee { color: #0f766e; font-weight: 600; }
         
+        /* GCash Section */
+        .gcash-section { margin-top: 20px; padding: 20px; background: #f0fdfa; border: 2px solid #14b8a6; border-radius: 12px; }
+        .gcash-info { text-align: center; margin-bottom: 20px; }
+        .gcash-info h4 { color: #0f766e; margin-bottom: 15px; }
+        .gcash-number { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
+        .gcash-number span { display: block; font-size: 13px; color: #666; }
+        .gcash-number strong { font-size: 24px; color: #0f766e; letter-spacing: 1px; display: block; margin: 5px 0; }
+        .gcash-name { color: #134e4a !important; font-weight: 600; }
+        .gcash-note { font-size: 13px; color: #666; }
+        
+        /* Screenshot Upload */
+        .screenshot-upload { margin-top: 15px; }
+        .screenshot-upload label { display: block; font-weight: 600; color: #333; margin-bottom: 10px; font-size: 14px; }
+        .screenshot-upload .optional { font-weight: normal; color: #666; font-size: 12px; }
+        .upload-area { border: 2px dashed #14b8a6; border-radius: 10px; padding: 25px; text-align: center; cursor: pointer; background: white; transition: all 0.3s; }
+        .upload-area:hover { background: #f0fdfa; border-color: #0f766e; }
+        .upload-area.has-file { border-style: solid; border-color: #10b981; background: #d1fae5; }
+        .upload-area .upload-icon { font-size: 36px; margin-bottom: 10px; }
+        .upload-area p { color: #666; font-size: 14px; margin-bottom: 5px; }
+        .upload-area small { color: #999; font-size: 12px; }
+        .screenshot-preview { max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 15px; display: none; }
+        .upload-area.has-file .screenshot-preview { display: block; margin: 10px auto 0; }
+        .upload-area.has-file .upload-icon, .upload-area.has-file p, .upload-area.has-file small { display: none; }
+        .screenshot-name { color: #065f46; font-weight: 600; font-size: 13px; margin-top: 10px; display: none; }
+        .upload-area.has-file .screenshot-name { display: block; }
+        .remove-screenshot { margin-top: 10px; background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .remove-screenshot:hover { background: #dc2626; }
+        
         /* Order Summary */
         .order-summary { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-top: 20px; }
         .order-summary h4 { color: #0f766e; margin-bottom: 15px; }
@@ -336,6 +364,32 @@
                                 <div class="pay-fee">5% platform fee</div>
                             </label>
                         </div>
+                        
+                        <!-- GCash Payment Details - shows when GCash selected -->
+                        <div class="gcash-section" id="gcashSection" style="display:none;">
+                            <div class="gcash-info">
+                                <h4>📱 GCash Payment Details</h4>
+                                <div class="gcash-number">
+                                    <span>Send payment to:</span>
+                                    <strong>0966 960 6060</strong>
+                                    <span class="gcash-name">TYG Services</span>
+                                </div>
+                                <p class="gcash-note">Please include your <strong>Order ID</strong> in the message</p>
+                            </div>
+                            
+                            <div class="screenshot-upload">
+                                <label>📸 Upload Payment Screenshot <span class="optional">(Optional now, required for confirmation)</span></label>
+                                <div class="upload-area" id="screenshotUpload" onclick="document.getElementById('screenshotInput').click()">
+                                    <div class="upload-icon">📤</div>
+                                    <p>Click to upload or drag & drop</p>
+                                    <small>JPG, PNG (max 5MB)</small>
+                                    <img class="screenshot-preview" id="screenshotPreview" alt="">
+                                    <div class="screenshot-name" id="screenshotName"></div>
+                                </div>
+                                <input type="file" id="screenshotInput" accept="image/*" style="display:none" onchange="handleScreenshot(event)">
+                                <button type="button" class="remove-screenshot" id="removeScreenshot" style="display:none" onclick="removeScreenshot()">✕ Remove</button>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Order Summary -->
@@ -441,6 +495,7 @@
         let cart = JSON.parse(localStorage.getItem('amadeo_cart')) || [];
         let currentCategory = 'all';
         let selectedPayment = 'COD';
+        let paymentScreenshot = null; // Store payment screenshot data
         
         // Category icons for display
         const categoryIcons = {
@@ -533,8 +588,8 @@
                 return `
                     <div class="product-card">
                         <div class="product-image">
-                            ${product.ImageURL ? 
-                                `<img src="${product.ImageURL}" alt="${product.Name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size:60px\\'>${icon}</span>';">` : 
+                            ${(product.ImageUrl || product.ImageURL || product.imageUrl) ? 
+                                `<img src="${product.ImageUrl || product.ImageURL || product.imageUrl}" alt="${product.Name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size:60px\\'>${icon}</span>';">` : 
                                 `<span style="font-size:60px">${icon}</span>`
                             }
                             ${!inStock ? '<div class="product-badge">Out of Stock</div>' : ''}
@@ -714,6 +769,8 @@
             document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
             document.querySelector('.payment-option').classList.add('selected');
             document.querySelector('input[value="COD"]').checked = true;
+            document.getElementById('gcashSection').style.display = 'none';
+            removeScreenshot();
             
             updateCheckoutSummary();
             document.getElementById('checkoutModal').classList.add('active');
@@ -724,6 +781,16 @@
             document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
             element.classList.add('selected');
             element.querySelector('input').checked = true;
+            
+            // Show/hide GCash section
+            const gcashSection = document.getElementById('gcashSection');
+            if (method === 'GCash') {
+                gcashSection.style.display = 'block';
+            } else {
+                gcashSection.style.display = 'none';
+                removeScreenshot(); // Clear screenshot when switching to COD
+            }
+            
             updateCheckoutSummary();
         }
 
@@ -782,6 +849,7 @@
                 barangay: document.getElementById('customerBarangay').value,
                 deliveryNotes: document.getElementById('deliveryNotes').value || '',
                 paymentMethod: selectedPayment,
+                paymentScreenshot: paymentScreenshot ? paymentScreenshot.data : null,
                 items: cart.map(item => ({
                     productId: item.ProductId,
                     merchantId: item.MerchantId,
@@ -830,6 +898,50 @@
                 btn.disabled = false;
                 btn.textContent = 'Place Order';
             }
+        }
+
+        // Screenshot handling functions
+        function handleScreenshot(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                showToast('Please upload an image file');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image must be less than 5MB');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                paymentScreenshot = {
+                    name: file.name,
+                    type: file.type,
+                    data: e.target.result
+                };
+                
+                const uploadArea = document.getElementById('screenshotUpload');
+                const preview = document.getElementById('screenshotPreview');
+                const nameEl = document.getElementById('screenshotName');
+                
+                uploadArea.classList.add('has-file');
+                preview.src = e.target.result;
+                nameEl.textContent = '✓ ' + file.name;
+                document.getElementById('removeScreenshot').style.display = 'inline-block';
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function removeScreenshot() {
+            paymentScreenshot = null;
+            document.getElementById('screenshotInput').value = '';
+            document.getElementById('screenshotUpload').classList.remove('has-file');
+            document.getElementById('screenshotPreview').src = '';
+            document.getElementById('screenshotName').textContent = '';
+            document.getElementById('removeScreenshot').style.display = 'none';
         }
 
         function closeModal(id) {

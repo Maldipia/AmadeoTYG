@@ -81,6 +81,7 @@
             document.getElementById('registerText').textContent = type === 'merchant' ? 'Want to sell on Amadeo?' : "Don't have an account?";
             document.getElementById('registerLink').textContent = type === 'merchant' ? 'Apply as Merchant' : 'Register';
             document.getElementById('registerLink').href = type === 'merchant' ? '/merchant-register' : '/register';
+            hideStatus();
         }
         
         function showStatus(msg, type) {
@@ -89,40 +90,57 @@
             el.className = 'status ' + type;
         }
         
+        function hideStatus() {
+            document.getElementById('status').className = 'status';
+        }
+        
         async function handleLogin(e) {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
             btn.disabled = true;
             btn.textContent = 'Logging in...';
+            hideStatus();
             
             const loginType = document.getElementById('loginType').value;
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const rememberMe = document.getElementById('remember').checked;
             
+            // FIXED: Use correct action names from backend
+            // Backend has: 'merchantLogin' for merchants, 'userLogin' for customers
+            const action = loginType === 'merchant' ? 'merchantLogin' : 'userLogin';
+            
+            console.log('Login attempt:', { action, loginType, email });
+            
             try {
-                const action = loginType === 'merchant' ? 'merchantLogin' : 'customerLogin';
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify({ action: action, email: email, phone: email, password: password })
+                    body: JSON.stringify({ 
+                        action: action, 
+                        email: email, 
+                        phone: email, 
+                        password: password 
+                    })
                 });
+                
                 const result = await response.json();
                 console.log('Login response:', result);
                 
                 if (result.success) {
                     showStatus('Login successful! Redirecting...', 'success');
                     
-                    // FIXED: Get user data from result.data (API returns data in this field)
+                    // Get user data - backend returns it in 'data' field
                     const userData = result.data || result.user || result.merchant || {};
                     console.log('User data to store:', userData);
                     
+                    // Store in both session and local storage based on remember me
                     const storage = rememberMe ? localStorage : sessionStorage;
                     storage.setItem('amadeo_user', JSON.stringify(userData));
                     storage.setItem('amadeo_token', result.token || 'authenticated');
                     storage.setItem('amadeo_login_type', loginType);
                     
-                    // Also store in sessionStorage for current session
+                    // Always store in sessionStorage for current session
                     sessionStorage.setItem('amadeo_user', JSON.stringify(userData));
                     sessionStorage.setItem('amadeo_token', result.token || 'authenticated');
                     sessionStorage.setItem('amadeo_login_type', loginType);
@@ -131,30 +149,30 @@
                         window.location.href = loginType === 'merchant' ? '/dashboard' : '/'; 
                     }, 1000);
                 } else {
-                    showStatus(result.error || 'Invalid credentials', 'error');
+                    showStatus(result.error || 'Invalid credentials. Please try again.', 'error');
                     btn.disabled = false;
                     btn.textContent = 'Login';
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                showStatus('Connection error. Please try again.', 'error');
+                showStatus('Connection error. Please check your internet and try again.', 'error');
                 btn.disabled = false;
                 btn.textContent = 'Login';
             }
         }
         
+        // Check if already logged in
         document.addEventListener('DOMContentLoaded', () => {
             const user = sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user');
             const type = sessionStorage.getItem('amadeo_login_type') || localStorage.getItem('amadeo_login_type');
             if (user && type) { 
                 try {
                     const userData = JSON.parse(user);
-                    // Only redirect if we have actual user data
-                    if (userData && (userData.MerchantId || userData.Email || userData.Phone)) {
+                    if (userData && Object.keys(userData).length > 0) {
                         window.location.href = type === 'merchant' ? '/dashboard' : '/'; 
                     }
                 } catch(e) {
-                    console.error('Invalid stored user data:', e);
+                    console.error('Invalid stored data, clearing...');
                     sessionStorage.clear();
                     localStorage.removeItem('amadeo_user');
                 }
