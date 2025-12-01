@@ -65,13 +65,16 @@
         .status-delivered, .status-completed { background: #d1fae5; color: #065f46; }
         .status-cancelled { background: #fee2e2; color: #dc2626; }
         
-        .order-items { color: #666; font-size: 14px; margin-bottom: 15px; }
+        .order-items { color: #666; font-size: 14px; margin-bottom: 10px; }
+        .order-delivery { font-size: 13px; color: #0f766e; margin-bottom: 15px; display: flex; align-items: center; flex-wrap: wrap; }
         .order-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #eee; flex-wrap: wrap; gap: 10px; }
         .order-total { font-size: 18px; font-weight: 700; color: #0f766e; }
         .order-payment { font-size: 13px; color: #666; }
         .order-payment .badge { display: inline-block; padding: 3px 10px; border-radius: 15px; font-size: 11px; font-weight: 600; }
         .payment-cod { background: #e5e7eb; color: #374151; }
         .payment-gcash { background: #dbeafe; color: #1e40af; }
+        .payment-paymaya { background: #fce7f3; color: #be185d; }
+        .payment-bank { background: #d1fae5; color: #065f46; }
         .order-actions { display: flex; gap: 10px; }
         .order-actions a, .order-actions button { padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; text-decoration: none; cursor: pointer; border: none; }
         .btn-track { background: #0f766e; color: white; }
@@ -310,25 +313,23 @@
         
         async function loadOrders() {
             try {
-                // Get all orders and filter by customer phone or email
-                const response = await fetch(SCRIPT_URL + '?action=getOrders');
+                // Use the new getCustomerOrders endpoint with phone and email
+                const phone = encodeURIComponent(userData.phone || '');
+                const email = encodeURIComponent(userData.email || '');
+                
+                const response = await fetch(`${SCRIPT_URL}?action=getCustomerOrders&phone=${phone}&email=${email}`);
                 const data = await response.json();
                 
                 if (data.success) {
-                    // Filter orders for this customer
-                    const customerPhone = userData.phone;
-                    const customerEmail = userData.email;
+                    allOrders = data.data || [];
                     
-                    allOrders = (data.data || []).filter(order => {
-                        return order.CustomerPhone === customerPhone || 
-                               (customerEmail && order.CustomerEmail === customerEmail);
-                    });
-                    
-                    // Sort by date (newest first)
+                    // Sort by date (newest first) - already done in backend but ensure it
                     allOrders.sort((a, b) => new Date(b.CreatedAt) - new Date(a.CreatedAt));
                     
                     updateStats();
                     renderOrders();
+                } else {
+                    throw new Error(data.error || 'Failed to load orders');
                 }
             } catch (error) {
                 console.error('Error loading orders:', error);
@@ -383,13 +384,31 @@
             }
             
             document.getElementById('ordersList').innerHTML = orders.map(order => {
+                // Items come as array from backend now
                 let items = [];
-                try { items = JSON.parse(order.Items || '[]'); } catch(e) {}
-                const itemNames = items.slice(0, 2).map(i => i.name).join(', ');
-                const moreItems = items.length > 2 ? ` +${items.length - 2} more` : '';
+                if (Array.isArray(order.Items)) {
+                    items = order.Items;
+                } else if (typeof order.Items === 'string') {
+                    try { items = JSON.parse(order.Items || '[]'); } catch(e) {}
+                }
                 
-                const statusClass = order.OrderStatus?.toLowerCase().replace(/ /g, '') || 'pending';
+                const itemNames = items.slice(0, 2).map(i => i.ProductName || i.productName || i.name || 'Item').join(', ');
+                const moreItems = items.length > 2 ? ` +${items.length - 2} more` : '';
+                const itemCount = items.length;
+                
+                const statusClass = order.OrderStatus?.toLowerCase().replace(/ /g, '-') || 'pending';
                 const canCancel = order.OrderStatus === 'Pending';
+                
+                // Payment method display
+                const paymentMethod = order.PaymentMethod || 'COD';
+                const paymentClasses = {
+                    'COD': 'payment-cod',
+                    'GCash': 'payment-gcash',
+                    'PayMaya': 'payment-paymaya',
+                    'BankTransfer': 'payment-bank'
+                };
+                const paymentClass = paymentClasses[paymentMethod] || 'payment-cod';
+                const hasFee = paymentMethod !== 'COD';
                 
                 return `
                     <div class="order-card">
@@ -407,13 +426,19 @@
                             </div>
                             <span class="order-status status-${statusClass}">${order.OrderStatus}</span>
                         </div>
-                        <div class="order-items">${itemNames}${moreItems}</div>
+                        <div class="order-items">
+                            <strong>${itemCount} item${itemCount > 1 ? 's' : ''}:</strong> ${itemNames}${moreItems}
+                        </div>
+                        <div class="order-delivery">
+                            <span>📍 ${order.Barangay || 'Amadeo'}</span>
+                            ${order.CustomerAddress ? `<span style="color:#666;font-size:12px;margin-left:10px;">${order.CustomerAddress.substring(0, 30)}${order.CustomerAddress.length > 30 ? '...' : ''}</span>` : ''}
+                        </div>
                         <div class="order-footer">
                             <div>
-                                <div class="order-total">P${(order.Total || 0).toLocaleString()}</div>
+                                <div class="order-total">₱${(order.Total || 0).toLocaleString()}</div>
                                 <div class="order-payment">
-                                    <span class="badge payment-${order.PaymentMethod?.toLowerCase() || 'cod'}">${order.PaymentMethod || 'COD'}</span>
-                                    ${order.PaymentMethod === 'GCash' ? ' (incl. 5% fee)' : ' (no fee)'}
+                                    <span class="badge ${paymentClass}">${paymentMethod}</span>
+                                    ${hasFee ? ' <span style="color:#666;font-size:11px;">(incl. 5% fee)</span>' : ' <span style="color:#10b981;font-size:11px;">(no fee)</span>'}
                                 </div>
                             </div>
                             <div class="order-actions">
@@ -424,6 +449,7 @@
                     </div>
                 `;
             }).join('');
+        }
         }
         
         async function cancelOrder(orderId) {
