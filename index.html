@@ -3,1120 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amadeo Marketplace - Shop Local, Support Local</title>
+    <title>Amadeo Marketplace - Products, Services & Stays</title>
+    <meta name="description" content="Shop local products, book services, find stays in Amadeo, Cavite">
+    <link rel="preconnect" href="https://script.google.com" crossorigin>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
-        
-        .header { background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%); color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-        .logo { font-size: 24px; font-weight: 700; }
-        .logo a { color: white; text-decoration: none; }
-        .search-bar { flex: 1; max-width: 500px; display: flex; }
-        .search-bar input { flex: 1; padding: 12px 20px; border: none; border-radius: 25px 0 0 25px; font-size: 16px; }
-        .search-bar button { padding: 12px 25px; background: #134e4a; border: none; border-radius: 0 25px 25px 0; cursor: pointer; font-weight: 600; color: white; }
-        .header-actions { display: flex; align-items: center; gap: 10px; }
-        .header-actions a { color: white; text-decoration: none; padding: 8px 12px; border-radius: 20px; font-size: 14px; transition: background 0.3s; }
-        .header-actions a:hover { background: rgba(255,255,255,0.15); }
-        .cart-btn { background: #134e4a !important; font-weight: 600; position: relative; cursor: pointer; }
-        .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; width: 20px; height: 20px; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; }
-        .logout-btn { background: #dc2626 !important; }
-        .logout-btn:hover { background: #b91c1c !important; }
-        
-        .hero { background: linear-gradient(135deg, #134e4a 0%, #0f766e 50%, #14b8a6 100%); color: white; padding: 60px 20px; text-align: center; }
-        .hero h1 { font-size: 42px; margin-bottom: 15px; }
-        .hero p { font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto; }
-        
-        .categories-bar { background: white; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); overflow-x: auto; }
-        .categories-container { max-width: 1400px; margin: 0 auto; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .category-btn { padding: 10px 18px; background: #f0f0f0; border: none; border-radius: 25px; cursor: pointer; font-size: 14px; white-space: nowrap; transition: all 0.3s; }
-        .category-btn:hover, .category-btn.active { background: #0f766e; color: white; }
-        
-        .main-content { max-width: 1400px; margin: 0 auto; padding: 30px 20px; display: grid; grid-template-columns: 250px 1fr; gap: 30px; }
-        .sidebar { background: white; border-radius: 12px; padding: 20px; height: fit-content; position: sticky; top: 100px; }
-        .sidebar h3 { color: #0f766e; margin-bottom: 15px; font-size: 16px; }
-        .filter-section { margin-bottom: 25px; }
-        .filter-section label { display: block; padding: 8px 0; cursor: pointer; font-size: 14px; }
-        .filter-section input[type="checkbox"] { margin-right: 10px; accent-color: #0f766e; }
-        .price-inputs { display: flex; gap: 10px; margin-top: 10px; }
-        .price-inputs input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; }
-        
-        .products-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .products-header h2 { color: #0f766e; }
-        .sort-select { padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-        .product-image { height: 180px; background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%); display: flex; align-items: center; justify-content: center; font-size: 60px; position: relative; }
-        .product-image img { width: 100%; height: 100%; object-fit: cover; }
-        .product-badge { position: absolute; top: 10px; left: 10px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: 600; }
-        .product-info { padding: 15px; }
-        .product-merchant { font-size: 12px; color: #0f766e; margin-bottom: 5px; }
-        .product-name { font-weight: 600; color: #134e4a; margin-bottom: 8px; height: 40px; overflow: hidden; }
-        .product-price { font-size: 20px; font-weight: 700; color: #0f766e; margin-bottom: 10px; }
-        .product-stock { font-size: 12px; color: #666; margin-bottom: 12px; }
-        .product-stock.low { color: #ef4444; }
-        .add-to-cart { width: 100%; padding: 12px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: opacity 0.3s; }
-        .add-to-cart:hover { opacity: 0.9; }
-        .add-to-cart:disabled { background: #ccc; cursor: not-allowed; }
-        
-        /* Cart Sidebar */
-        .cart-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; }
-        .cart-overlay.active { display: block; }
-        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100vh; background: white; z-index: 201; transition: right 0.3s; display: flex; flex-direction: column; }
-        .cart-sidebar.active { right: 0; }
-        .cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .cart-header h3 { color: #0f766e; }
-        .cart-close { background: none; border: none; font-size: 28px; cursor: pointer; color: #666; }
-        .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
-        .cart-empty { text-align: center; padding: 40px; color: #666; }
-        .cart-item { display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #eee; }
-        .cart-item-image { width: 70px; height: 70px; background: #f0fdfa; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-        .cart-item-details { flex: 1; }
-        .cart-item-name { font-weight: 600; color: #134e4a; margin-bottom: 5px; font-size: 14px; }
-        .cart-item-merchant { font-size: 12px; color: #666; margin-bottom: 8px; }
-        .cart-item-price { font-weight: 600; color: #0f766e; }
-        .cart-item-qty { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
-        .qty-btn { width: 28px; height: 28px; border: 1px solid #ddd; background: white; border-radius: 6px; cursor: pointer; font-size: 16px; }
-        .qty-btn:hover { background: #f0f0f0; }
-        .cart-item-remove { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 20px; align-self: flex-start; }
-        .cart-footer { padding: 20px; border-top: 1px solid #eee; background: #f9f9f9; }
-        .cart-subtotal { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; }
-        .cart-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; color: #0f766e; margin-bottom: 15px; }
-        .checkout-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; }
-        .checkout-btn:hover { opacity: 0.9; }
-        
-        /* Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 300; display: none; align-items: flex-start; justify-content: center; padding: 20px; overflow-y: auto; }
-        .modal-overlay.active { display: flex; }
-        .modal { background: white; border-radius: 16px; width: 100%; max-width: 600px; margin: 20px auto; }
-        .modal-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h2 { color: #0f766e; }
-        .modal-close { background: none; border: none; font-size: 28px; cursor: pointer; color: #666; }
-        .modal-body { padding: 20px; }
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; font-size: 14px; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
-        .form-group input:focus, .form-group select:focus { outline: none; border-color: #0f766e; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        
-        /* Payment Options */
-        .payment-section h3 { color: #0f766e; margin-bottom: 15px; font-size: 16px; }
-        .payment-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .payment-option { padding: 15px 12px; border: 2px solid #ddd; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
-        .payment-option:hover { border-color: #14b8a6; }
-        .payment-option.selected { border-color: #0f766e; background: #f0fdfa; }
-        .payment-option input { display: none; }
-        .payment-option .pay-icon { font-size: 24px; margin-bottom: 6px; }
-        .payment-option .pay-name { font-weight: 600; color: #333; margin-bottom: 3px; font-size: 13px; }
-        .payment-option .pay-fee { font-size: 11px; color: #666; }
-        .payment-option.selected .pay-fee { color: #0f766e; font-weight: 600; }
-        
-        /* Saved Details Toggle */
-        .saved-details-toggle { margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .toggle-option { display: flex; align-items: center; gap: 12px; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
-        .toggle-option:hover { border-color: #14b8a6; }
-        .toggle-option.active { border-color: #0f766e; background: #f0fdfa; }
-        .toggle-option .toggle-icon { width: 32px; height: 32px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-        .toggle-option.active .toggle-icon { background: #0f766e; color: white; }
-        .toggle-option .toggle-text { flex: 1; }
-        .toggle-option .toggle-text strong { display: block; color: #333; margin-bottom: 2px; }
-        .toggle-option .toggle-text span { font-size: 12px; color: #666; }
-        
-        /* Online Payment Section */
-        .online-payment-section { margin-top: 20px; padding: 20px; background: #f0fdfa; border: 2px solid #14b8a6; border-radius: 12px; }
-        .payment-info { text-align: center; margin-bottom: 20px; }
-        .payment-info h4 { color: #0f766e; margin-bottom: 15px; }
-        .payment-accounts { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
-        .payment-account { padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
-        .payment-account:last-child { border-bottom: none; }
-        .payment-account .account-label { display: block; font-size: 12px; color: #666; margin-bottom: 3px; }
-        .payment-account .account-number { font-size: 20px; color: #0f766e; font-weight: 700; letter-spacing: 1px; }
-        .payment-account .account-name { font-size: 13px; color: #134e4a; font-weight: 600; }
-        .payment-note { font-size: 13px; color: #666; }
-        
-        /* Screenshot Upload */
-        .screenshot-upload { margin-top: 15px; }
-        .screenshot-upload label { display: block; font-weight: 600; color: #333; margin-bottom: 10px; font-size: 14px; }
-        .screenshot-upload .optional { font-weight: normal; color: #666; font-size: 12px; }
-        .upload-area { border: 2px dashed #14b8a6; border-radius: 10px; padding: 25px; text-align: center; cursor: pointer; background: white; transition: all 0.3s; }
-        .upload-area:hover { background: #f0fdfa; border-color: #0f766e; }
-        .upload-area.has-file { border-style: solid; border-color: #10b981; background: #d1fae5; }
-        .upload-area .upload-icon { font-size: 36px; margin-bottom: 10px; }
-        .upload-area p { color: #666; font-size: 14px; margin-bottom: 5px; }
-        .upload-area small { color: #999; font-size: 12px; }
-        .screenshot-preview { max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 15px; display: none; }
-        .upload-area.has-file .screenshot-preview { display: block; margin: 10px auto 0; }
-        .upload-area.has-file .upload-icon, .upload-area.has-file p, .upload-area.has-file small { display: none; }
-        .screenshot-name { color: #065f46; font-weight: 600; font-size: 13px; margin-top: 10px; display: none; }
-        .upload-area.has-file .screenshot-name { display: block; }
-        .remove-screenshot { margin-top: 10px; background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; }
-        .remove-screenshot:hover { background: #dc2626; }
-        
-        /* Order Summary */
-        .order-summary { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-top: 20px; }
-        .order-summary h4 { color: #0f766e; margin-bottom: 15px; }
-        .summary-items { max-height: 150px; overflow-y: auto; margin-bottom: 15px; }
-        .summary-item { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid #eee; }
-        .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 15px; }
-        .summary-row.fee { color: #666; }
-        .summary-row.fee.zero { color: #10b981; }
-        .summary-row.total { border-top: 2px solid #ddd; margin-top: 10px; padding-top: 15px; font-size: 20px; font-weight: 700; color: #0f766e; }
-        .fee-note { font-size: 12px; color: #666; margin-top: 5px; padding: 10px; background: #fef3c7; border-radius: 8px; }
-        .fee-note.online { background: #dbeafe; color: #1e40af; }
-        
-        .place-order-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; margin-top: 20px; }
-        .place-order-btn:hover { opacity: 0.9; }
-        .place-order-btn:disabled { background: #ccc; cursor: not-allowed; }
-        
-        /* Success Modal */
-        .order-success { text-align: center; padding: 40px 20px; }
-        .order-success .success-icon { font-size: 80px; margin-bottom: 20px; }
-        .order-success h2 { color: #0f766e; margin-bottom: 10px; font-size: 28px; }
-        .order-success .success-msg { color: #666; margin-bottom: 20px; }
-        .order-success .order-id-box { background: linear-gradient(135deg, #f0fdfa, #ccfbf1); padding: 20px; border-radius: 12px; margin: 20px 0; border: 2px solid #14b8a6; }
-        .order-success .order-id-label { font-size: 14px; color: #0f766e; margin-bottom: 5px; }
-        .order-success .order-id-value { font-size: 28px; font-weight: 700; color: #134e4a; font-family: monospace; letter-spacing: 2px; }
-        .order-success .order-details { background: #f9f9f9; padding: 15px; border-radius: 10px; margin: 20px 0; text-align: left; }
-        .order-success .order-details p { padding: 5px 0; font-size: 14px; }
-        .order-success .track-btn { display: inline-block; padding: 15px 40px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; margin-top: 15px; }
-        .order-success .continue-btn { display: block; margin-top: 15px; background: none; border: none; color: #0f766e; cursor: pointer; font-size: 15px; text-decoration: underline; }
-        
-        /* Footer */
-        .footer { background: #134e4a; color: white; padding: 50px 20px 20px; margin-top: 50px; }
-        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
-        .footer-section h4 { margin-bottom: 20px; color: #14b8a6; font-size: 16px; }
-        .footer-section a { display: block; color: rgba(255,255,255,0.8); text-decoration: none; padding: 5px 0; font-size: 14px; transition: color 0.3s; }
-        .footer-section a:hover { color: #14b8a6; }
-        .footer-bottom { max-width: 1400px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: rgba(255,255,255,0.6); font-size: 14px; }
-        @media (max-width: 900px) { .footer-content { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 500px) { .footer-content { grid-template-columns: 1fr; } }
-        
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; background: #0f766e; color: white; border-radius: 10px; z-index: 500; display: none; }
-        .toast.show { display: block; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } }
-        
-        .loading-products { grid-column: 1 / -1; text-align: center; padding: 60px; }
-        .spinner { width: 50px; height: 50px; border: 4px solid #f0f0f0; border-top-color: #0f766e; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } .sidebar { display: none; } .hero h1 { font-size: 28px; } }
-        @media (max-width: 600px) { .header-content { flex-wrap: wrap; } .search-bar { order: 3; width: 100%; max-width: none; margin-top: 10px; } .cart-sidebar { width: 100%; right: -100%; } .form-row { grid-template-columns: 1fr; } .payment-options { grid-template-columns: 1fr; } }
+        :root{--p:#0f766e;--pd:#134e4a;--pl:#14b8a6;--r:#ef4444;--g:#22c55e;--o:#f97316;--y:#eab308;--v:#7c3aed;--g1:#f9fafb;--g2:#e5e7eb;--g5:#6b7280;--g7:#374151;--g9:#111827;--sh:0 4px 6px -1px rgba(0,0,0,0.1);--rd:12px}
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:system-ui,-apple-system,sans-serif;background:var(--g1);color:var(--g9);line-height:1.5}
+        .hide{display:none!important}
+        .hdr{background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;padding:12px 20px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
+        .hdr-in{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+        .logo{font-size:20px;font-weight:700}
+        .logo a{color:#fff;text-decoration:none}
+        .srch{flex:1;max-width:450px;position:relative}
+        .srch input{width:100%;padding:10px 15px 10px 40px;border:none;border-radius:25px;font-size:14px}
+        .srch::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:14px}
+        .nav{display:flex;gap:8px;align-items:center}
+        .nav a{color:#fff;text-decoration:none;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500}
+        .nav a:hover{background:rgba(255,255,255,.2)}
+        .cart-btn{background:var(--pd)!important;position:relative}
+        .cart-c{position:absolute;top:-5px;right:-5px;background:var(--r);width:18px;height:18px;border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center}
+        .tabs{background:#fff;border-bottom:1px solid var(--g2);position:sticky;top:52px;z-index:90}
+        .tabs-in{max-width:1400px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none}
+        .tabs-in::-webkit-scrollbar{display:none}
+        .tab{padding:14px 24px;font-size:14px;font-weight:600;color:var(--g5);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:6px}
+        .tab:hover{color:var(--p)}
+        .tab.on{color:var(--p);border-bottom-color:var(--p)}
+        .tab .i{font-size:18px}
+        .badge{background:var(--p);color:#fff;padding:2px 7px;border-radius:10px;font-size:10px;margin-left:4px}
+        .hero{padding:40px 20px;text-align:center;color:#fff}
+        .hero.prod{background:linear-gradient(135deg,var(--pd),var(--p),var(--pl))}
+        .hero.svc{background:linear-gradient(135deg,#5b21b6,var(--v),#a855f7)}
+        .hero.stay{background:linear-gradient(135deg,#c2410c,var(--o),#fb923c)}
+        .hero h1{font-size:32px;margin-bottom:10px}
+        .hero p{font-size:15px;opacity:.9;max-width:500px;margin:0 auto}
+        .stats{display:flex;justify-content:center;gap:35px;margin-top:25px}
+        .stat .n{font-size:28px;font-weight:700}
+        .stat .l{font-size:12px;opacity:.8}
+        .cats{background:#fff;padding:12px 20px;overflow-x:auto;scrollbar-width:none;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+        .cats::-webkit-scrollbar{display:none}
+        .cats-in{max-width:1400px;margin:0 auto;display:flex;gap:8px}
+        .cat{padding:8px 16px;background:var(--g1);border:none;border-radius:20px;cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap;display:flex;align-items:center;gap:5px;transition:all .2s}
+        .cat:hover,.cat.on{background:var(--p);color:#fff}
+        .wrap{max-width:1400px;margin:0 auto;padding:20px}
+        .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+        .grid.svc{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+        .grid.stay{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+        .card{background:#fff;border-radius:var(--rd);overflow:hidden;box-shadow:var(--sh);transition:transform .2s;contain:layout style paint}
+        .card:hover{transform:translateY(-4px)}
+        .card-img{height:140px;background:linear-gradient(135deg,#ccfbf1,#99f6e4);position:relative;overflow:hidden}
+        .card-img img{width:100%;height:100%;object-fit:cover}
+        .card-img .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:42px}
+        .card-badge{position:absolute;top:8px;left:8px;background:var(--r);color:#fff;padding:3px 8px;border-radius:12px;font-size:10px;font-weight:600}
+        .card-body{padding:12px}
+        .card-shop{font-size:11px;color:var(--p);margin-bottom:2px;font-weight:500}
+        .card-name{font-weight:600;font-size:14px;margin-bottom:4px;height:38px;overflow:hidden;line-height:1.35}
+        .card-meta{font-size:11px;color:var(--g5);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+        .stars{color:var(--y)}
+        .card-price{font-size:17px;font-weight:700;color:var(--p);margin-bottom:8px}
+        .card-price .unit{font-size:11px;font-weight:400;color:var(--g5)}
+        .btn{width:100%;padding:10px;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;transition:opacity .2s}
+        .btn:active{transform:scale(.98)}
+        .btn-p{background:linear-gradient(135deg,var(--p),var(--pl));color:#fff}
+        .btn-p:hover{opacity:.9}
+        .btn:disabled{background:var(--g2);color:var(--g5);cursor:not-allowed}
+        .svc-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+        .svc-dur{font-size:11px;color:var(--g5)}
+        .svc-type{display:flex;gap:4px;margin-bottom:8px}
+        .svc-type span{font-size:10px;padding:2px 6px;background:var(--g1);border-radius:10px}
+        .svc-type .home{background:#dbeafe;color:#1d4ed8}
+        .svc-type .shop{background:#fce7f3;color:#be185d}
+        .stay-feat{display:flex;gap:10px;font-size:11px;color:var(--g5);margin-bottom:6px}
+        .stay-amen{font-size:10px;color:var(--g5);margin-bottom:6px}
+        .loading{text-align:center;padding:50px;color:var(--g5)}
+        .spinner{width:36px;height:36px;border:3px solid var(--g2);border-top-color:var(--p);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .empty{text-align:center;padding:50px}
+        .empty .i{font-size:50px;margin-bottom:12px}
+        .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;opacity:0;visibility:hidden;transition:opacity .3s}
+        .overlay.on{opacity:1;visibility:visible}
+        .cart-side{position:fixed;top:0;right:0;width:380px;max-width:100%;height:100vh;background:#fff;z-index:201;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s}
+        .cart-side.on{transform:translateX(0)}
+        .cart-hdr{padding:16px;border-bottom:1px solid var(--g2);display:flex;justify-content:space-between;align-items:center}
+        .cart-hdr h3{color:var(--p);font-size:16px}
+        .close{background:none;border:none;font-size:26px;cursor:pointer;color:var(--g5);line-height:1}
+        .cart-items{flex:1;overflow-y:auto;padding:12px}
+        .cart-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--g1)}
+        .cart-item-img{width:50px;height:50px;background:var(--g1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+        .cart-item-img img{width:100%;height:100%;object-fit:cover;border-radius:6px}
+        .cart-item-info{flex:1}
+        .cart-item-name{font-weight:600;font-size:12px;margin-bottom:2px}
+        .cart-item-price{color:var(--p);font-weight:600;font-size:13px}
+        .cart-item-qty{display:flex;align-items:center;gap:6px;margin-top:4px}
+        .qty-btn{width:24px;height:24px;border:1px solid var(--g2);background:#fff;border-radius:4px;cursor:pointer;font-size:13px}
+        .cart-item-rm{background:none;border:none;color:var(--r);cursor:pointer;font-size:16px;padding:4px}
+        .cart-ft{padding:14px;border-top:1px solid var(--g2);background:var(--g1)}
+        .cart-row{display:flex;justify-content:space-between;padding:5px 0;font-size:13px}
+        .cart-row.total{font-size:16px;font-weight:700;color:var(--p);border-top:2px solid var(--g2);padding-top:10px;margin-top:5px}
+        .cart-empty{text-align:center;padding:40px;color:var(--g5)}
+        .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+        .modal-bg.on{display:flex}
+        .modal{background:#fff;border-radius:var(--rd);width:100%;max-width:500px;margin:20px auto;animation:slideUp .3s}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .modal-hdr{padding:14px;border-bottom:1px solid var(--g2);display:flex;justify-content:space-between;align-items:center}
+        .modal-hdr h2{color:var(--p);font-size:17px}
+        .modal-body{padding:14px;max-height:70vh;overflow-y:auto}
+        .fg{margin-bottom:12px}
+        .fg label{display:block;margin-bottom:3px;font-weight:600;color:var(--g7);font-size:12px}
+        .fg input,.fg select,.fg textarea{width:100%;padding:9px 11px;border:1px solid var(--g2);border-radius:8px;font-size:13px;font-family:inherit}
+        .fg input:focus,.fg select:focus{outline:none;border-color:var(--p)}
+        .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .pay-opts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+        .pay-opt{padding:10px;border:2px solid var(--g2);border-radius:8px;cursor:pointer;text-align:center;transition:all .2s}
+        .pay-opt:hover{border-color:var(--p)}
+        .pay-opt.sel{border-color:var(--p);background:rgba(15,118,110,.05)}
+        .pay-opt .i{font-size:18px;margin-bottom:2px}
+        .pay-opt .nm{font-weight:600;font-size:12px}
+        .pay-opt .fee{font-size:10px;color:var(--g5)}
+        .summary{background:var(--g1);padding:10px;border-radius:8px;margin-bottom:12px}
+        .summary h4{margin-bottom:8px;color:var(--g7);font-size:13px}
+        .sum-row{display:flex;justify-content:space-between;padding:3px 0;font-size:12px}
+        .sum-row.total{font-weight:700;font-size:14px;color:var(--p);border-top:1px solid var(--g2);padding-top:8px;margin-top:5px}
+        .upload{border:2px dashed var(--g2);border-radius:8px;padding:16px;text-align:center;cursor:pointer}
+        .upload:hover{border-color:var(--p)}
+        .upload .i{font-size:24px;margin-bottom:4px}
+        .upload input{display:none}
+        .time-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px}
+        .time-slot{padding:7px;border:1px solid var(--g2);border-radius:6px;text-align:center;cursor:pointer;font-size:11px}
+        .time-slot:hover{border-color:var(--p)}
+        .time-slot.sel{background:var(--p);color:#fff;border-color:var(--p)}
+        .ftr{background:var(--pd);color:#fff;padding:35px 20px 20px;margin-top:40px}
+        .ftr-in{max-width:1400px;margin:0 auto}
+        .ftr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:25px;margin-bottom:25px}
+        .ftr-col h4{font-size:13px;margin-bottom:12px}
+        .ftr-col a{display:block;color:rgba(255,255,255,.8);text-decoration:none;padding:3px 0;font-size:12px}
+        .ftr-col a:hover{color:#fff}
+        .partners{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+        .partners a{background:rgba(255,255,255,.1);padding:5px 10px;border-radius:12px;font-size:11px;color:#fff;text-decoration:none}
+        .ftr-btm{border-top:1px solid rgba(255,255,255,.1);padding-top:15px;font-size:11px;opacity:.8}
+        @media(max-width:768px){
+            .hdr-in{flex-wrap:wrap}.srch{order:3;flex:100%;margin-top:8px}
+            .hero h1{font-size:24px}.stats{gap:20px}.stat .n{font-size:22px}
+            .tab{padding:12px 14px;font-size:12px}.tab span:not(.i){display:none}
+            .grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+            .card-img{height:110px}.card-body{padding:10px}.card-name{font-size:12px;height:32px}.card-price{font-size:15px}
+            .fg-row{grid-template-columns:1fr}.pay-opts{grid-template-columns:1fr}.ftr-grid{grid-template-columns:1fr 1fr}
+        }
+        @media(max-width:480px){.nav a:not(.cart-btn){display:none}.grid{grid-template-columns:1fr 1fr}}
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo"><a href="/">Amadeo Marketplace</a></div>
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search products, merchants...">
-                <button onclick="searchProducts()">Search</button>
-            </div>
-            <div class="header-actions">
-                <a href="/track">Track Order</a>
-                <a href="/account" id="accountLink">Account</a>
-                <a href="#" id="logoutLink" class="logout-btn" style="display:none;" onclick="logout(); return false;">Logout</a>
-                <a href="#" class="cart-btn" onclick="toggleCart(); return false;">Cart <span class="cart-count" id="cartCount">0</span></a>
-            </div>
-        </div>
-    </header>
-
-    <section class="hero">
-        <h1>Shop Local in Amadeo, Cavite</h1>
-        <p>Discover fresh products, local food, and services from your trusted neighborhood merchants</p>
+    <header class="hdr"><div class="hdr-in"><div class="logo"><a href="/">🏪 Amadeo Market</a></div><div class="srch"><input type="text" id="search" placeholder="Search products, services, stays..." oninput="debounceSearch(this.value)"></div><nav class="nav"><a href="/merchant-register">Sell</a><a href="#" class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-c" id="cartCount">0</span></a><a href="/login" id="loginLink">Login</a></nav></div></header>
+    <div class="tabs"><div class="tabs-in"><button class="tab on" data-tab="products"><span class="i">🛍️</span><span>Products</span></button><button class="tab" data-tab="services"><span class="i">🔧</span><span>Services</span><span class="badge">50+</span></button><button class="tab" data-tab="stays"><span class="i">🏡</span><span>Stays</span><span class="badge">NEW</span></button></div></div>
+    
+    <section id="products" class="section">
+        <div class="hero prod"><h1>Shop Local, Support Amadeo</h1><p>Fresh products from your neighbors. Fast delivery within Amadeo.</p><div class="stats"><div class="stat"><div class="n" id="prodCount">0</div><div class="l">Products</div></div><div class="stat"><div class="n" id="shopCount">0</div><div class="l">Shops</div></div><div class="stat"><div class="n">24</div><div class="l">Barangays</div></div></div></div>
+        <div class="cats"><div class="cats-in" id="prodCats"></div></div>
+        <div class="wrap"><div class="grid" id="prodGrid"><div class="loading"><div class="spinner"></div><p>Loading...</p></div></div></div>
     </section>
+    
+    <section id="services" class="section hide">
+        <div class="hero svc"><h1>Book Local Services</h1><p>Professional services from trusted Amadeo providers.</p><div class="stats"><div class="stat"><div class="n">50+</div><div class="l">Services</div></div><div class="stat"><div class="n">30+</div><div class="l">Providers</div></div><div class="stat"><div class="n">11</div><div class="l">Categories</div></div></div></div>
+        <div class="cats"><div class="cats-in" id="svcCats"></div></div>
+        <div class="wrap"><div class="grid svc" id="svcGrid"></div></div>
+    </section>
+    
+    <section id="stays" class="section hide">
+        <div class="hero stay"><h1>Find Unique Stays</h1><p>Private pools, rest houses, resorts in beautiful Amadeo.</p><div class="stats"><div class="stat"><div class="n">8</div><div class="l">Properties</div></div><div class="stat"><div class="n">8</div><div class="l">Hosts</div></div><div class="stat"><div class="n">5★</div><div class="l">Top Rated</div></div></div></div>
+        <div class="cats"><div class="cats-in" id="stayCats"></div></div>
+        <div class="wrap"><div class="grid stay" id="stayGrid"></div></div>
+    </section>
+    
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div class="cart-side" id="cartSide"><div class="cart-hdr"><h3>🛒 Your Cart</h3><button class="close" onclick="toggleCart()">×</button></div><div class="cart-items" id="cartItems"><div class="cart-empty"><div class="i">🛒</div><p>Empty</p></div></div><div class="cart-ft hide" id="cartFt"><div class="cart-row"><span>Subtotal</span><span id="cartSub">₱0</span></div><div class="cart-row"><span>Delivery</span><span>₱50</span></div><div class="cart-row total"><span>Total</span><span id="cartTot">₱0</span></div><button class="btn btn-p" style="margin-top:10px" onclick="checkout()">Checkout</button></div></div>
+    
+    <div class="modal-bg" id="checkoutModal"><div class="modal"><div class="modal-hdr"><h2>Checkout</h2><button class="close" onclick="closeModal('checkoutModal')">×</button></div><div class="modal-body"><form id="checkoutForm" onsubmit="submitOrder(event)"><h4 style="margin-bottom:10px;color:var(--g7);font-size:13px">Customer Info</h4><div class="fg-row"><div class="fg"><label>Full Name *</label><input type="text" id="custName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="custPhone" required></div></div><div class="fg"><label>Email</label><input type="email" id="custEmail"></div><h4 style="margin:14px 0 10px;color:var(--g7);font-size:13px">Delivery</h4><div class="fg"><label>Barangay *</label><select id="custBrgy" required><option value="">Select</option><option>Barangay I (Poblacion)</option><option>Barangay II (Poblacion)</option><option>Barangay III (Poblacion)</option><option>Barangay IV (Poblacion)</option><option>Barangay V (Poblacion)</option><option>Barangay VI (Poblacion)</option><option>Barangay VII (Poblacion)</option><option>Barangay VIII (Poblacion)</option><option>Banaybanay</option><option>Buho</option><option>Dagatan</option><option>Halang</option><option>Loma</option><option>Lucsuhin</option><option>Magallanes</option><option>Maymangga</option><option>Minantok Kanluran</option><option>Minantok Silangan</option><option>Pangil</option><option>Salaban</option><option>Talon</option><option>Tamacan</option><option>Tibig</option><option>Ulo</option></select></div><div class="fg"><label>Address *</label><textarea id="custAddr" rows="2" required></textarea></div><h4 style="margin:14px 0 10px;color:var(--g7);font-size:13px">Payment</h4><div class="pay-opts"><div class="pay-opt sel" onclick="selPay('cod')"><div class="i">💵</div><div class="nm">COD</div><div class="fee">FREE</div></div><div class="pay-opt" onclick="selPay('gcash')"><div class="i">📱</div><div class="nm">GCash</div><div class="fee">5%</div></div><div class="pay-opt" onclick="selPay('paymaya')"><div class="i">💳</div><div class="nm">PayMaya</div><div class="fee">5%</div></div><div class="pay-opt" onclick="selPay('bank')"><div class="i">🏦</div><div class="nm">Bank</div><div class="fee">5%</div></div></div><div id="payInfo" class="hide"><div class="fg" style="background:#f0f9ff;padding:10px;border-radius:8px;margin-bottom:10px;font-size:12px"><p style="font-weight:600;margin-bottom:4px">Send to:</p><p id="payDetails"></p></div><div class="fg"><label>Screenshot *</label><label class="upload" id="uploadLabel"><div class="i">📷</div><p style="font-size:12px">Upload</p><input type="file" id="screenshot" accept="image/*" onchange="handleUpload(this)"></label></div></div><div class="summary"><h4>Summary</h4><div id="checkoutItems"></div><div class="sum-row"><span>Subtotal</span><span id="chkSub">₱0</span></div><div class="sum-row"><span>Delivery</span><span>₱50</span></div><div class="sum-row hide" id="feeRow"><span>Fee (5%)</span><span id="chkFee">₱0</span></div><div class="sum-row total"><span>Total</span><span id="chkTot">₱0</span></div></div><button type="submit" class="btn btn-p" id="orderBtn">Place Order</button></form></div></div></div>
+    
+    <div class="modal-bg" id="svcModal"><div class="modal"><div class="modal-hdr"><h2>Book Service</h2><button class="close" onclick="closeModal('svcModal')">×</button></div><div class="modal-body"><form id="svcForm" onsubmit="submitSvcBooking(event)"><div id="svcDetails"></div><h4 style="margin:12px 0 8px;color:var(--g7);font-size:13px">Schedule</h4><div class="fg-row"><div class="fg"><label>Date *</label><input type="date" id="svcDate" required></div><div class="fg"><label>Location *</label><select id="svcLoc" required onchange="toggleSvcAddr()"><option value="home">Home Service</option><option value="shop">Visit Shop</option></select></div></div><div class="fg"><label>Time *</label><div class="time-slots" id="timeSlots"></div><input type="hidden" id="selTime" required></div><div id="svcAddr"><div class="fg"><label>Barangay</label><select id="svcBrgy"><option value="">Select</option><option>Dagatan</option><option>Halang</option><option>Maymangga</option><option>Poblacion</option><option>Tibig</option></select></div><div class="fg"><label>Address</label><textarea id="svcAddress" rows="2"></textarea></div></div><h4 style="margin:12px 0 8px;color:var(--g7);font-size:13px">Your Info</h4><div class="fg-row"><div class="fg"><label>Name *</label><input type="text" id="bookName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="bookPhone" required></div></div><div class="summary"><h4>Summary</h4><div class="sum-row"><span>Service</span><span id="bookSvc">-</span></div><div class="sum-row"><span>Duration</span><span id="bookDur">-</span></div><div class="sum-row total"><span>Total</span><span id="bookTot">₱0</span></div></div><button type="submit" class="btn btn-p">Confirm Booking</button></form></div></div></div>
+    
+    <div class="modal-bg" id="stayModal"><div class="modal"><div class="modal-hdr"><h2>Book Stay</h2><button class="close" onclick="closeModal('stayModal')">×</button></div><div class="modal-body"><form id="stayForm" onsubmit="submitStayBooking(event)"><div id="stayDetails"></div><h4 style="margin:12px 0 8px;color:var(--g7);font-size:13px">Dates</h4><div class="fg-row"><div class="fg"><label>Check-in *</label><input type="date" id="checkIn" required onchange="calcStay()"></div><div class="fg"><label>Check-out *</label><input type="date" id="checkOut" required onchange="calcStay()"></div></div><div class="fg-row"><div class="fg"><label>Guests *</label><select id="guests" required onchange="calcStay()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></div><div class="fg"><label>Type</label><select id="stayType" onchange="calcStay()"><option value="overnight">Overnight</option><option value="dayuse">Day Use</option></select></div></div><h4 style="margin:12px 0 8px;color:var(--g7);font-size:13px">Guest Info</h4><div class="fg-row"><div class="fg"><label>Name *</label><input type="text" id="guestName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="guestPhone" required></div></div><div class="fg"><label>Email *</label><input type="email" id="guestEmail" required></div><div class="summary"><h4>Summary</h4><div class="sum-row"><span>Property</span><span id="stayProp">-</span></div><div class="sum-row"><span id="nightsLabel">Nights</span><span id="stayNights">0</span></div><div class="sum-row"><span>Accommodation</span><span id="stayAccom">₱0</span></div><div class="sum-row"><span>Cleaning</span><span id="stayCln">₱0</span></div><div class="sum-row"><span>Fee (12%)</span><span id="stayFee">₱0</span></div><div class="sum-row total"><span>Total</span><span id="stayTot">₱0</span></div></div><button type="submit" class="btn btn-p">Request to Book</button></form></div></div></div>
+    
+    <footer class="ftr"><div class="ftr-in"><div class="ftr-grid"><div class="ftr-col"><h4>🏪 Amadeo Marketplace</h4><p style="opacity:.8;font-size:12px;margin-bottom:10px">Shop local, book services, find stays.</p><p style="font-size:12px">📞 0966 960 6060</p><p style="font-size:12px">✉️ tygfsb@gmail.com</p></div><div class="ftr-col"><h4>Shop</h4><a href="#" onclick="switchTab('products')">Products</a><a href="#" onclick="switchTab('services')">Services</a><a href="#" onclick="switchTab('stays')">Stays</a></div><div class="ftr-col"><h4>Sell & Host</h4><a href="/merchant-register">Become a Seller</a><a href="/merchant-register">List Service</a><a href="/merchant-register">List Property</a></div><div class="ftr-col"><h4>Support</h4><a href="/faq">FAQ</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a></div></div><div class="partners"><a href="https://tyg-services.com">🔧 TYG Services</a><a href="https://www.thegoldblessing.com">💎 The Gold Blessing</a><a href="https://soleblessing.com">👟 Sole Blessing</a><a href="https://www.ast3r.store">👗 AST3R</a><a href="https://luntian.net">🏡 Luntian</a></div><div class="ftr-btm"><p>© 2025 Amadeo Marketplace. Powered by TYG Services.</p></div></div></footer>
+    
+<script>
+const API='https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
+let products=[],merchants={},cart=JSON.parse(localStorage.getItem('cart')||'[]');
+let curTab='products',curCat='all',selPayment='cod',screenshot='',selService=null,selStay=null,selTime='',searchTimer=null;
 
-    <nav class="categories-bar">
-        <div class="categories-container">
-            <button class="category-btn active" onclick="filterCategory('all', this)">All</button>
-            <button class="category-btn" onclick="filterCategory('Water', this)">Water</button>
-            <button class="category-btn" onclick="filterCategory('Food', this)">Food</button>
-            <button class="category-btn" onclick="filterCategory('Coffee', this)">Coffee</button>
-            <button class="category-btn" onclick="filterCategory('Bakery', this)">Bakery</button>
-            <button class="category-btn" onclick="filterCategory('Rice', this)">Rice</button>
-            <button class="category-btn" onclick="filterCategory('Meat', this)">Meat</button>
-            <button class="category-btn" onclick="filterCategory('Produce', this)">Produce</button>
-            <button class="category-btn" onclick="filterCategory('Grocery', this)">Grocery</button>
-            <button class="category-btn" onclick="filterCategory('Services', this)">Services</button>
-        </div>
-    </nav>
+const PROD_CATS=[{id:'all',n:'All',i:'🏷️'},{id:'Food & Beverages',n:'Food',i:'🍔'},{id:'Fresh Produce',n:'Fresh',i:'🥬'},{id:'Groceries',n:'Groceries',i:'🛒'},{id:'Health & Beauty',n:'Beauty',i:'💄'},{id:'Home & Living',n:'Home',i:'🏠'},{id:'Fashion',n:'Fashion',i:'👗'},{id:'Electronics',n:'Electronics',i:'📱'},{id:'Plants',n:'Plants',i:'🌱'}];
+const SVC_CATS=[{id:'all',n:'All',i:'🏷️'},{id:'Laundry',n:'Laundry',i:'🧺'},{id:'Beauty',n:'Beauty',i:'💅'},{id:'Massage',n:'Massage',i:'💆'},{id:'Home Repair',n:'Repairs',i:'🔨'},{id:'Cleaning',n:'Cleaning',i:'🧹'},{id:'Automotive',n:'Auto',i:'🚗'},{id:'Tech',n:'Tech',i:'💻'},{id:'Pet',n:'Pet',i:'🐕'},{id:'Events',n:'Events',i:'🎉'},{id:'Tutoring',n:'Tutoring',i:'📚'}];
+const STAY_CATS=[{id:'all',n:'All',i:'🏷️'},{id:'Private Pool',n:'Pools',i:'🏊'},{id:'Rest House',n:'Rest House',i:'🏡'},{id:'Resort',n:'Resorts',i:'🏨'},{id:'Farm Stay',n:'Farm',i:'🌾'},{id:'Cabin',n:'Cabins',i:'🛖'},{id:'Venue',n:'Venues',i:'🎪'}];
 
-    <main class="main-content">
-        <aside class="sidebar">
-            <div class="filter-section">
-                <h3>Price Range</h3>
-                <div class="price-inputs">
-                    <input type="number" id="priceMin" placeholder="Min" onchange="applyFilters()">
-                    <input type="number" id="priceMax" placeholder="Max" onchange="applyFilters()">
-                </div>
-            </div>
-            <div class="filter-section">
-                <h3>Availability</h3>
-                <label><input type="checkbox" id="inStockOnly" onchange="applyFilters()"> In Stock Only</label>
-            </div>
-        </aside>
+// 50+ SERVICES - ALL CATEGORIES
+const SVCS=[
+// LAUNDRY (4)
+{id:'L01',n:'Wash & Fold',c:'Laundry',p:45,u:'/kg',d:'1-2 days',h:1,s:1},
+{id:'L02',n:'Dry Cleaning',c:'Laundry',p:120,u:'/pc',d:'2-3 days',h:1,s:1},
+{id:'L03',n:'Ironing Only',c:'Laundry',p:25,u:'/pc',d:'1 day',h:1,s:1},
+{id:'L04',n:'Beddings & Curtains',c:'Laundry',p:150,u:'/set',d:'2-3 days',h:1,s:1},
+// BEAUTY (12)
+{id:'B01',n:'Manicure & Pedicure',c:'Beauty',p:250,u:'',d:'60 min',h:1,s:1},
+{id:'B02',n:'Gel Nails',c:'Beauty',p:450,u:'',d:'90 min',h:1,s:1},
+{id:'B03',n:'Nail Art',c:'Beauty',p:350,u:'',d:'60 min',h:1,s:1},
+{id:'B04',n:'Haircut - Women',c:'Beauty',p:150,u:'',d:'45 min',h:0,s:1},
+{id:'B05',n:'Haircut - Men',c:'Beauty',p:80,u:'',d:'30 min',h:0,s:1},
+{id:'B06',n:'Hair Color',c:'Beauty',p:800,u:'',d:'2-3 hrs',h:0,s:1},
+{id:'B07',n:'Hair Treatment',c:'Beauty',p:1200,u:'',d:'2-3 hrs',h:0,s:1},
+{id:'B08',n:'Keratin/Rebond',c:'Beauty',p:2500,u:'',d:'4-5 hrs',h:0,s:1},
+{id:'B09',n:'Makeup Service',c:'Beauty',p:1500,u:'',d:'1-2 hrs',h:1,s:1},
+{id:'B10',n:'Eyebrow Threading',c:'Beauty',p:80,u:'',d:'15 min',h:1,s:1},
+{id:'B11',n:'Facial Treatment',c:'Beauty',p:500,u:'',d:'60 min',h:1,s:1},
+{id:'B12',n:'Eyelash Extensions',c:'Beauty',p:800,u:'',d:'90 min',h:1,s:1},
+// MASSAGE (8)
+{id:'M01',n:'Full Body Massage',c:'Massage',p:400,u:'/hr',d:'60 min',h:1,s:1},
+{id:'M02',n:'Hilot Traditional',c:'Massage',p:300,u:'/hr',d:'60 min',h:1,s:0},
+{id:'M03',n:'Foot Spa & Massage',c:'Massage',p:250,u:'',d:'45 min',h:1,s:1},
+{id:'M04',n:'Ventosa/Cupping',c:'Massage',p:350,u:'',d:'45 min',h:1,s:1},
+{id:'M05',n:'Hot Stone Massage',c:'Massage',p:600,u:'',d:'90 min',h:1,s:1},
+{id:'M06',n:'Prenatal Massage',c:'Massage',p:450,u:'',d:'60 min',h:1,s:1},
+{id:'M07',n:'Sports Massage',c:'Massage',p:500,u:'/hr',d:'60 min',h:1,s:1},
+{id:'M08',n:'Shiatsu Massage',c:'Massage',p:450,u:'/hr',d:'60 min',h:1,s:1},
+// HOME REPAIR (12)
+{id:'H01',n:'House Painting',c:'Home Repair',p:80,u:'/sqm',d:'Varies',h:1,s:0},
+{id:'H02',n:'Plumbing Repair',c:'Home Repair',p:300,u:'/job',d:'1-3 hrs',h:1,s:0},
+{id:'H03',n:'Electrical Work',c:'Home Repair',p:350,u:'/job',d:'1-4 hrs',h:1,s:0},
+{id:'H04',n:'Aircon Cleaning',c:'Home Repair',p:400,u:'/unit',d:'1-2 hrs',h:1,s:0},
+{id:'H05',n:'Aircon Repair',c:'Home Repair',p:500,u:'/job',d:'Varies',h:1,s:0},
+{id:'H06',n:'Aircon Installation',c:'Home Repair',p:1500,u:'/unit',d:'2-4 hrs',h:1,s:0},
+{id:'H07',n:'Carpentry',c:'Home Repair',p:500,u:'/day',d:'Varies',h:1,s:0},
+{id:'H08',n:'Welding',c:'Home Repair',p:400,u:'/job',d:'Varies',h:1,s:0},
+{id:'H09',n:'Roofing Repair',c:'Home Repair',p:500,u:'/job',d:'Varies',h:1,s:0},
+{id:'H10',n:'Tile Installation',c:'Home Repair',p:150,u:'/sqm',d:'Varies',h:1,s:0},
+{id:'H11',n:'Glass Installation',c:'Home Repair',p:300,u:'/job',d:'1-2 hrs',h:1,s:0},
+{id:'H12',n:'Door/Lock Repair',c:'Home Repair',p:250,u:'/job',d:'1-2 hrs',h:1,s:0},
+// CLEANING (6)
+{id:'C01',n:'House Cleaning',c:'Cleaning',p:500,u:'',d:'3-4 hrs',h:1,s:0},
+{id:'C02',n:'Deep Cleaning',c:'Cleaning',p:1200,u:'',d:'5-6 hrs',h:1,s:0},
+{id:'C03',n:'Post-Construction',c:'Cleaning',p:2000,u:'',d:'6-8 hrs',h:1,s:0},
+{id:'C04',n:'Move-in/Move-out',c:'Cleaning',p:1500,u:'',d:'4-5 hrs',h:1,s:0},
+{id:'C05',n:'Upholstery Cleaning',c:'Cleaning',p:500,u:'/set',d:'2-3 hrs',h:1,s:0},
+{id:'C06',n:'Carpet Cleaning',c:'Cleaning',p:300,u:'/sqm',d:'2-3 hrs',h:1,s:0},
+// AUTOMOTIVE (6)
+{id:'A01',n:'Car Wash',c:'Automotive',p:150,u:'',d:'30 min',h:1,s:1},
+{id:'A02',n:'Car Detailing',c:'Automotive',p:800,u:'',d:'3-4 hrs',h:1,s:1},
+{id:'A03',n:'Car Aircon Clean',c:'Automotive',p:500,u:'',d:'1-2 hrs',h:1,s:1},
+{id:'A04',n:'Oil Change',c:'Automotive',p:350,u:'',d:'30 min',h:0,s:1},
+{id:'A05',n:'Tire Change',c:'Automotive',p:100,u:'/tire',d:'30 min',h:1,s:1},
+{id:'A06',n:'Battery Jump Start',c:'Automotive',p:200,u:'',d:'30 min',h:1,s:0},
+// TECH (6)
+{id:'T01',n:'Computer Repair',c:'Tech',p:500,u:'/job',d:'Varies',h:1,s:1},
+{id:'T02',n:'Phone Repair',c:'Tech',p:300,u:'/job',d:'1-2 hrs',h:0,s:1},
+{id:'T03',n:'Laptop Repair',c:'Tech',p:600,u:'/job',d:'Varies',h:1,s:1},
+{id:'T04',n:'Printer Repair',c:'Tech',p:400,u:'/job',d:'1-2 hrs',h:1,s:1},
+{id:'T05',n:'CCTV Installation',c:'Tech',p:1500,u:'/cam',d:'2-4 hrs',h:1,s:0},
+{id:'T06',n:'WiFi Setup',c:'Tech',p:500,u:'',d:'1-2 hrs',h:1,s:0},
+// PET (4)
+{id:'P01',n:'Dog Grooming',c:'Pet',p:350,u:'',d:'1-2 hrs',h:1,s:1},
+{id:'P02',n:'Cat Grooming',c:'Pet',p:400,u:'',d:'1-2 hrs',h:1,s:1},
+{id:'P03',n:'Pet Sitting',c:'Pet',p:300,u:'/day',d:'Daily',h:1,s:0},
+{id:'P04',n:'Dog Walking',c:'Pet',p:150,u:'/hr',d:'1 hr',h:1,s:0},
+// EVENTS (6)
+{id:'E01',n:'Event Catering',c:'Events',p:350,u:'/head',d:'Event',h:1,s:0},
+{id:'E02',n:'Event Host/Emcee',c:'Events',p:3000,u:'',d:'Event',h:1,s:0},
+{id:'E03',n:'Event Photography',c:'Events',p:5000,u:'',d:'Event',h:1,s:0},
+{id:'E04',n:'Event Videography',c:'Events',p:8000,u:'',d:'Event',h:1,s:0},
+{id:'E05',n:'Sound System',c:'Events',p:3000,u:'',d:'Event',h:1,s:0},
+{id:'E06',n:'Event Decoration',c:'Events',p:5000,u:'',d:'Event',h:1,s:0},
+// TUTORING (6)
+{id:'U01',n:'Math Tutoring',c:'Tutoring',p:300,u:'/hr',d:'1-2 hrs',h:1,s:0},
+{id:'U02',n:'English Tutoring',c:'Tutoring',p:300,u:'/hr',d:'1-2 hrs',h:1,s:0},
+{id:'U03',n:'Science Tutoring',c:'Tutoring',p:350,u:'/hr',d:'1-2 hrs',h:1,s:0},
+{id:'U04',n:'Filipino Tutoring',c:'Tutoring',p:250,u:'/hr',d:'1-2 hrs',h:1,s:0},
+{id:'U05',n:'Piano Lessons',c:'Tutoring',p:400,u:'/hr',d:'1 hr',h:1,s:1},
+{id:'U06',n:'Guitar Lessons',c:'Tutoring',p:350,u:'/hr',d:'1 hr',h:1,s:1}
+];
 
-        <section class="products-section">
-            <div class="products-header">
-                <h2 id="productsTitle">All Products</h2>
-                <select class="sort-select" id="sortSelect" onchange="applyFilters()">
-                    <option value="default">Sort by: Default</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="name">Name: A-Z</option>
-                </select>
-            </div>
-            <div class="products-grid" id="productsGrid">
-                <div class="loading-products"><div class="spinner"></div><p>Loading products...</p></div>
-            </div>
-        </section>
-    </main>
+// 8 STAYS
+const STAYS=[
+{id:'S01',n:'Mountain View Private Pool',t:'Private Pool',l:'Dagatan',g:15,b:3,ba:2,r:5000,w:7000,cl:500,a:['Pool','WiFi','Parking','BBQ','Karaoke']},
+{id:'S02',n:'Hilltop Pool Villa',t:'Private Pool',l:'Halang',g:20,b:4,ba:3,r:6000,w:8000,cl:600,a:['Pool','WiFi','BBQ','View','Parking']},
+{id:'S03',n:'Poblacion Rest House',t:'Rest House',l:'Poblacion',g:10,b:3,ba:2,r:3500,w:5000,cl:400,a:['WiFi','Parking','Kitchen','TV']},
+{id:'S04',n:'Amadeo Garden Resort',t:'Resort',l:'Maymangga',g:50,b:10,ba:10,r:800,w:1000,cl:0,a:['Pool','Restaurant','Parking','Events']},
+{id:'S05',n:'Cozy Farm Cabin',t:'Farm Stay',l:'Halang',g:6,b:2,ba:1,r:2500,w:3500,cl:300,a:['WiFi','Parking','Kitchen','Garden']},
+{id:'S06',n:'Bamboo Kubo Retreat',t:'Cabin',l:'Tibig',g:4,b:1,ba:1,r:1500,w:2000,cl:200,a:['Nature','Parking','Breakfast']},
+{id:'S07',n:'Luntian Log Cabin',t:'Cabin',l:'Dagatan',g:8,b:2,ba:1,r:3000,w:4000,cl:300,a:['Pool','WiFi','Parking','View']},
+{id:'S08',n:'Grand Function Hall',t:'Venue',l:'Poblacion',g:150,b:0,ba:4,r:15000,w:20000,cl:1000,a:['AC','Sound','Parking','Catering']}
+];
 
-    <!-- Cart Sidebar -->
-    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3>Your Cart</h3>
-            <button class="cart-close" onclick="toggleCart()">&times;</button>
-        </div>
-        <div class="cart-items" id="cartItems">
-            <div class="cart-empty">
-                <p style="font-size:40px;margin-bottom:15px;">🛒</p>
-                <p>Your cart is empty</p>
-            </div>
-        </div>
-        <div class="cart-footer" id="cartFooter" style="display:none;">
-            <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">P0</span></div>
-            <div class="cart-total"><span>Total</span><span id="cartTotal">P0</span></div>
-            <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
-        </div>
-    </div>
-
-    <!-- Checkout Modal -->
-    <div class="modal-overlay" id="checkoutModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2>Checkout</h2>
-                <button class="modal-close" onclick="closeModal('checkoutModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="checkoutForm" onsubmit="placeOrder(event)">
-                    <h3 style="color:#0f766e;margin-bottom:15px;">Delivery Information</h3>
-                    
-                    <!-- Logged-in user toggle -->
-                    <div class="saved-details-toggle" id="savedDetailsToggle" style="display:none;">
-                        <div class="toggle-option active" onclick="useSavedDetails(true)">
-                            <span class="toggle-icon">✓</span>
-                            <div class="toggle-text">
-                                <strong>Use my saved details</strong>
-                                <span id="savedDetailsSummary"></span>
-                            </div>
-                        </div>
-                        <div class="toggle-option" onclick="useSavedDetails(false)">
-                            <span class="toggle-icon">✎</span>
-                            <div class="toggle-text">
-                                <strong>Use different details</strong>
-                                <span>Enter new delivery information</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="deliveryFields">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Full Name *</label>
-                                <input type="text" id="customerName" required placeholder="Your full name">
-                            </div>
-                            <div class="form-group">
-                                <label>Phone Number *</label>
-                                <input type="tel" id="customerPhone" required placeholder="09XX XXX XXXX">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Email (optional)</label>
-                            <input type="email" id="customerEmail" placeholder="your@email.com">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Delivery Address *</label>
-                            <textarea id="customerAddress" rows="2" required placeholder="House/Unit No., Street, Landmark"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Barangay *</label>
-                            <select id="customerBarangay" required>
-                                <option value="">Select Barangay</option>
-                                <option value="Poblacion">Poblacion</option>
-                                <option value="Dagatan">Dagatan</option>
-                                <option value="Halang">Halang</option>
-                                <option value="Iba">Iba</option>
-                                <option value="Kaysuyo">Kaysuyo</option>
-                                <option value="Lalaan I">Lalaan I</option>
-                                <option value="Lalaan II">Lalaan II</option>
-                                <option value="Maymangga">Maymangga</option>
-                                <option value="Minantok East">Minantok East</option>
-                                <option value="Minantok West">Minantok West</option>
-                                <option value="Pangil">Pangil</option>
-                                <option value="Salaban">Salaban</option>
-                                <option value="Talon">Talon</option>
-                                <option value="Tamlong">Tamlong</option>
-                                <option value="Banaybanay">Banaybanay</option>
-                                <option value="Buho">Buho</option>
-                                <option value="Kabigting">Kabigting</option>
-                                <option value="Labac">Labac</option>
-                                <option value="Luksuhin">Luksuhin</option>
-                                <option value="Maitim">Maitim</option>
-                                <option value="Mahabang Kahoy">Mahabang Kahoy</option>
-                                <option value="Paligawan">Paligawan</option>
-                                <option value="San Agustin">San Agustin</option>
-                                <option value="Tiambong">Tiambong</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Delivery Notes (optional)</label>
-                        <textarea id="deliveryNotes" rows="2" placeholder="Special instructions for delivery"></textarea>
-                    </div>
-                    
-                    <!-- Payment Method -->
-                    <div class="payment-section">
-                        <h3>Payment Method</h3>
-                        <div class="payment-options">
-                            <label class="payment-option selected" onclick="selectPayment('COD', this)">
-                                <input type="radio" name="payment" value="COD" checked>
-                                <div class="pay-icon">💵</div>
-                                <div class="pay-name">Cash on Delivery</div>
-                                <div class="pay-fee">No platform fee</div>
-                            </label>
-                            <label class="payment-option" onclick="selectPayment('GCash', this)">
-                                <input type="radio" name="payment" value="GCash">
-                                <div class="pay-icon">📱</div>
-                                <div class="pay-name">GCash</div>
-                                <div class="pay-fee">5% platform fee</div>
-                            </label>
-                            <label class="payment-option" onclick="selectPayment('PayMaya', this)">
-                                <input type="radio" name="payment" value="PayMaya">
-                                <div class="pay-icon">💳</div>
-                                <div class="pay-name">PayMaya</div>
-                                <div class="pay-fee">5% platform fee</div>
-                            </label>
-                            <label class="payment-option" onclick="selectPayment('BankTransfer', this)">
-                                <input type="radio" name="payment" value="BankTransfer">
-                                <div class="pay-icon">🏦</div>
-                                <div class="pay-name">Bank Transfer</div>
-                                <div class="pay-fee">5% platform fee</div>
-                            </label>
-                        </div>
-                        
-                        <!-- Online Payment Details - shows when online payment selected -->
-                        <div class="online-payment-section" id="onlinePaymentSection" style="display:none;">
-                            <div class="payment-info">
-                                <h4 id="paymentMethodTitle">📱 Payment Details</h4>
-                                <div class="payment-accounts" id="paymentAccounts">
-                                    <!-- Will be populated based on selected method -->
-                                </div>
-                                <p class="payment-note">Please include your <strong>Order ID</strong> in the message/reference</p>
-                            </div>
-                            
-                            <div class="screenshot-upload">
-                                <label>📸 Upload Payment Screenshot <span class="optional">(Optional now, required for confirmation)</span></label>
-                                <div class="upload-area" id="screenshotUpload" onclick="document.getElementById('screenshotInput').click()">
-                                    <div class="upload-icon">📤</div>
-                                    <p>Click to upload or drag & drop</p>
-                                    <small>JPG, PNG (max 5MB)</small>
-                                    <img class="screenshot-preview" id="screenshotPreview" alt="">
-                                    <div class="screenshot-name" id="screenshotName"></div>
-                                </div>
-                                <input type="file" id="screenshotInput" accept="image/*" style="display:none" onchange="handleScreenshot(event)">
-                                <button type="button" class="remove-screenshot" id="removeScreenshot" style="display:none" onclick="removeScreenshot()">✕ Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Order Summary -->
-                    <div class="order-summary">
-                        <h4>Order Summary</h4>
-                        <div class="summary-items" id="checkoutItems"></div>
-                        <div class="summary-row">
-                            <span>Subtotal</span>
-                            <span id="summarySubtotal">P0</span>
-                        </div>
-                        <div class="summary-row fee" id="feeRow">
-                            <span>Platform Fee (5%)</span>
-                            <span id="summaryFee">P0</span>
-                        </div>
-                        <div class="summary-row total">
-                            <span>Total</span>
-                            <span id="summaryTotal">P0</span>
-                        </div>
-                        <div class="fee-note" id="feeNote">
-                            COD orders have no platform fee. You pay the exact product price to the merchant.
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="place-order-btn" id="placeOrderBtn">Place Order</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Modal -->
-    <div class="modal-overlay" id="successModal">
-        <div class="modal">
-            <div class="modal-body">
-                <div class="order-success">
-                    <div class="success-icon">✅</div>
-                    <h2>Order Placed Successfully!</h2>
-                    <p class="success-msg">Thank you for shopping with Amadeo Marketplace</p>
-                    
-                    <div class="order-id-box">
-                        <div class="order-id-label">Your Order ID</div>
-                        <div class="order-id-value" id="successOrderId">ORD-XXXXXXXX</div>
-                    </div>
-                    
-                    <div class="order-details">
-                        <p><strong>Payment:</strong> <span id="successPayment">COD</span></p>
-                        <p><strong>Total:</strong> <span id="successTotal">P0</span></p>
-                        <p><strong>Status:</strong> Pending confirmation from merchant</p>
-                    </div>
-                    
-                    <p style="color:#666;font-size:14px;">You will receive a confirmation via SMS/call from the merchant shortly.</p>
-                    
-                    <a href="#" class="track-btn" id="trackOrderBtn">Track Your Order</a>
-                    <button class="continue-btn" onclick="closeSuccessAndReload()">Continue Shopping</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Amadeo Marketplace</h4>
-                <p style="color:rgba(255,255,255,0.7);line-height:1.6;">Supporting local businesses in Amadeo, Cavite. Shop fresh, shop local!</p>
-                <div style="margin-top:15px;">
-                    <a href="https://facebook.com/profile.php?id=61584297603857" target="_blank" style="display:inline-block;margin-right:10px;">📘</a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <a href="/">Home</a>
-                <a href="/track">Track Order</a>
-                <a href="/account">My Account</a>
-                <a href="/merchant-register">Become a Merchant</a>
-            </div>
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p style="color:rgba(255,255,255,0.7);">📱 0966 960 6060</p>
-                <p style="color:rgba(255,255,255,0.7);">✉️ tygfsb@gmail.com</p>
-                <p style="color:rgba(255,255,255,0.7);">📍 Amadeo, Cavite</p>
-            </div>
-            <div class="footer-section">
-                <h4>TYG Family</h4>
-                <a href="https://tyg-services.com" target="_blank">🔧 TYG Services</a>
-                <a href="https://www.thegoldblessing.com" target="_blank">💎 The Gold Blessing</a>
-                <a href="https://soleblessing.com" target="_blank">👟 Sole Blessing</a>
-                <a href="https://www.ast3r.store" target="_blank">👗 AST3R Fashion</a>
-                <a href="https://luntian.net" target="_blank">🏡 Luntian Staycation</a>
-                <a href="https://musthavecorner.com" target="_blank">🛒 Must Have Corner</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2024 Amadeo Marketplace | Powered by <a href="https://tyg-services.com" target="_blank" style="color:#14b8a6;">TYG Services</a></p>
-        </div>
-    </footer>
-
-    <div class="toast" id="toast"></div>
-
-    <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
-        
-        let allProducts = [];
-        let allMerchants = [];
-        let cart = JSON.parse(localStorage.getItem('amadeo_cart')) || [];
-        let currentCategory = 'all';
-        let selectedPayment = 'COD';
-        let paymentScreenshot = null; // Store payment screenshot data
-        
-        // Category icons for display
-        const categoryIcons = {
-            'Water': '💧', 'Food': '🍱', 'Coffee': '☕', 'Bakery': '🥖',
-            'Rice': '🌾', 'Meat': '🥩', 'Produce': '🥬', 'Grocery': '🛒',
-            'Services': '🔧', 'Hardware': '🔨', 'Health': '💊', 'Other': '📦'
-        };
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProducts();
-            updateCartUI();
-            checkLogin();
-            document.getElementById('searchInput').addEventListener('keypress', e => {
-                if (e.key === 'Enter') searchProducts();
-            });
-        });
-
-        // Check login status
-        function checkLogin() {
-            const user = sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user');
-            const loginType = sessionStorage.getItem('amadeo_login_type') || localStorage.getItem('amadeo_login_type');
-            
-            if (user) {
-                const userData = JSON.parse(user);
-                document.getElementById('accountLink').textContent = userData.name || 'Account';
-                document.getElementById('logoutLink').style.display = 'inline-block';
-            }
-        }
-
-        // Logout function
-        function logout() {
-            sessionStorage.removeItem('amadeo_user');
-            sessionStorage.removeItem('amadeo_token');
-            sessionStorage.removeItem('amadeo_login_type');
-            localStorage.removeItem('amadeo_user');
-            localStorage.removeItem('amadeo_token');
-            localStorage.removeItem('amadeo_login_type');
-            showToast('Logged out successfully');
-            setTimeout(() => location.reload(), 1000);
-        }
-
-        // Load products from API
-        async function loadProducts() {
-            try {
-                const [productsRes, merchantsRes] = await Promise.all([
-                    fetch(SCRIPT_URL + '?action=getProducts'),
-                    fetch(SCRIPT_URL + '?action=getMerchants')
-                ]);
-                
-                const productsData = await productsRes.json();
-                const merchantsData = await merchantsRes.json();
-                
-                if (productsData.success) allProducts = productsData.data || [];
-                if (merchantsData.success) allMerchants = merchantsData.data || [];
-                
-                renderProducts();
-            } catch (error) {
-                console.error('Error loading products:', error);
-                document.getElementById('productsGrid').innerHTML = `
-                    <div class="loading-products">
-                        <p style="font-size:40px;margin-bottom:15px;">⚠️</p>
-                        <p>Unable to load products</p>
-                        <button onclick="loadProducts()" style="margin-top:15px;padding:10px 25px;cursor:pointer;background:#0f766e;color:white;border:none;border-radius:8px;">Retry</button>
-                    </div>`;
-            }
-        }
-
-        // Render products
-        function renderProducts() {
-            const grid = document.getElementById('productsGrid');
-            let products = applyAllFilters([...allProducts]);
-            
-            if (products.length === 0) {
-                grid.innerHTML = `
-                    <div class="loading-products">
-                        <p style="font-size:40px;margin-bottom:15px;">🔍</p>
-                        <p>No products found</p>
-                    </div>`;
-                return;
-            }
-            
-            grid.innerHTML = products.map(product => {
-                const merchant = allMerchants.find(m => m.MerchantId === product.MerchantId);
-                const merchantName = merchant ? merchant.BusinessName : 'Local Merchant';
-                const icon = categoryIcons[product.Category] || '📦';
-                const stock = product.available || product.Stock || 0;
-                const inStock = stock > 0;
-                
-                return `
-                    <div class="product-card">
-                        <div class="product-image">
-                            ${(product.ImageUrl || product.ImageURL || product.imageUrl) ? 
-                                `<img src="${product.ImageUrl || product.ImageURL || product.imageUrl}" alt="${product.Name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size:60px\\'>${icon}</span>';">` : 
-                                `<span style="font-size:60px">${icon}</span>`
-                            }
-                            ${!inStock ? '<div class="product-badge">Out of Stock</div>' : ''}
-                        </div>
-                        <div class="product-info">
-                            <div class="product-merchant">${merchantName}</div>
-                            <div class="product-name">${product.Name}</div>
-                            <div class="product-price">P${(product.Price || 0).toLocaleString()}</div>
-                            <div class="product-stock ${stock < 5 ? 'low' : ''}">${inStock ? stock + ' available' : 'Out of stock'}</div>
-                            <button class="add-to-cart" onclick="addToCart('${product.ProductId}')" ${!inStock ? 'disabled' : ''}>
-                                ${inStock ? 'Add to Cart' : 'Out of Stock'}
-                            </button>
-                        </div>
-                    </div>`;
-            }).join('');
-        }
-
-        // Apply all filters
-        function applyAllFilters(products) {
-            // Category filter
-            if (currentCategory !== 'all') {
-                products = products.filter(p => p.Category === currentCategory);
-            }
-            
-            // Search filter
-            const search = document.getElementById('searchInput').value.toLowerCase().trim();
-            if (search) {
-                products = products.filter(p => 
-                    (p.Name || '').toLowerCase().includes(search) || 
-                    (p.Category || '').toLowerCase().includes(search)
-                );
-            }
-            
-            // Price filter
-            const minPrice = parseFloat(document.getElementById('priceMin').value) || 0;
-            const maxPrice = parseFloat(document.getElementById('priceMax').value) || Infinity;
-            products = products.filter(p => p.Price >= minPrice && p.Price <= maxPrice);
-            
-            // Stock filter
-            if (document.getElementById('inStockOnly').checked) {
-                products = products.filter(p => (p.available || p.Stock || 0) > 0);
-            }
-            
-            // Sort
-            const sort = document.getElementById('sortSelect').value;
-            if (sort === 'price-low') products.sort((a, b) => a.Price - b.Price);
-            else if (sort === 'price-high') products.sort((a, b) => b.Price - a.Price);
-            else if (sort === 'name') products.sort((a, b) => (a.Name || '').localeCompare(b.Name || ''));
-            
-            return products;
-        }
-
-        // Filter by category
-        function filterCategory(category, btn) {
-            currentCategory = category;
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('productsTitle').textContent = category === 'all' ? 'All Products' : category;
-            renderProducts();
-        }
-
-        function applyFilters() { renderProducts(); }
-        function searchProducts() { renderProducts(); }
-
-        // Cart functions
-        function addToCart(productId) {
-            const product = allProducts.find(p => p.ProductId === productId);
-            if (!product) return;
-            
-            const existing = cart.find(item => item.ProductId === productId);
-            if (existing) {
-                existing.Quantity += 1;
-            } else {
-                cart.push({
-                    ProductId: product.ProductId,
-                    MerchantId: product.MerchantId,
-                    Name: product.Name,
-                    Price: product.Price,
-                    Quantity: 1,
-                    Category: product.Category
-                });
-            }
-            
-            saveCart();
-            updateCartUI();
-            showToast('Added to cart!');
-        }
-
-        function updateQuantity(productId, change) {
-            const item = cart.find(i => i.ProductId === productId);
-            if (!item) return;
-            
-            item.Quantity += change;
-            if (item.Quantity <= 0) {
-                cart = cart.filter(i => i.ProductId !== productId);
-            }
-            
-            saveCart();
-            updateCartUI();
-        }
-
-        function removeFromCart(productId) {
-            cart = cart.filter(i => i.ProductId !== productId);
-            saveCart();
-            updateCartUI();
-        }
-
-        function saveCart() {
-            localStorage.setItem('amadeo_cart', JSON.stringify(cart));
-        }
-
-        function updateCartUI() {
-            const totalItems = cart.reduce((sum, item) => sum + item.Quantity, 0);
-            document.getElementById('cartCount').textContent = totalItems;
-            
-            const cartItemsEl = document.getElementById('cartItems');
-            const cartFooter = document.getElementById('cartFooter');
-            
-            if (cart.length === 0) {
-                cartItemsEl.innerHTML = `
-                    <div class="cart-empty">
-                        <p style="font-size:40px;margin-bottom:15px;">🛒</p>
-                        <p>Your cart is empty</p>
-                    </div>`;
-                cartFooter.style.display = 'none';
-                return;
-            }
-            
-            cartItemsEl.innerHTML = cart.map(item => {
-                const icon = categoryIcons[item.Category] || '📦';
-                const merchant = allMerchants.find(m => m.MerchantId === item.MerchantId);
-                
-                return `
-                    <div class="cart-item">
-                        <div class="cart-item-image">${icon}</div>
-                        <div class="cart-item-details">
-                            <div class="cart-item-name">${item.Name}</div>
-                            <div class="cart-item-merchant">${merchant?.BusinessName || 'Merchant'}</div>
-                            <div class="cart-item-price">P${(item.Price * item.Quantity).toLocaleString()}</div>
-                            <div class="cart-item-qty">
-                                <button class="qty-btn" onclick="updateQuantity('${item.ProductId}', -1)">-</button>
-                                <span>${item.Quantity}</span>
-                                <button class="qty-btn" onclick="updateQuantity('${item.ProductId}', 1)">+</button>
-                            </div>
-                        </div>
-                        <button class="cart-item-remove" onclick="removeFromCart('${item.ProductId}')">&times;</button>
-                    </div>`;
-            }).join('');
-            
-            const subtotal = cart.reduce((sum, item) => sum + (item.Price * item.Quantity), 0);
-            document.getElementById('cartSubtotal').textContent = 'P' + subtotal.toLocaleString();
-            document.getElementById('cartTotal').textContent = 'P' + subtotal.toLocaleString();
-            cartFooter.style.display = 'block';
-        }
-
-        function toggleCart() {
-            document.getElementById('cartOverlay').classList.toggle('active');
-            document.getElementById('cartSidebar').classList.toggle('active');
-        }
-
-        // Payment accounts configuration
-        const paymentAccounts = {
-            GCash: [
-                { label: 'GCash Number', number: '0966 960 6060', name: 'TYG Services' }
-            ],
-            PayMaya: [
-                { label: 'PayMaya Number', number: '0966 960 6060', name: 'TYG Services' }
-            ],
-            BankTransfer: [
-                { label: 'BDO', number: '0012 3456 7890', name: 'TYG Services' },
-                { label: 'BPI', number: '1234 5678 90', name: 'TYG Services' }
-            ]
-        };
-        
-        let savedUserData = null;
-        let usingSavedDetails = false;
-
-        // Checkout functions
-        function openCheckout() {
-            if (cart.length === 0) return;
-            
-            toggleCart();
-            
-            // Check if user is logged in
-            const userData = JSON.parse(sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user') || '{}');
-            const isLoggedIn = userData && (userData.name || userData.Name);
-            
-            savedUserData = {
-                name: userData.name || userData.Name || '',
-                phone: userData.phone || userData.Phone || '',
-                email: userData.email || userData.Email || '',
-                address: userData.address || userData.Address || '',
-                barangay: userData.barangay || userData.Barangay || ''
-            };
-            
-            const savedToggle = document.getElementById('savedDetailsToggle');
-            const deliveryFields = document.getElementById('deliveryFields');
-            
-            if (isLoggedIn && savedUserData.name) {
-                // Show saved details toggle
-                savedToggle.style.display = 'flex';
-                document.getElementById('savedDetailsSummary').textContent = 
-                    `${savedUserData.name} • ${savedUserData.phone}${savedUserData.barangay ? ' • ' + savedUserData.barangay : ''}`;
-                
-                // Default to using saved details
-                usingSavedDetails = true;
-                useSavedDetails(true);
-            } else {
-                // Not logged in - hide toggle, show form
-                savedToggle.style.display = 'none';
-                deliveryFields.style.display = 'block';
-                usingSavedDetails = false;
-                
-                // Clear form
-                document.getElementById('customerName').value = '';
-                document.getElementById('customerPhone').value = '';
-                document.getElementById('customerEmail').value = '';
-                document.getElementById('customerAddress').value = '';
-                document.getElementById('customerBarangay').value = '';
-            }
-            
-            // Reset to COD
-            selectedPayment = 'COD';
-            document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
-            document.querySelector('.payment-option').classList.add('selected');
-            document.querySelector('input[value="COD"]').checked = true;
-            document.getElementById('onlinePaymentSection').style.display = 'none';
-            removeScreenshot();
-            
-            updateCheckoutSummary();
-            document.getElementById('checkoutModal').classList.add('active');
-        }
-        
-        function useSavedDetails(useSaved) {
-            usingSavedDetails = useSaved;
-            const toggleOptions = document.querySelectorAll('.toggle-option');
-            const deliveryFields = document.getElementById('deliveryFields');
-            
-            toggleOptions.forEach((opt, i) => {
-                opt.classList.toggle('active', (useSaved && i === 0) || (!useSaved && i === 1));
-            });
-            
-            if (useSaved && savedUserData) {
-                // Hide form, use saved data
-                deliveryFields.style.display = 'none';
-                
-                // Fill hidden fields with saved data
-                document.getElementById('customerName').value = savedUserData.name;
-                document.getElementById('customerPhone').value = savedUserData.phone;
-                document.getElementById('customerEmail').value = savedUserData.email;
-                document.getElementById('customerAddress').value = savedUserData.address;
-                document.getElementById('customerBarangay').value = savedUserData.barangay;
-            } else {
-                // Show form for new details
-                deliveryFields.style.display = 'block';
-                
-                // Clear form for new entry
-                document.getElementById('customerName').value = '';
-                document.getElementById('customerPhone').value = '';
-                document.getElementById('customerEmail').value = '';
-                document.getElementById('customerAddress').value = '';
-                document.getElementById('customerBarangay').value = '';
-            }
-        }
-
-        function selectPayment(method, element) {
-            selectedPayment = method;
-            document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
-            element.classList.add('selected');
-            element.querySelector('input').checked = true;
-            
-            const onlineSection = document.getElementById('onlinePaymentSection');
-            const isOnlinePayment = method !== 'COD';
-            
-            if (isOnlinePayment) {
-                // Show online payment section
-                onlineSection.style.display = 'block';
-                
-                // Update title based on method
-                const titles = {
-                    GCash: '📱 GCash Payment',
-                    PayMaya: '💳 PayMaya Payment',
-                    BankTransfer: '🏦 Bank Transfer'
-                };
-                document.getElementById('paymentMethodTitle').textContent = titles[method] || 'Payment Details';
-                
-                // Populate payment accounts
-                const accountsHtml = (paymentAccounts[method] || []).map(acc => `
-                    <div class="payment-account">
-                        <span class="account-label">${acc.label}</span>
-                        <span class="account-number">${acc.number}</span>
-                        <span class="account-name">${acc.name}</span>
-                    </div>
-                `).join('');
-                document.getElementById('paymentAccounts').innerHTML = accountsHtml;
-            } else {
-                onlineSection.style.display = 'none';
-                removeScreenshot();
-            }
-            
-            updateCheckoutSummary();
-        }
-
-        function updateCheckoutSummary() {
-            const subtotal = cart.reduce((sum, item) => sum + (item.Price * item.Quantity), 0);
-            
-            // 5% fee for online payments (GCash, PayMaya, Bank Transfer), 0% for COD
-            const isOnlinePayment = selectedPayment !== 'COD';
-            const fee = isOnlinePayment ? Math.round(subtotal * 0.05) : 0;
-            const total = subtotal + fee;
-            
-            // Update checkout items
-            document.getElementById('checkoutItems').innerHTML = cart.map(item => `
-                <div class="summary-item">
-                    <span>${item.Name} x${item.Quantity}</span>
-                    <span>P${(item.Price * item.Quantity).toLocaleString()}</span>
-                </div>
-            `).join('');
-            
-            document.getElementById('summarySubtotal').textContent = 'P' + subtotal.toLocaleString();
-            
-            const feeRow = document.getElementById('feeRow');
-            const feeNote = document.getElementById('feeNote');
-            
-            if (isOnlinePayment) {
-                const methodNames = { GCash: 'GCash', PayMaya: 'PayMaya', BankTransfer: 'Bank Transfer' };
-                feeRow.classList.remove('zero');
-                feeRow.innerHTML = `<span>Platform Fee (5%)</span><span id="summaryFee">P${fee.toLocaleString()}</span>`;
-                feeNote.className = 'fee-note online';
-                feeNote.innerHTML = `${methodNames[selectedPayment] || 'Online'} payments include a 5% platform fee. Upload your payment screenshot for faster verification.`;
-            } else {
-                feeRow.classList.add('zero');
-                feeRow.innerHTML = `<span>Platform Fee</span><span id="summaryFee" style="color:#10b981;">FREE</span>`;
-                feeNote.className = 'fee-note';
-                feeNote.innerHTML = 'COD orders have no platform fee. You pay the exact product price to the merchant upon delivery.';
-            }
-            
-            document.getElementById('summaryTotal').textContent = 'P' + total.toLocaleString();
-        }
-
-        async function placeOrder(e) {
-            e.preventDefault();
-            
-            const btn = document.getElementById('placeOrderBtn');
-            btn.disabled = true;
-            btn.textContent = 'Processing...';
-            
-            const subtotal = cart.reduce((sum, item) => sum + (item.Price * item.Quantity), 0);
-            const isOnlinePayment = selectedPayment !== 'COD';
-            const fee = isOnlinePayment ? Math.round(subtotal * 0.05) : 0;
-            const total = subtotal + fee;
-            
-            const orderData = {
-                action: 'createOrder',
-                customerName: document.getElementById('customerName').value,
-                customerPhone: document.getElementById('customerPhone').value,
-                customerEmail: document.getElementById('customerEmail').value || '',
-                customerAddress: document.getElementById('customerAddress').value,
-                barangay: document.getElementById('customerBarangay').value,
-                deliveryNotes: document.getElementById('deliveryNotes').value || '',
-                paymentMethod: selectedPayment,
-                paymentScreenshot: paymentScreenshot ? paymentScreenshot.data : null,
-                items: cart.map(item => ({
-                    productId: item.ProductId,
-                    merchantId: item.MerchantId,
-                    name: item.Name,
-                    price: item.Price,
-                    quantity: item.Quantity
-                })),
-                subtotal: subtotal,
-                platformFee: fee,
-                total: total
-            };
-            
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify(orderData)
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    // Clear cart
-                    cart = [];
-                    saveCart();
-                    updateCartUI();
-                    
-                    // Close checkout, show success
-                    closeModal('checkoutModal');
-                    
-                    // Show success with order details
-                    document.getElementById('successOrderId').textContent = result.orderId;
-                    const paymentLabels = { 
-                        COD: 'Cash on Delivery', 
-                        GCash: 'GCash', 
-                        PayMaya: 'PayMaya', 
-                        BankTransfer: 'Bank Transfer' 
-                    };
-                    document.getElementById('successPayment').textContent = paymentLabels[selectedPayment] || selectedPayment;
-                    document.getElementById('successTotal').textContent = 'P' + total.toLocaleString();
-                    document.getElementById('trackOrderBtn').href = '/track?id=' + result.orderId;
-                    
-                    document.getElementById('successModal').classList.add('active');
-                } else {
-                    alert('Error: ' + (result.error || 'Unable to place order'));
-                    btn.disabled = false;
-                    btn.textContent = 'Place Order';
-                }
-            } catch (error) {
-                console.error('Order error:', error);
-                alert('Network error. Please try again.');
-                btn.disabled = false;
-                btn.textContent = 'Place Order';
-            }
-        }
-
-        // Screenshot handling functions
-        function handleScreenshot(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            if (!file.type.startsWith('image/')) {
-                showToast('Please upload an image file');
-                return;
-            }
-            
-            if (file.size > 5 * 1024 * 1024) {
-                showToast('Image must be less than 5MB');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                paymentScreenshot = {
-                    name: file.name,
-                    type: file.type,
-                    data: e.target.result
-                };
-                
-                const uploadArea = document.getElementById('screenshotUpload');
-                const preview = document.getElementById('screenshotPreview');
-                const nameEl = document.getElementById('screenshotName');
-                
-                uploadArea.classList.add('has-file');
-                preview.src = e.target.result;
-                nameEl.textContent = '✓ ' + file.name;
-                document.getElementById('removeScreenshot').style.display = 'inline-block';
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        function removeScreenshot() {
-            paymentScreenshot = null;
-            document.getElementById('screenshotInput').value = '';
-            document.getElementById('screenshotUpload').classList.remove('has-file');
-            document.getElementById('screenshotPreview').src = '';
-            document.getElementById('screenshotName').textContent = '';
-            document.getElementById('removeScreenshot').style.display = 'none';
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
-        function closeSuccessAndReload() {
-            closeModal('successModal');
-            location.reload();
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        // Close modals on overlay click
-        document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', e => {
-                if (e.target === overlay) overlay.classList.remove('active');
-            });
-        });
-    </script>
+document.addEventListener('DOMContentLoaded',()=>{initTabs();renderCats();loadProducts();renderServices();renderStays();updateCart();checkLogin();setMinDates();initTimeSlots()});
+function setMinDates(){const t=new Date().toISOString().split('T')[0];document.querySelectorAll('input[type="date"]').forEach(i=>i.min=t)}
+function initTimeSlots(){document.getElementById('timeSlots').innerHTML=['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'].map(t=>`<div class="time-slot" onclick="pickTime('${t}')">${fmtTime(t)}</div>`).join('')}
+function fmtTime(t){const h=+t.split(':')[0];return h<12?`${h} AM`:h===12?'12 PM':`${h-12} PM`}
+function initTabs(){document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>switchTab(t.dataset.tab))}
+function switchTab(tab){curTab=tab;curCat='all';document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===tab));document.querySelectorAll('.section').forEach(s=>s.classList.toggle('hide',s.id!==tab));window.scrollTo({top:0,behavior:'smooth'});renderCats()}
+function renderCats(){const c=curTab==='products'?PROD_CATS:curTab==='services'?SVC_CATS:STAY_CATS;const id=curTab==='products'?'prodCats':curTab==='services'?'svcCats':'stayCats';document.getElementById(id).innerHTML=c.map(x=>`<button class="cat${x.id===curCat?' on':''}" onclick="filterCat('${x.id}')">${x.i} ${x.n}</button>`).join('')}
+function filterCat(cat){curCat=cat;renderCats();curTab==='products'?renderProducts():curTab==='services'?renderServices():renderStays()}
+async function loadProducts(){try{const[p,m]=await Promise.all([fetch(`${API}?action=getProducts`),fetch(`${API}?action=getMerchants`)]);const pd=await p.json(),md=await m.json();if(pd.success){products=pd.data||[];document.getElementById('prodCount').textContent=products.length}if(md.success){md.data.forEach(x=>merchants[x.MerchantId]=x);document.getElementById('shopCount').textContent=md.data.length}renderProducts()}catch(e){document.getElementById('prodGrid').innerHTML='<div class="empty"><div class="i">😕</div><h3>Error</h3></div>'}}
+function renderProducts(){const g=document.getElementById('prodGrid');let list=curCat==='all'?products:products.filter(p=>p.Category&&p.Category.includes(curCat));if(!list.length){g.innerHTML='<div class="empty"><div class="i">📦</div><h3>No products</h3></div>';return}g.innerHTML=list.map(p=>{const m=merchants[p.MerchantId]||{},img=p.Image||p.ImageUrl||'',stk=p.StockLevel||999;return`<div class="card"><div class="card-img">${img?`<img src="${img}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=ph>📦</div>'">`:'<div class="ph">📦</div>'}${stk>0&&stk<=5?'<span class="card-badge">Low</span>':''}</div><div class="card-body"><div class="card-shop">${m.BusinessName||'Local Shop'}</div><div class="card-name">${p.Name}</div><div class="card-meta"><span class="stars">★★★★★</span></div><div class="card-price">₱${(+p.Price).toLocaleString()}</div><button class="btn btn-p" onclick="addCart('${p.ProductId}')" ${stk<=0?'disabled':''}>${stk>0?'Add to Cart':'Out'}</button></div></div>`}).join('')}
+function renderServices(){const g=document.getElementById('svcGrid');let list=curCat==='all'?SVCS:SVCS.filter(s=>s.c===curCat);const icons={Laundry:'🧺',Beauty:'💅',Massage:'💆','Home Repair':'🔨',Cleaning:'🧹',Automotive:'🚗',Tech:'💻',Pet:'🐕',Events:'🎉',Tutoring:'📚'};g.innerHTML=list.map(s=>`<div class="card"><div class="card-img"><div class="ph">${icons[s.c]||'🔧'}</div></div><div class="card-body"><div class="card-shop">Provider Available</div><div class="card-name">${s.n}</div><div class="svc-info"><span class="svc-dur">⏱️ ${s.d}</span><span class="stars">★★★★★</span></div><div class="svc-type">${s.h?'<span class="home">🏠 Home</span>':''}${s.s?'<span class="shop">🏪 Shop</span>':''}</div><div class="card-price">₱${s.p}<span class="unit">${s.u}</span></div><button class="btn btn-p" onclick="bookSvc('${s.id}')">Book</button></div></div>`).join('')}
+function renderStays(){const g=document.getElementById('stayGrid');let list=curCat==='all'?STAYS:STAYS.filter(s=>s.t===curCat);const icons={'Private Pool':'🏊','Rest House':'🏡',Resort:'🏨','Farm Stay':'🌾',Cabin:'🛖',Venue:'🎪'};g.innerHTML=list.map(s=>`<div class="card"><div class="card-img"><div class="ph">${icons[s.t]||'🏠'}</div></div><div class="card-body"><div class="card-shop">📍 ${s.l}</div><div class="card-name">${s.n}</div><div class="stay-feat"><span>👥${s.g}</span><span>🛏️${s.b}</span><span>🚿${s.ba}</span></div><div class="card-meta"><span class="stars">★★★★★</span></div><div class="stay-amen">${s.a.slice(0,3).join(' • ')}</div><div class="card-price">₱${s.r.toLocaleString()}<span class="unit">/night</span></div><button class="btn btn-p" onclick="bookStay('${s.id}')">Book</button></div></div>`).join('')}
+function debounceSearch(q){clearTimeout(searchTimer);searchTimer=setTimeout(()=>doSearch(q),300)}
+function doSearch(q){q=q.toLowerCase().trim();if(!q){renderProducts();renderServices();renderStays();return}if(curTab==='products'){const tmp=products;products=products.filter(p=>p.Name.toLowerCase().includes(q));renderProducts();products=tmp}else if(curTab==='services'){const list=SVCS.filter(s=>s.n.toLowerCase().includes(q)||s.c.toLowerCase().includes(q));document.getElementById('svcGrid').innerHTML=list.length?list.map(s=>`<div class="card"><div class="card-img"><div class="ph">🔧</div></div><div class="card-body"><div class="card-shop">Provider</div><div class="card-name">${s.n}</div><div class="svc-info"><span class="svc-dur">⏱️ ${s.d}</span></div><div class="svc-type">${s.h?'<span class="home">🏠</span>':''}${s.s?'<span class="shop">🏪</span>':''}</div><div class="card-price">₱${s.p}${s.u}</div><button class="btn btn-p" onclick="bookSvc('${s.id}')">Book</button></div></div>`).join(''):'<div class="empty"><div class="i">🔍</div><h3>No results</h3></div>'}else{const list=STAYS.filter(s=>s.n.toLowerCase().includes(q)||s.l.toLowerCase().includes(q));document.getElementById('stayGrid').innerHTML=list.length?list.map(s=>`<div class="card"><div class="card-img"><div class="ph">🏠</div></div><div class="card-body"><div class="card-shop">📍 ${s.l}</div><div class="card-name">${s.n}</div><div class="stay-feat"><span>👥${s.g}</span></div><div class="card-price">₱${s.r.toLocaleString()}/night</div><button class="btn btn-p" onclick="bookStay('${s.id}')">Book</button></div></div>`).join(''):'<div class="empty"><div class="i">🔍</div><h3>No results</h3></div>'}}
+function addCart(id){const p=products.find(x=>x.ProductId===id);if(!p)return;const item=cart.find(x=>x.id===id);if(item)item.qty++;else cart.push({id,name:p.Name,price:p.Price,qty:1,mid:p.MerchantId,img:p.Image||p.ImageUrl});saveCart();updateCart();notify('Added!')}
+function rmCart(id){cart=cart.filter(x=>x.id!==id);saveCart();updateCart()}
+function updQty(id,d){const item=cart.find(x=>x.id===id);if(!item)return;item.qty+=d;if(item.qty<=0){rmCart(id);return}saveCart();updateCart()}
+function saveCart(){localStorage.setItem('cart',JSON.stringify(cart))}
+function updateCart(){const cnt=cart.reduce((s,i)=>s+i.qty,0);document.getElementById('cartCount').textContent=cnt;const el=document.getElementById('cartItems'),ft=document.getElementById('cartFt');if(!cart.length){el.innerHTML='<div class="cart-empty"><div class="i">🛒</div><p>Empty</p></div>';ft.classList.add('hide');return}ft.classList.remove('hide');el.innerHTML=cart.map(i=>`<div class="cart-item"><div class="cart-item-img">${i.img?`<img src="${i.img}">`:'📦'}</div><div class="cart-item-info"><div class="cart-item-name">${i.name}</div><div class="cart-item-price">₱${(+i.price).toLocaleString()}</div><div class="cart-item-qty"><button class="qty-btn" onclick="updQty('${i.id}',-1)">−</button><span>${i.qty}</span><button class="qty-btn" onclick="updQty('${i.id}',1)">+</button></div></div><button class="cart-item-rm" onclick="rmCart('${i.id}')">×</button></div>`).join('');const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);document.getElementById('cartSub').textContent=`₱${sub.toLocaleString()}`;document.getElementById('cartTot').textContent=`₱${(sub+50).toLocaleString()}`}
+function toggleCart(){document.getElementById('overlay').classList.toggle('on');document.getElementById('cartSide').classList.toggle('on')}
+function checkout(){if(!cart.length)return;toggleCart();document.getElementById('checkoutModal').classList.add('on');updCheckout();autoFill()}
+function closeModal(id){document.getElementById(id).classList.remove('on')}
+function selPay(m){selPayment=m;document.querySelectorAll('.pay-opt').forEach(o=>o.classList.toggle('sel',o.onclick.toString().includes(m)));const info=document.getElementById('payInfo'),feeRow=document.getElementById('feeRow');if(m==='cod'){info.classList.add('hide');feeRow.classList.add('hide')}else{info.classList.remove('hide');feeRow.classList.remove('hide');document.getElementById('payDetails').textContent={gcash:'GCash: 0966 960 6060',paymaya:'PayMaya: 0966 960 6060',bank:'BDO: 1234 5678 9012'}[m]}updCheckout()}
+function updCheckout(){const sub=cart.reduce((s,i)=>s+i.price*i.qty,0),fee=selPayment==='cod'?0:Math.round(sub*0.05),tot=sub+50+fee;document.getElementById('checkoutItems').innerHTML=cart.map(i=>`<div class="sum-row"><span>${i.name} x${i.qty}</span><span>₱${(i.price*i.qty).toLocaleString()}</span></div>`).join('');document.getElementById('chkSub').textContent=`₱${sub.toLocaleString()}`;document.getElementById('chkFee').textContent=`₱${fee.toLocaleString()}`;document.getElementById('chkTot').textContent=`₱${tot.toLocaleString()}`}
+function handleUpload(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{screenshot=e.target.result;document.getElementById('uploadLabel').innerHTML=`<div class="i">✅</div><p style="font-size:11px">${f.name}</p><input type="file" id="screenshot" accept="image/*" onchange="handleUpload(this)">`};r.readAsDataURL(f)}
+async function submitOrder(e){e.preventDefault();const btn=document.getElementById('orderBtn');btn.disabled=true;btn.textContent='Processing...';try{if(selPayment!=='cod'&&!screenshot){alert('Upload screenshot');btn.disabled=false;btn.textContent='Place Order';return}const sub=cart.reduce((s,i)=>s+i.price*i.qty,0),fee=selPayment==='cod'?0:Math.round(sub*0.05);const data={action:'createOrder',merchantId:cart[0].mid,customerName:document.getElementById('custName').value,customerPhone:document.getElementById('custPhone').value,customerEmail:document.getElementById('custEmail').value,barangay:document.getElementById('custBrgy').value,deliveryAddress:document.getElementById('custAddr').value,items:cart.map(i=>({productId:i.id,productName:i.name,quantity:i.qty,price:i.price})),subtotal:sub,deliveryFee:50,platformFee:fee,total:sub+50+fee,paymentMethod:selPayment,paymentScreenshot:screenshot};const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const result=await res.json();if(result.success){cart=[];saveCart();updateCart();closeModal('checkoutModal');alert(`Order placed!\n\nOrder ID: ${result.orderId}`)}}catch(err){alert('Error: '+err.message)}finally{btn.disabled=false;btn.textContent='Place Order'}}
+function bookSvc(id){selService=SVCS.find(s=>s.id===id);if(!selService)return;document.getElementById('svcDetails').innerHTML=`<div style="background:var(--g1);padding:10px;border-radius:8px"><h3 style="color:var(--p);font-size:15px;margin-bottom:4px">${selService.n}</h3><p style="color:var(--g5);font-size:12px">${selService.c}</p></div>`;document.getElementById('bookSvc').textContent=selService.n;document.getElementById('bookDur').textContent=selService.d;document.getElementById('bookTot').textContent=`₱${selService.p}${selService.u}`;document.getElementById('svcModal').classList.add('on');autoFill()}
+function pickTime(t){selTime=t;document.querySelectorAll('.time-slot').forEach(s=>s.classList.toggle('sel',s.textContent===fmtTime(t)));document.getElementById('selTime').value=t}
+function toggleSvcAddr(){document.getElementById('svcAddr').style.display=document.getElementById('svcLoc').value==='home'?'block':'none'}
+async function submitSvcBooking(e){e.preventDefault();if(!selTime){alert('Select time');return}alert(`Booking submitted!\n\n${selService.n}\nDate: ${document.getElementById('svcDate').value}\nTime: ${fmtTime(selTime)}`);closeModal('svcModal');selService=null;selTime=''}
+function bookStay(id){selStay=STAYS.find(s=>s.id===id);if(!selStay)return;document.getElementById('stayDetails').innerHTML=`<div style="background:var(--g1);padding:10px;border-radius:8px"><h3 style="color:var(--p);font-size:15px;margin-bottom:4px">${selStay.n}</h3><p style="color:var(--g5);font-size:12px">📍 ${selStay.l} • Up to ${selStay.g} guests</p></div>`;document.getElementById('stayProp').textContent=selStay.n;document.getElementById('stayCln').textContent=`₱${selStay.cl.toLocaleString()}`;document.getElementById('stayModal').classList.add('on');autoFill();calcStay()}
+function calcStay(){if(!selStay)return;const inD=new Date(document.getElementById('checkIn').value),outD=new Date(document.getElementById('checkOut').value),type=document.getElementById('stayType').value;let nights=0,accom=0;if(type==='dayuse'){nights=1;accom=Math.round(selStay.r*0.6);document.getElementById('nightsLabel').textContent='Day Use';document.getElementById('stayNights').textContent='1 day'}else if(inD&&outD&&outD>inD){nights=Math.ceil((outD-inD)/(1000*60*60*24));accom=nights*selStay.r;document.getElementById('nightsLabel').textContent='Nights';document.getElementById('stayNights').textContent=`${nights} night${nights>1?'s':''}`}const fee=Math.round(accom*0.12),tot=accom+selStay.cl+fee;document.getElementById('stayAccom').textContent=`₱${accom.toLocaleString()}`;document.getElementById('stayFee').textContent=`₱${fee.toLocaleString()}`;document.getElementById('stayTot').textContent=`₱${tot.toLocaleString()}`}
+async function submitStayBooking(e){e.preventDefault();alert(`Booking submitted!\n\n${selStay.n}\nCheck-in: ${document.getElementById('checkIn').value}\nCheck-out: ${document.getElementById('checkOut').value}`);closeModal('stayModal');selStay=null}
+function checkLogin(){const u=JSON.parse(localStorage.getItem('amadeo_user')||'null');if(u){document.getElementById('loginLink').textContent=(u.Name||u.BusinessName||'User').split(' ')[0];document.getElementById('loginLink').href=u.MerchantId?'/dashboard':'/account'}}
+function autoFill(){const u=JSON.parse(localStorage.getItem('amadeo_user')||'null');if(!u)return;['custName','bookName','guestName'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=u.Name||''});['custPhone','bookPhone','guestPhone'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=u.Phone||''});['custEmail','guestEmail'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=u.Email||''})}
+function notify(msg){const n=document.createElement('div');n.style.cssText='position:fixed;bottom:20px;right:20px;background:var(--p);color:#fff;padding:10px 20px;border-radius:8px;z-index:1000';n.textContent=msg;document.body.appendChild(n);setTimeout(()=>n.remove(),2000)}
+</script>
 </body>
 </html>
