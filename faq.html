@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Amadeo Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0d7377;
+            --primary-dark: #095c5e;
+            --accent: #e8a838;
+            --dark: #1a1a2e;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-500: #6c757d;
+            --gray-700: #495057;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-100);
+            color: var(--dark);
+            line-height: 1.7;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .logo-text {
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .header-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .header-links a:hover { color: var(--accent); }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p { opacity: 0.9; }
+
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Tab Navigation */
+        .faq-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .faq-tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .faq-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .faq-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            display: none;
+        }
+
+        .faq-section.active {
+            display: block;
+        }
+
+        .faq-category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        /* Accordion */
+        .faq-item {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: var(--white);
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-family: 'Inter', sans-serif;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: var(--gray-100);
+        }
+
+        .faq-question.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .faq-icon {
+            font-size: 1.25rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-question.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-answer-content {
+            padding: 1.25rem 1.5rem;
+            color: var(--gray-700);
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .faq-answer-content p {
+            margin-bottom: 0.75rem;
+        }
+
+        .faq-answer-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-answer-content ul {
+            margin: 0.5rem 0 0.5rem 1.5rem;
+        }
+
+        .faq-answer-content li {
+            margin-bottom: 0.25rem;
+        }
+
+        .faq-answer-content strong {
+            color: var(--primary);
+        }
+
+        /* Contact Box */
+        .contact-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 3rem;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .contact-box h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-box p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-method {
+            text-align: center;
+        }
+
+        .contact-method-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-method a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-method a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer a { color: var(--accent); text-decoration: none; }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.75rem; }
+            .faq-tabs { justify-content: center; }
+            .faq-tab { padding: 0.5rem 1rem; font-size: 0.85rem; }
+            .contact-methods { flex-direction: column; gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">🛒</div>
+                <span class="logo-text">Amadeo Marketplace</span>
+            </a>
+            <nav class="header-links">
+                <a href="/">Home</a>
+                <a href="/login">Login</a>
+                <a href="/register">Sell</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Frequently Asked Questions</h1>
+        <p>Everything you need to know about Amadeo Marketplace</p>
+    </section>
+
+    <main class="content">
+        <!-- Tab Navigation -->
+        <div class="faq-tabs">
+            <button class="faq-tab active" onclick="showSection('general')">🏠 General</button>
+            <button class="faq-tab" onclick="showSection('customers')">🛍️ For Customers</button>
+            <button class="faq-tab" onclick="showSection('merchants')">🏪 For Merchants</button>
+            <button class="faq-tab" onclick="showSection('payments')">💳 Payments</button>
+        </div>
+
+        <!-- General Section -->
+        <div class="faq-section active" id="general">
+            <h2 class="faq-category-title">General Questions</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What is Amadeo Marketplace?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Amadeo Marketplace is a local e-commerce platform that connects businesses in Amadeo, Cavite with local customers. Our mission is to <strong>"Keep Amadeo Business in Amadeo"</strong> by making it easy for residents to discover and buy from local merchants.</p>
+                        <p>Instead of scrolling through Facebook groups or ordering from businesses in other towns, you can find everything from water delivery to fresh produce, cakes, and home services — all from your neighbors in Amadeo!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Is Amadeo Marketplace free to use?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>For Customers:</strong> Yes! Browsing and ordering is completely free. You only pay for the products you order.</p>
+                        <p><strong>For Merchants:</strong> There's no upfront cost or monthly fee. We only charge a small 5% commission when you make a sale. Plus, your first 30 days are commission-free!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What products and services are available?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>We have 11 categories of local products and services:</p>
+                        <ul>
+                            <li>💧 Water & Beverages</li>
+                            <li>🎂 Cakes & Pastries</li>
+                            <li>🍔 Food & Snacks</li>
+                            <li>🥬 Fresh Produce</li>
+                            <li>🔧 Home Services</li>
+                            <li>💊 Health & Wellness</li>
+                            <li>🐕 Pet Supplies</li>
+                            <li>💄 Beauty & Personal Care</li>
+                            <li>📱 Electronics</li>
+                            <li>👕 Fashion</li>
+                            <li>💼 Professional Services</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Who runs Amadeo Marketplace?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Amadeo Marketplace is powered by <strong>TYG Services</strong>, a local business automation company based right here in Amadeo, Cavite. We've processed over 100,000 automated transactions and operate 6 automated businesses ourselves.</p>
+                        <p>We built this platform because we understand local business — we ARE local business!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customers Section -->
+        <div class="faq-section" id="customers">
+            <h2 class="faq-category-title">For Customers</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How do I place an order?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>It's easy!</p>
+                        <ul>
+                            <li>1. Browse products on our marketplace</li>
+                            <li>2. Add items to your cart</li>
+                            <li>3. Choose delivery or pickup</li>
+                            <li>4. Enter your details and submit</li>
+                            <li>5. The merchant will confirm your order</li>
+                        </ul>
+                        <p>You'll receive updates via SMS/email about your order status!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Do I need an account to order?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>You can browse without an account, but creating one lets you:</p>
+                        <ul>
+                            <li>Save your delivery address</li>
+                            <li>Track your order history</li>
+                            <li>Get faster checkout</li>
+                            <li>Receive order notifications</li>
+                        </ul>
+                        <p><a href="/signup">Create your free account here →</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How is delivery handled?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Each merchant handles their own delivery. Options vary by merchant:</p>
+                        <ul>
+                            <li><strong>Delivery</strong> - Merchant delivers to your address (delivery fee may apply)</li>
+                            <li><strong>Pickup</strong> - You pick up from merchant's location</li>
+                            <li><strong>Both</strong> - Your choice!</li>
+                        </ul>
+                        <p>Delivery availability and fees are shown on each product listing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What if there's a problem with my order?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>First, contact the merchant directly — their phone number is on your order confirmation.</p>
+                        <p>If you can't resolve it, contact us:</p>
+                        <ul>
+                            <li>📱 0966 960 6060</li>
+                            <li>📧 tygfsb@gmail.com</li>
+                        </ul>
+                        <p>We'll help mediate and find a fair solution!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Merchants Section -->
+        <div class="faq-section" id="merchants">
+            <h2 class="faq-category-title">For Merchants</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How do I register as a merchant?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Registration takes just 5 minutes!</p>
+                        <ul>
+                            <li>1. Go to <a href="/register">amadeomarketplace.com/register</a></li>
+                            <li>2. Fill out your business information</li>
+                            <li>3. Submit for approval</li>
+                            <li>4. We'll review within 24 hours</li>
+                            <li>5. Once approved, start adding products!</li>
+                        </ul>
+                        <p><strong>Requirements:</strong> Must be a legitimate business operating in Amadeo, Cavite.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What are the fees and commissions?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p><strong>Simple and transparent:</strong></p>
+                        <ul>
+                            <li>✅ No registration fee</li>
+                            <li>✅ No monthly fee</li>
+                            <li>✅ First 30 days: <strong>0% commission</strong></li>
+                            <li>✅ After trial: <strong>5% commission</strong> per sale</li>
+                        </ul>
+                        <p><strong>Compare to competitors:</strong></p>
+                        <ul>
+                            <li>Grab Food: 25-30%</li>
+                            <li>FoodPanda: 25-35%</li>
+                            <li>Shopee: 2-6% + fees</li>
+                            <li><strong>Amadeo Marketplace: 5% FLAT</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How and when do I get paid?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Customers pay you directly! We just track the 5% commission.</p>
+                        <p><strong>Commission Settlement:</strong></p>
+                        <ul>
+                            <li>Settlement day: Every Tuesday</li>
+                            <li>Payment method: GCash</li>
+                            <li>Minimum payout: ₱500</li>
+                        </ul>
+                        <p>You keep 95% of every sale!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What tools do merchants get?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Your merchant dashboard includes:</p>
+                        <ul>
+                            <li>📦 Product management (add, edit, delete)</li>
+                            <li>📊 Inventory tracking with low-stock alerts</li>
+                            <li>🛒 Order management</li>
+                            <li>📈 Sales reports and analytics</li>
+                            <li>💰 Commission tracking</li>
+                            <li>📧 Automated email notifications</li>
+                        </ul>
+                        <p>All powered by automation — less manual work for you!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payments Section -->
+        <div class="faq-section" id="payments">
+            <h2 class="faq-category-title">Payments & Orders</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What payment methods are accepted?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Currently supported payment methods:</p>
+                        <ul>
+                            <li><strong>💵 Cash on Delivery (COD)</strong> - Pay when you receive your order</li>
+                            <li><strong>📱 GCash</strong> - Pay via GCash to the merchant</li>
+                        </ul>
+                        <p>Payment is made directly to the merchant, not to the platform.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Can I cancel my order?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Yes, you can cancel orders that haven't been processed yet.</p>
+                        <ul>
+                            <li><strong>Pending orders:</strong> Can be cancelled</li>
+                            <li><strong>Confirmed/Preparing:</strong> Contact merchant to request cancellation</li>
+                            <li><strong>Out for Delivery:</strong> Usually cannot be cancelled</li>
+                        </ul>
+                        <p>If you paid via GCash, refunds are processed within 24-48 hours.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How do merchants settle commissions?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Every Tuesday, we calculate your total commission for completed orders:</p>
+                        <ul>
+                            <li>1. We send you a summary of orders and commission due</li>
+                            <li>2. You send the 5% commission via GCash</li>
+                            <li>3. GCash Number: <strong>0966 960 6060</strong></li>
+                            <li>4. GCash Name: <strong>LEGERYN PIA</strong></li>
+                        </ul>
+                        <p>Minimum settlement amount: ₱500</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Box -->
+        <div class="contact-box">
+            <h3>Still have questions?</h3>
+            <p>We're here to help! Reach out through any of these channels:</p>
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <div class="contact-method-icon">📱</div>
+                    <a href="tel:09669606060">0966 960 6060</a>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-method-icon">📧</div>
+                    <a href="mailto:tygfsb@gmail.com">tygfsb@gmail.com</a>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-method-icon">📘</div>
+                    <a href="https://www.facebook.com/profile.php?id=61584297603857" target="_blank">Facebook Page</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 Amadeo Marketplace | <a href="/">Home</a> | <a href="/terms">Terms</a> | <a href="/privacy">Privacy</a></p>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.faq-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.faq-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Activate clicked tab
+            event.target.classList.add('active');
+        }
+
+        function toggleFaq(button) {
+            const answer = button.nextElementSibling;
+            const isOpen = button.classList.contains('active');
+            
+            // Close all other FAQs in this section
+            const section = button.closest('.faq-section');
+            section.querySelectorAll('.faq-question.active').forEach(q => {
+                q.classList.remove('active');
+                q.nextElementSibling.style.maxHeight = null;
+            });
+            
+            // Toggle current FAQ
+            if (!isOpen) {
+                button.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        }
+    </script>
+</body>
+</html>
