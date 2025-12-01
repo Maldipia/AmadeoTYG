@@ -787,7 +787,7 @@
         newStatus=newStatus||document.getElementById('newStatus')?.value;
         
         try{
-            const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'updateOrderStatus',orderId:selectedOrder.OrderId,status:newStatus})});
+            const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'updateOrderStatus',orderId:selectedOrder.OrderId,status:newStatus})});
             const data=await res.json();
             
             if(data.success){
@@ -846,7 +846,12 @@
         };
         
         try{
-            const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+            const res=await fetch(API,{
+                method:'POST',
+                mode:'cors',
+                headers:{'Content-Type':'text/plain;charset=utf-8'},
+                body:JSON.stringify(data)
+            });
             const result=await res.json();
             
             if(result.success){
@@ -854,7 +859,7 @@
                 closeModal('productModal');
                 await loadProducts();
                 updateDashboard()
-            }else{throw new Error(result.error)}
+            }else{throw new Error(result.error||'Failed to save')}
         }catch(e){alert('Error: '+e.message)}
     }
     
@@ -862,7 +867,7 @@
         if(!confirm('Delete this product?'))return;
         
         try{
-            const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'deleteProduct',productId:id})});
+            const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'deleteProduct',productId:id})});
             const data=await res.json();
             
             if(data.success){
@@ -892,7 +897,7 @@
         };
         
         try{
-            const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+            const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});
             const result=await res.json();
             
             if(result.success){
@@ -940,7 +945,7 @@
         };
         
         try{
-            const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+            const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});
             const result=await res.json();
             
             if(result.success){
@@ -982,7 +987,7 @@
         };
         
         try{
-            const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'updateMerchant',...updated})});
+            const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'updateMerchant',...updated})});
             const data=await res.json();
             
             if(data.success){

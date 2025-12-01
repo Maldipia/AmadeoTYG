@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merchant Login - Amadeo Marketplace</title>
     <style>
-        :root{--p:#0f766e;--pd:#134e4a;--pl:#14b8a6;--r:#ef4444;--g:#22c55e;--g1:#f9fafb;--g2:#e5e7eb;--g5:#6b7280;--g7:#374151;--g9:#111827;--sh:0 4px 6px -1px rgba(0,0,0,0.1)}
+        :root{--p:#0f766e;--pd:#134e4a;--pl:#14b8a6;--r:#ef4444;--g:#22c55e;--o:#f97316;--g1:#f9fafb;--g2:#e5e7eb;--g5:#6b7280;--g7:#374151;--g9:#111827;--sh:0 4px 6px -1px rgba(0,0,0,0.1)}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:system-ui,-apple-system,sans-serif;background:linear-gradient(135deg,var(--pd) 0%,var(--p) 50%,var(--pl) 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
         
-        .container{width:100%;max-width:420px}
+        .container{width:100%;max-width:480px}
         .logo{text-align:center;margin-bottom:30px}
         .logo a{color:#fff;text-decoration:none;font-size:28px;font-weight:700}
         .logo p{color:rgba(255,255,255,.8);font-size:14px;margin-top:8px}
@@ -19,25 +19,36 @@
         .card-header h1{font-size:22px;color:var(--g9);margin-bottom:4px}
         .card-header p{font-size:14px;color:var(--g5)}
         
-        .card-body{padding:24px}
+        .card-body{padding:24px;max-height:75vh;overflow-y:auto}
         .tabs{display:flex;margin-bottom:24px;background:var(--g1);border-radius:8px;padding:4px}
         .tab{flex:1;padding:12px;border:none;background:none;cursor:pointer;font-weight:600;font-size:14px;color:var(--g5);border-radius:6px;transition:all .2s}
         .tab.active{background:#fff;color:var(--p);box-shadow:var(--sh)}
         
-        .form-group{margin-bottom:18px}
+        .form-group{margin-bottom:16px}
         .form-group label{display:block;font-size:13px;font-weight:600;color:var(--g7);margin-bottom:6px}
         .form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--g2);border-radius:8px;font-size:14px;transition:border-color .2s}
         .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--p)}
         .form-group small{display:block;margin-top:4px;font-size:11px;color:var(--g5)}
         
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        @media(max-width:480px){.form-row{grid-template-columns:1fr}}
+        
+        .upload-box{border:2px dashed var(--g2);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--g1)}
+        .upload-box:hover{border-color:var(--p);background:#f0fdfa}
+        .upload-box.has-file{border-color:var(--g);background:#dcfce7}
+        .upload-box .icon{font-size:32px;margin-bottom:8px}
+        .upload-box p{font-size:13px;color:var(--g5);margin-bottom:4px}
+        .upload-box small{font-size:11px;color:var(--g5)}
+        .upload-box input{display:none}
+        .file-list{margin-top:10px;text-align:left}
+        .file-item{display:flex;align-items:center;gap:8px;padding:8px;background:#fff;border-radius:6px;margin-top:6px;font-size:12px}
+        .file-item .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .file-item .remove{color:var(--r);cursor:pointer;padding:2px 6px}
+        
         .btn{width:100%;padding:14px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
         .btn-primary{background:linear-gradient(135deg,var(--p),var(--pl));color:#fff}
         .btn-primary:hover{opacity:.9;transform:translateY(-1px)}
         .btn-primary:disabled{background:var(--g2);color:var(--g5);cursor:not-allowed;transform:none}
-        
-        .divider{text-align:center;margin:24px 0;position:relative}
-        .divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--g2)}
-        .divider span{background:#fff;padding:0 16px;color:var(--g5);font-size:13px;position:relative}
         
         .link{text-align:center;margin-top:20px}
         .link a{color:var(--p);text-decoration:none;font-size:14px;font-weight:500}
@@ -57,6 +68,14 @@
         .benefits ul{list-style:none;font-size:13px;color:var(--g5)}
         .benefits li{padding:6px 0;display:flex;align-items:center;gap:8px}
         .benefits li::before{content:'✓';color:var(--g);font-weight:bold}
+        
+        .required-docs{background:#fef3c7;padding:12px;border-radius:8px;margin-bottom:16px;font-size:12px}
+        .required-docs h5{color:#92400e;margin-bottom:6px;font-size:13px}
+        .required-docs ul{margin-left:16px;color:#92400e}
+        .required-docs li{margin-bottom:2px}
+        
+        .progress-bar{height:4px;background:var(--g2);border-radius:2px;margin-bottom:16px;overflow:hidden}
+        .progress-fill{height:100%;background:var(--p);width:0%;transition:width .3s}
     </style>
 </head>
 <body>
@@ -104,43 +123,79 @@
                 
                 <!-- REGISTER FORM -->
                 <div id="register" class="section">
-                    <form onsubmit="handleRegister(event)">
-                        <div class="form-group">
-                            <label>Business Name *</label>
-                            <input type="text" id="regBusiness" required placeholder="Your store name">
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                    
+                    <form onsubmit="handleRegister(event)" id="registerForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Business Name *</label>
+                                <input type="text" id="regBusiness" required placeholder="Your store name" onchange="updateProgress()">
+                            </div>
+                            <div class="form-group">
+                                <label>Owner Name *</label>
+                                <input type="text" id="regOwner" required placeholder="Your full name" onchange="updateProgress()">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Owner Name *</label>
-                            <input type="text" id="regOwner" required placeholder="Your full name">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" id="regPhone" required placeholder="09XX XXX XXXX" onchange="updateProgress()">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="regEmail" placeholder="your@email.com">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Phone Number *</label>
-                            <input type="tel" id="regPhone" required placeholder="09XX XXX XXXX">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Business Category *</label>
+                                <select id="regCategory" required onchange="updateProgress()">
+                                    <option value="">Select Category</option>
+                                    <option>Food & Beverages</option>
+                                    <option>Fresh Produce</option>
+                                    <option>Groceries</option>
+                                    <option>Health & Beauty</option>
+                                    <option>Home & Living</option>
+                                    <option>Fashion</option>
+                                    <option>Services</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Barangay *</label>
+                                <select id="regBrgy" required onchange="updateProgress()">
+                                    <option value="">Select Barangay</option>
+                                    <option>Barangay I (Poblacion)</option>
+                                    <option>Barangay II (Poblacion)</option>
+                                    <option>Barangay III (Poblacion)</option>
+                                    <option>Dagatan</option>
+                                    <option>Halang</option>
+                                    <option>Maymangga</option>
+                                    <option>Tibig</option>
+                                    <option>Ulo</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="regEmail" placeholder="your@email.com">
+                        
+                        <div class="required-docs">
+                            <h5>📋 Required Documents</h5>
+                            <ul>
+                                <li>DTI / SEC / CDA Registration</li>
+                                <li>Mayor's Permit / Barangay Clearance</li>
+                                <li>Valid ID (Owner)</li>
+                            </ul>
                         </div>
+                        
                         <div class="form-group">
-                            <label>Business Category *</label>
-                            <select id="regCategory" required>
-                                <option value="">Select Category</option>
-                                <option>Food & Beverages</option>
-                                <option>Fresh Produce</option>
-                                <option>Groceries</option>
-                                <option>Health & Beauty</option>
-                                <option>Home & Living</option>
-                                <option>Fashion</option>
-                                <option>Services</option>
-                            </select>
+                            <label>Business Documents *</label>
+                            <div class="upload-box" id="uploadBox" onclick="document.getElementById('regDocs').click()">
+                                <div class="icon">📁</div>
+                                <p>Click to upload documents</p>
+                                <small>DTI, Mayor's Permit, Valid ID (Max 5MB each)</small>
+                                <input type="file" id="regDocs" multiple accept="image/*,.pdf" onchange="handleDocsUpload(this)">
+                            </div>
+                            <div class="file-list" id="fileList"></div>
                         </div>
-                        <div class="form-group">
-                            <label>Barangay *</label>
-                            <select id="regBrgy" required>
-                                <option value="">Select Barangay</option>
-                                <option>Barangay I (Poblacion)</option><option>Barangay II (Poblacion)</option><option>Barangay III (Poblacion)</option><option>Dagatan</option><option>Halang</option><option>Maymangga</option><option>Tibig</option><option>Ulo</option>
-                            </select>
-                        </div>
+                        
                         <button type="submit" class="btn btn-primary" id="regBtn">Create Merchant Account</button>
                     </form>
                     
@@ -170,6 +225,7 @@
     
     <script>
     const API='https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
+    let uploadedDocs = [];
     
     // Check if already logged in
     if(localStorage.getItem('amadeo_merchant')){
@@ -180,7 +236,7 @@
         document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
         document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
         document.getElementById(tab).classList.add('active');
-        document.querySelector(`.tab:${tab==='login'?'first':'last'}-child`).classList.add('active');
+        event.target.classList.add('active');
         hideMessages();
     }
     
@@ -201,6 +257,64 @@
     function hideMessages(){
         document.getElementById('error').style.display='none';
         document.getElementById('success').style.display='none';
+    }
+    
+    function updateProgress(){
+        const fields = ['regBusiness','regOwner','regPhone','regCategory','regBrgy'];
+        let filled = 0;
+        fields.forEach(id => {
+            if(document.getElementById(id).value) filled++;
+        });
+        if(uploadedDocs.length > 0) filled++;
+        const pct = Math.round((filled / 6) * 100);
+        document.getElementById('progressFill').style.width = pct + '%';
+    }
+    
+    function handleDocsUpload(input){
+        const files = Array.from(input.files);
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        
+        files.forEach(file => {
+            if(file.size > maxSize){
+                showError(`File "${file.name}" is too large. Max 5MB.`);
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = e => {
+                uploadedDocs.push({
+                    name: file.name,
+                    type: file.type,
+                    data: e.target.result
+                });
+                renderFileList();
+                updateProgress();
+            };
+            reader.readAsDataURL(file);
+        });
+        
+        // Update upload box style
+        document.getElementById('uploadBox').classList.add('has-file');
+    }
+    
+    function renderFileList(){
+        const list = document.getElementById('fileList');
+        list.innerHTML = uploadedDocs.map((f, i) => `
+            <div class="file-item">
+                <span>📄</span>
+                <span class="name">${f.name}</span>
+                <span class="remove" onclick="removeDoc(${i})">✕</span>
+            </div>
+        `).join('');
+    }
+    
+    function removeDoc(index){
+        uploadedDocs.splice(index, 1);
+        renderFileList();
+        if(uploadedDocs.length === 0){
+            document.getElementById('uploadBox').classList.remove('has-file');
+        }
+        updateProgress();
     }
     
     async function handleLogin(e){
@@ -252,6 +366,13 @@
     
     async function handleRegister(e){
         e.preventDefault();
+        
+        // Validate documents
+        if(uploadedDocs.length === 0){
+            showError('Please upload at least one business document (DTI, Mayor\'s Permit, or Valid ID)');
+            return;
+        }
+        
         const btn=document.getElementById('regBtn');
         btn.disabled=true;
         btn.textContent='Creating account...';
@@ -264,13 +385,15 @@
             phone:document.getElementById('regPhone').value,
             email:document.getElementById('regEmail').value,
             category:document.getElementById('regCategory').value,
-            barangay:document.getElementById('regBrgy').value
+            barangay:document.getElementById('regBrgy').value,
+            documents: uploadedDocs // Array of {name, type, data (base64)}
         };
         
         try{
             const res=await fetch(API,{
                 method:'POST',
-                headers:{'Content-Type':'application/json'},
+                mode:'cors',
+                headers:{'Content-Type':'text/plain;charset=utf-8'},
                 body:JSON.stringify(data)
             });
             const result=await res.json();
@@ -284,12 +407,12 @@
                     Email:data.email,
                     Category:data.category,
                     Barangay:data.barangay,
-                    Status:'Active',
+                    Status:'Pending',
                     CreatedAt:new Date().toISOString()
                 };
                 localStorage.setItem('amadeo_merchant',JSON.stringify(merchant));
-                showSuccess(`Account created! Your Merchant ID: ${result.merchantId}`);
-                setTimeout(()=>window.location.href='/dashboard',2000);
+                showSuccess(`Account created! Your Merchant ID: ${result.merchantId}\n\nYour documents are being reviewed. You'll be notified once approved.`);
+                setTimeout(()=>window.location.href='/dashboard',3000);
             }else{
                 throw new Error(result.error||'Registration failed');
             }
