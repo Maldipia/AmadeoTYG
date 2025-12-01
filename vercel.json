@@ -14,6 +14,9 @@
     { "source": "/how-it-works", "destination": "/how-it-works.html" },
     { "source": "/join", "destination": "/join.html" },
     { "source": "/landing", "destination": "/landing.html" },
-    { "source": "/qr", "destination": "/qr.html" }
+    { "source": "/qr", "destination": "/qr.html" },
+    { "source": "/merchant-login", "destination": "/merchant-login.html" },
+    { "source": "/merchant-register", "destination": "/merchant-register.html" },
+    { "source": "/sell", "destination": "/merchant-login.html" }
   ]
 }
