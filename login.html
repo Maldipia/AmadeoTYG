@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Amadeo Marketplace</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-container { width: 100%; max-width: 420px; }
+        .login-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(15,118,110,0.15); }
+        .logo { text-align: center; margin-bottom: 30px; }
+        .logo h1 { color: #0f766e; font-size: 28px; margin-bottom: 5px; }
+        .logo p { color: #666; font-size: 14px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 30px; }
+        .tab { flex: 1; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; background: white; cursor: pointer; font-weight: 600; color: #666; transition: all 0.3s; }
+        .tab.active { border-color: #0f766e; background: #f0fdfa; color: #0f766e; }
+        .tab:hover:not(.active) { border-color: #14b8a6; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
+        .form-group input:focus { outline: none; border-color: #0f766e; }
+        .remember-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; font-size: 14px; }
+        .remember-row label { display: flex; align-items: center; gap: 8px; cursor: pointer; color: #666; }
+        .remember-row a { color: #0f766e; text-decoration: none; }
+        .login-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(15,118,110,0.3); }
+        .login-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .register-link { text-align: center; margin-top: 25px; padding-top: 25px; border-top: 1px solid #eee; font-size: 14px; color: #666; }
+        .register-link a { color: #0f766e; font-weight: 600; text-decoration: none; }
+        .status { padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; display: none; }
+        .status.error { display: block; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+        .status.success { display: block; background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .home-link { text-align: center; margin-top: 20px; }
+        .home-link a { color: #0f766e; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">
+                <h1>🏪 Amadeo Marketplace</h1>
+                <p>Welcome back!</p>
+            </div>
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('customer')">👤 Customer</button>
+                <button class="tab" onclick="switchTab('merchant')">🏪 Merchant</button>
+            </div>
+            <div class="status" id="status"></div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <input type="hidden" id="loginType" value="customer">
+                <div class="form-group">
+                    <label id="emailLabel">Email or Phone</label>
+                    <input type="text" id="email" required placeholder="Enter email or phone">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required placeholder="Enter password">
+                </div>
+                <div class="remember-row">
+                    <label><input type="checkbox" id="remember"> Remember me</label>
+                    <a href="/forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">Login</button>
+            </form>
+            <div class="register-link">
+                <span id="registerText">Don't have an account?</span> <a href="/register" id="registerLink">Register</a>
+            </div>
+            <div class="home-link"><a href="/">← Back to Marketplace</a></div>
+        </div>
+    </div>
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
+        
+        function switchTab(type) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('loginType').value = type;
+            document.getElementById('emailLabel').textContent = type === 'merchant' ? 'Email' : 'Email or Phone';
+            document.getElementById('email').placeholder = type === 'merchant' ? 'Enter business email' : 'Enter email or phone';
+            document.getElementById('registerText').textContent = type === 'merchant' ? 'Want to sell on Amadeo?' : "Don't have an account?";
+            document.getElementById('registerLink').textContent = type === 'merchant' ? 'Apply as Merchant' : 'Register';
+            document.getElementById('registerLink').href = type === 'merchant' ? '/merchant-register' : '/register';
+            hideStatus();
+        }
+        
+        function showStatus(msg, type) {
+            const el = document.getElementById('status');
+            el.textContent = msg;
+            el.className = 'status ' + type;
+        }
+        
+        function hideStatus() {
+            document.getElementById('status').className = 'status';
+        }
+        
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.textContent = 'Logging in...';
+            hideStatus();
+            
+            const loginType = document.getElementById('loginType').value;
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember').checked;
+            
+            // FIXED: Use correct action names from backend
+            // Backend has: 'merchantLogin' for merchants, 'userLogin' for customers
+            const action = loginType === 'merchant' ? 'merchantLogin' : 'userLogin';
+            
+            console.log('Login attempt:', { action, loginType, email });
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({ 
+                        action: action, 
+                        email: email, 
+                        phone: email, 
+                        password: password 
+                    })
+                });
+                
+                const result = await response.json();
+                console.log('Login response:', result);
+                
+                if (result.success) {
+                    showStatus('Login successful! Redirecting...', 'success');
+                    
+                    // Get user data - backend returns it in 'data' field
+                    const userData = result.data || result.user || result.merchant || {};
+                    console.log('User data to store:', userData);
+                    
+                    // Store in both session and local storage based on remember me
+                    const storage = rememberMe ? localStorage : sessionStorage;
+                    storage.setItem('amadeo_user', JSON.stringify(userData));
+                    storage.setItem('amadeo_token', result.token || 'authenticated');
+                    storage.setItem('amadeo_login_type', loginType);
+                    
+                    // Always store in sessionStorage for current session
+                    sessionStorage.setItem('amadeo_user', JSON.stringify(userData));
+                    sessionStorage.setItem('amadeo_token', result.token || 'authenticated');
+                    sessionStorage.setItem('amadeo_login_type', loginType);
+                    
+                    setTimeout(() => { 
+                        window.location.href = loginType === 'merchant' ? '/dashboard' : '/'; 
+                    }, 1000);
+                } else {
+                    showStatus(result.error || 'Invalid credentials. Please try again.', 'error');
+                    btn.disabled = false;
+                    btn.textContent = 'Login';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showStatus('Connection error. Please check your internet and try again.', 'error');
+                btn.disabled = false;
+                btn.textContent = 'Login';
+            }
+        }
+        
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user');
+            const type = sessionStorage.getItem('amadeo_login_type') || localStorage.getItem('amadeo_login_type');
+            if (user && type) { 
+                try {
+                    const userData = JSON.parse(user);
+                    if (userData && Object.keys(userData).length > 0) {
+                        window.location.href = type === 'merchant' ? '/dashboard' : '/'; 
+                    }
+                } catch(e) {
+                    console.error('Invalid stored data, clearing...');
+                    sessionStorage.clear();
+                    localStorage.removeItem('amadeo_user');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
