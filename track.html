@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order - Amadeo Marketplace</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; min-height: 100vh; }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0f766e 0%, #0f766e 100%);
+            color: white;
+            padding: 15px 20px;
+        }
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 20px; font-weight: 700; }
+        .logo a { color: white; text-decoration: none; }
+        .header a { color: white; text-decoration: none; opacity: 0.9; }
+        .header a:hover { opacity: 1; }
+        
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
+        /* Search Card */
+        .search-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .search-card h1 {
+            color: #0f766e;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .search-card p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .search-form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .search-form input {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+        .search-form input:focus {
+            outline: none;
+            border-color: #0f766e;
+        }
+        .search-form button {
+            padding: 16px 30px;
+            background: linear-gradient(135deg, #0f766e, #0f766e);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .search-form button:hover { opacity: 0.9; }
+        
+        /* Order Card */
+        .order-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: none;
+        }
+        .order-card.active { display: block; }
+        
+        .order-header {
+            background: linear-gradient(135deg, #0f766e 0%, #0f766e 100%);
+            color: white;
+            padding: 25px;
+        }
+        .order-header h2 { font-size: 24px; margin-bottom: 5px; }
+        .order-header .order-id { opacity: 0.9; font-size: 14px; }
+        
+        /* Status Timeline */
+        .status-section {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        .status-current {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .status-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        .status-icon.pending { background: #fef3c7; }
+        .status-icon.confirmed { background: #dbeafe; }
+        .status-icon.preparing { background: #e0e7ff; }
+        .status-icon.delivery { background: #fce7f3; }
+        .status-icon.completed { background: #d1fae5; }
+        .status-icon.cancelled { background: #fee2e2; }
+        .status-text h3 { color: #0f766e; font-size: 20px; }
+        .status-text p { color: #666; font-size: 14px; margin-top: 5px; }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            padding: 0 10px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+            height: 4px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .timeline-step.completed .timeline-dot {
+            background: #10b981;
+            color: white;
+        }
+        .timeline-step.active .timeline-dot {
+            background: #0f766e;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .timeline-step.cancelled .timeline-dot {
+            background: #ef4444;
+            color: white;
+        }
+        .timeline-label {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        .timeline-step.completed .timeline-label,
+        .timeline-step.active .timeline-label {
+            color: #0f766e;
+            font-weight: 600;
+        }
+        
+        /* Order Details */
+        .order-details {
+            padding: 30px;
+        }
+        .detail-section {
+            margin-bottom: 25px;
+        }
+        .detail-section h4 {
+            color: #0f766e;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .detail-row {
+            display: flex;
+            padding: 10px 0;
+        }
+        .detail-row .label {
+            width: 140px;
+            color: #666;
+            font-size: 14px;
+        }
+        .detail-row .value {
+            flex: 1;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        /* Order Items */
+        .order-items {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .order-item:last-child { border-bottom: none; }
+        .item-name { font-weight: 500; color: #333; }
+        .item-qty { color: #666; font-size: 14px; }
+        .item-price { font-weight: 600; color: #0f766e; }
+        
+        .order-totals {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #ddd;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+        .total-row.grand {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f766e;
+        }
+        
+        /* Contact Merchant */
+        .contact-section {
+            padding: 25px 30px;
+            background: #f0fdf4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .contact-info h4 { color: #065f46; margin-bottom: 5px; }
+        .contact-info p { color: #047857; font-size: 14px; }
+        .contact-btn {
+            padding: 12px 25px;
+            background: #10b981;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .contact-btn:hover { background: #059669; }
+        
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 60px;
+            display: none;
+        }
+        .error-state.active { display: block; }
+        .error-state .icon { font-size: 60px; margin-bottom: 20px; }
+        .error-state h3 { color: #333; margin-bottom: 10px; }
+        .error-state p { color: #666; }
+        
+        /* Loading */
+        .loading-state {
+            text-align: center;
+            padding: 60px;
+            display: none;
+        }
+        .loading-state.active { display: block; }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top-color: #0f766e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        .footer a { color: #0f766e; text-decoration: none; }
+        
+        @media (max-width: 600px) {
+            .search-form { flex-direction: column; }
+            .timeline-label { font-size: 10px; }
+            .timeline-dot { width: 32px; height: 32px; font-size: 14px; }
+            .detail-row { flex-direction: column; }
+            .detail-row .label { width: 100%; margin-bottom: 5px; }
+            .contact-section { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo"><a href="/">🏪 Amadeo Marketplace</a></div>
+            <a href="/">← Back to Shop</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Search Card -->
+        <div class="search-card">
+            <h1>📦 Track Your Order</h1>
+            <p>Enter your order ID to see the current status</p>
+            <div class="search-form">
+                <input type="text" id="orderIdInput" placeholder="Enter Order ID (e.g., ORD-XXXXXXXX)">
+                <button onclick="trackOrder()">Track</button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-state" id="loadingState">
+            <div class="spinner"></div>
+            <p>Finding your order...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-state" id="errorState">
+            <div class="icon">🔍</div>
+            <h3>Order Not Found</h3>
+            <p>Please check your order ID and try again</p>
+        </div>
+
+        <!-- Order Card -->
+        <div class="order-card" id="orderCard">
+            <div class="order-header">
+                <h2>Order Status</h2>
+                <div class="order-id" id="displayOrderId">ORD-XXXXXXXX</div>
+            </div>
+
+            <!-- Status Section -->
+            <div class="status-section">
+                <div class="status-current">
+                    <div class="status-icon" id="statusIcon">📦</div>
+                    <div class="status-text">
+                        <h3 id="statusTitle">Order Status</h3>
+                        <p id="statusDescription">Status description</p>
+                    </div>
+                </div>
+
+                <div class="timeline" id="timeline">
+                    <div class="timeline-step" data-status="Pending">
+                        <div class="timeline-dot">📝</div>
+                        <div class="timeline-label">Placed</div>
+                    </div>
+                    <div class="timeline-step" data-status="Confirmed">
+                        <div class="timeline-dot">✅</div>
+                        <div class="timeline-label">Confirmed</div>
+                    </div>
+                    <div class="timeline-step" data-status="Preparing">
+                        <div class="timeline-dot">👨‍🍳</div>
+                        <div class="timeline-label">Preparing</div>
+                    </div>
+                    <div class="timeline-step" data-status="Out for Delivery">
+                        <div class="timeline-dot">🛵</div>
+                        <div class="timeline-label">Delivery</div>
+                    </div>
+                    <div class="timeline-step" data-status="Completed">
+                        <div class="timeline-dot">🎉</div>
+                        <div class="timeline-label">Complete</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Details -->
+            <div class="order-details">
+                <div class="detail-section">
+                    <h4>📍 Delivery Information</h4>
+                    <div class="detail-row">
+                        <div class="label">Customer</div>
+                        <div class="value" id="detailCustomer">-</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Phone</div>
+                        <div class="value" id="detailPhone">-</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Address</div>
+                        <div class="value" id="detailAddress">-</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Barangay</div>
+                        <div class="value" id="detailBarangay">-</div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h4>🛒 Order Items</h4>
+                    <div class="order-items">
+                        <div id="orderItemsList">
+                            <!-- Dynamic items -->
+                        </div>
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span id="totalSubtotal">₱0</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Platform Fee</span>
+                                <span id="totalFee">₱0</span>
+                            </div>
+                            <div class="total-row grand">
+                                <span>Total</span>
+                                <span id="totalGrand">₱0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h4>ℹ️ Order Information</h4>
+                    <div class="detail-row">
+                        <div class="label">Order Date</div>
+                        <div class="value" id="detailDate">-</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Payment Method</div>
+                        <div class="value" id="detailPayment">-</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="label">Payment Status</div>
+                        <div class="value" id="detailPaymentStatus">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <div class="contact-info">
+                    <h4>Need Help?</h4>
+                    <p>Contact us if you have questions about your order</p>
+                </div>
+                <a href="tel:09669606060" class="contact-btn">
+                    📞 Call 0966 960 6060
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 <a href="/">Amadeo Marketplace</a> by TYG Services</p>
+    </footer>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
+
+        // Check URL params on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('id');
+            if (orderId) {
+                document.getElementById('orderIdInput').value = orderId;
+                trackOrder();
+            }
+        });
+
+        async function trackOrder() {
+            const orderId = document.getElementById('orderIdInput').value.trim();
+            if (!orderId) {
+                alert('Please enter an order ID');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loadingState').classList.add('active');
+            document.getElementById('errorState').classList.remove('active');
+            document.getElementById('orderCard').classList.remove('active');
+
+            try {
+                const response = await fetch(SCRIPT_URL + '?action=getOrder&orderId=' + encodeURIComponent(orderId));
+                const result = await response.json();
+
+                document.getElementById('loadingState').classList.remove('active');
+
+                if (result.success && result.data) {
+                    displayOrder(result.data);
+                } else {
+                    document.getElementById('errorState').classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loadingState').classList.remove('active');
+                document.getElementById('errorState').classList.add('active');
+            }
+        }
+
+        function displayOrder(order) {
+            document.getElementById('orderCard').classList.add('active');
+            document.getElementById('displayOrderId').textContent = order.OrderId;
+
+            // Update status
+            const status = order.OrderStatus || 'Pending';
+            updateStatus(status);
+
+            // Update details
+            document.getElementById('detailCustomer').textContent = order.CustomerName || '-';
+            document.getElementById('detailPhone').textContent = order.CustomerPhone || '-';
+            document.getElementById('detailAddress').textContent = order.CustomerAddress || '-';
+            document.getElementById('detailBarangay').textContent = order.Barangay || '-';
+            document.getElementById('detailDate').textContent = formatDate(order.CreatedAt);
+            document.getElementById('detailPayment').textContent = order.PaymentMethod || 'COD';
+            document.getElementById('detailPaymentStatus').textContent = order.PaymentStatus || 'Pending';
+
+            // Update items
+            const items = order.items || [];
+            document.getElementById('orderItemsList').innerHTML = items.map(item => `
+                <div class="order-item">
+                    <div>
+                        <div class="item-name">${item.name || item.Name}</div>
+                        <div class="item-qty">Qty: ${item.quantity || item.Quantity}</div>
+                    </div>
+                    <div class="item-price">₱${((item.price || item.Price) * (item.quantity || item.Quantity)).toLocaleString()}</div>
+                </div>
+            `).join('');
+
+            // Update totals
+            document.getElementById('totalSubtotal').textContent = '₱' + (order.Subtotal || 0).toLocaleString();
+            document.getElementById('totalFee').textContent = '₱' + (order.PlatformFee || 0).toLocaleString();
+            document.getElementById('totalGrand').textContent = '₱' + (order.Total || 0).toLocaleString();
+
+            // Update URL
+            history.replaceState(null, '', '?id=' + order.OrderId);
+        }
+
+        function updateStatus(status) {
+            const statusConfig = {
+                'Pending': {
+                    icon: '📝',
+                    iconClass: 'pending',
+                    title: 'Order Placed',
+                    description: 'Waiting for merchant confirmation'
+                },
+                'Confirmed': {
+                    icon: '✅',
+                    iconClass: 'confirmed',
+                    title: 'Order Confirmed',
+                    description: 'Merchant has accepted your order'
+                },
+                'Preparing': {
+                    icon: '👨‍🍳',
+                    iconClass: 'preparing',
+                    title: 'Preparing Your Order',
+                    description: 'Your order is being prepared'
+                },
+                'Out for Delivery': {
+                    icon: '🛵',
+                    iconClass: 'delivery',
+                    title: 'Out for Delivery',
+                    description: 'Your order is on the way!'
+                },
+                'Delivered': {
+                    icon: '📦',
+                    iconClass: 'completed',
+                    title: 'Delivered',
+                    description: 'Your order has been delivered'
+                },
+                'Completed': {
+                    icon: '🎉',
+                    iconClass: 'completed',
+                    title: 'Order Completed',
+                    description: 'Thank you for your order!'
+                },
+                'Cancelled': {
+                    icon: '❌',
+                    iconClass: 'cancelled',
+                    title: 'Order Cancelled',
+                    description: 'This order has been cancelled'
+                }
+            };
+
+            const config = statusConfig[status] || statusConfig['Pending'];
+
+            document.getElementById('statusIcon').textContent = config.icon;
+            document.getElementById('statusIcon').className = 'status-icon ' + config.iconClass;
+            document.getElementById('statusTitle').textContent = config.title;
+            document.getElementById('statusDescription').textContent = config.description;
+
+            // Update timeline
+            const statusOrder = ['Pending', 'Confirmed', 'Preparing', 'Out for Delivery', 'Completed'];
+            const currentIndex = statusOrder.indexOf(status);
+
+            document.querySelectorAll('.timeline-step').forEach((step, index) => {
+                step.classList.remove('completed', 'active', 'cancelled');
+                
+                if (status === 'Cancelled') {
+                    if (index === 0) step.classList.add('cancelled');
+                } else if (status === 'Delivered') {
+                    step.classList.add('completed');
+                } else if (index < currentIndex) {
+                    step.classList.add('completed');
+                } else if (index === currentIndex) {
+                    step.classList.add('active');
+                }
+            });
+        }
+
+        function formatDate(date) {
+            if (!date) return '-';
+            try {
+                return new Date(date).toLocaleDateString('en-PH', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (e) {
+                return date;
+            }
+        }
+
+        // Enter key to search
+        document.getElementById('orderIdInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') trackOrder();
+        });
+    </script>
+</body>
+</html>

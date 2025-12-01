@@ -8,233 +8,218 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            background: linear-gradient(135deg, #0f766e 0%, #134e4a 50%, #0d5d56 100%);
+            padding: 30px 20px;
         }
-        .container {
+        .register-container {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
-            max-width: 600px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 700px;
             margin: 0 auto;
+            padding: 40px;
         }
-        h1 { text-align: center; color: #0f766e; margin-bottom: 10px; }
-        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
-        .required::after { content: ' *'; color: #dc2626; }
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: #0f766e; }
-        textarea { resize: vertical; min-height: 80px; }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        @media (max-width: 500px) { .row { grid-template-columns: 1fr; } }
-        .categories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        @media (max-width: 500px) { .categories { grid-template-columns: repeat(2, 1fr); } }
-        .category-item { display: flex; align-items: center; gap: 8px; padding: 8px; background: #f8f8f8; border-radius: 6px; cursor: pointer; }
-        .category-item:hover { background: #e0f2f1; }
-        .category-item input { width: 16px; height: 16px; }
-        .terms-box { background: #f8f8f8; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
-        .terms-box h4 { margin-bottom: 10px; color: #0f766e; }
-        .terms-box ul { margin-left: 20px; }
-        .terms-box li { margin-bottom: 5px; }
-        .checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
-        .checkbox-group input { width: 20px; height: 20px; margin-top: 3px; }
-        button[type="submit"] {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #0f766e, #14b8a6);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        button[type="submit"]:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(15, 118, 110, 0.4); }
-        button[type="submit"]:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-        .status-message { padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; display: none; }
-        .status-message.show { display: block; }
-        .status-message.loading { background: #e0f2fe; color: #0369a1; }
-        .status-message.success { background: #d1fae5; color: #065f46; }
-        .status-message.error { background: #fee2e2; color: #dc2626; }
-        .login-link { text-align: center; margin-top: 20px; }
-        .login-link a { color: #0f766e; font-weight: 500; }
+        .register-header { text-align: center; margin-bottom: 30px; }
+        .register-header h1 { font-size: 28px; color: #0f766e; margin-bottom: 8px; }
+        .register-header p { color: #666; }
+        .status-message { padding: 12px 15px; border-radius: 10px; margin-bottom: 20px; display: none; font-size: 14px; }
+        .status-message.error { background: #fee2e2; color: #dc2626; display: block; }
+        .status-message.success { background: #d1fae5; color: #065f46; display: block; }
+        .status-message.loading { background: #ccfbf1; color: #0f766e; display: block; }
+        .section-title { font-size: 16px; color: #0f766e; margin: 25px 0 15px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; font-size: 14px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #0f766e; }
+        .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .category-checkbox { display: flex; align-items: center; gap: 8px; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .category-checkbox:hover { border-color: #0f766e; background: #f0fdfa; }
+        .category-checkbox input { width: 16px; height: 16px; accent-color: #0f766e; }
+        .category-checkbox.checked { border-color: #0f766e; background: #f0fdfa; }
+        .commission-info { background: #f0fdfa; border: 2px solid #14b8a6; border-radius: 12px; padding: 20px; margin: 20px 0; }
+        .commission-info h4 { color: #0f766e; margin-bottom: 10px; }
+        .commission-info ul { margin-left: 20px; color: #333; }
+        .commission-info li { margin: 8px 0; }
+        .terms-check { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; }
+        .terms-check input { width: 18px; height: 18px; margin-top: 2px; accent-color: #0f766e; }
+        .terms-check label { font-size: 13px; color: #666; line-height: 1.4; }
+        .terms-check a { color: #0f766e; }
+        .register-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%); color: white; border: none; border-radius: 12px; font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .register-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15, 118, 110, 0.4); }
+        .register-btn:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+        .login-link { text-align: center; margin-top: 25px; color: #666; }
+        .login-link a { color: #0f766e; font-weight: 600; text-decoration: none; }
+        @media (max-width: 600px) { .form-row, .categories-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏪 Merchant Registration</h1>
-        <p class="subtitle">Join Amadeo Marketplace and grow your business</p>
-        
-        <div id="statusMessage" class="status-message"></div>
-        
+    <div class="register-container">
+        <div class="register-header">
+            <h1>🏪 Become a Merchant</h1>
+            <p>Join Amadeo Marketplace and reach more customers</p>
+        </div>
+        <div class="status-message" id="statusMessage"></div>
         <form id="registerForm" onsubmit="handleRegister(event)">
-            <div class="row">
+            <div class="section-title">📋 Business Information</div>
+            <div class="form-row">
                 <div class="form-group">
-                    <label class="required">Business Name</label>
-                    <input type="text" id="businessName" required placeholder="Your Business Name">
+                    <label>Business Name *</label>
+                    <input type="text" id="businessName" required placeholder="Your store name">
                 </div>
                 <div class="form-group">
-                    <label class="required">Owner Name</label>
-                    <input type="text" id="ownerName" required placeholder="Full Name">
+                    <label>Owner Name *</label>
+                    <input type="text" id="ownerName" required placeholder="Full name">
                 </div>
             </div>
-            
-            <div class="row">
+            <div class="form-row">
                 <div class="form-group">
-                    <label class="required">Email Address</label>
-                    <input type="email" id="email" required placeholder="your@email.com">
+                    <label>Email Address *</label>
+                    <input type="email" id="email" required placeholder="business@email.com">
                 </div>
                 <div class="form-group">
-                    <label class="required">Phone Number</label>
+                    <label>Phone Number *</label>
                     <input type="tel" id="phone" required placeholder="09XX XXX XXXX">
                 </div>
             </div>
-            
-            <div class="row">
-                <div class="form-group">
-                    <label class="required">GCash Number</label>
-                    <input type="tel" id="gcashNumber" required placeholder="09XX XXX XXXX">
-                </div>
-                <div class="form-group">
-                    <label class="required">GCash Name</label>
-                    <input type="text" id="gcashName" required placeholder="Name on GCash">
-                </div>
-            </div>
-            
             <div class="form-group">
-                <label class="required">Business Address</label>
+                <label>Business Address *</label>
                 <input type="text" id="address" required placeholder="Complete address in Amadeo">
             </div>
             
-            <div class="form-group">
-                <label class="required">Business Categories (select all that apply)</label>
-                <div class="categories">
-                    <label class="category-item"><input type="checkbox" name="category" value="Water"> Water</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Food"> Food</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Coffee"> Coffee</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Bakery"> Bakery</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Rice"> Rice</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Meat"> Meat</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Produce"> Produce</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Grocery"> Grocery</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Services"> Services</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Hardware"> Hardware</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Health"> Health</label>
-                    <label class="category-item"><input type="checkbox" name="category" value="Other"> Other</label>
+            <div class="section-title">💳 Payment Information (for settlements)</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>GCash Number *</label>
+                    <input type="tel" id="gcashNumber" required placeholder="09XX XXX XXXX">
+                </div>
+                <div class="form-group">
+                    <label>GCash Account Name *</label>
+                    <input type="text" id="gcashName" required placeholder="As registered in GCash">
                 </div>
             </div>
             
-            <div class="form-group">
-                <label>Business Description</label>
-                <textarea id="description" placeholder="Tell customers about your business..."></textarea>
+            <div class="section-title">🏷️ Business Category</div>
+            <p style="color:#666;font-size:14px;margin-bottom:15px;">Select all that apply:</p>
+            <div class="categories-grid" id="categoriesGrid">
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Water"> 💧 Water</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Food"> 🍱 Food</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Coffee"> ☕ Coffee</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Bakery"> 🥖 Bakery</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Rice"> 🌾 Rice</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Meat"> 🥩 Meat</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Produce"> 🥬 Produce</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Grocery"> 🛒 Grocery</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Services"> 🔧 Services</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Hardware"> 🔨 Hardware</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Health"> 💊 Health</label>
+                <label class="category-checkbox"><input type="checkbox" name="category" value="Other"> 📦 Other</label>
             </div>
             
-            <div class="row">
+            <div class="form-group full" style="margin-top:20px;">
+                <label>Business Description</label>
+                <textarea id="description" rows="3" placeholder="Describe your products/services"></textarea>
+            </div>
+            
+            <div class="section-title">🔐 Account Security</div>
+            <div class="form-row">
                 <div class="form-group">
-                    <label class="required">Password</label>
+                    <label>Password *</label>
                     <input type="password" id="password" required minlength="6" placeholder="Min 6 characters">
                 </div>
                 <div class="form-group">
-                    <label class="required">Confirm Password</label>
-                    <input type="password" id="confirmPassword" required placeholder="Confirm password">
+                    <label>Confirm Password *</label>
+                    <input type="password" id="confirmPassword" required placeholder="Re-enter password">
                 </div>
             </div>
             
-            <div class="terms-box">
-                <h4>📋 Commission Terms</h4>
+            <div class="commission-info">
+                <h4>💰 Commission Structure</h4>
                 <ul>
-                    <li><strong>5% commission</strong> on completed orders</li>
+                    <li><strong>5% commission</strong> on all marketplace sales</li>
                     <li><strong>First 30 days FREE</strong> - 0% commission!</li>
-                    <li>Weekly settlement via GCash (every Tuesday)</li>
+                    <li>Weekly settlement via GCash</li>
                     <li>Minimum payout: ₱100</li>
                 </ul>
             </div>
             
-            <div class="checkbox-group">
+            <div class="terms-check">
                 <input type="checkbox" id="agreeTerms" required>
-                <label for="agreeTerms">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>, including the commission structure above.</label>
+                <label for="agreeTerms">I agree to the <a href="/terms">Terms of Service</a>, <a href="/privacy">Privacy Policy</a>, and the commission structure above</label>
             </div>
             
-            <button type="submit" id="submitBtn">Submit Registration</button>
+            <button type="submit" class="register-btn" id="registerBtn">Submit Application</button>
         </form>
-        
-        <p class="login-link">Already have an account? <a href="/login">Login here</a></p>
+        <div class="login-link">Already a merchant? <a href="/login">Login here</a></div>
     </div>
-
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
-
-        function showStatus(type, message) {
+        
+        document.querySelectorAll('.category-checkbox input').forEach(cb => {
+            cb.addEventListener('change', function() {
+                this.closest('.category-checkbox').classList.toggle('checked', this.checked);
+            });
+        });
+        
+        function showStatus(message, type) {
             const el = document.getElementById('statusMessage');
-            el.className = 'status-message show ' + type;
-            el.innerHTML = message;
+            el.textContent = message;
+            el.className = 'status-message ' + type;
             el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-
-        async function handleRegister(event) {
-            event.preventDefault();
-            
-            const btn = document.getElementById('submitBtn');
+        
+        async function handleRegister(e) {
+            e.preventDefault();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) { showStatus('Passwords do not match', 'error'); return; }
+            if (password.length < 6) { showStatus('Password must be at least 6 characters', 'error'); return; }
             
-            // Validate passwords match
-            if (password !== confirmPassword) {
-                showStatus('error', '❌ Passwords do not match!');
-                return;
-            }
-            
-            // Get selected categories
             const categories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(cb => cb.value);
-            if (categories.length === 0) {
-                showStatus('error', '❌ Please select at least one category!');
-                return;
-            }
+            if (categories.length === 0) { showStatus('Please select at least one category', 'error'); return; }
             
-            showStatus('loading', '⏳ Submitting registration...');
+            const btn = document.getElementById('registerBtn');
             btn.disabled = true;
+            btn.textContent = 'Submitting...';
+            showStatus('Submitting your application...', 'loading');
             
-            const formData = {
-                action: 'registerMerchant',
-                businessName: document.getElementById('businessName').value,
-                ownerName: document.getElementById('ownerName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                category: categories[0],
-                services: categories.join(', '),
-                address: document.getElementById('address').value,
-                description: 'GCash: ' + document.getElementById('gcashNumber').value + ' (' + document.getElementById('gcashName').value + ') | ' + document.getElementById('description').value,
-                password: password
-            };
+            const gcashInfo = `GCash: ${document.getElementById('gcashNumber').value} (${document.getElementById('gcashName').value})`;
+            const description = document.getElementById('description').value;
             
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify({
+                        action: 'registerMerchant',
+                        businessName: document.getElementById('businessName').value,
+                        ownerName: document.getElementById('ownerName').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        address: document.getElementById('address').value,
+                        category: categories[0],
+                        services: categories.join(', '),
+                        description: description + ' | ' + gcashInfo,
+                        password: password
+                    })
                 });
-                
                 const result = await response.json();
-                
                 if (result.success) {
-                    showStatus('success', '🎉 <strong>Registration Successful!</strong><br>Your Merchant ID: <strong>' + result.merchantId + '</strong><br>We will review your application and contact you soon!');
+                    showStatus('✅ Application submitted! Your Merchant ID: ' + result.merchantId + '. We will review and contact you within 24-48 hours.', 'success');
                     document.getElementById('registerForm').reset();
+                    document.querySelectorAll('.category-checkbox').forEach(cb => cb.classList.remove('checked'));
                 } else {
-                    showStatus('error', '❌ ' + (result.error || 'Registration failed. Please try again.'));
+                    showStatus(result.error || 'Registration failed', 'error');
                     btn.disabled = false;
+                    btn.textContent = 'Submit Application';
                 }
             } catch (error) {
-                showStatus('error', '❌ Connection error. Please try again.');
+                showStatus('Connection error. Please try again.', 'error');
                 btn.disabled = false;
+                btn.textContent = 'Submit Application';
             }
         }
     </script>

@@ -8,163 +8,178 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
             min-height: 100vh;
+            background: linear-gradient(135deg, #0f766e 0%, #134e4a 50%, #0d5d56 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-        .container {
+        .login-container {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
             width: 100%;
-            max-width: 420px;
+            max-width: 450px;
+            padding: 40px;
         }
-        h1 { text-align: center; color: #0f766e; margin-bottom: 10px; font-size: 28px; }
-        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
-        .tabs { display: flex; margin-bottom: 30px; border-radius: 10px; overflow: hidden; border: 2px solid #0f766e; }
-        .tab { flex: 1; padding: 12px; text-align: center; cursor: pointer; font-weight: 600; transition: all 0.3s; background: white; color: #0f766e; border: none; font-size: 15px; }
-        .tab.active { background: #0f766e; color: white; }
+        .login-header { text-align: center; margin-bottom: 30px; }
+        .login-header h1 { font-size: 32px; color: #0f766e; font-style: italic; margin-bottom: 8px; }
+        .login-header p { color: #666; }
+        .login-tabs { display: flex; background: #f0f0f0; border-radius: 12px; padding: 5px; margin-bottom: 25px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: transparent; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 500; color: #666; transition: all 0.3s; }
+        .tab-btn.active { background: white; color: #0f766e; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .tab-btn:hover:not(.active) { color: #0f766e; }
+        .status-message { padding: 12px 15px; border-radius: 10px; margin-bottom: 20px; display: none; font-size: 14px; }
+        .status-message.error { background: #fee2e2; color: #dc2626; display: block; }
+        .status-message.success { background: #d1fae5; color: #065f46; display: block; }
+        .status-message.loading { background: #ccfbf1; color: #0f766e; display: block; }
         .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
-        input[type="email"], input[type="password"], input[type="text"] { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
-        input:focus { outline: none; border-color: #0f766e; }
-        .password-wrapper { position: relative; }
-        .toggle-password { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; }
-        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-        .checkbox-group input { width: 18px; height: 18px; }
-        button[type="submit"] { width: 100%; padding: 16px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-        button[type="submit"]:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(15, 118, 110, 0.4); }
-        button[type="submit"]:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-        .status-message { padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; display: none; }
-        .status-message.show { display: block; }
-        .status-message.loading { background: #e0f2fe; color: #0369a1; }
-        .status-message.success { background: #d1fae5; color: #065f46; }
-        .status-message.error { background: #fee2e2; color: #dc2626; }
-        .links { text-align: center; margin-top: 25px; padding-top: 25px; border-top: 1px solid #eee; }
-        .links a { color: #0f766e; text-decoration: none; font-weight: 500; }
-        .register-links { display: flex; gap: 15px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
-        .register-links a { padding: 10px 20px; border-radius: 8px; font-size: 14px; }
-        .register-links a.customer { background: #f0fdfa; color: #0f766e; border: 1px solid #0f766e; }
-        .register-links a.merchant { background: #fef3c7; color: #b45309; border: 1px solid #b45309; }
-        .forgot-link { text-align: right; margin-bottom: 20px; }
-        .forgot-link a { color: #0f766e; text-decoration: none; font-size: 14px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .input-wrapper { position: relative; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; transition: border-color 0.3s; background: #f9fafb; }
+        .form-group input:focus { outline: none; border-color: #0f766e; background: white; }
+        .toggle-password { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; opacity: 0.5; }
+        .toggle-password:hover { opacity: 1; }
+        .form-options { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; font-size: 14px; }
+        .remember-me { display: flex; align-items: center; gap: 8px; color: #666; }
+        .remember-me input { width: 16px; height: 16px; accent-color: #0f766e; }
+        .forgot-link { color: #0f766e; text-decoration: none; font-weight: 500; }
+        .forgot-link:hover { text-decoration: underline; }
+        .login-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%); color: white; border: none; border-radius: 12px; font-size: 17px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15, 118, 110, 0.4); }
+        .login-btn:disabled { background: #9ca3af; cursor: not-allowed; transform: none; box-shadow: none; }
+        .divider { display: flex; align-items: center; margin: 30px 0; color: #999; font-size: 14px; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
+        .divider span { padding: 0 15px; }
+        .signup-options { display: flex; gap: 15px; }
+        .signup-btn { flex: 1; padding: 14px; border: 2px solid #e5e7eb; background: white; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 600; transition: all 0.3s; text-decoration: none; text-align: center; color: #0f766e; }
+        .signup-btn:hover { border-color: #0f766e; background: #f0fdfa; }
+        .signup-btn.merchant { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); border-color: #14b8a6; color: #0f766e; }
+        .signup-btn.merchant:hover { background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%); }
+        .back-home { text-align: center; margin-top: 25px; }
+        .back-home a { color: #0f766e; text-decoration: none; font-size: 14px; }
+        .back-home a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome Back</h1>
-        <p class="subtitle">Login to your account</p>
-        
-        <div class="tabs">
-            <button type="button" class="tab active" onclick="switchTab('customer', this)">🛒 Customer</button>
-            <button type="button" class="tab" onclick="switchTab('merchant', this)">🏪 Merchant</button>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Welcome Back</h1>
+            <p>Login to your account</p>
         </div>
-        
-        <div id="statusMessage" class="status-message"></div>
-        
+        <div class="login-tabs">
+            <button class="tab-btn active" onclick="switchTab('customer')">🛒 Customer</button>
+            <button class="tab-btn" onclick="switchTab('merchant')">🏪 Merchant</button>
+        </div>
+        <div class="status-message" id="statusMessage"></div>
         <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" required placeholder="your@email.com">
+                <label id="emailLabel">Email or Phone</label>
+                <input type="text" id="emailInput" placeholder="Enter email or phone" required>
             </div>
-            
             <div class="form-group">
-                <label for="password">Password</label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" required placeholder="Enter password">
-                    <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="passwordInput" placeholder="Enter password" required>
+                    <button type="button" class="toggle-password" onclick="togglePassword()">🔒</button>
                 </div>
             </div>
-            
-            <div class="forgot-link">
-                <a href="/forgot-password">Forgot password?</a>
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    Remember me on this device
+                </label>
+                <a href="/forgot-password" class="forgot-link">Forgot password?</a>
             </div>
-            
-            <div class="checkbox-group">
-                <input type="checkbox" id="rememberMe">
-                <label for="rememberMe" style="margin-bottom: 0; font-weight: normal;">Remember me</label>
-            </div>
-            
-            <button type="submit" id="submitBtn">Login</button>
+            <button type="submit" class="login-btn" id="loginBtn">Login</button>
         </form>
-        
-        <div class="links">
-            <p>Don't have an account?</p>
-            <div class="register-links">
-                <a href="/signup" class="customer">Sign up as Customer</a>
-                <a href="/register" class="merchant">Register as Merchant</a>
-            </div>
+        <div class="divider"><span>or</span></div>
+        <p style="text-align:center;margin-bottom:15px;color:#666;">Don't have an account?</p>
+        <div class="signup-options">
+            <a href="/signup" class="signup-btn">Sign up as<br>Customer</a>
+            <a href="/register" class="signup-btn merchant">Register as<br>Merchant</a>
+        </div>
+        <div class="back-home">
+            <a href="/">← Back to Marketplace</a>
         </div>
     </div>
-
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
-        let currentLoginType = 'customer';
-
-        function switchTab(type, btn) {
-            currentLoginType = type;
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
+        let loginType = 'customer';
+        function switchTab(type) {
+            loginType = type;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const label = document.getElementById('emailLabel');
+            const input = document.getElementById('emailInput');
+            if (type === 'merchant') {
+                label.textContent = 'Email Address';
+                input.placeholder = 'Enter your business email';
+                input.type = 'email';
+            } else {
+                label.textContent = 'Email or Phone';
+                input.placeholder = 'Enter email or phone';
+                input.type = 'text';
+            }
+            hideStatus();
         }
-
         function togglePassword() {
-            const input = document.getElementById('password');
+            const input = document.getElementById('passwordInput');
             const btn = document.querySelector('.toggle-password');
-            input.type = input.type === 'password' ? 'text' : 'password';
-            btn.textContent = input.type === 'password' ? '👁️' : '🔒';
+            if (input.type === 'password') { input.type = 'text'; btn.textContent = '🔓'; }
+            else { input.type = 'password'; btn.textContent = '🔒'; }
         }
-
-        function showStatus(type, message) {
+        function showStatus(message, type) {
             const el = document.getElementById('statusMessage');
-            el.className = 'status-message show ' + type;
-            el.innerHTML = message;
+            el.textContent = message;
+            el.className = 'status-message ' + type;
         }
-
-        async function handleLogin(event) {
-            event.preventDefault();
-            
-            const btn = document.getElementById('submitBtn');
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            showStatus('loading', '⏳ Logging in...');
+        function hideStatus() { document.getElementById('statusMessage').className = 'status-message'; }
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const btn = document.getElementById('loginBtn');
             btn.disabled = true;
-            
+            btn.textContent = 'Logging in...';
+            showStatus('Verifying credentials...', 'loading');
+            const action = loginType === 'merchant' ? 'merchantLogin' : 'userLogin';
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify({
-                        action: currentLoginType === 'merchant' ? 'merchantLogin' : 'userLogin',
-                        email: email,
-                        password: password
-                    })
+                    body: JSON.stringify({ action: action, email: email, phone: email, password: password })
                 });
-                
                 const result = await response.json();
-                
                 if (result.success) {
-                    showStatus('success', '✅ Login Successful! Redirecting...');
-                    const storage = document.getElementById('rememberMe').checked ? localStorage : sessionStorage;
-                    storage.setItem('amadeo_user', JSON.stringify(result.data));
-                    storage.setItem('amadeo_token', result.token);
-                    storage.setItem('amadeo_login_type', currentLoginType);
-                    setTimeout(() => {
-                        window.location.href = currentLoginType === 'merchant' ? '/dashboard' : '/';
-                    }, 1500);
+                    showStatus('Login successful! Redirecting...', 'success');
+                    const storage = rememberMe ? localStorage : sessionStorage;
+                    storage.setItem('amadeo_user', JSON.stringify(result.user || result.merchant));
+                    storage.setItem('amadeo_token', result.token || 'authenticated');
+                    storage.setItem('amadeo_login_type', loginType);
+                    sessionStorage.setItem('amadeo_user', JSON.stringify(result.user || result.merchant));
+                    sessionStorage.setItem('amadeo_token', result.token || 'authenticated');
+                    sessionStorage.setItem('amadeo_login_type', loginType);
+                    setTimeout(() => { window.location.href = loginType === 'merchant' ? '/dashboard' : '/'; }, 1000);
                 } else {
-                    showStatus('error', result.error || 'Login failed. Check your credentials.');
+                    showStatus(result.error || 'Invalid credentials', 'error');
                     btn.disabled = false;
+                    btn.textContent = 'Login';
                 }
             } catch (error) {
-                showStatus('error', 'Connection error. Please try again.');
+                console.error('Login error:', error);
+                showStatus('Connection error. Please try again.', 'error');
                 btn.disabled = false;
+                btn.textContent = 'Login';
             }
         }
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user');
+            const type = sessionStorage.getItem('amadeo_login_type') || localStorage.getItem('amadeo_login_type');
+            if (user && type) { window.location.href = type === 'merchant' ? '/dashboard' : '/'; }
+        });
     </script>
 </body>
 </html>

@@ -3,1810 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amadeo Verified Marketplace - Shop Local, Support Local</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Amadeo Marketplace - Shop Local, Support Local</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --primary: #2d6a4f;
-            --primary-dark: #1b4332;
-            --primary-light: #40916c;
-            --accent: #f77f00;
-            --danger: #dc2626;
-            --warning: #f59e0b;
-            --success: #10b981;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-500: #6b7280;
-            --gray-700: #374151;
-            --gray-900: #1f2937;
-        }
-        
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--gray-50);
-            color: var(--gray-900);
-            line-height: 1.6;
-        }
-        
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            color: white;
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 20px;
-            font-weight: 700;
-        }
-        
-        .logo-icon {
-            font-size: 28px;
-        }
-        
-        .header-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .cart-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: inherit;
-        }
-        
-        .cart-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .cart-count {
-            background: var(--accent);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-        
-        /* Hero */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .hero p {
-            opacity: 0.9;
-            max-width: 500px;
-            margin: 0 auto 20px;
-        }
-        
-        /* Search */
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .search-box {
-            display: flex;
-            background: white;
-            border-radius: 50px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-        
-        .search-box input {
-            flex: 1;
-            padding: 15px 25px;
-            border: none;
-            font-size: 16px;
-            font-family: inherit;
-        }
-        
-        .search-box input:focus {
-            outline: none;
-        }
-        
-        .search-box button {
-            background: var(--accent);
-            border: none;
-            padding: 15px 25px;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        /* Main Content */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* Categories */
-        .categories {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 15px 0;
-            margin-bottom: 20px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) #f0f0f0;
-        }
-
-        .categories::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .categories::-webkit-scrollbar-track {
-            background: #f0f0f0;
-            border-radius: 3px;
-        }
-
-        .categories::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 3px;
-        }
-        
-        .category-btn {
-            background: white;
-            border: 2px solid var(--gray-200);
-            padding: 10px 18px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.2s;
-            font-family: inherit;
-            flex-shrink: 0;
-        }
-        
-        .category-btn:hover,
-        .category-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        
-        /* Stock Filter */
-        .filters {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .filter-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .filter-label {
-            font-size: 14px;
-            color: var(--gray-500);
-        }
-        
-        .filter-toggle {
-            display: flex;
-            background: var(--gray-100);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .filter-toggle button {
-            padding: 8px 15px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 13px;
-            font-family: inherit;
-            color: var(--gray-700);
-        }
-        
-        .filter-toggle button.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .results-count {
-            font-size: 14px;
-            color: var(--gray-500);
-        }
-        
-        /* Product Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        
-        .product-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .product-card.out-of-stock {
-            opacity: 0.7;
-        }
-
-        /* Delivery/Pickup Service Badges */
-        .service-badges {
-            display: flex;
-            gap: 6px;
-            margin: 8px 0;
-            flex-wrap: wrap;
-        }
-
-        .service-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .badge-delivery {
-            background: #e3f2fd;
-            color: #1565c0;
-        }
-
-        .badge-pickup {
-            background: #fff3e0;
-            color: #ef6c00;
-        }
-
-        .badge-radius {
-            background: #f3e5f5;
-            color: #7b1fa2;
-            font-size: 10px;
-        }
-
-        .no-delivery {
-            background: #ffebee;
-            color: #c62828;
-            font-size: 10px;
-        }
-
-        /* Open/Closed Status Badge */
-        .store-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        .store-status.open {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .store-status.closed {
-            background: #ffebee;
-            color: #c62828;
-        }
-
-        .store-hours {
-            font-size: 10px;
-            color: #666;
-            margin-left: 5px;
-        }
-
-        /* Contact Buttons */
-        .contact-buttons {
-            display: flex;
-            gap: 6px;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .contact-btn {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            text-decoration: none;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-
-        .contact-btn:hover {
-            transform: scale(1.02);
-            opacity: 0.9;
-        }
-
-        .contact-btn.call {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .contact-btn.sms {
-            background: #e3f2fd;
-            color: #1565c0;
-        }
-
-        .contact-btn.chat {
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-
-        /* Merchant Header with Services */
-        .merchant-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
-        .merchant-services {
-            display: flex;
-            gap: 6px;
-        }
-
-        .service-icon {
-            font-size: 16px;
-            opacity: 0.3;
-        }
-
-        .service-icon.active {
-            opacity: 1;
-        }
-        
-        .service-icon.delivery {
-            color: #1565c0;
-        }
-
-        .service-icon.pickup {
-            color: #ef6c00;
-        }
-        
-        .product-image {
-            height: 180px;
-            background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            position: relative;
-        }
-        
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Stock Badge */
-        .stock-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        
-        .stock-badge.in-stock {
-            background: #d1fae5;
-            color: #059669;
-        }
-        
-        .stock-badge.low-stock {
-            background: #fef3c7;
-            color: #d97706;
-        }
-        
-        .stock-badge.critical {
-            background: #fee2e2;
-            color: #dc2626;
-            animation: pulse 2s infinite;
-        }
-        
-        .stock-badge.out-of-stock {
-            background: #1f2937;
-            color: white;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        .product-info {
-            padding: 15px;
-        }
-        
-        .product-merchant {
-            font-size: 12px;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .product-name {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: var(--gray-900);
-        }
-        
-        .product-category {
-            font-size: 12px;
-            color: var(--gray-500);
-            margin-bottom: 10px;
-        }
-        
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .product-price {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .product-stock {
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-        
-        .product-stock.low {
-            color: var(--warning);
-            font-weight: 600;
-        }
-        
-        .product-stock.critical {
-            color: var(--danger);
-            font-weight: 700;
-        }
-        
-        .add-to-cart {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: background 0.2s;
-            font-family: inherit;
-        }
-        
-        .add-to-cart:hover {
-            background: var(--primary-dark);
-        }
-        
-        .add-to-cart:disabled {
-            background: var(--gray-300);
-            cursor: not-allowed;
-        }
-        
-        /* Cart Sidebar */
-        .cart-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 200;
-        }
-        
-        .cart-overlay.active {
-            display: block;
-        }
-        
-        .cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            max-width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 201;
-            transition: right 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .cart-sidebar.active {
-            right: 0;
-        }
-        
-        .cart-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .cart-header h3 {
-            font-size: 18px;
-        }
-        
-        .cart-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--gray-500);
-        }
-        
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-        }
-        
-        .cart-item {
-            display: flex;
-            gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--gray-200);
-        }
-        
-        .cart-item-image {
-            width: 60px;
-            height: 60px;
-            background: var(--gray-100);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-        
-        .cart-item-info {
-            flex: 1;
-        }
-        
-        .cart-item-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .cart-item-merchant {
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-        
-        .cart-item-price {
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .cart-item-qty {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .qty-btn {
-            width: 28px;
-            height: 28px;
-            border: 1px solid var(--gray-300);
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        .qty-btn:hover {
-            background: var(--gray-100);
-        }
-        
-        .cart-item-remove {
-            background: none;
-            border: none;
-            color: var(--danger);
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .cart-empty {
-            text-align: center;
-            padding: 40px;
-            color: var(--gray-500);
-        }
-        
-        .cart-empty-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
-        
-        .cart-footer {
-            padding: 20px;
-            border-top: 1px solid var(--gray-200);
-            background: var(--gray-50);
-        }
-        
-        .cart-totals {
-            margin-bottom: 15px;
-        }
-        
-        .cart-total-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .cart-total-row.total {
-            font-size: 18px;
-            font-weight: 700;
-            padding-top: 10px;
-            border-top: 1px solid var(--gray-200);
-        }
-        
-        .checkout-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        
-        .checkout-btn:hover {
-            background: var(--primary-dark);
-        }
-        
-        /* Checkout Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 300;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .modal-overlay.active {
-            display: flex;
-        }
-        
-        .modal {
-            background: white;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-header h3 {
-            font-size: 18px;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--gray-500);
-        }
-        
-        .modal-body {
-            padding: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--gray-200);
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: inherit;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .payment-options {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .payment-option {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid var(--gray-200);
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .payment-option:hover {
-            border-color: var(--primary);
-        }
-        
-        .payment-option.selected {
-            border-color: var(--primary);
-            background: rgba(45, 106, 79, 0.05);
-        }
-        
-        .payment-option-icon {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        
-        .payment-option-name {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        .order-summary {
-            background: var(--gray-50);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .order-summary h4 {
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: var(--gray-700);
-        }
-        
-        .place-order-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        
-        .place-order-btn:hover {
-            background: #e67300;
-        }
-        
-        /* Success Modal */
-        .success-content {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
-        .success-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-        
-        .success-content h2 {
-            color: var(--success);
-            margin-bottom: 10px;
-        }
-        
-        .order-id {
-            background: var(--gray-100);
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 18px;
-            margin: 15px 0;
-            display: inline-block;
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--primary-dark);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            margin-top: 40px;
-        }
-        
-        .footer-logo {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-        
-        .footer-tagline {
-            opacity: 0.8;
-            margin-bottom: 20px;
-        }
-        
-        .footer-contact {
-            margin-bottom: 20px;
-        }
-        
-        .footer-contact a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        
-        .footer-powered {
-            font-size: 12px;
-            opacity: 0.6;
-        }
-        
-        /* Loading States */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--gray-500);
-        }
-        
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--gray-200);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Toast */
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 400;
-        }
-        
-        .toast {
-            background: var(--gray-900);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-top: 10px;
-            animation: slideIn 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-        
-        .toast.success { background: var(--success); }
-        .toast.error { background: var(--danger); }
-        .toast.warning { background: var(--warning); }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 24px; }
-            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .product-card { border-radius: 12px; }
-            .product-image { height: 140px; font-size: 40px; }
-            .product-info { padding: 12px; }
-            .product-name { font-size: 14px; }
-            .product-price { font-size: 16px; }
-            .add-to-cart { padding: 8px 12px; font-size: 12px; }
-            .cart-sidebar { width: 100%; }
-        }
-        
-        @media (max-width: 480px) {
-            .product-grid { grid-template-columns: 1fr; }
-            .filters { flex-direction: column; align-items: stretch; }
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        
+        .header { background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%); color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .logo { font-size: 24px; font-weight: 700; }
+        .logo a { color: white; text-decoration: none; }
+        .search-bar { flex: 1; max-width: 500px; display: flex; }
+        .search-bar input { flex: 1; padding: 12px 20px; border: none; border-radius: 25px 0 0 25px; font-size: 16px; }
+        .search-bar button { padding: 12px 25px; background: #134e4a; border: none; border-radius: 0 25px 25px 0; cursor: pointer; font-weight: 600; color: white; }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .header-actions a { color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 14px; transition: background 0.3s; }
+        .header-actions a:hover { background: rgba(255,255,255,0.1); }
+        .cart-btn { background: #134e4a !important; font-weight: 600; position: relative; }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; width: 20px; height: 20px; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+        
+        .hero { background: linear-gradient(135deg, #134e4a 0%, #0f766e 50%, #14b8a6 100%); color: white; padding: 60px 20px; text-align: center; }
+        .hero h1 { font-size: 42px; margin-bottom: 15px; }
+        .hero p { font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+        
+        .categories-bar { background: white; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); overflow-x: auto; }
+        .categories-container { max-width: 1400px; margin: 0 auto; display: flex; gap: 10px; justify-content: center; }
+        .category-btn { padding: 10px 20px; background: #f0f0f0; border: none; border-radius: 25px; cursor: pointer; font-size: 14px; white-space: nowrap; transition: all 0.3s; }
+        .category-btn:hover, .category-btn.active { background: #0f766e; color: white; }
+        
+        .main-content { max-width: 1400px; margin: 0 auto; padding: 30px 20px; display: grid; grid-template-columns: 250px 1fr; gap: 30px; }
+        .sidebar { background: white; border-radius: 12px; padding: 20px; height: fit-content; position: sticky; top: 100px; }
+        .sidebar h3 { color: #0f766e; margin-bottom: 15px; font-size: 16px; }
+        .filter-section { margin-bottom: 25px; }
+        .filter-section label { display: block; padding: 8px 0; cursor: pointer; font-size: 14px; }
+        .filter-section input[type="checkbox"] { margin-right: 10px; accent-color: #0f766e; }
+        .price-inputs { display: flex; gap: 10px; margin-top: 10px; }
+        .price-inputs input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; }
+        
+        .products-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .products-header h2 { color: #0f766e; }
+        .sort-select { padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .product-image { height: 180px; background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%); display: flex; align-items: center; justify-content: center; font-size: 60px; position: relative; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-badge { position: absolute; top: 10px; left: 10px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: 600; }
+        .product-info { padding: 15px; }
+        .product-merchant { font-size: 12px; color: #0f766e; margin-bottom: 5px; }
+        .product-name { font-weight: 600; color: #134e4a; margin-bottom: 8px; height: 40px; overflow: hidden; }
+        .product-price { font-size: 20px; font-weight: 700; color: #0f766e; margin-bottom: 10px; }
+        .product-stock { font-size: 12px; color: #666; margin-bottom: 12px; }
+        .product-stock.low { color: #ef4444; }
+        .add-to-cart { width: 100%; padding: 12px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: opacity 0.3s; }
+        .add-to-cart:hover { opacity: 0.9; }
+        .add-to-cart:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .cart-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; }
+        .cart-overlay.active { display: block; }
+        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100vh; background: white; z-index: 201; transition: right 0.3s; display: flex; flex-direction: column; }
+        .cart-sidebar.active { right: 0; }
+        .cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .cart-header h3 { color: #0f766e; }
+        .cart-close { background: none; border: none; font-size: 28px; cursor: pointer; color: #666; }
+        .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+        .cart-empty { text-align: center; padding: 40px; color: #666; }
+        .cart-item { display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .cart-item-image { width: 70px; height: 70px; background: #f0fdfa; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+        .cart-item-details { flex: 1; }
+        .cart-item-name { font-weight: 600; color: #134e4a; margin-bottom: 5px; }
+        .cart-item-merchant { font-size: 12px; color: #666; margin-bottom: 8px; }
+        .cart-item-price { font-weight: 600; color: #0f766e; }
+        .cart-item-qty { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+        .qty-btn { width: 28px; height: 28px; border: 1px solid #ddd; background: white; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .qty-btn:hover { background: #f0f0f0; }
+        .cart-item-remove { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 20px; }
+        .cart-footer { padding: 20px; border-top: 1px solid #eee; background: #f9f9f9; }
+        .cart-subtotal { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .cart-total { display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; color: #0f766e; margin-bottom: 15px; }
+        .checkout-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .checkout-btn:hover { opacity: 0.9; }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 300; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: white; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h2 { color: #0f766e; }
+        .modal-close { background: none; border: none; font-size: 28px; cursor: pointer; color: #666; }
+        .modal-body { padding: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #0f766e; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .payment-options { display: flex; gap: 15px; flex-wrap: wrap; }
+        .payment-option { flex: 1; min-width: 120px; padding: 15px; border: 2px solid #ddd; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .payment-option:hover { border-color: #0f766e; }
+        .payment-option.selected { border-color: #0f766e; background: #f0fdfa; }
+        .payment-option input { display: none; }
+        .payment-option span { display: block; font-size: 24px; margin-bottom: 5px; }
+        .order-summary { background: #f9f9f9; padding: 20px; border-radius: 10px; margin-top: 20px; }
+        .summary-row { display: flex; justify-content: space-between; padding: 8px 0; }
+        .summary-row.total { border-top: 2px solid #ddd; margin-top: 10px; padding-top: 15px; font-size: 18px; font-weight: 700; }
+        .place-order-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; margin-top: 20px; }
+        .place-order-btn:hover { opacity: 0.9; }
+        .place-order-btn:disabled { background: #ccc; cursor: not-allowed; }
+        
+        .order-success { text-align: center; padding: 40px; }
+        .order-success .icon { font-size: 80px; margin-bottom: 20px; }
+        .order-success h2 { color: #0f766e; margin-bottom: 10px; }
+        .order-success .order-id { font-size: 24px; font-weight: 700; color: #134e4a; margin: 20px 0; padding: 15px; background: #f0fdfa; border-radius: 10px; }
+        .track-order-btn { display: inline-block; padding: 15px 40px; background: #0f766e; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; margin-top: 20px; }
+        
+        .footer { background: #134e4a; color: white; padding: 50px 20px 20px; margin-top: 50px; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-section h4 { margin-bottom: 20px; color: #14b8a6; }
+        .footer-section a { display: block; color: rgba(255,255,255,0.8); text-decoration: none; padding: 5px 0; }
+        .footer-section a:hover { color: white; }
+        .footer-bottom { max-width: 1400px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: rgba(255,255,255,0.6); }
+        
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; background: #0f766e; color: white; border-radius: 10px; z-index: 500; display: none; }
+        .toast.show { display: block; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } }
+        
+        .loading-products { grid-column: 1 / -1; text-align: center; padding: 60px; }
+        .spinner { width: 50px; height: 50px; border: 4px solid #f0f0f0; border-top-color: #0f766e; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } .sidebar { display: none; } .hero h1 { font-size: 28px; } }
+        @media (max-width: 600px) { .header-content { flex-wrap: wrap; } .search-bar { order: 3; width: 100%; max-width: none; margin-top: 10px; } .cart-sidebar { width: 100%; right: -100%; } .form-row { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <a href="/" class="logo" style="text-decoration: none; color: inherit;">
-                <span class="logo-icon">🏠</span>
-                <span>Amadeo Verified</span>
-            </a>
-            <nav class="nav-links" style="display: flex; gap: 15px; align-items: center;">
-                <a href="/how-it-works" style="color: #1a472a; text-decoration: none; font-weight: 500; font-size: 14px;">How It Works</a>
-                <a href="/join" style="color: #1a472a; text-decoration: none; font-weight: 500; font-size: 14px;">For Merchants</a>
-                <a href="/faq" style="color: #1a472a; text-decoration: none; font-weight: 500; font-size: 14px;">FAQ</a>
-                <button class="cart-btn" onclick="openCart()">
-                    🛒 Cart <span class="cart-count" id="cartCount">0</span>
-                </button>
-            </nav>
+            <div class="logo"><a href="/">🏪 Amadeo Marketplace</a></div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search products, merchants...">
+                <button onclick="searchProducts()">🔍 Search</button>
+            </div>
+            <div class="header-actions">
+                <a href="/track">📦 Track Order</a>
+                <a href="/account" id="accountLink">👤 Account</a>
+                <a href="#" class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></a>
+            </div>
         </div>
     </header>
 
-    <!-- Hero -->
     <section class="hero">
-        <h1>Shop Local, Support Amadeo 💚</h1>
-        <p>Fresh products and services from verified local businesses with real-time stock availability</p>
-        <div class="search-container">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search products or services..." oninput="handleSearch()">
-                <button onclick="handleSearch()">🔍</button>
-            </div>
-        </div>
+        <h1>🌴 Shop Local in Amadeo, Cavite</h1>
+        <p>Discover fresh products, local food, and services from your trusted neighborhood merchants</p>
     </section>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Categories -->
-        <div class="categories" id="categories">
+    <nav class="categories-bar">
+        <div class="categories-container">
             <button class="category-btn active" onclick="filterCategory('all', this)">All</button>
             <button class="category-btn" onclick="filterCategory('Water', this)">💧 Water</button>
-            <button class="category-btn" onclick="filterCategory('LPG', this)">🔥 LPG</button>
-            <button class="category-btn" onclick="filterCategory('Ready to Eat', this)">🍕 Ready to Eat</button>
+            <button class="category-btn" onclick="filterCategory('Food', this)">🍱 Food</button>
+            <button class="category-btn" onclick="filterCategory('Coffee', this)">☕ Coffee</button>
+            <button class="category-btn" onclick="filterCategory('Bakery', this)">🥖 Bakery</button>
+            <button class="category-btn" onclick="filterCategory('Rice', this)">🌾 Rice</button>
+            <button class="category-btn" onclick="filterCategory('Meat', this)">🥩 Meat</button>
+            <button class="category-btn" onclick="filterCategory('Produce', this)">🥬 Produce</button>
             <button class="category-btn" onclick="filterCategory('Grocery', this)">🛒 Grocery</button>
-            <button class="category-btn" onclick="filterCategory('Transport', this)">🚗 Transport</button>
-            <button class="category-btn" onclick="filterCategory('Accommodation', this)">🏡 Stays</button>
-            <button class="category-btn" onclick="filterCategory('Wellness', this)">💆 Wellness</button>
-            <button class="category-btn" onclick="filterCategory('Auto', this)">🔧 Auto</button>
-            <button class="category-btn" onclick="filterCategory('Home Services', this)">🏠 Home</button>
-            <button class="category-btn" onclick="filterCategory('Events', this)">🎉 Events</button>
-            <button class="category-btn" onclick="filterCategory('Farm', this)">🌾 Farm</button>
+            <button class="category-btn" onclick="filterCategory('Services', this)">🔧 Services</button>
         </div>
+    </nav>
 
-        <!-- Filters -->
-        <div class="filters">
-            <div class="filter-group">
-                <span class="filter-label">Stock:</span>
-                <div class="filter-toggle">
-                    <button class="active" onclick="filterStock('all', this)">All</button>
-                    <button onclick="filterStock('instock', this)">In Stock Only</button>
+    <main class="main-content">
+        <aside class="sidebar">
+            <div class="filter-section">
+                <h3>Price Range</h3>
+                <div class="price-inputs">
+                    <input type="number" id="priceMin" placeholder="Min" onchange="applyFilters()">
+                    <input type="number" id="priceMax" placeholder="Max" onchange="applyFilters()">
                 </div>
             </div>
-            <div class="filter-group">
-                <span class="filter-label">Service:</span>
-                <div class="filter-toggle">
-                    <button class="active" onclick="filterService('all', this)">All</button>
-                    <button onclick="filterService('delivery', this)">🚚 Delivery</button>
-                    <button onclick="filterService('pickup', this)">🏪 Pickup</button>
-                </div>
+            <div class="filter-section">
+                <h3>Availability</h3>
+                <label><input type="checkbox" id="inStockOnly" onchange="applyFilters()"> In Stock Only</label>
             </div>
-            <div class="results-count">
-                <span id="resultsCount">Loading products...</span>
-            </div>
-        </div>
+        </aside>
 
-        <!-- Products Grid -->
-        <div class="product-grid" id="productGrid">
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <p>Loading products...</p>
+        <section class="products-section">
+            <div class="products-header">
+                <h2 id="productsTitle">All Products</h2>
+                <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+                    <option value="default">Sort by: Default</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name">Name: A-Z</option>
+                </select>
             </div>
-        </div>
+            <div class="products-grid" id="productsGrid">
+                <div class="loading-products"><div class="spinner"></div><p>Loading products...</p></div>
+            </div>
+        </section>
     </main>
 
-    <!-- Cart Sidebar -->
-    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3>🛒 Your Cart</h3>
-            <button class="cart-close" onclick="closeCart()">&times;</button>
-        </div>
-        <div class="cart-items" id="cartItems">
-            <!-- Cart items will be rendered here -->
-        </div>
-        <div class="cart-footer">
-            <div class="cart-totals">
-                <div class="cart-total-row">
-                    <span>Subtotal</span>
-                    <span id="cartSubtotal">₱0</span>
-                </div>
-                <div class="cart-total-row">
-                    <span>Delivery</span>
-                    <span>To be calculated</span>
-                </div>
-                <div class="cart-total-row total">
-                    <span>Total</span>
-                    <span id="cartTotal">₱0</span>
-                </div>
-            </div>
-            <button class="checkout-btn" onclick="openCheckout()" id="checkoutBtn" disabled>
-                Proceed to Checkout
-            </button>
+        <div class="cart-header"><h3>🛒 Your Cart</h3><button class="cart-close" onclick="toggleCart()">&times;</button></div>
+        <div class="cart-items" id="cartItems"><div class="cart-empty"><p style="font-size:50px;margin-bottom:15px;">🛒</p><p>Your cart is empty</p></div></div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">₱0</span></div>
+            <div class="cart-subtotal"><span>Platform Fee (5%)</span><span id="cartFee">₱0</span></div>
+            <div class="cart-total"><span>Total</span><span id="cartTotal">₱0</span></div>
+            <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
         </div>
     </div>
 
-    <!-- Checkout Modal -->
     <div class="modal-overlay" id="checkoutModal">
         <div class="modal">
-            <div class="modal-header">
-                <h3>📝 Checkout</h3>
-                <button class="modal-close" onclick="closeModal('checkoutModal')">&times;</button>
-            </div>
-            <div class="modal-body">
+            <div class="modal-header"><h2>📝 Checkout</h2><button class="modal-close" onclick="closeModal('checkoutModal')">&times;</button></div>
+            <div class="modal-body" id="checkoutBody">
                 <form id="checkoutForm" onsubmit="placeOrder(event)">
-                    <div class="form-group">
-                        <label>Full Name *</label>
-                        <input type="text" id="customerName" required placeholder="Juan Dela Cruz">
+                    <h3 style="margin-bottom:20px;color:#0f766e;">Delivery Information</h3>
+                    <div class="form-row">
+                        <div class="form-group"><label>Full Name *</label><input type="text" id="customerName" required></div>
+                        <div class="form-group"><label>Phone Number *</label><input type="tel" id="customerPhone" required placeholder="09XX XXX XXXX"></div>
                     </div>
-                    <div class="form-group">
-                        <label>Phone Number *</label>
-                        <input type="tel" id="customerPhone" required placeholder="0917-XXX-XXXX">
-                    </div>
-                    <div class="form-group">
-                        <label>Delivery Address *</label>
-                        <textarea id="customerAddress" rows="2" required placeholder="House/Building, Street, Purok"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Barangay *</label>
+                    <div class="form-group"><label>Email</label><input type="email" id="customerEmail" placeholder="optional"></div>
+                    <div class="form-group"><label>Delivery Address *</label><textarea id="customerAddress" rows="2" required placeholder="House/Unit No., Street, Landmark"></textarea></div>
+                    <div class="form-group"><label>Barangay *</label>
                         <select id="customerBarangay" required>
-                            <option value="">Select barangay</option>
-                            <option value="Poblacion">Poblacion</option>
-                            <option value="Dagatan">Dagatan</option>
-                            <option value="Halang">Halang</option>
-                            <option value="Banaybanay">Banaybanay</option>
-                            <option value="Buho">Buho</option>
-                            <option value="Maymangga">Maymangga</option>
-                            <option value="Lalaan I">Lalaan I</option>
-                            <option value="Lalaan II">Lalaan II</option>
-                            <option value="Pangil">Pangil</option>
-                            <option value="Minantok East">Minantok East</option>
-                            <option value="Minantok West">Minantok West</option>
-                            <option value="Pulong Bunga">Pulong Bunga</option>
-                            <option value="Talon">Talon</option>
+                            <option value="">Select Barangay</option>
+                            <option value="Poblacion">Poblacion</option><option value="Dagatan">Dagatan</option><option value="Halang">Halang</option><option value="Iba">Iba</option><option value="Kaysuyo">Kaysuyo</option><option value="Lalaan I">Lalaan I</option><option value="Lalaan II">Lalaan II</option><option value="Maymangga">Maymangga</option><option value="Minantok East">Minantok East</option><option value="Minantok West">Minantok West</option><option value="Pangil">Pangil</option><option value="Salaban">Salaban</option><option value="Talon">Talon</option><option value="Tamlong">Tamlong</option><option value="Banaybanay">Banaybanay</option><option value="Buho">Buho</option><option value="Kabigting">Kabigting</option><option value="Labac">Labac</option><option value="Luksuhin">Luksuhin</option><option value="Maitim">Maitim</option><option value="Mahabang Kahoy">Mahabang Kahoy</option><option value="Paligawan">Paligawan</option><option value="San Agustin">San Agustin</option><option value="Tiambong">Tiambong</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Special Instructions (Optional)</label>
-                        <textarea id="specialInstructions" rows="2" placeholder="Landmark, delivery notes, etc."></textarea>
-                    </div>
-                    
-                    <label style="display: block; margin-bottom: 10px; font-weight: 600;">Payment Method *</label>
+                    <div class="form-group"><label>Delivery Notes</label><textarea id="deliveryNotes" rows="2" placeholder="Special instructions"></textarea></div>
+                    <h3 style="margin:30px 0 20px;color:#0f766e;">Payment Method</h3>
                     <div class="payment-options">
-                        <div class="payment-option selected" onclick="selectPayment('COD', this)">
-                            <div class="payment-option-icon">💵</div>
-                            <div class="payment-option-name">Cash on Delivery</div>
-                        </div>
-                        <div class="payment-option" onclick="selectPayment('GCash', this)">
-                            <div class="payment-option-icon">📱</div>
-                            <div class="payment-option-name">GCash</div>
-                        </div>
+                        <label class="payment-option selected" onclick="selectPayment(this)"><input type="radio" name="payment" value="COD" checked><span>💵</span>Cash on Delivery</label>
+                        <label class="payment-option" onclick="selectPayment(this)"><input type="radio" name="payment" value="GCash"><span>📱</span>GCash</label>
                     </div>
-                    <input type="hidden" id="paymentMethod" value="COD">
-                    
-                    <div class="order-summary">
-                        <h4>Order Summary</h4>
-                        <div id="checkoutSummary">
-                            <!-- Order items will be listed here -->
-                        </div>
-                        <div class="cart-total-row total" style="margin-top: 10px;">
-                            <span>Total</span>
-                            <span id="checkoutTotal">₱0</span>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="place-order-btn">
-                        ✅ Place Order
-                    </button>
+                    <div class="order-summary"><h4 style="margin-bottom:15px;">Order Summary</h4><div id="checkoutItems"></div><div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">₱0</span></div><div class="summary-row"><span>Platform Fee (5%)</span><span id="summaryFee">₱0</span></div><div class="summary-row total"><span>Total</span><span id="summaryTotal">₱0</span></div></div>
+                    <button type="submit" class="place-order-btn" id="placeOrderBtn">Place Order</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Success Modal -->
     <div class="modal-overlay" id="successModal">
         <div class="modal">
-            <div class="success-content">
-                <div class="success-icon">✅</div>
-                <h2>Order Placed!</h2>
-                <p>Your order has been submitted successfully.</p>
-                <div class="order-id" id="displayOrderId">ORD-XXXXXXXX</div>
-                <p style="margin: 15px 0; color: var(--gray-500);">
-                    The merchant will contact you shortly to confirm your order.
-                </p>
-                <button class="checkout-btn" onclick="closeModal('successModal'); location.reload();">
-                    Continue Shopping
-                </button>
+            <div class="modal-body">
+                <div class="order-success">
+                    <div class="icon">✅</div>
+                    <h2>Order Placed Successfully!</h2>
+                    <p>Thank you for shopping with Amadeo Marketplace</p>
+                    <div class="order-id" id="successOrderId">ORD-XXXXXXXX</div>
+                    <p>You will receive a confirmation via SMS/call from the merchant</p>
+                    <a href="#" class="track-order-btn" id="trackOrderBtn">Track Your Order</a>
+                    <br><br>
+                    <button onclick="closeModal('successModal'); location.reload();" style="background:none;border:none;color:#0f766e;cursor:pointer;font-size:16px;">Continue Shopping</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="footer-logo">🏠 Amadeo Verified Marketplace</div>
-        <p class="footer-tagline">Shop Local, Support Local</p>
-        <div class="footer-contact">
-            <a href="tel:09669606060">📱 0966 960 6060</a>
-            <a href="mailto:tygfsb@gmail.com">✉️ tygfsb@gmail.com</a>
+        <div class="footer-content">
+            <div class="footer-section"><h4>🏪 Amadeo Marketplace</h4><p style="color:rgba(255,255,255,0.7);line-height:1.6;">Supporting local businesses in Amadeo, Cavite. Shop fresh, shop local!</p></div>
+            <div class="footer-section"><h4>Quick Links</h4><a href="/">Home</a><a href="/track">Track Order</a><a href="/faq">FAQ</a><a href="/register">Become a Merchant</a></div>
+            <div class="footer-section"><h4>Contact Us</h4><p style="color:rgba(255,255,255,0.7);">📞 0966 960 6060</p><p style="color:rgba(255,255,255,0.7);">✉️ tygfsb@gmail.com</p><p style="color:rgba(255,255,255,0.7);">📍 Amadeo, Cavite</p></div>
         </div>
-        <p class="footer-powered">Powered by TYG Services • tygservices.com</p>
+        <div class="footer-bottom"><p>© 2024 Amadeo Marketplace by TYG Services. All rights reserved.</p></div>
     </footer>
 
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
+    <div class="toast" id="toast"></div>
 
     <script>
-        // ═══════════════════════════════════════════════════════════════════════
-        // CONFIGURATION
-        // ═══════════════════════════════════════════════════════════════════════
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
+        let allProducts = [], allMerchants = [], cart = JSON.parse(localStorage.getItem('amadeo_cart')) || [], currentCategory = 'all';
+        const categoryIcons = {'Water':'💧','Food':'🍱','Coffee':'☕','Bakery':'🥖','Rice':'🌾','Meat':'🥩','Produce':'🥬','Grocery':'🛒','Services':'🔧','Hardware':'🔨','Health':'💊','Other':'📦'};
         
-        const CONFIG = {
-            // UPDATE THIS with your deployed Apps Script URL
-            API_URL: 'https://script.google.com/macros/s/AKfycbz61PQjUvyQ1ApAgF6eRtbIbdqxlYHQTUyW7Ddw0UWwYtIE2LAsxUoj4eha5cvygJO1qA/exec',
-            COMMISSION_RATE: 0.05
-        };
-        
-        // ═══════════════════════════════════════════════════════════════════════
-        // STATE
-        // ═══════════════════════════════════════════════════════════════════════
-        
-        let products = [];
-        let filteredProducts = [];
-        let cart = [];
-        let currentCategory = 'all';
-        let currentStockFilter = 'all';
-        let currentServiceFilter = 'all';
-        let searchQuery = '';
-        
-        // ═══════════════════════════════════════════════════════════════════════
-        // INITIALIZE
-        // ═══════════════════════════════════════════════════════════════════════
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProducts();
-            loadCart();
-        });
-        
-        // ═══════════════════════════════════════════════════════════════════════
-        // DATA LOADING
-        // ═══════════════════════════════════════════════════════════════════════
-        
+        document.addEventListener('DOMContentLoaded', () => { loadProducts(); updateCartUI(); checkLogin(); document.getElementById('searchInput').addEventListener('keypress', e => { if(e.key==='Enter') searchProducts(); }); });
+        function checkLogin() { const user = sessionStorage.getItem('amadeo_user'); if(user) { const d = JSON.parse(user); document.getElementById('accountLink').textContent = '👤 ' + (d.name||'Account'); } }
         async function loadProducts() {
-            // For demo, load sample data
-            // In production, call API: fetch(CONFIG.API_URL + '?action=getAllInventory')
-            loadSampleProducts();
+            try {
+                const [pRes, mRes] = await Promise.all([fetch(SCRIPT_URL+'?action=getProducts'), fetch(SCRIPT_URL+'?action=getMerchants')]);
+                const pData = await pRes.json(), mData = await mRes.json();
+                if(pData.success) allProducts = pData.data || [];
+                if(mData.success) allMerchants = mData.data || [];
+                renderProducts();
+            } catch(e) { document.getElementById('productsGrid').innerHTML = '<div class="loading-products"><p>⚠️ Unable to load products</p><button onclick="loadProducts()" style="margin-top:15px;padding:10px 20px;cursor:pointer;">Retry</button></div>'; }
         }
-        
-        // Merchant data with operating hours and contact info
-        const merchantData = {
-            // Water
-            'M001': { phone: '09171234567', openTime: '06:00', closeTime: '20:00', daysOpen: 'Mon-Sat' },
-            'M002': { phone: '09181234567', openTime: '07:00', closeTime: '19:00', daysOpen: 'Mon-Sun' },
-            // LPG
-            'M003': { phone: '09191234567', openTime: '06:00', closeTime: '21:00', daysOpen: 'Mon-Sun' },
-            'M004': { phone: '09201234567', openTime: '07:00', closeTime: '20:00', daysOpen: 'Mon-Sat' },
-            // Ready to Eat
-            'M005': { phone: '09211234567', openTime: '10:00', closeTime: '20:00', daysOpen: 'Mon-Sun' },
-            'M006': { phone: '09221234567', openTime: '09:00', closeTime: '19:00', daysOpen: 'Tue-Sun' },
-            // Grocery
-            'M007': { phone: '09231234567', openTime: '06:00', closeTime: '21:00', daysOpen: 'Mon-Sun' },
-            // Home Services (Plumbing, Electrical)
-            'M008': { phone: '09241234567', openTime: '07:00', closeTime: '18:00', daysOpen: 'Mon-Sat' },
-            'M009': { phone: '09251234567', openTime: '08:00', closeTime: '17:00', daysOpen: 'Mon-Fri' },
-            // Farm
-            'M010': { phone: '09261234567', openTime: '05:00', closeTime: '18:00', daysOpen: 'Mon-Sun' },
-            'M011': { phone: '09271234567', openTime: '07:00', closeTime: '19:00', daysOpen: 'Mon-Sun' },
-            // Ready to Eat (new)
-            'M012': { phone: '09281234567', openTime: '10:00', closeTime: '22:00', daysOpen: 'Mon-Sun' },  // Pizza Amadeo
-            'M013': { phone: '09291234567', openTime: '05:00', closeTime: '14:00', daysOpen: 'Mon-Sun' },  // Bulalohan sa Kanto
-            'M014': { phone: '09301234567', openTime: '05:30', closeTime: '18:00', daysOpen: 'Mon-Sat' },  // Kape at Tinapay
-            'M015': { phone: '09311234567', openTime: '07:00', closeTime: '20:00', daysOpen: 'Mon-Sun' },  // Grocery Lane Amadeo
-            // Transport
-            'M016': { phone: '09321234567', openTime: '05:00', closeTime: '22:00', daysOpen: 'Mon-Sun' },  // Tricycle Toda Poblacion
-            'M017': { phone: '09331234567', openTime: '06:00', closeTime: '21:00', daysOpen: 'Mon-Sun' },  // Van Rental Amadeo
-            'M018': { phone: '09341234567', openTime: '00:00', closeTime: '23:59', daysOpen: 'Mon-Sun' },  // Carpool Amadeo (24/7)
-            // Accommodation
-            'M019': { phone: '09351234567', openTime: '06:00', closeTime: '22:00', daysOpen: 'Mon-Sun' },  // Luntian Log Cabin
-            'M020': { phone: '09361234567', openTime: '08:00', closeTime: '20:00', daysOpen: 'Mon-Sun' },  // Amadeo Garden Resort
-            'M021': { phone: '09371234567', openTime: '00:00', closeTime: '23:59', daysOpen: 'Mon-Sun' },  // Casa Amadeo (Airbnb)
-            // Wellness
-            'M022': { phone: '09381234567', openTime: '10:00', closeTime: '22:00', daysOpen: 'Mon-Sun' },  // Healing Hands Spa
-            'M023': { phone: '09391234567', openTime: '09:00', closeTime: '20:00', daysOpen: 'Tue-Sun' },  // Glow Up Salon
-            'M024': { phone: '09401234567', openTime: '12:00', closeTime: '23:00', daysOpen: 'Mon-Sun' },  // Masahe Express
-            // Auto Services
-            'M025': { phone: '09411234567', openTime: '07:00', closeTime: '18:00', daysOpen: 'Mon-Sat' },  // Carwash King
-            'M026': { phone: '09421234567', openTime: '07:00', closeTime: '19:00', daysOpen: 'Mon-Sun' },  // Mang Tonyo Vulcanizing
-            'M027': { phone: '09431234567', openTime: '08:00', closeTime: '17:00', daysOpen: 'Mon-Sat' },  // AutoDoc Mechanic
-            // Events
-            'M028': { phone: '09441234567', openTime: '08:00', closeTime: '20:00', daysOpen: 'Mon-Sun' },  // Catering ni Aling Beth
-            'M029': { phone: '09451234567', openTime: '09:00', closeTime: '21:00', daysOpen: 'Mon-Sun' },  // Sound System Rental
-            'M030': { phone: '09461234567', openTime: '08:00', closeTime: '18:00', daysOpen: 'Mon-Sun' }   // Snap & Click Photography
-        };
-
-        function isStoreOpen(merchantId) {
-            const merchant = merchantData[merchantId];
-            if (!merchant) return true;
-            
-            const now = new Date();
-            const currentTime = now.getHours() * 60 + now.getMinutes();
-            const [openH, openM] = merchant.openTime.split(':').map(Number);
-            const [closeH, closeM] = merchant.closeTime.split(':').map(Number);
-            const openMinutes = openH * 60 + openM;
-            const closeMinutes = closeH * 60 + closeM;
-            
-            return currentTime >= openMinutes && currentTime < closeMinutes;
-        }
-
-        function getStoreHours(merchantId) {
-            const merchant = merchantData[merchantId];
-            if (!merchant) return '';
-            return `${merchant.openTime} - ${merchant.closeTime}`;
-        }
-
-        function getMerchantPhone(merchantId) {
-            const merchant = merchantData[merchantId];
-            return merchant ? merchant.phone : '';
-        }
-        
-        function loadSampleProducts() {
-            // Sample products with real-time inventory and delivery options
-            products = [
-                // Water - Aqua Pure (Delivery 5km, Pickup available)
-                { ProductId: 'P001', MerchantId: 'M001', merchantName: 'Aqua Pure Amadeo', Name: 'Purified Water 5gal', Category: 'Water', Price: 50, available: 45, stockStatus: 'in_stock', icon: '💧', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
-                { ProductId: 'P002', MerchantId: 'M001', merchantName: 'Aqua Pure Amadeo', Name: 'Mineral Water 5gal', Category: 'Water', Price: 60, available: 8, stockStatus: 'low', icon: '💧', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
-                { ProductId: 'P003', MerchantId: 'M001', merchantName: 'Aqua Pure Amadeo', Name: 'Alkaline Water 5gal', Category: 'Water', Price: 70, available: 3, stockStatus: 'critical', icon: '💧', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
-                { ProductId: 'P004', MerchantId: 'M002', merchantName: 'Crystal Clear Water', Name: 'Distilled Water 5gal', Category: 'Water', Price: 55, available: 0, stockStatus: 'out', icon: '💧', hasDelivery: true, hasPickup: false, deliveryRadius: 3 },
-                
-                // LPG - Gasul (Delivery 10km, No Pickup)
-                { ProductId: 'P005', MerchantId: 'M003', merchantName: 'Gasul Amadeo Express', Name: 'LPG Tank 11kg', Category: 'LPG', Price: 950, available: 20, stockStatus: 'in_stock', icon: '🔥', hasDelivery: true, hasPickup: false, deliveryRadius: 10 },
-                { ProductId: 'P006', MerchantId: 'M003', merchantName: 'Gasul Amadeo Express', Name: 'LPG Tank 22kg', Category: 'LPG', Price: 1800, available: 5, stockStatus: 'low', icon: '🔥', hasDelivery: true, hasPickup: false, deliveryRadius: 10 },
-                { ProductId: 'P007', MerchantId: 'M004', merchantName: 'Solane Dealer Amadeo', Name: 'Solane 11kg Refill', Category: 'LPG', Price: 980, available: 15, stockStatus: 'in_stock', icon: '🔥', hasDelivery: true, hasPickup: true, deliveryRadius: 8 },
-                
-                // Ready to Eat - Lutong Bahay (Delivery 3km, Pickup available)
-                { ProductId: 'P008', MerchantId: 'M005', merchantName: 'Lutong Bahay ni Aling Rosa', Name: 'Adobo (Family Size)', Category: 'Ready to Eat', Price: 280, available: 10, stockStatus: 'in_stock', icon: '🍱', hasDelivery: true, hasPickup: true, deliveryRadius: 3 },
-                { ProductId: 'P009', MerchantId: 'M005', merchantName: 'Lutong Bahay ni Aling Rosa', Name: 'Sinigang na Baboy', Category: 'Ready to Eat', Price: 320, available: 8, stockStatus: 'in_stock', icon: '🍲', hasDelivery: true, hasPickup: true, deliveryRadius: 3 },
-                { ProductId: 'P010', MerchantId: 'M006', merchantName: 'Lechon Manok Express', Name: 'Lechon Manok (Whole)', Category: 'Ready to Eat', Price: 380, available: 2, stockStatus: 'critical', icon: '🍗', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P019', MerchantId: 'M012', merchantName: 'Pizza Amadeo', Name: 'Hawaiian Pizza (Large)', Category: 'Ready to Eat', Price: 350, available: 15, stockStatus: 'in_stock', icon: '🍕', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
-                { ProductId: 'P020', MerchantId: 'M012', merchantName: 'Pizza Amadeo', Name: 'Pepperoni Pizza (Large)', Category: 'Ready to Eat', Price: 380, available: 12, stockStatus: 'in_stock', icon: '🍕', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
-                { ProductId: 'P021', MerchantId: 'M013', merchantName: 'Bulalohan sa Kanto', Name: 'Bulalo Special', Category: 'Ready to Eat', Price: 450, available: 8, stockStatus: 'in_stock', icon: '🥣', hasDelivery: true, hasPickup: true, deliveryRadius: 4 },
-                { ProductId: 'P022', MerchantId: 'M013', merchantName: 'Bulalohan sa Kanto', Name: 'Goto (Large)', Category: 'Ready to Eat', Price: 120, available: 20, stockStatus: 'in_stock', icon: '🥣', hasDelivery: true, hasPickup: true, deliveryRadius: 4 },
-                { ProductId: 'P023', MerchantId: 'M014', merchantName: 'Kape at Tinapay', Name: 'Brewed Coffee (Hot)', Category: 'Ready to Eat', Price: 60, available: 99, stockStatus: 'in_stock', icon: '☕', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P024', MerchantId: 'M014', merchantName: 'Kape at Tinapay', Name: 'Pandesal (10pcs)', Category: 'Ready to Eat', Price: 50, available: 30, stockStatus: 'in_stock', icon: '🥖', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                
-                // Grocery - Tindahan (No Delivery, Pickup Only)
-                { ProductId: 'P011', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Rice Premium 25kg', Category: 'Grocery', Price: 1450, available: 30, stockStatus: 'in_stock', icon: '🍚', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P012', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Rice Standard 25kg', Category: 'Grocery', Price: 1250, available: 0, stockStatus: 'out', icon: '🍚', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P013', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Cooking Oil 1L', Category: 'Grocery', Price: 85, available: 50, stockStatus: 'in_stock', icon: '🫗', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P025', MerchantId: 'M007', merchantName: 'Tindahan ni Mang Juan', Name: 'Sugar 1kg', Category: 'Grocery', Price: 75, available: 40, stockStatus: 'in_stock', icon: '🧂', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P026', MerchantId: 'M015', merchantName: 'Grocery Lane Amadeo', Name: 'Sardines (Big)', Category: 'Grocery', Price: 45, available: 100, stockStatus: 'in_stock', icon: '🥫', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
-                { ProductId: 'P027', MerchantId: 'M015', merchantName: 'Grocery Lane Amadeo', Name: 'Corned Beef', Category: 'Grocery', Price: 65, available: 80, stockStatus: 'in_stock', icon: '🥫', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
-                { ProductId: 'P028', MerchantId: 'M015', merchantName: 'Grocery Lane Amadeo', Name: 'Instant Noodles (5pcs)', Category: 'Grocery', Price: 75, available: 200, stockStatus: 'in_stock', icon: '🍜', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
-                { ProductId: 'P029', MerchantId: 'M015', merchantName: 'Grocery Lane Amadeo', Name: 'Evaporated Milk', Category: 'Grocery', Price: 35, available: 60, stockStatus: 'in_stock', icon: '🥛', hasDelivery: true, hasPickup: true, deliveryRadius: 5 },
-                
-                // Home Services - Plumbing, Electrical
-                { ProductId: 'P014', MerchantId: 'M008', merchantName: 'Tubero Express', Name: 'Plumbing - Basic', Category: 'Home Services', Price: 500, available: 99, stockStatus: 'in_stock', icon: '🔧', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
-                { ProductId: 'P015', MerchantId: 'M009', merchantName: 'Kuryente Master', Name: 'Electrical Repair', Category: 'Home Services', Price: 600, available: 99, stockStatus: 'in_stock', icon: '⚡', hasDelivery: true, hasPickup: false, deliveryRadius: 20 },
-                { ProductId: 'P030', MerchantId: 'M008', merchantName: 'Tubero Express', Name: 'Plumbing - Major Repair', Category: 'Home Services', Price: 1500, available: 99, stockStatus: 'in_stock', icon: '🔧', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
-                { ProductId: 'P031', MerchantId: 'M009', merchantName: 'Kuryente Master', Name: 'Electrical Installation', Category: 'Home Services', Price: 2000, available: 99, stockStatus: 'in_stock', icon: '⚡', hasDelivery: true, hasPickup: false, deliveryRadius: 20 },
-                
-                // Transport Services
-                { ProductId: 'P032', MerchantId: 'M016', merchantName: 'Tricycle Toda Poblacion', Name: 'Tricycle - Within Amadeo', Category: 'Transport', Price: 50, available: 99, stockStatus: 'in_stock', icon: '🛺', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
-                { ProductId: 'P033', MerchantId: 'M016', merchantName: 'Tricycle Toda Poblacion', Name: 'Tricycle - To Tagaytay', Category: 'Transport', Price: 200, available: 99, stockStatus: 'in_stock', icon: '🛺', hasDelivery: true, hasPickup: false, deliveryRadius: 30 },
-                { ProductId: 'P034', MerchantId: 'M017', merchantName: 'Van Rental Amadeo', Name: 'Van Rental - Half Day', Category: 'Transport', Price: 2500, available: 5, stockStatus: 'in_stock', icon: '🚐', hasDelivery: true, hasPickup: true, deliveryRadius: 50 },
-                { ProductId: 'P035', MerchantId: 'M017', merchantName: 'Van Rental Amadeo', Name: 'Van Rental - Full Day', Category: 'Transport', Price: 4500, available: 5, stockStatus: 'in_stock', icon: '🚐', hasDelivery: true, hasPickup: true, deliveryRadius: 50 },
-                { ProductId: 'P036', MerchantId: 'M018', merchantName: 'Carpool Amadeo', Name: 'Carpool to Manila', Category: 'Transport', Price: 350, available: 8, stockStatus: 'in_stock', icon: '🚗', hasDelivery: true, hasPickup: true, deliveryRadius: 100 },
-                { ProductId: 'P037', MerchantId: 'M018', merchantName: 'Carpool Amadeo', Name: 'Carpool to Tagaytay', Category: 'Transport', Price: 100, available: 10, stockStatus: 'in_stock', icon: '🚗', hasDelivery: true, hasPickup: true, deliveryRadius: 30 },
-                
-                // Accommodation / Stays
-                { ProductId: 'P038', MerchantId: 'M019', merchantName: 'Luntian Log Cabin', Name: 'Cabin Stay (Overnight)', Category: 'Accommodation', Price: 3500, available: 3, stockStatus: 'in_stock', icon: '🏡', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P039', MerchantId: 'M019', merchantName: 'Luntian Log Cabin', Name: 'Cabin Stay (Day Tour)', Category: 'Accommodation', Price: 2000, available: 3, stockStatus: 'in_stock', icon: '🏡', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P040', MerchantId: 'M020', merchantName: 'Amadeo Garden Resort', Name: 'Resort - Day Tour (10pax)', Category: 'Accommodation', Price: 3000, available: 10, stockStatus: 'in_stock', icon: '🏊', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P041', MerchantId: 'M020', merchantName: 'Amadeo Garden Resort', Name: 'Resort - Overnight (10pax)', Category: 'Accommodation', Price: 6000, available: 5, stockStatus: 'in_stock', icon: '🏊', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P042', MerchantId: 'M021', merchantName: 'Casa Amadeo Homestay', Name: 'Private Room (2pax)', Category: 'Accommodation', Price: 1500, available: 4, stockStatus: 'in_stock', icon: '🏠', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P043', MerchantId: 'M021', merchantName: 'Casa Amadeo Homestay', Name: 'Entire House (8pax)', Category: 'Accommodation', Price: 5000, available: 2, stockStatus: 'in_stock', icon: '🏠', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                
-                // Wellness - Spa, Salon, Massage
-                { ProductId: 'P044', MerchantId: 'M022', merchantName: 'Healing Hands Spa', Name: 'Swedish Massage (1hr)', Category: 'Wellness', Price: 500, available: 99, stockStatus: 'in_stock', icon: '💆', hasDelivery: true, hasPickup: true, deliveryRadius: 10 },
-                { ProductId: 'P045', MerchantId: 'M022', merchantName: 'Healing Hands Spa', Name: 'Hot Stone Massage', Category: 'Wellness', Price: 800, available: 99, stockStatus: 'in_stock', icon: '💆', hasDelivery: true, hasPickup: true, deliveryRadius: 10 },
-                { ProductId: 'P046', MerchantId: 'M023', merchantName: 'Glow Up Salon', Name: 'Haircut - Ladies', Category: 'Wellness', Price: 200, available: 99, stockStatus: 'in_stock', icon: '💇', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P047', MerchantId: 'M023', merchantName: 'Glow Up Salon', Name: 'Haircut - Men', Category: 'Wellness', Price: 100, available: 99, stockStatus: 'in_stock', icon: '💇', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P048', MerchantId: 'M023', merchantName: 'Glow Up Salon', Name: 'Hair Color', Category: 'Wellness', Price: 800, available: 99, stockStatus: 'in_stock', icon: '💇', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P049', MerchantId: 'M023', merchantName: 'Glow Up Salon', Name: 'Manicure + Pedicure', Category: 'Wellness', Price: 350, available: 99, stockStatus: 'in_stock', icon: '💅', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P050', MerchantId: 'M024', merchantName: 'Masahe Express', Name: 'Home Service Massage (1hr)', Category: 'Wellness', Price: 400, available: 99, stockStatus: 'in_stock', icon: '💆', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
-                { ProductId: 'P051', MerchantId: 'M024', merchantName: 'Masahe Express', Name: 'Home Service Massage (2hrs)', Category: 'Wellness', Price: 700, available: 99, stockStatus: 'in_stock', icon: '💆', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
-                
-                // Auto Services - Car Wash, Vulcanizing, Mechanic
-                { ProductId: 'P052', MerchantId: 'M025', merchantName: 'Carwash King', Name: 'Car Wash - Basic', Category: 'Auto', Price: 150, available: 99, stockStatus: 'in_stock', icon: '🚿', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P053', MerchantId: 'M025', merchantName: 'Carwash King', Name: 'Car Wash - Full Detail', Category: 'Auto', Price: 500, available: 99, stockStatus: 'in_stock', icon: '🚿', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P054', MerchantId: 'M025', merchantName: 'Carwash King', Name: 'Motorcycle Wash', Category: 'Auto', Price: 80, available: 99, stockStatus: 'in_stock', icon: '🏍️', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P055', MerchantId: 'M026', merchantName: 'Mang Tonyo Vulcanizing', Name: 'Flat Tire Repair', Category: 'Auto', Price: 100, available: 99, stockStatus: 'in_stock', icon: '🔩', hasDelivery: true, hasPickup: true, deliveryRadius: 10 },
-                { ProductId: 'P056', MerchantId: 'M026', merchantName: 'Mang Tonyo Vulcanizing', Name: 'Tire Change', Category: 'Auto', Price: 50, available: 99, stockStatus: 'in_stock', icon: '🔩', hasDelivery: true, hasPickup: true, deliveryRadius: 10 },
-                { ProductId: 'P057', MerchantId: 'M027', merchantName: 'AutoDoc Mechanic', Name: 'Oil Change', Category: 'Auto', Price: 500, available: 99, stockStatus: 'in_stock', icon: '🔧', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P058', MerchantId: 'M027', merchantName: 'AutoDoc Mechanic', Name: 'PMS (Preventive Maintenance)', Category: 'Auto', Price: 2000, available: 99, stockStatus: 'in_stock', icon: '🔧', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P059', MerchantId: 'M027', merchantName: 'AutoDoc Mechanic', Name: 'Battery Jump Start', Category: 'Auto', Price: 300, available: 99, stockStatus: 'in_stock', icon: '🔋', hasDelivery: true, hasPickup: false, deliveryRadius: 15 },
-                
-                // Events - Catering, Sound System, Photography
-                { ProductId: 'P060', MerchantId: 'M028', merchantName: 'Catering ni Aling Beth', Name: 'Party Package (25pax)', Category: 'Events', Price: 8000, available: 10, stockStatus: 'in_stock', icon: '🍽️', hasDelivery: true, hasPickup: true, deliveryRadius: 20 },
-                { ProductId: 'P061', MerchantId: 'M028', merchantName: 'Catering ni Aling Beth', Name: 'Party Package (50pax)', Category: 'Events', Price: 15000, available: 10, stockStatus: 'in_stock', icon: '🍽️', hasDelivery: true, hasPickup: true, deliveryRadius: 20 },
-                { ProductId: 'P062', MerchantId: 'M028', merchantName: 'Catering ni Aling Beth', Name: 'Lechon Baboy (Whole)', Category: 'Events', Price: 8500, available: 5, stockStatus: 'in_stock', icon: '🐷', hasDelivery: true, hasPickup: true, deliveryRadius: 20 },
-                { ProductId: 'P063', MerchantId: 'M029', merchantName: 'Sound System Rental', Name: 'Basic Sound System', Category: 'Events', Price: 2500, available: 5, stockStatus: 'in_stock', icon: '🔊', hasDelivery: true, hasPickup: true, deliveryRadius: 25 },
-                { ProductId: 'P064', MerchantId: 'M029', merchantName: 'Sound System Rental', Name: 'Premium Sound + Lights', Category: 'Events', Price: 5000, available: 3, stockStatus: 'in_stock', icon: '🔊', hasDelivery: true, hasPickup: true, deliveryRadius: 25 },
-                { ProductId: 'P065', MerchantId: 'M029', merchantName: 'Sound System Rental', Name: 'Videoke Machine Rental', Category: 'Events', Price: 1500, available: 8, stockStatus: 'in_stock', icon: '🎤', hasDelivery: true, hasPickup: true, deliveryRadius: 25 },
-                { ProductId: 'P066', MerchantId: 'M030', merchantName: 'Snap & Click Photography', Name: 'Event Photography (4hrs)', Category: 'Events', Price: 5000, available: 99, stockStatus: 'in_stock', icon: '📸', hasDelivery: true, hasPickup: false, deliveryRadius: 30 },
-                { ProductId: 'P067', MerchantId: 'M030', merchantName: 'Snap & Click Photography', Name: 'Event Photography (8hrs)', Category: 'Events', Price: 8000, available: 99, stockStatus: 'in_stock', icon: '📸', hasDelivery: true, hasPickup: false, deliveryRadius: 30 },
-                { ProductId: 'P068', MerchantId: 'M030', merchantName: 'Snap & Click Photography', Name: 'Video Coverage (Full Day)', Category: 'Events', Price: 12000, available: 99, stockStatus: 'in_stock', icon: '🎥', hasDelivery: true, hasPickup: false, deliveryRadius: 30 },
-                
-                // Farm - Amadeo Fresh (Both available)
-                { ProductId: 'P016', MerchantId: 'M010', merchantName: 'Amadeo Fresh Farm', Name: 'Fresh Eggs (30pcs)', Category: 'Farm', Price: 250, available: 25, stockStatus: 'in_stock', icon: '🥚', hasDelivery: true, hasPickup: true, deliveryRadius: 7 },
-                { ProductId: 'P017', MerchantId: 'M010', merchantName: 'Amadeo Fresh Farm', Name: 'Native Chicken (Live)', Category: 'Farm', Price: 450, available: 6, stockStatus: 'low', icon: '🐔', hasDelivery: false, hasPickup: true, deliveryRadius: 0 },
-                { ProductId: 'P018', MerchantId: 'M011', merchantName: 'Kape Amadeo', Name: 'Barako Coffee 250g', Category: 'Farm', Price: 180, available: 40, stockStatus: 'in_stock', icon: '☕', hasDelivery: true, hasPickup: true, deliveryRadius: 10 }
-            ];
-            
-            applyFilters();
-        }
-        
-        // ═══════════════════════════════════════════════════════════════════════
-        // FILTERING
-        // ═══════════════════════════════════════════════════════════════════════
-        
-        function applyFilters() {
-            filteredProducts = products.filter(p => {
-                // Category filter
-                if (currentCategory !== 'all' && p.Category !== currentCategory) return false;
-                
-                // Stock filter
-                if (currentStockFilter === 'instock' && p.stockStatus === 'out') return false;
-                
-                // Service filter (delivery/pickup)
-                if (currentServiceFilter === 'delivery' && !p.hasDelivery) return false;
-                if (currentServiceFilter === 'pickup' && !p.hasPickup) return false;
-                
-                // Search filter
-                if (searchQuery) {
-                    const query = searchQuery.toLowerCase();
-                    const matchName = p.Name.toLowerCase().includes(query);
-                    const matchMerchant = p.merchantName.toLowerCase().includes(query);
-                    const matchCategory = p.Category.toLowerCase().includes(query);
-                    if (!matchName && !matchMerchant && !matchCategory) return false;
-                }
-                
-                return true;
-            });
-            
-            renderProducts();
-        }
-        
-        function filterCategory(category, btn) {
-            currentCategory = category;
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            applyFilters();
-        }
-        
-        function filterStock(filter, btn) {
-            currentStockFilter = filter;
-            btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            applyFilters();
-        }
-        
-        function filterService(filter, btn) {
-            currentServiceFilter = filter;
-            btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            applyFilters();
-        }
-        
-        function handleSearch() {
-            searchQuery = document.getElementById('searchInput').value;
-            applyFilters();
-        }
-        
-        // ═══════════════════════════════════════════════════════════════════════
-        // RENDER PRODUCTS
-        // ═══════════════════════════════════════════════════════════════════════
-        
         function renderProducts() {
-            const grid = document.getElementById('productGrid');
-            
-            // Update results count
-            document.getElementById('resultsCount').textContent = 
-                `${filteredProducts.length} product${filteredProducts.length !== 1 ? 's' : ''} found`;
-            
-            if (filteredProducts.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--gray-500);">
-                        <div style="font-size: 60px; margin-bottom: 15px;">🔍</div>
-                        <h3>No products found</h3>
-                        <p>Try adjusting your search or filters</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            grid.innerHTML = filteredProducts.map(p => {
-                const isOpen = isStoreOpen(p.MerchantId);
-                const hours = getStoreHours(p.MerchantId);
-                const phone = getMerchantPhone(p.MerchantId);
-                
-                return `
-                <div class="product-card ${p.stockStatus === 'out' ? 'out-of-stock' : ''}">
-                    <div class="product-image">
-                        ${p.icon || '📦'}
-                        <div class="stock-badge ${getStockBadgeClass(p.stockStatus)}">
-                            ${getStockLabel(p.stockStatus)}
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <div class="merchant-header">
-                            <div class="product-merchant">${p.merchantName}</div>
-                            <div class="merchant-services">
-                                <span class="service-icon delivery ${p.hasDelivery ? 'active' : ''}" title="${p.hasDelivery ? 'Delivery Available' : 'No Delivery'}">🚚</span>
-                                <span class="service-icon pickup ${p.hasPickup ? 'active' : ''}" title="${p.hasPickup ? 'Pickup Available' : 'No Pickup'}">🏪</span>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                            <span class="store-status ${isOpen ? 'open' : 'closed'}">
-                                ${isOpen ? '🟢 OPEN' : '🔴 CLOSED'}
-                            </span>
-                            <span class="store-hours">🕐 ${hours}</span>
-                        </div>
-                        <div class="service-badges">
-                            ${p.hasDelivery ? `<span class="service-badge badge-delivery">🚚 Delivery</span>` : ''}
-                            ${p.hasPickup ? `<span class="service-badge badge-pickup">🏪 Pickup</span>` : ''}
-                            ${p.hasDelivery && p.deliveryRadius ? `<span class="service-badge badge-radius">📍 ${p.deliveryRadius}km</span>` : ''}
-                        </div>
-                        <div class="product-name">${p.Name}</div>
-                        <div class="product-category">${p.Category}</div>
-                        <div class="product-footer">
-                            <div>
-                                <div class="product-price">₱${p.Price.toLocaleString()}</div>
-                                <div class="product-stock ${p.stockStatus === 'low' ? 'low' : ''} ${p.stockStatus === 'critical' ? 'critical' : ''}">
-                                    ${p.stockStatus === 'out' ? 'Out of stock' : 
-                                      p.stockStatus === 'critical' ? `Only ${p.available} left!` :
-                                      p.stockStatus === 'low' ? `${p.available} in stock` :
-                                      p.Category === 'Services' ? 'Available' : `${p.available} in stock`}
-                                </div>
-                            </div>
-                            <button class="add-to-cart" 
-                                    onclick="addToCart('${p.ProductId}')"
-                                    ${p.stockStatus === 'out' ? 'disabled' : ''}>
-                                ${p.stockStatus === 'out' ? 'Sold Out' : 'Add'}
-                            </button>
-                        </div>
-                        <div class="contact-buttons">
-                            <a href="tel:${phone}" class="contact-btn call">📞 Call</a>
-                            <a href="sms:${phone}" class="contact-btn sms">💬 Text</a>
-                            <a href="https://m.me/${phone}" class="contact-btn chat" target="_blank">💜 Chat</a>
-                        </div>
-                    </div>
-                </div>
-            `}).join('');
+            const grid = document.getElementById('productsGrid');
+            let products = applyAllFilters([...allProducts]);
+            if(products.length === 0) { grid.innerHTML = '<div class="loading-products"><p style="font-size:50px;margin-bottom:20px;">🔍</p><p>No products found</p></div>'; return; }
+            grid.innerHTML = products.map(p => {
+                const m = allMerchants.find(x => x.MerchantId === p.MerchantId), mName = m ? m.BusinessName : 'Local Merchant', icon = categoryIcons[p.Category] || '📦', stock = p.available || p.Stock || 0, inStock = stock > 0;
+                return `<div class="product-card"><div class="product-image">${p.ImageURL ? `<img src="${p.ImageURL}" alt="${p.Name}" onerror="this.parentElement.innerHTML='${icon}'">` : icon}${!inStock ? '<div class="product-badge">Out of Stock</div>' : ''}</div><div class="product-info"><div class="product-merchant">🏪 ${mName}</div><div class="product-name">${p.Name}</div><div class="product-price">₱${(p.Price||0).toLocaleString()}</div><div class="product-stock ${stock<5?'low':''}">${inStock ? stock+' available' : 'Out of stock'}</div><button class="add-to-cart" onclick="addToCart('${p.ProductId}')" ${!inStock?'disabled':''}>${inStock ? '🛒 Add to Cart' : 'Out of Stock'}</button></div></div>`;
+            }).join('');
         }
-        
-        function getStockBadgeClass(status) {
-            const classes = {
-                'in_stock': 'in-stock',
-                'low': 'low-stock',
-                'critical': 'critical',
-                'out': 'out-of-stock'
-            };
-            return classes[status] || 'in-stock';
+        function applyAllFilters(products) {
+            if(currentCategory !== 'all') products = products.filter(p => p.Category === currentCategory);
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            if(search) products = products.filter(p => (p.Name||'').toLowerCase().includes(search) || (p.Category||'').toLowerCase().includes(search));
+            const minP = parseFloat(document.getElementById('priceMin').value) || 0, maxP = parseFloat(document.getElementById('priceMax').value) || Infinity;
+            products = products.filter(p => p.Price >= minP && p.Price <= maxP);
+            if(document.getElementById('inStockOnly').checked) products = products.filter(p => (p.available||p.Stock||0) > 0);
+            const sort = document.getElementById('sortSelect').value;
+            if(sort==='price-low') products.sort((a,b) => a.Price-b.Price);
+            else if(sort==='price-high') products.sort((a,b) => b.Price-a.Price);
+            else if(sort==='name') products.sort((a,b) => (a.Name||'').localeCompare(b.Name||''));
+            return products;
         }
-        
-        function getStockLabel(status) {
-            const labels = {
-                'in_stock': '✓ In Stock',
-                'low': '⚠ Low Stock',
-                'critical': '🔥 Almost Gone',
-                'out': '✗ Sold Out'
-            };
-            return labels[status] || status;
-        }
-        
-        // ═══════════════════════════════════════════════════════════════════════
-        // CART FUNCTIONS
-        // ═══════════════════════════════════════════════════════════════════════
-        
-        function loadCart() {
-            const saved = localStorage.getItem('amadeoCart');
-            if (saved) {
-                cart = JSON.parse(saved);
-                updateCartUI();
-            }
-        }
-        
-        function saveCart() {
-            localStorage.setItem('amadeoCart', JSON.stringify(cart));
-            updateCartUI();
-        }
-        
-        function addToCart(productId) {
-            const product = products.find(p => p.ProductId === productId);
-            if (!product || product.stockStatus === 'out') return;
-            
-            const existing = cart.find(item => item.ProductId === productId);
-            
-            if (existing) {
-                // Check stock before adding more
-                if (existing.quantity >= product.available) {
-                    showToast(`Only ${product.available} available`, 'warning');
-                    return;
-                }
-                existing.quantity++;
-            } else {
-                cart.push({
-                    ProductId: product.ProductId,
-                    MerchantId: product.MerchantId,
-                    merchantName: product.merchantName,
-                    name: product.Name,
-                    price: product.Price,
-                    quantity: 1,
-                    maxStock: product.available,
-                    icon: product.icon
-                });
-            }
-            
-            saveCart();
-            showToast(`Added ${product.Name} to cart`, 'success');
-        }
-        
-        function updateQuantity(productId, delta) {
-            const item = cart.find(i => i.ProductId === productId);
-            if (!item) return;
-            
-            const newQty = item.quantity + delta;
-            
-            if (newQty <= 0) {
-                removeFromCart(productId);
-                return;
-            }
-            
-            if (newQty > item.maxStock) {
-                showToast(`Only ${item.maxStock} available`, 'warning');
-                return;
-            }
-            
-            item.quantity = newQty;
-            saveCart();
-        }
-        
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.ProductId !== productId);
-            saveCart();
-            showToast('Item removed from cart');
-        }
-        
+        function filterCategory(cat, btn) { currentCategory = cat; document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active')); if(btn) btn.classList.add('active'); document.getElementById('productsTitle').textContent = cat==='all' ? 'All Products' : (categoryIcons[cat]||'') + ' ' + cat; renderProducts(); }
+        function applyFilters() { renderProducts(); }
+        function searchProducts() { renderProducts(); }
+        function addToCart(productId) { const p = allProducts.find(x => x.ProductId === productId); if(!p) return; const existing = cart.find(i => i.ProductId === productId); if(existing) existing.Quantity += 1; else cart.push({ProductId:p.ProductId,MerchantId:p.MerchantId,Name:p.Name,Price:p.Price,Quantity:1,Category:p.Category}); saveCart(); updateCartUI(); showToast('✅ Added to cart!'); }
+        function updateQuantity(productId, change) { const item = cart.find(i => i.ProductId === productId); if(!item) return; item.Quantity += change; if(item.Quantity <= 0) cart = cart.filter(i => i.ProductId !== productId); saveCart(); updateCartUI(); }
+        function removeFromCart(productId) { cart = cart.filter(i => i.ProductId !== productId); saveCart(); updateCartUI(); }
+        function saveCart() { localStorage.setItem('amadeo_cart', JSON.stringify(cart)); }
         function updateCartUI() {
-            const cartItems = document.getElementById('cartItems');
-            const cartCount = document.getElementById('cartCount');
-            const cartSubtotal = document.getElementById('cartSubtotal');
-            const cartTotal = document.getElementById('cartTotal');
-            const checkoutBtn = document.getElementById('checkoutBtn');
-            
-            // Update count
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.textContent = totalItems;
-            
-            // Update items
-            if (cart.length === 0) {
-                cartItems.innerHTML = `
-                    <div class="cart-empty">
-                        <div class="cart-empty-icon">🛒</div>
-                        <h3>Your cart is empty</h3>
-                        <p>Add some products to get started</p>
-                    </div>
-                `;
-                checkoutBtn.disabled = true;
-            } else {
-                cartItems.innerHTML = cart.map(item => `
-                    <div class="cart-item">
-                        <div class="cart-item-image">${item.icon || '📦'}</div>
-                        <div class="cart-item-info">
-                            <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-merchant">${item.merchantName}</div>
-                            <div class="cart-item-price">₱${(item.price * item.quantity).toLocaleString()}</div>
-                            <div class="cart-item-qty">
-                                <button class="qty-btn" onclick="updateQuantity('${item.ProductId}', -1)">−</button>
-                                <span>${item.quantity}</span>
-                                <button class="qty-btn" onclick="updateQuantity('${item.ProductId}', 1)">+</button>
-                                <button class="cart-item-remove" onclick="removeFromCart('${item.ProductId}')">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-                checkoutBtn.disabled = false;
-            }
-            
-            // Update totals
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartSubtotal.textContent = '₱' + subtotal.toLocaleString();
-            cartTotal.textContent = '₱' + subtotal.toLocaleString();
+            const total = cart.reduce((s,i) => s + i.Quantity, 0);
+            document.getElementById('cartCount').textContent = total;
+            const el = document.getElementById('cartItems'), footer = document.getElementById('cartFooter');
+            if(cart.length === 0) { el.innerHTML = '<div class="cart-empty"><p style="font-size:50px;margin-bottom:15px;">🛒</p><p>Your cart is empty</p></div>'; footer.style.display = 'none'; return; }
+            el.innerHTML = cart.map(item => { const icon = categoryIcons[item.Category]||'📦', m = allMerchants.find(x => x.MerchantId === item.MerchantId); return `<div class="cart-item"><div class="cart-item-image">${icon}</div><div class="cart-item-details"><div class="cart-item-name">${item.Name}</div><div class="cart-item-merchant">${m?.BusinessName||'Merchant'}</div><div class="cart-item-price">₱${(item.Price*item.Quantity).toLocaleString()}</div><div class="cart-item-qty"><button class="qty-btn" onclick="updateQuantity('${item.ProductId}',-1)">-</button><span>${item.Quantity}</span><button class="qty-btn" onclick="updateQuantity('${item.ProductId}',1)">+</button></div></div><button class="cart-item-remove" onclick="removeFromCart('${item.ProductId}')">&times;</button></div>`; }).join('');
+            const subtotal = cart.reduce((s,i) => s + (i.Price*i.Quantity), 0), fee = Math.round(subtotal*0.05), totalAmt = subtotal + fee;
+            document.getElementById('cartSubtotal').textContent = '₱' + subtotal.toLocaleString();
+            document.getElementById('cartFee').textContent = '₱' + fee.toLocaleString();
+            document.getElementById('cartTotal').textContent = '₱' + totalAmt.toLocaleString();
+            footer.style.display = 'block';
         }
-        
-        function openCart() {
-            document.getElementById('cartOverlay').classList.add('active');
-            document.getElementById('cartSidebar').classList.add('active');
-        }
-        
-        function closeCart() {
-            document.getElementById('cartOverlay').classList.remove('active');
-            document.getElementById('cartSidebar').classList.remove('active');
-        }
-        
-        // ═══════════════════════════════════════════════════════════════════════
-        // CHECKOUT
-        // ═══════════════════════════════════════════════════════════════════════
-        
+        function toggleCart() { document.getElementById('cartOverlay').classList.toggle('active'); document.getElementById('cartSidebar').classList.toggle('active'); }
         function openCheckout() {
-            if (cart.length === 0) return;
-            
-            closeCart();
-            
-            // Populate checkout summary
-            const summary = document.getElementById('checkoutSummary');
-            summary.innerHTML = cart.map(item => `
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px;">
-                    <span>${item.quantity}× ${item.name}</span>
-                    <span>₱${(item.price * item.quantity).toLocaleString()}</span>
-                </div>
-            `).join('');
-            
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            document.getElementById('checkoutTotal').textContent = '₱' + total.toLocaleString();
-            
-            openModal('checkoutModal');
+            if(cart.length === 0) return;
+            toggleCart();
+            const user = JSON.parse(sessionStorage.getItem('amadeo_user')||'{}');
+            if(user.name) document.getElementById('customerName').value = user.name;
+            if(user.phone) document.getElementById('customerPhone').value = user.phone;
+            if(user.email) document.getElementById('customerEmail').value = user.email;
+            if(user.address) document.getElementById('customerAddress').value = user.address;
+            if(user.barangay) document.getElementById('customerBarangay').value = user.barangay;
+            const subtotal = cart.reduce((s,i) => s + (i.Price*i.Quantity), 0), fee = Math.round(subtotal*0.05), total = subtotal + fee;
+            document.getElementById('checkoutItems').innerHTML = cart.map(i => `<div class="summary-row"><span>${i.Name} x${i.Quantity}</span><span>₱${(i.Price*i.Quantity).toLocaleString()}</span></div>`).join('');
+            document.getElementById('summarySubtotal').textContent = '₱' + subtotal.toLocaleString();
+            document.getElementById('summaryFee').textContent = '₱' + fee.toLocaleString();
+            document.getElementById('summaryTotal').textContent = '₱' + total.toLocaleString();
+            document.getElementById('checkoutModal').classList.add('active');
         }
-        
-        function selectPayment(method, btn) {
-            document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
-            btn.classList.add('selected');
-            document.getElementById('paymentMethod').value = method;
-        }
-        
+        function selectPayment(el) { document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected')); el.classList.add('selected'); el.querySelector('input').checked = true; }
         async function placeOrder(e) {
             e.preventDefault();
-            
-            const orderData = {
-                customerName: document.getElementById('customerName').value,
-                customerPhone: document.getElementById('customerPhone').value,
-                customerAddress: document.getElementById('customerAddress').value,
-                barangay: document.getElementById('customerBarangay').value,
-                specialInstructions: document.getElementById('specialInstructions').value,
-                paymentMethod: document.getElementById('paymentMethod').value,
-                items: cart.map(item => ({
-                    productId: item.ProductId,
-                    merchantId: item.MerchantId,
-                    name: item.name,
-                    quantity: item.quantity,
-                    price: item.price
-                }))
-            };
-            
-            // Generate order ID
-            const orderId = 'ORD-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + 
-                           Math.random().toString(36).substr(2, 5).toUpperCase();
-            
-            // In production, send to API
-            // const response = await fetch(CONFIG.API_URL, {
-            //     method: 'POST',
-            //     body: JSON.stringify({ action: 'createOrder', ...orderData })
-            // });
-            
-            // Simulate success
-            console.log('Order placed:', orderId, orderData);
-            
-            // Clear cart
-            cart = [];
-            saveCart();
-            
-            // Show success
-            closeModal('checkoutModal');
-            document.getElementById('displayOrderId').textContent = orderId;
-            openModal('successModal');
+            const btn = document.getElementById('placeOrderBtn');
+            btn.disabled = true; btn.textContent = 'Processing...';
+            const subtotal = cart.reduce((s,i) => s + (i.Price*i.Quantity), 0), fee = Math.round(subtotal*0.05), total = subtotal + fee;
+            try {
+                const response = await fetch(SCRIPT_URL, { method: 'POST', headers: {'Content-Type':'text/plain'}, body: JSON.stringify({
+                    action: 'createOrder', customerName: document.getElementById('customerName').value, customerPhone: document.getElementById('customerPhone').value, customerEmail: document.getElementById('customerEmail').value||'', customerAddress: document.getElementById('customerAddress').value, barangay: document.getElementById('customerBarangay').value, deliveryNotes: document.getElementById('deliveryNotes').value||'', paymentMethod: document.querySelector('input[name="payment"]:checked').value,
+                    items: cart.map(i => ({productId:i.ProductId,merchantId:i.MerchantId,name:i.Name,price:i.Price,quantity:i.Quantity})), subtotal:subtotal, platformFee:fee, total:total
+                })});
+                const result = await response.json();
+                if(result.success) { cart = []; saveCart(); updateCartUI(); closeModal('checkoutModal'); document.getElementById('successOrderId').textContent = result.orderId; document.getElementById('trackOrderBtn').href = '/track?id='+result.orderId; document.getElementById('successModal').classList.add('active'); }
+                else { alert('Error: '+(result.error||'Unable to place order')); btn.disabled = false; btn.textContent = 'Place Order'; }
+            } catch(e) { alert('Network error. Please try again.'); btn.disabled = false; btn.textContent = 'Place Order'; }
         }
-        
-        // ═══════════════════════════════════════════════════════════════════════
-        // UTILITIES
-        // ═══════════════════════════════════════════════════════════════════════
-        
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-        
-        function showToast(message, type = '') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast ' + type;
-            toast.textContent = message;
-            container.appendChild(toast);
-            
-            setTimeout(() => toast.remove(), 3000);
-        }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+        document.querySelectorAll('.modal-overlay').forEach(o => { o.addEventListener('click', e => { if(e.target === o) o.classList.remove('active'); }); });
     </script>
 </body>
 </html>
