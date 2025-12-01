@@ -102,25 +102,38 @@
         
         /* Payment Options */
         .payment-section h3 { color: #0f766e; margin-bottom: 15px; font-size: 16px; }
-        .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .payment-option { padding: 20px 15px; border: 2px solid #ddd; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .payment-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .payment-option { padding: 15px 12px; border: 2px solid #ddd; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
         .payment-option:hover { border-color: #14b8a6; }
         .payment-option.selected { border-color: #0f766e; background: #f0fdfa; }
         .payment-option input { display: none; }
-        .payment-option .pay-icon { font-size: 28px; margin-bottom: 8px; }
-        .payment-option .pay-name { font-weight: 600; color: #333; margin-bottom: 4px; }
-        .payment-option .pay-fee { font-size: 12px; color: #666; }
+        .payment-option .pay-icon { font-size: 24px; margin-bottom: 6px; }
+        .payment-option .pay-name { font-weight: 600; color: #333; margin-bottom: 3px; font-size: 13px; }
+        .payment-option .pay-fee { font-size: 11px; color: #666; }
         .payment-option.selected .pay-fee { color: #0f766e; font-weight: 600; }
         
-        /* GCash Section */
-        .gcash-section { margin-top: 20px; padding: 20px; background: #f0fdfa; border: 2px solid #14b8a6; border-radius: 12px; }
-        .gcash-info { text-align: center; margin-bottom: 20px; }
-        .gcash-info h4 { color: #0f766e; margin-bottom: 15px; }
-        .gcash-number { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
-        .gcash-number span { display: block; font-size: 13px; color: #666; }
-        .gcash-number strong { font-size: 24px; color: #0f766e; letter-spacing: 1px; display: block; margin: 5px 0; }
-        .gcash-name { color: #134e4a !important; font-weight: 600; }
-        .gcash-note { font-size: 13px; color: #666; }
+        /* Saved Details Toggle */
+        .saved-details-toggle { margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .toggle-option { display: flex; align-items: center; gap: 12px; padding: 15px; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+        .toggle-option:hover { border-color: #14b8a6; }
+        .toggle-option.active { border-color: #0f766e; background: #f0fdfa; }
+        .toggle-option .toggle-icon { width: 32px; height: 32px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .toggle-option.active .toggle-icon { background: #0f766e; color: white; }
+        .toggle-option .toggle-text { flex: 1; }
+        .toggle-option .toggle-text strong { display: block; color: #333; margin-bottom: 2px; }
+        .toggle-option .toggle-text span { font-size: 12px; color: #666; }
+        
+        /* Online Payment Section */
+        .online-payment-section { margin-top: 20px; padding: 20px; background: #f0fdfa; border: 2px solid #14b8a6; border-radius: 12px; }
+        .payment-info { text-align: center; margin-bottom: 20px; }
+        .payment-info h4 { color: #0f766e; margin-bottom: 15px; }
+        .payment-accounts { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; }
+        .payment-account { padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+        .payment-account:last-child { border-bottom: none; }
+        .payment-account .account-label { display: block; font-size: 12px; color: #666; margin-bottom: 3px; }
+        .payment-account .account-number { font-size: 20px; color: #0f766e; font-weight: 700; letter-spacing: 1px; }
+        .payment-account .account-name { font-size: 13px; color: #134e4a; font-weight: 600; }
+        .payment-note { font-size: 13px; color: #666; }
         
         /* Screenshot Upload */
         .screenshot-upload { margin-top: 15px; }
@@ -290,56 +303,76 @@
                 <form id="checkoutForm" onsubmit="placeOrder(event)">
                     <h3 style="color:#0f766e;margin-bottom:15px;">Delivery Information</h3>
                     
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Full Name *</label>
-                            <input type="text" id="customerName" required placeholder="Your full name">
+                    <!-- Logged-in user toggle -->
+                    <div class="saved-details-toggle" id="savedDetailsToggle" style="display:none;">
+                        <div class="toggle-option active" onclick="useSavedDetails(true)">
+                            <span class="toggle-icon">✓</span>
+                            <div class="toggle-text">
+                                <strong>Use my saved details</strong>
+                                <span id="savedDetailsSummary"></span>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Phone Number *</label>
-                            <input type="tel" id="customerPhone" required placeholder="09XX XXX XXXX">
+                        <div class="toggle-option" onclick="useSavedDetails(false)">
+                            <span class="toggle-icon">✎</span>
+                            <div class="toggle-text">
+                                <strong>Use different details</strong>
+                                <span>Enter new delivery information</span>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label>Email (optional)</label>
-                        <input type="email" id="customerEmail" placeholder="your@email.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Delivery Address *</label>
-                        <textarea id="customerAddress" rows="2" required placeholder="House/Unit No., Street, Landmark"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Barangay *</label>
-                        <select id="customerBarangay" required>
-                            <option value="">Select Barangay</option>
-                            <option value="Poblacion">Poblacion</option>
-                            <option value="Dagatan">Dagatan</option>
-                            <option value="Halang">Halang</option>
-                            <option value="Iba">Iba</option>
-                            <option value="Kaysuyo">Kaysuyo</option>
-                            <option value="Lalaan I">Lalaan I</option>
-                            <option value="Lalaan II">Lalaan II</option>
-                            <option value="Maymangga">Maymangga</option>
-                            <option value="Minantok East">Minantok East</option>
-                            <option value="Minantok West">Minantok West</option>
-                            <option value="Pangil">Pangil</option>
-                            <option value="Salaban">Salaban</option>
-                            <option value="Talon">Talon</option>
-                            <option value="Tamlong">Tamlong</option>
-                            <option value="Banaybanay">Banaybanay</option>
-                            <option value="Buho">Buho</option>
-                            <option value="Kabigting">Kabigting</option>
-                            <option value="Labac">Labac</option>
-                            <option value="Luksuhin">Luksuhin</option>
-                            <option value="Maitim">Maitim</option>
-                            <option value="Mahabang Kahoy">Mahabang Kahoy</option>
-                            <option value="Paligawan">Paligawan</option>
-                            <option value="San Agustin">San Agustin</option>
-                            <option value="Tiambong">Tiambong</option>
-                        </select>
+                    <div id="deliveryFields">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" id="customerName" required placeholder="Your full name">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" id="customerPhone" required placeholder="09XX XXX XXXX">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email (optional)</label>
+                            <input type="email" id="customerEmail" placeholder="your@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Delivery Address *</label>
+                            <textarea id="customerAddress" rows="2" required placeholder="House/Unit No., Street, Landmark"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Barangay *</label>
+                            <select id="customerBarangay" required>
+                                <option value="">Select Barangay</option>
+                                <option value="Poblacion">Poblacion</option>
+                                <option value="Dagatan">Dagatan</option>
+                                <option value="Halang">Halang</option>
+                                <option value="Iba">Iba</option>
+                                <option value="Kaysuyo">Kaysuyo</option>
+                                <option value="Lalaan I">Lalaan I</option>
+                                <option value="Lalaan II">Lalaan II</option>
+                                <option value="Maymangga">Maymangga</option>
+                                <option value="Minantok East">Minantok East</option>
+                                <option value="Minantok West">Minantok West</option>
+                                <option value="Pangil">Pangil</option>
+                                <option value="Salaban">Salaban</option>
+                                <option value="Talon">Talon</option>
+                                <option value="Tamlong">Tamlong</option>
+                                <option value="Banaybanay">Banaybanay</option>
+                                <option value="Buho">Buho</option>
+                                <option value="Kabigting">Kabigting</option>
+                                <option value="Labac">Labac</option>
+                                <option value="Luksuhin">Luksuhin</option>
+                                <option value="Maitim">Maitim</option>
+                                <option value="Mahabang Kahoy">Mahabang Kahoy</option>
+                                <option value="Paligawan">Paligawan</option>
+                                <option value="San Agustin">San Agustin</option>
+                                <option value="Tiambong">Tiambong</option>
+                            </select>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -363,18 +396,28 @@
                                 <div class="pay-name">GCash</div>
                                 <div class="pay-fee">5% platform fee</div>
                             </label>
+                            <label class="payment-option" onclick="selectPayment('PayMaya', this)">
+                                <input type="radio" name="payment" value="PayMaya">
+                                <div class="pay-icon">💳</div>
+                                <div class="pay-name">PayMaya</div>
+                                <div class="pay-fee">5% platform fee</div>
+                            </label>
+                            <label class="payment-option" onclick="selectPayment('BankTransfer', this)">
+                                <input type="radio" name="payment" value="BankTransfer">
+                                <div class="pay-icon">🏦</div>
+                                <div class="pay-name">Bank Transfer</div>
+                                <div class="pay-fee">5% platform fee</div>
+                            </label>
                         </div>
                         
-                        <!-- GCash Payment Details - shows when GCash selected -->
-                        <div class="gcash-section" id="gcashSection" style="display:none;">
-                            <div class="gcash-info">
-                                <h4>📱 GCash Payment Details</h4>
-                                <div class="gcash-number">
-                                    <span>Send payment to:</span>
-                                    <strong>0966 960 6060</strong>
-                                    <span class="gcash-name">TYG Services</span>
+                        <!-- Online Payment Details - shows when online payment selected -->
+                        <div class="online-payment-section" id="onlinePaymentSection" style="display:none;">
+                            <div class="payment-info">
+                                <h4 id="paymentMethodTitle">📱 Payment Details</h4>
+                                <div class="payment-accounts" id="paymentAccounts">
+                                    <!-- Will be populated based on selected method -->
                                 </div>
-                                <p class="gcash-note">Please include your <strong>Order ID</strong> in the message</p>
+                                <p class="payment-note">Please include your <strong>Order ID</strong> in the message/reference</p>
                             </div>
                             
                             <div class="screenshot-upload">
@@ -750,30 +793,109 @@
             document.getElementById('cartSidebar').classList.toggle('active');
         }
 
+        // Payment accounts configuration
+        const paymentAccounts = {
+            GCash: [
+                { label: 'GCash Number', number: '0966 960 6060', name: 'TYG Services' }
+            ],
+            PayMaya: [
+                { label: 'PayMaya Number', number: '0966 960 6060', name: 'TYG Services' }
+            ],
+            BankTransfer: [
+                { label: 'BDO', number: '0012 3456 7890', name: 'TYG Services' },
+                { label: 'BPI', number: '1234 5678 90', name: 'TYG Services' }
+            ]
+        };
+        
+        let savedUserData = null;
+        let usingSavedDetails = false;
+
         // Checkout functions
         function openCheckout() {
             if (cart.length === 0) return;
             
             toggleCart();
             
-            // Pre-fill user data if logged in
-            const user = JSON.parse(sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user') || '{}');
-            if (user.name) document.getElementById('customerName').value = user.name;
-            if (user.phone) document.getElementById('customerPhone').value = user.phone;
-            if (user.email) document.getElementById('customerEmail').value = user.email;
-            if (user.address) document.getElementById('customerAddress').value = user.address;
-            if (user.barangay) document.getElementById('customerBarangay').value = user.barangay;
+            // Check if user is logged in
+            const userData = JSON.parse(sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user') || '{}');
+            const isLoggedIn = userData && (userData.name || userData.Name);
+            
+            savedUserData = {
+                name: userData.name || userData.Name || '',
+                phone: userData.phone || userData.Phone || '',
+                email: userData.email || userData.Email || '',
+                address: userData.address || userData.Address || '',
+                barangay: userData.barangay || userData.Barangay || ''
+            };
+            
+            const savedToggle = document.getElementById('savedDetailsToggle');
+            const deliveryFields = document.getElementById('deliveryFields');
+            
+            if (isLoggedIn && savedUserData.name) {
+                // Show saved details toggle
+                savedToggle.style.display = 'flex';
+                document.getElementById('savedDetailsSummary').textContent = 
+                    `${savedUserData.name} • ${savedUserData.phone}${savedUserData.barangay ? ' • ' + savedUserData.barangay : ''}`;
+                
+                // Default to using saved details
+                usingSavedDetails = true;
+                useSavedDetails(true);
+            } else {
+                // Not logged in - hide toggle, show form
+                savedToggle.style.display = 'none';
+                deliveryFields.style.display = 'block';
+                usingSavedDetails = false;
+                
+                // Clear form
+                document.getElementById('customerName').value = '';
+                document.getElementById('customerPhone').value = '';
+                document.getElementById('customerEmail').value = '';
+                document.getElementById('customerAddress').value = '';
+                document.getElementById('customerBarangay').value = '';
+            }
             
             // Reset to COD
             selectedPayment = 'COD';
             document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
             document.querySelector('.payment-option').classList.add('selected');
             document.querySelector('input[value="COD"]').checked = true;
-            document.getElementById('gcashSection').style.display = 'none';
+            document.getElementById('onlinePaymentSection').style.display = 'none';
             removeScreenshot();
             
             updateCheckoutSummary();
             document.getElementById('checkoutModal').classList.add('active');
+        }
+        
+        function useSavedDetails(useSaved) {
+            usingSavedDetails = useSaved;
+            const toggleOptions = document.querySelectorAll('.toggle-option');
+            const deliveryFields = document.getElementById('deliveryFields');
+            
+            toggleOptions.forEach((opt, i) => {
+                opt.classList.toggle('active', (useSaved && i === 0) || (!useSaved && i === 1));
+            });
+            
+            if (useSaved && savedUserData) {
+                // Hide form, use saved data
+                deliveryFields.style.display = 'none';
+                
+                // Fill hidden fields with saved data
+                document.getElementById('customerName').value = savedUserData.name;
+                document.getElementById('customerPhone').value = savedUserData.phone;
+                document.getElementById('customerEmail').value = savedUserData.email;
+                document.getElementById('customerAddress').value = savedUserData.address;
+                document.getElementById('customerBarangay').value = savedUserData.barangay;
+            } else {
+                // Show form for new details
+                deliveryFields.style.display = 'block';
+                
+                // Clear form for new entry
+                document.getElementById('customerName').value = '';
+                document.getElementById('customerPhone').value = '';
+                document.getElementById('customerEmail').value = '';
+                document.getElementById('customerAddress').value = '';
+                document.getElementById('customerBarangay').value = '';
+            }
         }
 
         function selectPayment(method, element) {
@@ -782,13 +904,33 @@
             element.classList.add('selected');
             element.querySelector('input').checked = true;
             
-            // Show/hide GCash section
-            const gcashSection = document.getElementById('gcashSection');
-            if (method === 'GCash') {
-                gcashSection.style.display = 'block';
+            const onlineSection = document.getElementById('onlinePaymentSection');
+            const isOnlinePayment = method !== 'COD';
+            
+            if (isOnlinePayment) {
+                // Show online payment section
+                onlineSection.style.display = 'block';
+                
+                // Update title based on method
+                const titles = {
+                    GCash: '📱 GCash Payment',
+                    PayMaya: '💳 PayMaya Payment',
+                    BankTransfer: '🏦 Bank Transfer'
+                };
+                document.getElementById('paymentMethodTitle').textContent = titles[method] || 'Payment Details';
+                
+                // Populate payment accounts
+                const accountsHtml = (paymentAccounts[method] || []).map(acc => `
+                    <div class="payment-account">
+                        <span class="account-label">${acc.label}</span>
+                        <span class="account-number">${acc.number}</span>
+                        <span class="account-name">${acc.name}</span>
+                    </div>
+                `).join('');
+                document.getElementById('paymentAccounts').innerHTML = accountsHtml;
             } else {
-                gcashSection.style.display = 'none';
-                removeScreenshot(); // Clear screenshot when switching to COD
+                onlineSection.style.display = 'none';
+                removeScreenshot();
             }
             
             updateCheckoutSummary();
@@ -797,8 +939,9 @@
         function updateCheckoutSummary() {
             const subtotal = cart.reduce((sum, item) => sum + (item.Price * item.Quantity), 0);
             
-            // 5% fee ONLY for online payment (GCash), 0% for COD
-            const fee = selectedPayment === 'GCash' ? Math.round(subtotal * 0.05) : 0;
+            // 5% fee for online payments (GCash, PayMaya, Bank Transfer), 0% for COD
+            const isOnlinePayment = selectedPayment !== 'COD';
+            const fee = isOnlinePayment ? Math.round(subtotal * 0.05) : 0;
             const total = subtotal + fee;
             
             // Update checkout items
@@ -814,11 +957,12 @@
             const feeRow = document.getElementById('feeRow');
             const feeNote = document.getElementById('feeNote');
             
-            if (selectedPayment === 'GCash') {
+            if (isOnlinePayment) {
+                const methodNames = { GCash: 'GCash', PayMaya: 'PayMaya', BankTransfer: 'Bank Transfer' };
                 feeRow.classList.remove('zero');
                 feeRow.innerHTML = `<span>Platform Fee (5%)</span><span id="summaryFee">P${fee.toLocaleString()}</span>`;
                 feeNote.className = 'fee-note online';
-                feeNote.innerHTML = 'GCash payments include a 5% platform fee. You will receive payment instructions after placing the order.';
+                feeNote.innerHTML = `${methodNames[selectedPayment] || 'Online'} payments include a 5% platform fee. Upload your payment screenshot for faster verification.`;
             } else {
                 feeRow.classList.add('zero');
                 feeRow.innerHTML = `<span>Platform Fee</span><span id="summaryFee" style="color:#10b981;">FREE</span>`;
@@ -837,7 +981,8 @@
             btn.textContent = 'Processing...';
             
             const subtotal = cart.reduce((sum, item) => sum + (item.Price * item.Quantity), 0);
-            const fee = selectedPayment === 'GCash' ? Math.round(subtotal * 0.05) : 0;
+            const isOnlinePayment = selectedPayment !== 'COD';
+            const fee = isOnlinePayment ? Math.round(subtotal * 0.05) : 0;
             const total = subtotal + fee;
             
             const orderData = {
@@ -882,7 +1027,13 @@
                     
                     // Show success with order details
                     document.getElementById('successOrderId').textContent = result.orderId;
-                    document.getElementById('successPayment').textContent = selectedPayment === 'GCash' ? 'GCash (Online)' : 'Cash on Delivery';
+                    const paymentLabels = { 
+                        COD: 'Cash on Delivery', 
+                        GCash: 'GCash', 
+                        PayMaya: 'PayMaya', 
+                        BankTransfer: 'Bank Transfer' 
+                    };
+                    document.getElementById('successPayment').textContent = paymentLabels[selectedPayment] || selectedPayment;
                     document.getElementById('successTotal').textContent = 'P' + total.toLocaleString();
                     document.getElementById('trackOrderBtn').href = '/track?id=' + result.orderId;
                     
