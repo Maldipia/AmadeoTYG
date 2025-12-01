@@ -229,9 +229,9 @@
             
             if(!merchant){
                 merchant=merchants.find(m=>
-                    m.Phone===loginId||
+                    String(m.Phone||'')===loginId||
                     m.Email?.toLowerCase()===loginId.toLowerCase()||
-                    m.Phone?.replace(/\D/g,'')===loginId.replace(/\D/g,'')
+                    String(m.Phone||'').replace(/\D/g,'')===loginId.replace(/\D/g,'')
                 );
             }
             
