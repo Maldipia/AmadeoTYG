@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amadeo Verified | Merchant Recruitment Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d6a4f;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #2d6a4f;
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover { border-color: #2d6a4f; }
+        .filter-btn.active { background: #2d6a4f; color: white; border-color: #2d6a4f; }
+
+        .export-btn {
+            background: #2d6a4f;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-btn:hover { background: #1b4332; }
+
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f1f5f9;
+        }
+
+        th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .priority-high { background: #fef2f2; color: #dc2626; }
+        .priority-medium { background: #fffbeb; color: #d97706; }
+        .priority-low { background: #f0f9ff; color: #0284c7; }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-target { background: #f1f5f9; color: #64748b; }
+        .status-contacted { background: #fef3c7; color: #b45309; }
+        .status-interested { background: #dbeafe; color: #1d4ed8; }
+        .status-registered { background: #d1fae5; color: #059669; }
+        .status-live { background: #2d6a4f; color: white; }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: inherit;
+            margin-right: 5px;
+        }
+
+        .btn-contact { background: #dbeafe; color: #1d4ed8; }
+        .btn-edit { background: #f1f5f9; color: #475569; }
+        .btn-status { background: #d1fae5; color: #059669; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 { font-size: 1.2rem; }
+
+        .modal-close {
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .modal-body { padding: 20px; }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            color: #475569;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2d6a4f;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-cancel { background: #f1f5f9; border: none; color: #475569; }
+        .btn-save { background: #2d6a4f; border: none; color: white; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+        }
+
+        .empty-state-icon { font-size: 3rem; opacity: 0.3; margin-bottom: 15px; }
+
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            th, td { padding: 10px 8px; font-size: 0.8rem; }
+            .action-btn { padding: 4px 8px; }
+        }
+
+        @media print {
+            .controls, .action-btn, .modal-overlay { display: none !important; }
+            .header { background: #2d6a4f !important; -webkit-print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Amadeo Verified - Merchant Recruitment Tracker</h1>
+            <p>Track and manage potential merchants for the 50 Essential Services marketplace</p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-value" id="totalTargets">100</div>
+                <div class="stat-label">Total Targets</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="contacted">0</div>
+                <div class="stat-label">Contacted</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="interested">0</div>
+                <div class="stat-label">Interested</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="registered">0</div>
+                <div class="stat-label">Registered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="live">0</div>
+                <div class="stat-label">Live</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search business, owner, category..." onkeyup="filterTable()">
+            </div>
+            <button class="filter-btn active" onclick="filterStatus('all', this)">All</button>
+            <button class="filter-btn" onclick="filterStatus('target', this)">Target</button>
+            <button class="filter-btn" onclick="filterStatus('contacted', this)">Contacted</button>
+            <button class="filter-btn" onclick="filterStatus('interested', this)">Interested</button>
+            <button class="filter-btn" onclick="filterStatus('registered', this)">Registered</button>
+            <button class="filter-btn" onclick="filterStatus('live', this)">Live</button>
+            <button class="export-btn" onclick="exportCSV()">📥 Export CSV</button>
+            <button class="export-btn" onclick="openAddModal()">➕ Add Merchant</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Business Name</th>
+                        <th>Category</th>
+                        <th>Owner/Contact</th>
+                        <th>Phone</th>
+                        <th>Barangay</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Rendered by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal-overlay" id="merchantModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Merchant</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editIndex" value="-1">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Business Name *</label>
+                        <input type="text" id="mBusiness" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="mCategory">
+                            <option value="">Select Category</option>
+                            <optgroup label="🚨 Emergency">
+                                <option value="emergency-plumber">Emergency Plumber 24/7</option>
+                                <option value="emergency-electrician">Emergency Electrician 24/7</option>
+                                <option value="emergency-locksmith">Emergency Locksmith 24/7</option>
+                            </optgroup>
+                            <optgroup label="💧 Water & Beverages">
+                                <option value="water-purified">Purified Water Delivery</option>
+                                <option value="water-mineral">Mineral Water Delivery</option>
+                                <option value="water-ice">Ice Delivery</option>
+                                <option value="water-dispenser">Water Dispenser Rental</option>
+                            </optgroup>
+                            <optgroup label="🔥 LPG / Gas">
+                                <option value="gas-refill">LPG Refill/Delivery</option>
+                                <option value="gas-new">New LPG Tank Sales</option>
+                                <option value="gas-accessories">Gas Accessories</option>
+                            </optgroup>
+                            <optgroup label="🍲 Food & Grocery">
+                                <option value="food-meals">Cooked Meals Delivery</option>
+                                <option value="food-rice">Rice Dealer</option>
+                                <option value="food-eggs">Eggs & Poultry</option>
+                                <option value="food-vegetables">Fresh Vegetables</option>
+                                <option value="food-grocery">Sari-Sari/Grocery</option>
+                                <option value="food-pharmacy">Pharmacy</option>
+                                <option value="food-catering">Catering Services</option>
+                                <option value="food-bakery">Bakery</option>
+                            </optgroup>
+                            <optgroup label="🚿 Plumbing">
+                                <option value="plumbing-repair">Pipe Repair</option>
+                                <option value="plumbing-unclog">Unclogging Services</option>
+                                <option value="plumbing-fixture">Faucet/Fixture Install</option>
+                                <option value="plumbing-pump">Water Pump Repair</option>
+                            </optgroup>
+                            <optgroup label="⚡ Electrical">
+                                <option value="electrical-wiring">Wiring/Outlets</option>
+                                <option value="electrical-troubleshoot">Troubleshooting</option>
+                                <option value="electrical-meralco">Meralco Services</option>
+                                <option value="electrical-solar">Solar Installation</option>
+                                <option value="electrical-generator">Generator Rental</option>
+                            </optgroup>
+                            <optgroup label="❄️ Aircon">
+                                <option value="aircon-cleaning">AC Cleaning</option>
+                                <option value="aircon-repair">AC Repair</option>
+                                <option value="aircon-install">AC Installation</option>
+                            </optgroup>
+                            <optgroup label="🧹 Cleaning">
+                                <option value="cleaning-house">House Cleaning</option>
+                                <option value="cleaning-deep">Deep Cleaning</option>
+                                <option value="cleaning-sofa">Sofa/Upholstery</option>
+                                <option value="cleaning-mattress">Mattress Cleaning</option>
+                                <option value="cleaning-postcon">Post-Construction</option>
+                            </optgroup>
+                            <optgroup label="👕 Laundry">
+                                <option value="laundry-full">Full Service Laundry</option>
+                                <option value="laundry-dry">Dry Cleaning</option>
+                                <option value="laundry-specialty">Curtains/Bedding</option>
+                            </optgroup>
+                            <optgroup label="🔧 Appliance Repair">
+                                <option value="repair-ref">Refrigerator Repair</option>
+                                <option value="repair-washer">Washing Machine</option>
+                                <option value="repair-tv">TV Repair</option>
+                                <option value="repair-phone">Phone Repair</option>
+                                <option value="repair-computer">Computer/Laptop</option>
+                            </optgroup>
+                            <optgroup label="🪳 Pest & Sanitation">
+                                <option value="pest-general">General Pest Control</option>
+                                <option value="pest-termite">Termite Treatment</option>
+                                <option value="pest-rat">Rat Control</option>
+                                <option value="septic-pumping">Septic Pumping</option>
+                            </optgroup>
+                            <optgroup label="🔨 Construction">
+                                <option value="const-carpentry">Carpentry</option>
+                                <option value="const-welding">Welding</option>
+                                <option value="const-painting">Painting</option>
+                                <option value="const-roofing">Roofing</option>
+                                <option value="const-tiles">Tiles/Masonry</option>
+                                <option value="const-landscaping">Landscaping</option>
+                            </optgroup>
+                            <optgroup label="🏗️ Hardware">
+                                <option value="hardware-materials">Construction Materials</option>
+                                <option value="hardware-tools">Tools & Equipment</option>
+                                <option value="hardware-glass">Glass & Aluminum</option>
+                            </optgroup>
+                            <optgroup label="🏍️ Vehicle">
+                                <option value="vehicle-motor">Motorcycle Repair</option>
+                                <option value="vehicle-car">Car Repair</option>
+                                <option value="vehicle-vulcanizing">Vulcanizing</option>
+                                <option value="vehicle-carwash">Car Wash</option>
+                            </optgroup>
+                            <optgroup label="💻 Tech & Internet">
+                                <option value="tech-internet">Internet/WiFi Setup</option>
+                                <option value="tech-cctv">CCTV Installation</option>
+                                <option value="tech-printer">Printer Repair</option>
+                                <option value="tech-smarthome">Smart Home</option>
+                            </optgroup>
+                            <optgroup label="💇 Personal Care">
+                                <option value="personal-salon">Salon</option>
+                                <option value="personal-barber">Barbershop</option>
+                                <option value="personal-massage">Massage/Spa</option>
+                                <option value="personal-nails">Nail Salon</option>
+                            </optgroup>
+                            <optgroup label="🐕 Pet Services">
+                                <option value="pet-grooming">Pet Grooming</option>
+                                <option value="pet-vet">Veterinary</option>
+                                <option value="pet-supplies">Pet Supplies</option>
+                            </optgroup>
+                            <optgroup label="💼 Business Services">
+                                <option value="business-print">Printing/Photocopy</option>
+                                <option value="business-bills">Bills Payment</option>
+                                <option value="business-remittance">Remittance</option>
+                                <option value="business-tailor">Tailoring</option>
+                                <option value="business-moving">Moving/Lipat Bahay</option>
+                                <option value="business-rentals">Event Rentals</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Owner/Contact Name</label>
+                        <input type="text" id="mOwner">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" id="mPhone" placeholder="09XX XXX XXXX">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Barangay</label>
+                        <select id="mBarangay">
+                            <option value="">Select Barangay</option>
+                            <option value="Poblacion">Poblacion</option>
+                            <option value="Halang">Halang</option>
+                            <option value="Dagatan">Dagatan</option>
+                            <option value="Maitim">Maitim</option>
+                            <option value="Bucal">Bucal</option>
+                            <option value="Talang">Talang</option>
+                            <option value="Maymangga">Maymangga</option>
+                            <option value="Luksuhin">Luksuhin</option>
+                            <option value="Banaybanay">Banaybanay</option>
+                            <option value="Buho">Buho</option>
+                            <option value="Salaban">Salaban</option>
+                            <option value="Talon">Talon</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="mPriority">
+                            <option value="high">🔴 High - Must Have</option>
+                            <option value="medium">🟡 Medium - Important</option>
+                            <option value="low">🔵 Low - Nice to Have</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="mStatus">
+                            <option value="target">Target</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="interested">Interested</option>
+                            <option value="registered">Registered</option>
+                            <option value="live">Live on Platform</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Business Club Member?</label>
+                        <select id="mClubMember">
+                            <option value="no">No</option>
+                            <option value="yes">Yes - Business Club Member</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="mNotes" rows="3" placeholder="Contact history, special notes, follow-up dates..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn btn-save" onclick="saveMerchant()">Save Merchant</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // SAMPLE DATA - 100 Target Merchants
+        // ============================================
+        let merchants = [
+            // EMERGENCY (6)
+            { business: 'Tubero Express 24/7', category: 'emergency-plumber', categoryLabel: '🚨 Emergency Plumber', owner: 'Mang Rolando', phone: '0917-111-1111', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'Known for fast response' },
+            { business: 'Kuryente Master', category: 'emergency-electrician', categoryLabel: '🚨 Emergency Electrician', owner: 'Jun Reyes', phone: '0918-222-2222', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'no', notes: 'Meralco accredited' },
+            { business: 'Susi Express', category: 'emergency-locksmith', categoryLabel: '🚨 Emergency Locksmith', owner: 'Danny Cruz', phone: '0919-333-3333', barangay: 'Dagatan', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Quick Response Plumbing', category: 'emergency-plumber', categoryLabel: '🚨 Emergency Plumber', owner: 'Pedro Santos', phone: '', barangay: 'Maitim', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Spark Electric 24/7', category: 'emergency-electrician', categoryLabel: '🚨 Emergency Electrician', owner: '', phone: '', barangay: 'Bucal', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Master Key Locksmith', category: 'emergency-locksmith', categoryLabel: '🚨 Emergency Locksmith', owner: '', phone: '', barangay: 'Talang', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // WATER (6)
+            { business: 'Aqua Pure Amadeo', category: 'water-purified', categoryLabel: '💧 Purified Water', owner: 'Aling Nena', phone: '0917-100-0001', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'yes', notes: 'Business Club member - warm lead' },
+            { business: 'Crystal Springs', category: 'water-mineral', categoryLabel: '💧 Mineral Water', owner: 'Mark Dela Cruz', phone: '0918-100-0002', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Blue Wave Water Station', category: 'water-purified', categoryLabel: '💧 Purified Water', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'H2O Express', category: 'water-purified', categoryLabel: '💧 Purified Water', owner: '', phone: '', barangay: 'Bucal', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Amadeo Ice Factory', category: 'water-ice', categoryLabel: '💧 Ice Delivery', owner: 'Tony Lim', phone: '0919-100-0003', barangay: 'Maitim', priority: 'high', status: 'target', clubMember: 'no', notes: 'Only ice supplier in area' },
+            { business: 'Dispenser Rentals Plus', category: 'water-dispenser', categoryLabel: '💧 Dispenser Rental', owner: '', phone: '', barangay: 'Halang', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // GAS/LPG (6)
+            { business: 'Gasul Amadeo Official', category: 'gas-refill', categoryLabel: '🔥 LPG Dealer', owner: 'Mang Bert', phone: '0917-200-0001', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'yes', notes: 'Official Petron dealer - Business Club' },
+            { business: 'Solane Center Amadeo', category: 'gas-refill', categoryLabel: '🔥 LPG Dealer', owner: 'Jay Santos', phone: '0918-200-0002', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'Official Solane dealer' },
+            { business: 'Total Gas Express', category: 'gas-refill', categoryLabel: '🔥 LPG Dealer', owner: '', phone: '', barangay: 'Maitim', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Phoenix Gas Dealer', category: 'gas-refill', categoryLabel: '🔥 LPG Dealer', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'LPG Accessories Hub', category: 'gas-accessories', categoryLabel: '🔥 Gas Accessories', owner: '', phone: '', barangay: 'Poblacion', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Quick Gas Delivery', category: 'gas-refill', categoryLabel: '🔥 LPG Dealer', owner: '', phone: '', barangay: 'Bucal', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // FOOD & GROCERY (12)
+            { business: "Lola's Kitchen", category: 'food-meals', categoryLabel: '🍲 Cooked Meals', owner: 'Lola Caring', phone: '0917-300-0001', barangay: 'Dagatan', priority: 'high', status: 'target', clubMember: 'no', notes: 'Famous for adobo' },
+            { business: 'Bigas Express', category: 'food-rice', categoryLabel: '🍲 Rice Dealer', owner: 'Mr. Tan', phone: '0918-300-0002', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'yes', notes: 'Business Club - largest rice dealer' },
+            { business: 'Amadeo Fresh Farm', category: 'food-vegetables', categoryLabel: '🍲 Fresh Vegetables', owner: 'Mang Andres', phone: '0919-300-0003', barangay: 'Maymangga', priority: 'high', status: 'target', clubMember: 'no', notes: 'Direct from farm' },
+            { business: 'Fresh Eggs Farm', category: 'food-eggs', categoryLabel: '🍲 Eggs & Poultry', owner: 'Aling Rosa', phone: '0920-300-0004', barangay: 'Talang', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Amadeo Pharmacy', category: 'food-pharmacy', categoryLabel: '💊 Pharmacy', owner: 'Dr. Reyes', phone: '0921-300-0005', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'yes', notes: 'Business Club member' },
+            { business: 'Mercury Drug Amadeo', category: 'food-pharmacy', categoryLabel: '💊 Pharmacy', owner: '', phone: '', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Generics Pharmacy', category: 'food-pharmacy', categoryLabel: '💊 Pharmacy', owner: '', phone: '', barangay: 'Poblacion', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: "Aling Rosa's Sari-Sari", category: 'food-grocery', categoryLabel: '🍲 Sari-Sari Store', owner: 'Aling Rosa', phone: '', barangay: 'Poblacion', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Mini Mart Express', category: 'food-grocery', categoryLabel: '🍲 Mini Grocery', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Kusina ni Juan Catering', category: 'food-catering', categoryLabel: '🍲 Catering', owner: 'Chef Juan', phone: '0922-300-0006', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'yes', notes: 'Business Club - events catering' },
+            { business: 'Sweet Delights Bakery', category: 'food-bakery', categoryLabel: '🍲 Bakery', owner: 'Beth Santos', phone: '0923-300-0007', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Grill Masters BBQ', category: 'food-meals', categoryLabel: '🍲 BBQ & Grills', owner: '', phone: '', barangay: 'Maitim', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+
+            // PLUMBING (6)
+            { business: 'Master Plumber Juan', category: 'plumbing-repair', categoryLabel: '🚿 Plumbing', owner: 'Juan Tubero', phone: '0917-400-0001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'Licensed plumber' },
+            { business: 'Quick Fix Plumbing', category: 'plumbing-unclog', categoryLabel: '🚿 Unclogging', owner: 'Mang Erning', phone: '0918-400-0002', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Water Pump Specialist', category: 'plumbing-pump', categoryLabel: '🚿 Water Pump', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Tank Cleaning Pro', category: 'plumbing-fixture', categoryLabel: '🚿 Tank Cleaning', owner: '', phone: '', barangay: 'Maitim', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Fixture Masters', category: 'plumbing-fixture', categoryLabel: '🚿 Fixtures', owner: '', phone: '', barangay: 'Bucal', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Plumbing Solutions', category: 'plumbing-repair', categoryLabel: '🚿 Plumbing', owner: '', phone: '', barangay: 'Talang', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // ELECTRICAL (8)
+            { business: 'Electrician Pro', category: 'electrical-wiring', categoryLabel: '⚡ Electrician', owner: 'Engineer Boy', phone: '0917-500-0001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'Licensed electrician' },
+            { business: 'Spark Electric', category: 'electrical-troubleshoot', categoryLabel: '⚡ Troubleshoot', owner: 'Jimmy Recto', phone: '0918-500-0002', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Meralco Accredited Installer', category: 'electrical-meralco', categoryLabel: '⚡ Meralco Service', owner: '', phone: '', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Solar Power Amadeo', category: 'electrical-solar', categoryLabel: '☀️ Solar', owner: 'Engr. Solar', phone: '0919-500-0003', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'yes', notes: 'Business Club - growing demand' },
+            { business: 'GenSet Rental Amadeo', category: 'electrical-generator', categoryLabel: '⚡ Generator', owner: '', phone: '', barangay: 'Maitim', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Wiring Experts', category: 'electrical-wiring', categoryLabel: '⚡ Wiring', owner: '', phone: '', barangay: 'Bucal', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Panel Upgrade Pros', category: 'electrical-troubleshoot', categoryLabel: '⚡ Panel Upgrade', owner: '', phone: '', barangay: 'Talang', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'ElectriKo Supply', category: 'electrical-wiring', categoryLabel: '⚡ Electrical Supply', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+
+            // AIRCON (4)
+            { business: 'Cool Tech Aircon', category: 'aircon-cleaning', categoryLabel: '❄️ AC Service', owner: 'Mang Joey', phone: '0917-600-0001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'Most popular AC service' },
+            { business: 'Aircon Doctor', category: 'aircon-repair', categoryLabel: '❄️ AC Repair', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'AC Install Express', category: 'aircon-install', categoryLabel: '❄️ AC Install', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Freon Refill Center', category: 'aircon-repair', categoryLabel: '❄️ Freon Refill', owner: '', phone: '', barangay: 'Maitim', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // CLEANING (6)
+            { business: 'Sparkle Home Cleaning', category: 'cleaning-house', categoryLabel: '🧹 House Cleaning', owner: 'Ate Luz', phone: '0917-700-0001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'Professional team' },
+            { business: 'Maid For You', category: 'cleaning-house', categoryLabel: '🧹 Maid Service', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Deep Clean Pro', category: 'cleaning-deep', categoryLabel: '🧹 Deep Clean', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Sofa & Carpet Pro', category: 'cleaning-sofa', categoryLabel: '🧹 Upholstery', owner: 'Mike Cleaner', phone: '0918-700-0002', barangay: 'Poblacion', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Mattress Fresh', category: 'cleaning-mattress', categoryLabel: '🧹 Mattress', owner: '', phone: '', barangay: 'Maitim', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Post-Con Cleaners', category: 'cleaning-postcon', categoryLabel: '🧹 Post-Construction', owner: '', phone: '', barangay: 'Bucal', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // LAUNDRY (4)
+            { business: 'Fresh & Clean Laundry', category: 'laundry-full', categoryLabel: '👕 Laundry', owner: 'Aling Nene', phone: '0917-800-0001', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'no', notes: 'Free pickup 5kg+' },
+            { business: 'Sparkle Laundromat', category: 'laundry-full', categoryLabel: '👕 Laundromat', owner: '', phone: '', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'QuickWash Express', category: 'laundry-full', categoryLabel: '👕 Express Laundry', owner: '', phone: '', barangay: 'Bucal', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Dry Clean Experts', category: 'laundry-dry', categoryLabel: '👕 Dry Clean', owner: '', phone: '', barangay: 'Dagatan', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // REPAIR (8)
+            { business: 'Appliance Repair Pro', category: 'repair-ref', categoryLabel: '🔧 Appliance Repair', owner: 'Mang Tinker', phone: '0917-900-0001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'All appliances' },
+            { business: 'Ref Doctor', category: 'repair-ref', categoryLabel: '🔧 Refrigerator', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Washer Fix', category: 'repair-washer', categoryLabel: '🔧 Washing Machine', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Phone Fix Express', category: 'repair-phone', categoryLabel: '📱 Phone Repair', owner: 'Kevin Tech', phone: '0918-900-0002', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'PC & Laptop Clinic', category: 'repair-computer', categoryLabel: '💻 Computer', owner: 'IT Boy', phone: '0919-900-0003', barangay: 'Dagatan', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Fix-It Electronics', category: 'repair-tv', categoryLabel: '📺 TV Repair', owner: '', phone: '', barangay: 'Poblacion', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Gadget Hospital', category: 'repair-phone', categoryLabel: '📱 Gadget Repair', owner: '', phone: '', barangay: 'Maitim', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Tech Hub Amadeo', category: 'repair-computer', categoryLabel: '💻 Tech Hub', owner: '', phone: '', barangay: 'Bucal', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // PEST & SEPTIC (4)
+            { business: 'Pest Busters Cavite', category: 'pest-general', categoryLabel: '🪳 Pest Control', owner: 'Mr. Bugman', phone: '0917-1000-001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'Serves all Cavite' },
+            { business: 'Bug-Off Exterminators', category: 'pest-termite', categoryLabel: '🪳 Termite', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Malabanan Amadeo', category: 'septic-pumping', categoryLabel: '🚛 Septic', owner: 'Mang Malabanan', phone: '0918-1000-002', barangay: 'Maitim', priority: 'high', status: 'target', clubMember: 'no', notes: 'Only Malabanan in Amadeo' },
+            { business: 'Pozo Negro Express', category: 'septic-pumping', categoryLabel: '🚛 Septic', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+
+            // CONSTRUCTION (8)
+            { business: 'Master Carpenter', category: 'const-carpentry', categoryLabel: '🔨 Carpentry', owner: 'Mang Karpintero', phone: '0917-1100-001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Welding Works', category: 'const-welding', categoryLabel: '⚒️ Welding', owner: '', phone: '', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Paint Masters', category: 'const-painting', categoryLabel: '🎨 Painting', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Roof Fix Pro', category: 'const-roofing', categoryLabel: '🏠 Roofing', owner: '', phone: '', barangay: 'Maitim', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Tiles & Masonry', category: 'const-tiles', categoryLabel: '🧱 Tiles', owner: '', phone: '', barangay: 'Bucal', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Green Thumb Landscaping', category: 'const-landscaping', categoryLabel: '🌳 Landscaping', owner: '', phone: '', barangay: 'Talang', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Gate & Grills Amadeo', category: 'const-welding', categoryLabel: '⚒️ Gates/Grills', owner: '', phone: '', barangay: 'Poblacion', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Cabinet Makers', category: 'const-carpentry', categoryLabel: '🔨 Cabinets', owner: '', phone: '', barangay: 'Halang', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // HARDWARE (4)
+            { business: 'Amadeo Builders Hardware', category: 'hardware-materials', categoryLabel: '🏗️ Hardware', owner: 'Mr. Builder', phone: '0917-1200-001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'yes', notes: 'Business Club - largest hardware' },
+            { business: "Mang Tony's Hardware", category: 'hardware-tools', categoryLabel: '🔧 Tools', owner: 'Mang Tony', phone: '0918-1200-002', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Glass & Aluminum Works', category: 'hardware-glass', categoryLabel: '🪟 Glass', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Paint Center Amadeo', category: 'hardware-materials', categoryLabel: '🎨 Paint', owner: '', phone: '', barangay: 'Maitim', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // VEHICLE (6)
+            { business: 'RJ Motor Shop', category: 'vehicle-motor', categoryLabel: '🏍️ Motor Shop', owner: 'RJ Mekaniko', phone: '0917-1300-001', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'no', notes: 'Most trusted motor shop' },
+            { business: 'Auto Care Center', category: 'vehicle-car', categoryLabel: '🚗 Car Repair', owner: '', phone: '', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Gulong Express', category: 'vehicle-vulcanizing', categoryLabel: '🛞 Vulcanizing', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Splash Car Wash', category: 'vehicle-carwash', categoryLabel: '🚿 Car Wash', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Tire Center Amadeo', category: 'vehicle-vulcanizing', categoryLabel: '🛞 Tires', owner: '', phone: '', barangay: 'Maitim', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Shine Mobile Detailing', category: 'vehicle-carwash', categoryLabel: '✨ Detailing', owner: '', phone: '', barangay: 'Bucal', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // TECH (4)
+            { business: 'NetWorks Amadeo', category: 'tech-internet', categoryLabel: '📶 Internet', owner: 'IT Guru', phone: '0917-1400-001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'WiFi troubleshooting' },
+            { business: 'CCTV Pro Install', category: 'tech-cctv', categoryLabel: '📹 CCTV', owner: 'Security Expert', phone: '0918-1400-002', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Printer Solutions', category: 'tech-printer', categoryLabel: '🖨️ Printer', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Smart Home Amadeo', category: 'tech-smarthome', categoryLabel: '🏠 Smart Home', owner: '', phone: '', barangay: 'Maitim', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // PERSONAL (6)
+            { business: 'Glow Up Salon', category: 'personal-salon', categoryLabel: '💇‍♀️ Salon', owner: 'Ate Glenda', phone: '0917-1500-001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'yes', notes: 'Business Club member' },
+            { business: "Mang Isko's Barbershop", category: 'personal-barber', categoryLabel: '💈 Barbershop', owner: 'Mang Isko', phone: '0918-1500-002', barangay: 'Halang', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Healing Hands Massage', category: 'personal-massage', categoryLabel: '💆 Massage', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Nail Art Studio', category: 'personal-nails', categoryLabel: '💅 Nails', owner: '', phone: '', barangay: 'Poblacion', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Hair by Jessie', category: 'personal-salon', categoryLabel: '💇‍♀️ Hair Salon', owner: '', phone: '', barangay: 'Maitim', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Classic Cuts Barber', category: 'personal-barber', categoryLabel: '💈 Barbershop', owner: '', phone: '', barangay: 'Bucal', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // PETS (4)
+            { business: 'Pet Corner Amadeo', category: 'pet-grooming', categoryLabel: '🐕 Pet Shop', owner: 'Pet Lover', phone: '0917-1600-001', barangay: 'Dagatan', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Vets On Call', category: 'pet-vet', categoryLabel: '🩺 Veterinary', owner: 'Dr. Vet', phone: '0918-1600-002', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Pet Food Delivery', category: 'pet-supplies', categoryLabel: '🦴 Pet Supplies', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Furry Friends Grooming', category: 'pet-grooming', categoryLabel: '🐕 Grooming', owner: '', phone: '', barangay: 'Maitim', priority: 'low', status: 'target', clubMember: 'no', notes: '' },
+
+            // BUSINESS SERVICES (8)
+            { business: 'Amadeo Print Shop', category: 'business-print', categoryLabel: '🖨️ Printing', owner: 'Print Master', phone: '0917-1700-001', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: 'Near municipal' },
+            { business: 'Quick Print Hub', category: 'business-print', categoryLabel: '🖨️ Print/Photo', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Bayad Center', category: 'business-bills', categoryLabel: '💳 Bills Payment', owner: '', phone: '', barangay: 'Poblacion', priority: 'high', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Pera Padala Hub', category: 'business-remittance', categoryLabel: '💸 Remittance', owner: '', phone: '', barangay: 'Halang', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Master Tailor', category: 'business-tailor', categoryLabel: '🧵 Tailoring', owner: 'Mang Mananahi', phone: '0918-1700-002', barangay: 'Poblacion', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Lipat Bahay Express', category: 'business-moving', categoryLabel: '🚛 Moving', owner: '', phone: '', barangay: 'Dagatan', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Event Rentals Amadeo', category: 'business-rentals', categoryLabel: '🎪 Rentals', owner: '', phone: '', barangay: 'Maitim', priority: 'medium', status: 'target', clubMember: 'no', notes: '' },
+            { business: 'Party Supplies Plus', category: 'business-rentals', categoryLabel: '🎉 Party Supplies', owner: '', phone: '', barangay: 'Bucal', priority: 'low', status: 'target', clubMember: 'no', notes: '' }
+        ];
+
+        // Load from localStorage if exists
+        const saved = localStorage.getItem('amadeo_recruitment');
+        if (saved) merchants = JSON.parse(saved);
+
+        // ============================================
+        // FUNCTIONS
+        // ============================================
+        let currentFilter = 'all';
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            let filtered = merchants;
+
+            // Filter by status
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(m => m.status === currentFilter);
+            }
+
+            // Filter by search
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            if (search) {
+                filtered = filtered.filter(m =>
+                    m.business.toLowerCase().includes(search) ||
+                    m.owner.toLowerCase().includes(search) ||
+                    m.categoryLabel.toLowerCase().includes(search) ||
+                    m.barangay.toLowerCase().includes(search)
+                );
+            }
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-state-icon">📋</div><p>No merchants found</p></div></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map((m, i) => {
+                const priorityClass = { high: 'priority-high', medium: 'priority-medium', low: 'priority-low' }[m.priority];
+                const statusClass = { target: 'status-target', contacted: 'status-contacted', interested: 'status-interested', registered: 'status-registered', live: 'status-live' }[m.status];
+                const realIndex = merchants.findIndex(orig => orig.business === m.business);
+
+                return `
+                    <tr>
+                        <td><strong>${m.business}</strong>${m.clubMember === 'yes' ? ' <span style="color: #f59e0b;">⭐</span>' : ''}</td>
+                        <td><span class="category-badge">${m.categoryLabel}</span></td>
+                        <td>${m.owner || '-'}</td>
+                        <td>${m.phone || '-'}</td>
+                        <td>${m.barangay || '-'}</td>
+                        <td><span class="category-badge ${priorityClass}">${m.priority.toUpperCase()}</span></td>
+                        <td><span class="status-badge ${statusClass}">${m.status.charAt(0).toUpperCase() + m.status.slice(1)}</span></td>
+                        <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;">${m.notes || '-'}</td>
+                        <td>
+                            ${m.phone ? `<button class="action-btn btn-contact" onclick="callMerchant('${m.phone}')">📞</button>` : ''}
+                            <button class="action-btn btn-edit" onclick="editMerchant(${realIndex})">✏️</button>
+                            <button class="action-btn btn-status" onclick="quickStatus(${realIndex})">📊</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalTargets').textContent = merchants.length;
+            document.getElementById('contacted').textContent = merchants.filter(m => m.status === 'contacted').length;
+            document.getElementById('interested').textContent = merchants.filter(m => m.status === 'interested').length;
+            document.getElementById('registered').textContent = merchants.filter(m => m.status === 'registered').length;
+            document.getElementById('live').textContent = merchants.filter(m => m.status === 'live').length;
+        }
+
+        function filterStatus(status, btn) {
+            currentFilter = status;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderTable();
+        }
+
+        function filterTable() {
+            renderTable();
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'Add New Merchant';
+            document.getElementById('editIndex').value = -1;
+            document.getElementById('mBusiness').value = '';
+            document.getElementById('mCategory').value = '';
+            document.getElementById('mOwner').value = '';
+            document.getElementById('mPhone').value = '';
+            document.getElementById('mBarangay').value = '';
+            document.getElementById('mPriority').value = 'medium';
+            document.getElementById('mStatus').value = 'target';
+            document.getElementById('mClubMember').value = 'no';
+            document.getElementById('mNotes').value = '';
+            document.getElementById('merchantModal').classList.add('show');
+        }
+
+        function editMerchant(index) {
+            const m = merchants[index];
+            document.getElementById('modalTitle').textContent = 'Edit Merchant';
+            document.getElementById('editIndex').value = index;
+            document.getElementById('mBusiness').value = m.business;
+            document.getElementById('mCategory').value = m.category;
+            document.getElementById('mOwner').value = m.owner;
+            document.getElementById('mPhone').value = m.phone;
+            document.getElementById('mBarangay').value = m.barangay;
+            document.getElementById('mPriority').value = m.priority;
+            document.getElementById('mStatus').value = m.status;
+            document.getElementById('mClubMember').value = m.clubMember;
+            document.getElementById('mNotes').value = m.notes;
+            document.getElementById('merchantModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('merchantModal').classList.remove('show');
+        }
+
+        function saveMerchant() {
+            const index = parseInt(document.getElementById('editIndex').value);
+            const category = document.getElementById('mCategory').value;
+            const categoryOption = document.querySelector(`#mCategory option[value="${category}"]`);
+
+            const merchant = {
+                business: document.getElementById('mBusiness').value,
+                category: category,
+                categoryLabel: categoryOption ? categoryOption.closest('optgroup').label.split(' ')[0] + ' ' + categoryOption.textContent : '',
+                owner: document.getElementById('mOwner').value,
+                phone: document.getElementById('mPhone').value,
+                barangay: document.getElementById('mBarangay').value,
+                priority: document.getElementById('mPriority').value,
+                status: document.getElementById('mStatus').value,
+                clubMember: document.getElementById('mClubMember').value,
+                notes: document.getElementById('mNotes').value
+            };
+
+            if (index === -1) {
+                merchants.push(merchant);
+            } else {
+                merchants[index] = merchant;
+            }
+
+            localStorage.setItem('amadeo_recruitment', JSON.stringify(merchants));
+            closeModal();
+            renderTable();
+        }
+
+        function quickStatus(index) {
+            const statuses = ['target', 'contacted', 'interested', 'registered', 'live'];
+            const current = statuses.indexOf(merchants[index].status);
+            const next = (current + 1) % statuses.length;
+            merchants[index].status = statuses[next];
+            localStorage.setItem('amadeo_recruitment', JSON.stringify(merchants));
+            renderTable();
+        }
+
+        function callMerchant(phone) {
+            window.location.href = 'tel:' + phone.replace(/-/g, '');
+        }
+
+        function exportCSV() {
+            const headers = ['Business Name', 'Category', 'Owner', 'Phone', 'Barangay', 'Priority', 'Status', 'Club Member', 'Notes'];
+            const rows = merchants.map(m => [
+                m.business, m.categoryLabel, m.owner, m.phone, m.barangay, m.priority, m.status, m.clubMember, m.notes
+            ]);
+
+            let csv = headers.join(',') + '\n';
+            rows.forEach(row => {
+                csv += row.map(cell => `"${(cell || '').replace(/"/g, '""')}"`).join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'amadeo-merchant-recruitment.csv';
+            a.click();
+        }
+
+        // Init
+        renderTable();
+    </script>
+</body>
+</html>

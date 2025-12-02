@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Stock Update - Amadeo Verified Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #2d6a4f;
+            --primary-dark: #1b4332;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-900: #1f2937;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--gray-100);
+            border-radius: 12px;
+            border: 2px solid transparent;
+        }
+        
+        .product-item.low-stock {
+            background: #fef3c7;
+            border-color: var(--warning);
+        }
+        
+        .product-item.out-stock {
+            background: #fee2e2;
+            border-color: var(--danger);
+        }
+        
+        .product-icon {
+            font-size: 28px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 3px;
+        }
+        
+        .product-status {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-dot.green { background: var(--success); }
+        .status-dot.yellow { background: var(--warning); }
+        .status-dot.red { background: var(--danger); }
+        
+        .product-stock {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stock-input {
+            width: 70px;
+            padding: 10px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            font-family: inherit;
+        }
+        
+        .stock-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .quick-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .quick-btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .quick-btn.add {
+            background: var(--success);
+            color: white;
+        }
+        
+        .quick-btn.sub {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 15px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--gray-700);
+            margin-top: 10px;
+        }
+        
+        .summary {
+            background: var(--gray-100);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 8px;
+            border-top: 1px solid var(--gray-200);
+            font-weight: 700;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gray-900);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            display: none;
+            animation: slideUp 0.3s ease;
+            z-index: 100;
+        }
+        
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+        .toast.show { display: block; }
+        
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        .login-section {
+            display: block;
+        }
+        
+        .inventory-section {
+            display: none;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .add-product-form {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px dashed var(--gray-200);
+        }
+        
+        .add-product-form.show {
+            display: block;
+        }
+        
+        .merchant-info {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .switch-link {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        .switch-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 480px) {
+            .product-item {
+                flex-wrap: wrap;
+            }
+            
+            .product-stock {
+                width: 100%;
+                margin-top: 10px;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 Quick Stock Update</h1>
+            <p>Amadeo Verified Marketplace</p>
+        </div>
+        
+        <!-- Login Section -->
+        <div class="login-section" id="loginSection">
+            <div class="card">
+                <div class="card-title">🔐 Merchant Login</div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email or Phone</label>
+                        <input type="text" id="loginEmail" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                
+                <div class="switch-link">
+                    <a href="merchant-inventory-dashboard.html">Open Full Dashboard →</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Inventory Section -->
+        <div class="inventory-section" id="inventorySection">
+            <div class="merchant-info" id="merchantInfo">
+                <strong>Aqua Pure Amadeo</strong> • Juan Dela Cruz
+            </div>
+            
+            <div class="card">
+                <div class="card-title">📦 Your Inventory</div>
+                
+                <div class="product-list" id="productList">
+                    <!-- Products loaded here -->
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveAllChanges()">
+                    ✓ Save All Changes
+                </button>
+                
+                <button class="btn btn-secondary" onclick="toggleAddProduct()">
+                    + Add New Product
+                </button>
+                
+                <!-- Add Product Form -->
+                <div class="add-product-form" id="addProductForm">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="newProductName" placeholder="e.g., Purified Water 5gal">
+                    </div>
+                    <div class="form-group">
+                        <label>Price (₱)</label>
+                        <input type="number" id="newProductPrice" placeholder="50">
+                    </div>
+                    <div class="form-group">
+                        <label>Initial Stock</label>
+                        <input type="number" id="newProductStock" placeholder="100">
+                    </div>
+                    <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">📊 Summary</div>
+                <div class="summary">
+                    <div class="summary-row">
+                        <span>Total Products</span>
+                        <span id="totalProducts">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>In Stock</span>
+                        <span id="inStockCount" style="color: var(--success);">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Low Stock</span>
+                        <span id="lowStockCount" style="color: var(--warning);">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Out of Stock</span>
+                        <span id="outStockCount" style="color: var(--danger);">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" style="text-align: center; padding: 15px;">
+                <a href="merchant-inventory-dashboard.html" style="color: var(--primary); font-weight: 600; text-decoration: none;">
+                    📊 Open Full Dashboard for Reports & Orders
+                </a>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="handleLogout()" style="background: rgba(255,255,255,0.2); color: white;">
+                🚪 Logout
+            </button>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        // State
+        let merchant = null;
+        let products = [];
+        let originalStock = {};
+        
+        // Sample products (demo)
+        function getSampleProducts() {
+            return [
+                { id: 'P001', name: 'Purified Water 5gal', price: 50, stock: 45, icon: '💧' },
+                { id: 'P002', name: 'Mineral Water 5gal', price: 60, stock: 8, icon: '💧' },
+                { id: 'P003', name: 'Alkaline Water 5gal', price: 70, stock: 3, icon: '💧' },
+                { id: 'P004', name: 'Ice Blocks 5kg', price: 50, stock: 0, icon: '🧊' },
+                { id: 'P005', name: 'Dispenser Rental', price: 200, stock: 15, icon: '🚰' }
+            ];
+        }
+        
+        // Login
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            // Demo login
+            merchant = {
+                name: 'Aqua Pure Amadeo',
+                owner: 'Juan Dela Cruz'
+            };
+            
+            products = getSampleProducts();
+            products.forEach(p => originalStock[p.id] = p.stock);
+            
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('inventorySection').style.display = 'block';
+            document.getElementById('merchantInfo').innerHTML = `<strong>${merchant.name}</strong> • ${merchant.owner}`;
+            
+            renderProducts();
+            updateSummary();
+            showToast('Welcome back!', 'success');
+        }
+        
+        function handleLogout() {
+            merchant = null;
+            products = [];
+            document.getElementById('inventorySection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+        }
+        
+        // Render products
+        function renderProducts() {
+            const container = document.getElementById('productList');
+            
+            container.innerHTML = products.map(p => {
+                const status = getStockStatus(p.stock);
+                return `
+                    <div class="product-item ${status.class}">
+                        <div class="product-icon">${p.icon}</div>
+                        <div class="product-info">
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-status">
+                                <span class="status-dot ${status.dot}"></span>
+                                ${status.text}
+                            </div>
+                        </div>
+                        <div class="product-stock">
+                            <input type="number" class="stock-input" 
+                                   id="stock-${p.id}" 
+                                   value="${p.stock}" 
+                                   min="0"
+                                   onchange="updateStock('${p.id}')">
+                            <div class="quick-btns">
+                                <button class="quick-btn add" onclick="quickAdd('${p.id}', 10)">+10</button>
+                                <button class="quick-btn sub" onclick="quickAdd('${p.id}', -5)">-5</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Update stock from input
+        function updateStock(productId) {
+            const input = document.getElementById('stock-' + productId);
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.stock = Math.max(0, parseInt(input.value) || 0);
+                renderProducts();
+                updateSummary();
+            }
+        }
+        
+        // Quick add/subtract
+        function quickAdd(productId, amount) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.stock = Math.max(0, product.stock + amount);
+                renderProducts();
+                updateSummary();
+            }
+        }
+        
+        // Save all changes
+        function saveAllChanges() {
+            // In production, send to API
+            const changes = products.filter(p => p.stock !== originalStock[p.id]);
+            
+            if (changes.length === 0) {
+                showToast('No changes to save', '');
+                return;
+            }
+            
+            // Update original stock
+            products.forEach(p => originalStock[p.id] = p.stock);
+            
+            showToast(`Saved ${changes.length} product(s)!`, 'success');
+            
+            // Log changes for demo
+            console.log('Changes saved:', changes);
+        }
+        
+        // Add product
+        function addProduct() {
+            const name = document.getElementById('newProductName').value;
+            const price = parseFloat(document.getElementById('newProductPrice').value);
+            const stock = parseInt(document.getElementById('newProductStock').value);
+            
+            if (!name || !price) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+            
+            const newProduct = {
+                id: 'P' + Date.now(),
+                name: name,
+                price: price,
+                stock: stock || 0,
+                icon: '📦'
+            };
+            
+            products.push(newProduct);
+            originalStock[newProduct.id] = newProduct.stock;
+            
+            // Clear form
+            document.getElementById('newProductName').value = '';
+            document.getElementById('newProductPrice').value = '';
+            document.getElementById('newProductStock').value = '';
+            document.getElementById('addProductForm').classList.remove('show');
+            
+            renderProducts();
+            updateSummary();
+            showToast('Product added!', 'success');
+        }
+        
+        function toggleAddProduct() {
+            document.getElementById('addProductForm').classList.toggle('show');
+        }
+        
+        // Update summary
+        function updateSummary() {
+            const total = products.length;
+            const inStock = products.filter(p => p.stock > 10).length;
+            const lowStock = products.filter(p => p.stock > 0 && p.stock <= 10).length;
+            const outStock = products.filter(p => p.stock === 0).length;
+            
+            document.getElementById('totalProducts').textContent = total;
+            document.getElementById('inStockCount').textContent = inStock;
+            document.getElementById('lowStockCount').textContent = lowStock;
+            document.getElementById('outStockCount').textContent = outStock;
+        }
+        
+        // Get stock status
+        function getStockStatus(stock) {
+            if (stock === 0) {
+                return { class: 'out-stock', dot: 'red', text: 'Out of stock' };
+            } else if (stock <= 5) {
+                return { class: 'low-stock', dot: 'yellow', text: `Critical! ${stock} left` };
+            } else if (stock <= 10) {
+                return { class: 'low-stock', dot: 'yellow', text: `Low stock: ${stock}` };
+            }
+            return { class: '', dot: 'green', text: `${stock} in stock` };
+        }
+        
+        // Toast notification
+        function showToast(message, type = '') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        
+        // Check for saved session
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = sessionStorage.getItem('merchantQuick');
+            if (saved) {
+                merchant = JSON.parse(saved);
+                products = getSampleProducts();
+                products.forEach(p => originalStock[p.id] = p.stock);
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('inventorySection').style.display = 'block';
+                document.getElementById('merchantInfo').innerHTML = `<strong>${merchant.name}</strong> • ${merchant.owner}`;
+                renderProducts();
+                updateSummary();
+            }
+        });
+    </script>
+</body>
+</html>

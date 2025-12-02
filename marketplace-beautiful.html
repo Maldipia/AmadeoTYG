@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amadeo Verified Marketplace | Shop Local, Support Local</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --primary-light: #40916c;
+            --primary-dark: #1b4332;
+            --accent: #f77f00;
+            --accent-light: #fcbf49;
+            --cream: #fefae0;
+            --warm-white: #fffef7;
+            --text-dark: #1a1a1a;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--warm-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-top {
+            background: var(--primary-dark);
+            color: white;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .header-top span {
+            opacity: 0.9;
+        }
+
+        .header-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            line-height: 1.1;
+        }
+
+        .logo-tagline {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            padding-left: 48px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn {
+            background: var(--cream);
+            color: var(--primary-dark);
+            position: relative;
+        }
+
+        .cart-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .login-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            transition: background 0.3s;
+        }
+
+        .user-profile:hover {
+            background: #f3f4f6;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+        }
+
+        /* ===== CATEGORIES NAV ===== */
+        .categories-nav {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .categories-scroll {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .categories-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--text-muted);
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .category-chip:hover {
+            color: var(--primary);
+            background: rgba(45, 106, 79, 0.05);
+        }
+
+        .category-chip.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .category-chip-icon {
+            font-size: 1.2rem;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            padding: 60px 20px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .hero-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title-icon {
+            font-size: 1.5rem;
+        }
+
+        .view-all-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background: rgba(45, 106, 79, 0.1);
+            transform: translateX(4px);
+        }
+
+        /* ===== CATEGORY CARDS ===== */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover .category-card-icon {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .category-card-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .category-card-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== MERCHANT CARDS ===== */
+        .merchants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .merchant-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .merchant-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .merchant-card-banner {
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .merchant-card-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .merchant-card-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .merchant-card-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-md);
+            background: white;
+            border: 4px solid white;
+            box-shadow: var(--shadow-md);
+            position: absolute;
+            bottom: -40px;
+            left: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .merchant-card-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .merchant-card-content {
+            padding: 50px 20px 20px;
+        }
+
+        .merchant-card-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .merchant-card-category {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .merchant-card-location {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .merchant-card-stats {
+            display: flex;
+            gap: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .merchant-stat {
+            text-align: center;
+        }
+
+        .merchant-stat-value {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .merchant-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .merchant-card-cta {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .merchant-card:hover .merchant-card-cta {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .merchant-card-cta:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ===== PRODUCTS GRID ===== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-card-image {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .product-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-card-image img {
+            transform: scale(1.08);
+        }
+
+        .product-card-wishlist {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .product-card:hover .product-card-wishlist {
+            opacity: 1;
+        }
+
+        .product-card-wishlist:hover {
+            background: #fef2f2;
+            transform: scale(1.1);
+        }
+
+        .product-card-content {
+            padding: 18px;
+        }
+
+        .product-card-merchant {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .product-card-merchant-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            background: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        .product-card-merchant-name {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .product-card-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .product-card-price {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .product-price-current {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .product-price-unit {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .product-card-add {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .product-card-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 106, 79, 0.4);
+        }
+
+        .product-card-add:active {
+            transform: translateY(0);
+        }
+
+        /* ===== MERCHANT STOREFRONT VIEW ===== */
+        .storefront-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .storefront-overlay.show {
+            display: block;
+        }
+
+        .storefront-panel {
+            position: fixed;
+            top: 0;
+            right: -600px;
+            width: 600px;
+            max-width: 100%;
+            height: 100%;
+            background: var(--warm-white);
+            z-index: 2001;
+            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+        }
+
+        .storefront-panel.show {
+            right: 0;
+        }
+
+        .storefront-header {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        }
+
+        .storefront-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .storefront-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+        }
+
+        .storefront-close:hover {
+            transform: scale(1.1);
+        }
+
+        .storefront-logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 4px solid white;
+            box-shadow: var(--shadow-lg);
+            position: absolute;
+            bottom: -50px;
+            left: 30px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .storefront-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .storefront-content {
+            padding: 70px 30px 30px;
+        }
+
+        .storefront-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .storefront-category {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .storefront-location {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .storefront-description {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .storefront-stats {
+            display: flex;
+            gap: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: var(--radius-md);
+            margin-bottom: 30px;
+        }
+
+        .storefront-stat {
+            text-align: center;
+            flex: 1;
+        }
+
+        .storefront-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .storefront-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .storefront-section-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .storefront-products {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .storefront-product {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .storefront-product:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .storefront-product-image {
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .storefront-product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .storefront-product-info {
+            padding: 12px;
+        }
+
+        .storefront-product-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .storefront-product-price {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .storefront-product-add {
+            width: 100%;
+            margin-top: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .storefront-product-add:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ===== CART SIDEBAR ===== */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: none;
+        }
+
+        .cart-overlay.show {
+            display: block;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 420px;
+            max-width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 3001;
+            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.show {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .cart-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+
+        .cart-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .cart-empty-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .cart-item-image {
+            width: 70px;
+            height: 70px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-merchant {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .cart-item-remove {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .cart-item-remove:hover {
+            color: #ef4444;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            background: #f9fafb;
+            border-top: 1px solid var(--border);
+        }
+
+        .cart-subtotal {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-top: 12px;
+            border-top: 2px solid var(--border);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .checkout-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 106, 79, 0.4);
+        }
+
+        .checkout-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 60px 20px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--accent-light);
+        }
+
+        .footer-section p {
+            opacity: 0.8;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 16px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-lg);
+            z-index: 5000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: var(--primary);
+        }
+
+        /* ===== LOADING STATES ===== */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .search-container {
+                order: 3;
+                max-width: 100%;
+                flex-basis: 100%;
+            }
+
+            .hero-stats {
+                gap: 30px;
+            }
+
+            .hero-stat-value {
+                font-size: 2rem;
+            }
+
+            .storefront-panel {
+                width: 100%;
+            }
+
+            .storefront-products {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-top">
+            <span>🚚 Free delivery for orders above ₱500 within Amadeo | 📍 Serving all barangays</span>
+        </div>
+        <div class="header-main">
+            <a href="#" class="logo">
+                <div class="logo-icon">🏪</div>
+                <div class="logo-text">
+                    <span class="logo-name">Amadeo Verified</span>
+                    <span class="logo-tagline">MARKETPLACE</span>
+                </div>
+            </a>
+
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search products, merchants, or categories..." onkeyup="handleSearch()">
+            </div>
+
+            <div class="header-actions">
+                <button class="header-btn cart-btn" onclick="toggleCart()">
+                    🛒 Cart
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="header-btn login-btn" id="loginBtn" onclick="showLogin()">
+                    Sign In
+                </button>
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <img src="" alt="" class="user-avatar" id="userAvatar">
+                    <span id="userName"></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Categories Navigation -->
+    <nav class="categories-nav">
+        <div class="categories-scroll">
+            <button class="category-chip active" onclick="filterByCategory('all', this)">
+                <span class="category-chip-icon">🏠</span>
+                All
+            </button>
+            <button class="category-chip" onclick="filterByCategory('water', this)">
+                <span class="category-chip-icon">💧</span>
+                Water Delivery
+            </button>
+            <button class="category-chip" onclick="filterByCategory('food', this)">
+                <span class="category-chip-icon">🍲</span>
+                Food & Catering
+            </button>
+            <button class="category-chip" onclick="filterByCategory('agriculture', this)">
+                <span class="category-chip-icon">🌾</span>
+                Farm Fresh
+            </button>
+            <button class="category-chip" onclick="filterByCategory('retail', this)">
+                <span class="category-chip-icon">🛒</span>
+                Retail & Sari-Sari
+            </button>
+            <button class="category-chip" onclick="filterByCategory('services', this)">
+                <span class="category-chip-icon">🔧</span>
+                Services
+            </button>
+            <button class="category-chip" onclick="filterByCategory('health', this)">
+                <span class="category-chip-icon">💊</span>
+                Health & Wellness
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                ✅ Verified Local Businesses
+            </div>
+            <h1>Shop Local, Support Amadeo</h1>
+            <p>Discover trusted merchants right in your barangay. From fresh produce to water delivery, everything you need is just a click away.</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="statMerchants">15+</div>
+                    <div class="hero-stat-label">Verified Merchants</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="statProducts">100+</div>
+                    <div class="hero-stat-label">Products</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">12</div>
+                    <div class="hero-stat-label">Barangays Served</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Browse by Category -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-title-icon">📂</span>
+                    Browse by Category
+                </h2>
+            </div>
+            <div class="category-grid" id="categoryGrid">
+                <!-- Categories loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Featured Merchants -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-title-icon">⭐</span>
+                    Featured Merchants
+                </h2>
+                <a href="#" class="view-all-btn">
+                    View All →
+                </a>
+            </div>
+            <div class="merchants-grid" id="merchantsGrid">
+                <!-- Merchants loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Popular Products -->
+        <section class="section" id="productsSection">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-title-icon">🔥</span>
+                    <span id="productsSectionTitle">Popular Products</span>
+                </h2>
+            </div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products loaded dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Merchant Storefront Panel -->
+    <div class="storefront-overlay" id="storefrontOverlay" onclick="closeStorefront()"></div>
+    <div class="storefront-panel" id="storefrontPanel">
+        <div class="storefront-header" id="storefrontHeader">
+            <button class="storefront-close" onclick="closeStorefront()">✕</button>
+            <div class="storefront-logo" id="storefrontLogo">🏪</div>
+        </div>
+        <div class="storefront-content">
+            <h2 class="storefront-title" id="storefrontTitle">Merchant Name</h2>
+            <div class="storefront-category" id="storefrontCategory">Category</div>
+            <div class="storefront-location" id="storefrontLocation">
+                📍 Location
+            </div>
+            <p class="storefront-description" id="storefrontDescription">
+                Description goes here...
+            </p>
+            <div class="storefront-stats">
+                <div class="storefront-stat">
+                    <div class="storefront-stat-value" id="storefrontProducts">0</div>
+                    <div class="storefront-stat-label">Products</div>
+                </div>
+                <div class="storefront-stat">
+                    <div class="storefront-stat-value" id="storefrontRating">⭐ 4.8</div>
+                    <div class="storefront-stat-label">Rating</div>
+                </div>
+                <div class="storefront-stat">
+                    <div class="storefront-stat-value" id="storefrontOrders">100+</div>
+                    <div class="storefront-stat-label">Orders</div>
+                </div>
+            </div>
+            <h3 class="storefront-section-title">🛍️ Products</h3>
+            <div class="storefront-products" id="storefrontProductsList">
+                <!-- Merchant products -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>🛒 Your Cart</h2>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Your cart is empty</p>
+                <p style="font-size: 0.85rem; margin-top: 5px;">Start adding products!</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span id="cartSubtotal">₱0.00</span>
+            </div>
+            <div class="cart-subtotal">
+                <span>Platform Fee (5%)</span>
+                <span id="cartFee">₱0.00</span>
+            </div>
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cartTotal">₱0.00</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" onclick="proceedToCheckout()" disabled>
+                Proceed to Checkout →
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toastIcon">✓</span>
+        <span id="toastMessage">Added to cart!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>🏪 Amadeo Verified</h4>
+                <p>
+                    Supporting local businesses and connecting communities in Amadeo, Cavite since 2024.
+                </p>
+                <p>
+                    <strong>📱 0966 960 6060</strong><br>
+                    📧 tygfsb@gmail.com
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#">🏠 Home</a></li>
+                    <li><a href="#">🏪 All Merchants</a></li>
+                    <li><a href="#">📦 Track Order</a></li>
+                    <li><a href="#">❓ Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>For Merchants</h4>
+                <ul class="footer-links">
+                    <li><a href="merchant-dashboard.html">📊 Merchant Dashboard</a></li>
+                    <li><a href="#">📝 Register Your Business</a></li>
+                    <li><a href="#">💰 Commission Info (5%)</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="#">📜 Terms & Conditions</a></li>
+                    <li><a href="#">🔒 Privacy Policy</a></li>
+                    <li><a href="#">↩️ Refund Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Amadeo Verified Marketplace. Powered by TYG Services.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const CONFIG = {
+            GOOGLE_CLIENT_ID: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
+            BACKEND_URL: 'YOUR_BACKEND_URL',
+            PLATFORM_FEE: 0.05
+        };
+
+        // ============================================
+        // DATA - Sample data (replace with API calls)
+        // ============================================
+        const CATEGORIES = [
+            { id: 'water', name: 'Water Delivery', icon: '💧', count: 4, color: '#3b82f6' },
+            { id: 'food', name: 'Food & Catering', icon: '🍲', count: 4, color: '#ef4444' },
+            { id: 'agriculture', name: 'Farm Fresh', icon: '🌾', count: 3, color: '#22c55e' },
+            { id: 'retail', name: 'Retail & Sari-Sari', icon: '🛒', count: 3, color: '#f59e0b' },
+            { id: 'services', name: 'Services', icon: '🔧', count: 2, color: '#8b5cf6' },
+            { id: 'health', name: 'Health & Wellness', icon: '💊', count: 2, color: '#ec4899' }
+        ];
+
+        const MERCHANTS = [
+            // WATER DELIVERY (4 merchants covering different areas)
+            {
+                id: 'MER-001',
+                name: "Aqua Pure Amadeo",
+                category: 'water',
+                categoryLabel: 'Water Delivery',
+                location: 'Brgy. Halang, Amadeo',
+                description: 'Premium purified and mineral water delivery. Serving Halang, Dagatan, and nearby barangays.',
+                logo: '💧',
+                banner: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600',
+                products: 8,
+                rating: 4.9,
+                orders: 500,
+                verified: true
+            },
+            {
+                id: 'MER-002',
+                name: "Crystal Springs",
+                category: 'water',
+                categoryLabel: 'Water Delivery',
+                location: 'Brgy. Poblacion, Amadeo',
+                description: 'Fresh spring water from the mountains of Amadeo. Fast delivery guaranteed!',
+                logo: '🌊',
+                banner: 'https://images.unsplash.com/photo-1560023907-5f339617ea30?w=600',
+                products: 6,
+                rating: 4.8,
+                orders: 420,
+                verified: true
+            },
+            {
+                id: 'MER-003',
+                name: "Blue Wave Water",
+                category: 'water',
+                categoryLabel: 'Water Delivery',
+                location: 'Brgy. Talang, Amadeo',
+                description: 'Affordable water delivery for Talang, Maymangga, and Luksuhin areas.',
+                logo: '🚰',
+                banner: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600',
+                products: 5,
+                rating: 4.7,
+                orders: 350,
+                verified: true
+            },
+            {
+                id: 'MER-004',
+                name: "H2O Express",
+                category: 'water',
+                categoryLabel: 'Water Delivery',
+                location: 'Brgy. Bucal, Amadeo',
+                description: 'Same-day water delivery! Coverage: Bucal, Minantok, Banaybanay.',
+                logo: '💦',
+                banner: 'https://images.unsplash.com/photo-1606168094336-48f205276929?w=600',
+                products: 7,
+                rating: 4.8,
+                orders: 380,
+                verified: true
+            },
+
+            // FOOD & CATERING (4 merchants)
+            {
+                id: 'MER-005',
+                name: "Lola's Kitchen",
+                category: 'food',
+                categoryLabel: 'Food & Catering',
+                location: 'Brgy. Dagatan, Amadeo',
+                description: 'Traditional Filipino home-cooked meals. Adobo, Sinigang, Kare-kare and more!',
+                logo: '🍳',
+                banner: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=600',
+                products: 15,
+                rating: 4.9,
+                orders: 620,
+                verified: true
+            },
+            {
+                id: 'MER-006',
+                name: "Kusina ni Juan",
+                category: 'food',
+                categoryLabel: 'Food & Catering',
+                location: 'Brgy. Poblacion, Amadeo',
+                description: 'Party trays and catering services. Perfect for fiestas and celebrations!',
+                logo: '🍖',
+                banner: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600',
+                products: 20,
+                rating: 4.8,
+                orders: 450,
+                verified: true
+            },
+            {
+                id: 'MER-007',
+                name: "Sweet Delights Bakery",
+                category: 'food',
+                categoryLabel: 'Food & Catering',
+                location: 'Brgy. Halang, Amadeo',
+                description: 'Fresh bread, cakes, and pastries baked daily. Custom cakes for special occasions!',
+                logo: '🍰',
+                banner: 'https://images.unsplash.com/photo-1517433670267-30f41c098e5a?w=600',
+                products: 25,
+                rating: 4.9,
+                orders: 380,
+                verified: true
+            },
+            {
+                id: 'MER-008',
+                name: "Grill Masters BBQ",
+                category: 'food',
+                categoryLabel: 'Food & Catering',
+                location: 'Brgy. Maitim, Amadeo',
+                description: 'Best inasal and grilled items in Amadeo! Pork BBQ, Chicken Inasal, Liempo.',
+                logo: '🔥',
+                banner: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600',
+                products: 12,
+                rating: 4.7,
+                orders: 290,
+                verified: true
+            },
+
+            // FARM FRESH (3 merchants)
+            {
+                id: 'MER-009',
+                name: "Amadeo Fresh Farm",
+                category: 'agriculture',
+                categoryLabel: 'Farm Fresh',
+                location: 'Brgy. Maymangga, Amadeo',
+                description: 'Direct from farm vegetables and fruits. Supporting local farmers!',
+                logo: '🥬',
+                banner: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600',
+                products: 30,
+                rating: 4.9,
+                orders: 550,
+                verified: true
+            },
+            {
+                id: 'MER-010',
+                name: "Kape Amadeo",
+                category: 'agriculture',
+                categoryLabel: 'Farm Fresh',
+                location: 'Brgy. Luksuhin, Amadeo',
+                description: 'Premium Amadeo coffee beans. Barako, Arabica, and specialty blends.',
+                logo: '☕',
+                banner: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600',
+                products: 10,
+                rating: 4.9,
+                orders: 480,
+                verified: true
+            },
+            {
+                id: 'MER-011',
+                name: "Green Garden Organics",
+                category: 'agriculture',
+                categoryLabel: 'Farm Fresh',
+                location: 'Brgy. Banay-banay, Amadeo',
+                description: 'Certified organic vegetables and herbs. No pesticides, pure natural goodness!',
+                logo: '🌱',
+                banner: 'https://images.unsplash.com/photo-1592921870789-04563d55041c?w=600',
+                products: 18,
+                rating: 4.8,
+                orders: 320,
+                verified: true
+            },
+
+            // RETAIL (3 merchants)
+            {
+                id: 'MER-012',
+                name: "Tindahan ni Aling Rosa",
+                category: 'retail',
+                categoryLabel: 'Retail & Sari-Sari',
+                location: 'Brgy. Poblacion, Amadeo',
+                description: 'Your complete sari-sari store! Groceries, snacks, household items.',
+                logo: '🏪',
+                banner: 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=600',
+                products: 50,
+                rating: 4.6,
+                orders: 800,
+                verified: true
+            },
+            {
+                id: 'MER-013',
+                name: "Tech Hub Amadeo",
+                category: 'retail',
+                categoryLabel: 'Retail & Sari-Sari',
+                location: 'Brgy. Halang, Amadeo',
+                description: 'Mobile accessories, gadgets, and electronics. Load and bills payment available!',
+                logo: '📱',
+                banner: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600',
+                products: 35,
+                rating: 4.7,
+                orders: 420,
+                verified: true
+            }
+        ];
+
+        const PRODUCTS = [
+            // Water Products
+            { id: 'P001', merchantId: 'MER-001', name: 'Purified Water 5 Gallons', price: 50, unit: 'per container', category: 'water', image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400' },
+            { id: 'P002', merchantId: 'MER-001', name: 'Mineral Water 5 Gallons', price: 60, unit: 'per container', category: 'water', image: 'https://images.unsplash.com/photo-1560023907-5f339617ea30?w=400' },
+            { id: 'P003', merchantId: 'MER-002', name: 'Spring Water 5 Gallons', price: 55, unit: 'per container', category: 'water', image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400' },
+            { id: 'P004', merchantId: 'MER-003', name: 'Alkaline Water 5 Gallons', price: 70, unit: 'per container', category: 'water', image: 'https://images.unsplash.com/photo-1606168094336-48f205276929?w=400' },
+            
+            // Food Products
+            { id: 'P005', merchantId: 'MER-005', name: 'Adobo (Family Size)', price: 250, unit: 'per serving', category: 'food', image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400' },
+            { id: 'P006', merchantId: 'MER-005', name: 'Sinigang na Baboy', price: 280, unit: 'per serving', category: 'food', image: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400' },
+            { id: 'P007', merchantId: 'MER-006', name: 'Party Tray - Pancit', price: 450, unit: 'good for 10', category: 'food', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400' },
+            { id: 'P008', merchantId: 'MER-007', name: 'Custom Birthday Cake', price: 850, unit: 'per cake', category: 'food', image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400' },
+            { id: 'P009', merchantId: 'MER-007', name: 'Pandesal (10 pcs)', price: 50, unit: 'per pack', category: 'food', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400' },
+            { id: 'P010', merchantId: 'MER-008', name: 'Chicken Inasal', price: 150, unit: 'per serving', category: 'food', image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400' },
+            
+            // Farm Fresh
+            { id: 'P011', merchantId: 'MER-009', name: 'Fresh Vegetables Bundle', price: 150, unit: 'per bundle', category: 'agriculture', image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400' },
+            { id: 'P012', merchantId: 'MER-009', name: 'Native Tomatoes 1kg', price: 80, unit: 'per kilo', category: 'agriculture', image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400' },
+            { id: 'P013', merchantId: 'MER-010', name: 'Barako Coffee Beans 500g', price: 350, unit: 'per pack', category: 'agriculture', image: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400' },
+            { id: 'P014', merchantId: 'MER-010', name: 'Arabica Coffee 250g', price: 280, unit: 'per pack', category: 'agriculture', image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400' },
+            { id: 'P015', merchantId: 'MER-011', name: 'Organic Lettuce', price: 60, unit: 'per bundle', category: 'agriculture', image: 'https://images.unsplash.com/photo-1556801712-76c8eb07bbc9?w=400' },
+            
+            // Retail
+            { id: 'P016', merchantId: 'MER-012', name: 'Rice 5kg Premium', price: 280, unit: 'per sack', category: 'retail', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400' },
+            { id: 'P017', merchantId: 'MER-013', name: 'Phone Charger Cable', price: 150, unit: 'per piece', category: 'retail', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400' }
+        ];
+
+        // ============================================
+        // STATE
+        // ============================================
+        let currentUser = null;
+        let cart = [];
+        let currentCategory = 'all';
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCart();
+            renderCategories();
+            renderMerchants();
+            renderProducts();
+            
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+            });
+        });
+
+        // ============================================
+        // RENDER FUNCTIONS
+        // ============================================
+        function renderCategories() {
+            const grid = document.getElementById('categoryGrid');
+            grid.innerHTML = CATEGORIES.map(cat => `
+                <div class="category-card" onclick="filterByCategory('${cat.id}')">
+                    <span class="category-card-icon">${cat.icon}</span>
+                    <div class="category-card-name">${cat.name}</div>
+                    <div class="category-card-count">${cat.count} merchants</div>
+                </div>
+            `).join('');
+        }
+
+        function renderMerchants(category = 'all') {
+            const grid = document.getElementById('merchantsGrid');
+            let filtered = category === 'all' ? MERCHANTS : MERCHANTS.filter(m => m.category === category);
+            
+            grid.innerHTML = filtered.map(merchant => `
+                <div class="merchant-card" onclick="openStorefront('${merchant.id}')">
+                    <div class="merchant-card-banner">
+                        <img src="${merchant.banner}" alt="${merchant.name}">
+                        ${merchant.verified ? '<div class="merchant-card-badge">✓ Verified</div>' : ''}
+                        <div class="merchant-card-logo">${merchant.logo}</div>
+                    </div>
+                    <div class="merchant-card-content">
+                        <div class="merchant-card-name">${merchant.name}</div>
+                        <div class="merchant-card-category">${merchant.categoryLabel}</div>
+                        <div class="merchant-card-location">📍 ${merchant.location}</div>
+                        <div class="merchant-card-stats">
+                            <div class="merchant-stat">
+                                <div class="merchant-stat-value">${merchant.products}</div>
+                                <div class="merchant-stat-label">Products</div>
+                            </div>
+                            <div class="merchant-stat">
+                                <div class="merchant-stat-value">⭐ ${merchant.rating}</div>
+                                <div class="merchant-stat-label">Rating</div>
+                            </div>
+                            <div class="merchant-stat">
+                                <div class="merchant-stat-value">${merchant.orders}+</div>
+                                <div class="merchant-stat-label">Orders</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="merchant-card-cta">View Products →</button>
+                </div>
+            `).join('');
+        }
+
+        function renderProducts(category = 'all') {
+            const grid = document.getElementById('productsGrid');
+            let filtered = category === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === category);
+            
+            // Add merchant info to products
+            filtered = filtered.map(product => {
+                const merchant = MERCHANTS.find(m => m.id === product.merchantId);
+                return { ...product, merchantName: merchant?.name || 'Unknown', merchantLogo: merchant?.logo || '🏪' };
+            });
+            
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <button class="product-card-wishlist">❤️</button>
+                    </div>
+                    <div class="product-card-content">
+                        <div class="product-card-merchant">
+                            <div class="product-card-merchant-logo">${product.merchantLogo}</div>
+                            <span class="product-card-merchant-name">${product.merchantName}</span>
+                        </div>
+                        <div class="product-card-name">${product.name}</div>
+                        <div class="product-card-price">
+                            <span class="product-price-current">₱${product.price.toFixed(2)}</span>
+                            <span class="product-price-unit">${product.unit}</span>
+                        </div>
+                        <button class="product-card-add" onclick="addToCart('${product.id}')">
+                            🛒 Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Update section title
+            const title = document.getElementById('productsSectionTitle');
+            if (category === 'all') {
+                title.textContent = 'Popular Products';
+            } else {
+                const cat = CATEGORIES.find(c => c.id === category);
+                title.textContent = cat ? `${cat.icon} ${cat.name} Products` : 'Products';
+            }
+        }
+
+        // ============================================
+        // CATEGORY FILTERING
+        // ============================================
+        function filterByCategory(category, btn) {
+            currentCategory = category;
+            
+            // Update active chip
+            document.querySelectorAll('.category-chip').forEach(chip => chip.classList.remove('active'));
+            if (btn) {
+                btn.classList.add('active');
+            } else {
+                document.querySelector(`.category-chip`).classList.add('active');
+            }
+            
+            renderMerchants(category);
+            renderProducts(category);
+            
+            // Smooth scroll to merchants
+            document.getElementById('merchantsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ============================================
+        // STOREFRONT
+        // ============================================
+        function openStorefront(merchantId) {
+            const merchant = MERCHANTS.find(m => m.id === merchantId);
+            if (!merchant) return;
+            
+            // Populate storefront
+            document.getElementById('storefrontTitle').textContent = merchant.name;
+            document.getElementById('storefrontCategory').textContent = merchant.categoryLabel;
+            document.getElementById('storefrontLocation').innerHTML = `📍 ${merchant.location}`;
+            document.getElementById('storefrontDescription').textContent = merchant.description;
+            document.getElementById('storefrontProducts').textContent = merchant.products;
+            document.getElementById('storefrontRating').textContent = `⭐ ${merchant.rating}`;
+            document.getElementById('storefrontOrders').textContent = `${merchant.orders}+`;
+            document.getElementById('storefrontLogo').innerHTML = merchant.logo;
+            document.getElementById('storefrontHeader').innerHTML = `
+                <img src="${merchant.banner}" alt="${merchant.name}">
+                <button class="storefront-close" onclick="closeStorefront()">✕</button>
+                <div class="storefront-logo">${merchant.logo}</div>
+            `;
+            
+            // Get merchant's products
+            const merchantProducts = PRODUCTS.filter(p => p.merchantId === merchantId);
+            const productsList = document.getElementById('storefrontProductsList');
+            productsList.innerHTML = merchantProducts.map(product => `
+                <div class="storefront-product">
+                    <div class="storefront-product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="storefront-product-info">
+                        <div class="storefront-product-name">${product.name}</div>
+                        <div class="storefront-product-price">₱${product.price.toFixed(2)}</div>
+                        <button class="storefront-product-add" onclick="addToCart('${product.id}'); event.stopPropagation();">
+                            + Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Show panel
+            document.getElementById('storefrontOverlay').classList.add('show');
+            document.getElementById('storefrontPanel').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeStorefront() {
+            document.getElementById('storefrontOverlay').classList.remove('show');
+            document.getElementById('storefrontPanel').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // ============================================
+        // CART
+        // ============================================
+        function addToCart(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+            
+            const merchant = MERCHANTS.find(m => m.id === product.merchantId);
+            
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    ...product,
+                    merchantName: merchant?.name || 'Unknown',
+                    merchantLogo: merchant?.logo || '🏪',
+                    quantity: 1
+                });
+            }
+            
+            saveCart();
+            updateCartUI();
+            showToast('Added to cart!', 'success');
+        }
+
+        function updateCartQuantity(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+                saveCart();
+                updateCartUI();
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            saveCart();
+            updateCartUI();
+        }
+
+        function saveCart() {
+            localStorage.setItem('amadeo_cart', JSON.stringify(cart));
+        }
+
+        function loadCart() {
+            const saved = localStorage.getItem('amadeo_cart');
+            if (saved) {
+                cart = JSON.parse(saved);
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const cartItems = document.getElementById('cartItems');
+            const cartBadge = document.getElementById('cartBadge');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartFee = document.getElementById('cartFee');
+            const cartTotal = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const fee = subtotal * CONFIG.PLATFORM_FEE;
+            const total = subtotal + fee;
+            
+            cartBadge.textContent = totalItems;
+            cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+            cartSubtotal.textContent = `₱${subtotal.toFixed(2)}`;
+            cartFee.textContent = `₱${fee.toFixed(2)}`;
+            cartTotal.textContent = `₱${total.toFixed(2)}`;
+            checkoutBtn.disabled = cart.length === 0;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-empty">
+                        <div class="cart-empty-icon">🛒</div>
+                        <p>Your cart is empty</p>
+                        <p style="font-size: 0.85rem; margin-top: 5px;">Start adding products!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-info">
+                        <div class="cart-item-merchant">${item.merchantName}</div>
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">₱${item.price.toFixed(2)}</div>
+                        <div class="cart-item-qty">
+                            <button class="qty-btn" onclick="updateCartQuantity('${item.id}', -1)">−</button>
+                            <span>${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateCartQuantity('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart() {
+            document.getElementById('cartOverlay').classList.toggle('show');
+            document.getElementById('cartSidebar').classList.toggle('show');
+        }
+
+        // ============================================
+        // SEARCH
+        // ============================================
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (!query) {
+                renderMerchants(currentCategory);
+                renderProducts(currentCategory);
+                return;
+            }
+            
+            // Filter merchants
+            const filteredMerchants = MERCHANTS.filter(m => 
+                m.name.toLowerCase().includes(query) ||
+                m.categoryLabel.toLowerCase().includes(query) ||
+                m.location.toLowerCase().includes(query)
+            );
+            
+            // Filter products
+            const filteredProducts = PRODUCTS.filter(p =>
+                p.name.toLowerCase().includes(query)
+            ).map(product => {
+                const merchant = MERCHANTS.find(m => m.id === product.merchantId);
+                return { ...product, merchantName: merchant?.name || 'Unknown', merchantLogo: merchant?.logo || '🏪' };
+            });
+            
+            // Render filtered results
+            const merchantsGrid = document.getElementById('merchantsGrid');
+            merchantsGrid.innerHTML = filteredMerchants.length ? filteredMerchants.map(merchant => `
+                <div class="merchant-card" onclick="openStorefront('${merchant.id}')">
+                    <div class="merchant-card-banner">
+                        <img src="${merchant.banner}" alt="${merchant.name}">
+                        ${merchant.verified ? '<div class="merchant-card-badge">✓ Verified</div>' : ''}
+                        <div class="merchant-card-logo">${merchant.logo}</div>
+                    </div>
+                    <div class="merchant-card-content">
+                        <div class="merchant-card-name">${merchant.name}</div>
+                        <div class="merchant-card-category">${merchant.categoryLabel}</div>
+                        <div class="merchant-card-location">📍 ${merchant.location}</div>
+                    </div>
+                    <button class="merchant-card-cta">View Products →</button>
+                </div>
+            `).join('') : '<p style="text-align:center; color: var(--text-muted); padding: 40px;">No merchants found</p>';
+            
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = filteredProducts.length ? filteredProducts.map(product => `
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-card-content">
+                        <div class="product-card-merchant">
+                            <div class="product-card-merchant-logo">${product.merchantLogo}</div>
+                            <span class="product-card-merchant-name">${product.merchantName}</span>
+                        </div>
+                        <div class="product-card-name">${product.name}</div>
+                        <div class="product-card-price">
+                            <span class="product-price-current">₱${product.price.toFixed(2)}</span>
+                        </div>
+                        <button class="product-card-add" onclick="addToCart('${product.id}')">
+                            🛒 Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('') : '<p style="text-align:center; color: var(--text-muted); padding: 40px;">No products found</p>';
+            
+            document.getElementById('productsSectionTitle').textContent = `Search Results for "${query}"`;
+        }
+
+        // ============================================
+        // UTILITIES
+        // ============================================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMessage.textContent = message;
+            toastIcon.textContent = type === 'success' ? '✓' : 'ℹ';
+            toast.className = `toast ${type} show`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        function showLogin() {
+            alert('Sign In with Google - Connect your Google OAuth');
+        }
+
+        function proceedToCheckout() {
+            // Redirect to checkout page or show checkout modal
+            window.location.href = 'marketplace-consumer.html#checkout';
+        }
+    </script>
+</body>
+</html>

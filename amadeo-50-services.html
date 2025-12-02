@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amadeo Verified | 50 Essential Home Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --primary-light: #40916c;
+            --primary-dark: #1b4332;
+            --accent: #f77f00;
+            --accent-light: #fcbf49;
+            --emergency: #dc2626;
+            --cream: #fefae0;
+            --warm-white: #fffef7;
+            --text-dark: #1a1a1a;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            
+            --delivery: #10b981;
+            --visit: #6366f1;
+            --pickup: #f59e0b;
+            --appointment: #ec4899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--warm-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-emergency {
+            background: linear-gradient(90deg, var(--emergency) 0%, #b91c1c 100%);
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .pulse { animation: pulse 1.5s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .header-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .logo-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .logo-tagline {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .search-box span {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            padding: 20px;
+            color: white;
+        }
+
+        .stats-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stats-title h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+
+        .stats-title p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .stats-numbers {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* Quick Nav */
+        .quick-nav {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 10px 0;
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+        }
+
+        .quick-nav-scroll {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .quick-nav-scroll::-webkit-scrollbar { display: none; }
+
+        .nav-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .nav-chip:hover { background: var(--cream); }
+        .nav-chip.active { background: var(--primary); color: white; }
+        .nav-chip.emergency { background: #fee2e2; color: var(--emergency); }
+        .nav-chip.emergency:hover { background: var(--emergency); color: white; }
+
+        /* Legend */
+        .legend {
+            background: white;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .legend-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.65rem;
+        }
+
+        .b-delivery { background: #d1fae5; color: #059669; }
+        .b-pickup { background: #fef3c7; color: #d97706; }
+        .b-book { background: #fce7f3; color: #db2777; }
+        .b-visit { background: #e0e7ff; color: #4f46e5; }
+        .b-emergency { background: #fee2e2; color: #dc2626; }
+
+        /* Main */
+        .main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 25px 20px;
+        }
+
+        /* Category Section */
+        .category-section {
+            margin-bottom: 40px;
+            scroll-margin-top: 180px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--cream) 0%, transparent 100%);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--primary);
+        }
+
+        .category-header.emergency-cat {
+            background: linear-gradient(90deg, #fef2f2 0%, transparent 100%);
+            border-left-color: var(--emergency);
+        }
+
+        .cat-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cat-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+        }
+
+        .cat-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .cat-count {
+            background: var(--primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        /* Provider Grid */
+        .providers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .provider-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .provider-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-light);
+        }
+
+        .provider-card.featured {
+            border-color: var(--accent);
+        }
+
+        .provider-card.featured::before {
+            content: '⭐ TOP';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent);
+            color: white;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            font-size: 0.6rem;
+            font-weight: 700;
+            z-index: 1;
+        }
+
+        .service-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.65rem;
+            font-weight: 700;
+            z-index: 1;
+        }
+
+        .t-delivery { background: var(--delivery); color: white; }
+        .t-pickup { background: var(--pickup); color: white; }
+        .t-book { background: var(--appointment); color: white; }
+        .t-visit { background: var(--visit); color: white; }
+        .t-emergency { background: var(--emergency); color: white; animation: pulse 1.5s infinite; }
+
+        .provider-top {
+            padding: 15px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .provider-logo {
+            width: 50px;
+            height: 50px;
+            background: #f3f4f6;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .provider-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .verified { color: var(--primary); font-size: 0.9rem; }
+
+        .provider-location {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .provider-services {
+            padding: 0 15px 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .svc-tag {
+            background: #f3f4f6;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .svc-tag.price {
+            background: #ecfdf5;
+            color: #059669;
+            font-weight: 700;
+        }
+
+        .provider-footer {
+            padding: 12px 15px;
+            background: #f9fafb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .provider-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.75rem;
+        }
+
+        .meta-item strong {
+            display: block;
+            color: var(--text-dark);
+        }
+
+        .meta-item span {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+        }
+
+        .provider-cta {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .provider-cta:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .provider-cta.emergency-cta {
+            background: var(--emergency);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .modal-body { padding: 20px; }
+
+        .modal-provider {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-logo {
+            width: 60px;
+            height: 60px;
+            background: #f3f4f6;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .modal-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .modal-cat {
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            background: var(--cream);
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-icon.wa { background: #25d366; }
+        .contact-icon.sms { background: #6366f1; }
+
+        .contact-text h4 { font-weight: 600; font-size: 0.9rem; }
+        .contact-text p { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+        }
+
+        .footer h4 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 12px;
+            color: var(--accent-light);
+            font-size: 1rem;
+        }
+
+        .footer p, .footer a {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .footer a:hover { color: white; }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 25px auto 0;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-main { flex-wrap: wrap; }
+            .search-box { order: 3; flex-basis: 100%; max-width: 100%; margin-top: 10px; }
+            .stats-numbers { gap: 20px; }
+            .stat-value { font-size: 1.4rem; }
+            .providers-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-emergency">
+            <span class="pulse">🚨</span>
+            24/7 EMERGENCY: Plumbing • Electrical • Locksmith • Malabanan
+            <span class="pulse">🚨</span>
+        </div>
+        <div class="header-main">
+            <a href="#" class="logo">
+                <div class="logo-icon">🏠</div>
+                <div>
+                    <div class="logo-name">Amadeo Verified</div>
+                    <div class="logo-tagline">50 ESSENTIAL HOME SERVICES</div>
+                </div>
+            </a>
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="Search services, problems, or providers..." onkeyup="handleSearch()">
+            </div>
+            <button class="header-btn">Sign In</button>
+        </div>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-content">
+            <div class="stats-title">
+                <h1>🏠 Every Home Service You Need</h1>
+                <p>50 essential services • 100+ verified providers • All of Amadeo</p>
+            </div>
+            <div class="stats-numbers">
+                <div class="stat-item">
+                    <div class="stat-value">50</div>
+                    <div class="stat-label">Services</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">100+</div>
+                    <div class="stat-label">Providers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Emergency</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Nav -->
+    <nav class="quick-nav">
+        <div class="quick-nav-scroll">
+            <button class="nav-chip active" onclick="showAll()">🏠 All 50</button>
+            <button class="nav-chip emergency" onclick="scrollTo('emergency')">🚨 Emergency</button>
+            <button class="nav-chip" onclick="scrollTo('water')">💧 Water</button>
+            <button class="nav-chip" onclick="scrollTo('gas')">🔥 Gas</button>
+            <button class="nav-chip" onclick="scrollTo('food')">🍲 Food</button>
+            <button class="nav-chip" onclick="scrollTo('plumbing')">🚿 Plumbing</button>
+            <button class="nav-chip" onclick="scrollTo('electrical')">⚡ Electrical</button>
+            <button class="nav-chip" onclick="scrollTo('aircon')">❄️ Aircon</button>
+            <button class="nav-chip" onclick="scrollTo('cleaning')">🧹 Cleaning</button>
+            <button class="nav-chip" onclick="scrollTo('laundry')">👕 Laundry</button>
+            <button class="nav-chip" onclick="scrollTo('repair')">🔧 Repair</button>
+            <button class="nav-chip" onclick="scrollTo('construction')">🔨 Construction</button>
+            <button class="nav-chip" onclick="scrollTo('vehicle')">🏍️ Vehicle</button>
+            <button class="nav-chip" onclick="scrollTo('tech')">💻 Tech</button>
+            <button class="nav-chip" onclick="scrollTo('personal')">💇 Personal</button>
+            <button class="nav-chip" onclick="scrollTo('business')">💼 Business</button>
+        </div>
+    </nav>
+
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-content">
+            <strong>Service Types:</strong>
+            <div class="legend-item"><span class="badge b-delivery">🚚 DELIVERY</span> They deliver</div>
+            <div class="legend-item"><span class="badge b-pickup">🔄 PICKUP</span> Pickup & return</div>
+            <div class="legend-item"><span class="badge b-book">📅 BOOK</span> Appointment</div>
+            <div class="legend-item"><span class="badge b-visit">📍 VISIT</span> Go to store</div>
+            <div class="legend-item"><span class="badge b-emergency">🚨 24/7</span> Emergency</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main" id="mainContent">
+        <!-- Rendered by JS -->
+    </main>
+
+    <!-- Contact Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>📞 Contact Provider</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-provider">
+                    <div class="modal-logo" id="mLogo">🏪</div>
+                    <div>
+                        <div class="modal-name" id="mName">Provider</div>
+                        <div class="modal-cat" id="mCat">Category</div>
+                    </div>
+                </div>
+                <div class="contact-list" id="mContacts"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <h4>🏠 Amadeo Verified</h4>
+                <p>Your complete home services directory for Amadeo, Cavite.</p>
+                <p style="margin-top: 10px;">📱 0966 960 6060</p>
+                <p>📧 tygfsb@gmail.com</p>
+            </div>
+            <div>
+                <h4>🚨 Emergency 24/7</h4>
+                <a href="#">Plumbing Emergency</a>
+                <a href="#">Electrical Emergency</a>
+                <a href="#">Locksmith</a>
+                <a href="#">Malabanan/Septic</a>
+            </div>
+            <div>
+                <h4>Popular Services</h4>
+                <a href="#">Water Delivery</a>
+                <a href="#">LPG Delivery</a>
+                <a href="#">Laundry Pickup</a>
+                <a href="#">Aircon Cleaning</a>
+            </div>
+            <div>
+                <h4>For Providers</h4>
+                <a href="#">Register Business</a>
+                <a href="#">Partner Dashboard</a>
+                <a href="#">5% Commission Info</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2024 Amadeo Verified Marketplace. Powered by TYG Services.
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // 50 ESSENTIAL HOUSEHOLD SERVICES
+        // ============================================
+        const SERVICES = [
+            // ========== 1. EMERGENCY (3) ==========
+            {
+                id: 'emergency',
+                icon: '🚨',
+                title: 'EMERGENCY SERVICES',
+                subtitle: '24/7 hotline for urgent problems',
+                isEmergency: true,
+                services: [
+                    { name: '24/7 Plumber', pain: 'Burst pipe, major leak, no water' },
+                    { name: '24/7 Electrician', pain: 'Power out, fire hazard, short circuit' },
+                    { name: '24/7 Locksmith', pain: 'Locked out, broken lock, lost keys' }
+                ],
+                providers: [
+                    { id: 'E1', name: 'Tubero Express 24/7', logo: '🚿', cat: 'Emergency Plumber', type: 'emergency', label: '🚨 24/7', loc: 'All Amadeo', featured: true, services: ['Burst Pipe - ₱800+', 'Clogged - ₱500+', 'Leak - ₱400+'], phone: '0917-111-1111', hours: '24/7', rating: 4.9, jobs: 450 },
+                    { id: 'E2', name: 'Kuryente Master 24/7', logo: '⚡', cat: 'Emergency Electrician', type: 'emergency', label: '🚨 24/7', loc: 'All Amadeo', featured: true, services: ['No Power - ₱500+', 'Short Circuit - ₱600+', 'Fire Hazard'], phone: '0918-222-2222', hours: '24/7', rating: 4.9, jobs: 380 },
+                    { id: 'E3', name: 'Susi Express Locksmith', logo: '🔐', cat: 'Emergency Locksmith', type: 'emergency', label: '🚨 24/7', loc: 'All Amadeo', services: ['Unlock Door - ₱300+', 'Car Lockout', 'Change Lock - ₱500+'], phone: '0919-333-3333', hours: '24/7', rating: 4.8, jobs: 250 }
+                ]
+            },
+
+            // ========== 2. WATER (4) ==========
+            {
+                id: 'water',
+                icon: '💧',
+                title: 'Water & Beverages',
+                subtitle: 'Drinking water, ice, dispenser',
+                services: [
+                    { name: 'Purified Water', pain: 'No drinking water' },
+                    { name: 'Mineral Water', pain: 'Need mineral water' },
+                    { name: 'Ice Delivery', pain: 'Need ice for events/store' },
+                    { name: 'Water Dispenser', pain: 'Need dispenser rental' }
+                ],
+                providers: [
+                    { id: 'W1', name: 'Aqua Pure Amadeo', logo: '💧', cat: 'Water Station', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: ['Purified - ₱50', 'Mineral - ₱60', 'Alkaline - ₱70'], phone: '0917-100-0001', hours: '5AM-9PM', rating: 4.9, jobs: 1200 },
+                    { id: 'W2', name: 'Crystal Springs', logo: '🌊', cat: 'Water Station', type: 'delivery', label: '🚚 Delivery', loc: 'Poblacion Area', services: ['Spring - ₱55', 'Purified - ₱50', 'Container - ₱200'], phone: '0918-100-0002', hours: '5AM-8PM', rating: 4.8, jobs: 900 },
+                    { id: 'W3', name: 'Ice Factory Amadeo', logo: '🧊', cat: 'Ice Delivery', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: ['Tube Ice - ₱15/kg', 'Block Ice - ₱50', 'Crushed Ice'], phone: '0919-100-0003', hours: '4AM-8PM', rating: 4.7, jobs: 500 }
+                ]
+            },
+
+            // ========== 3. GAS/LPG (3) ==========
+            {
+                id: 'gas',
+                icon: '🔥',
+                title: 'LPG / Cooking Gas',
+                subtitle: 'Tank refill, delivery, accessories',
+                services: [
+                    { name: 'LPG Refill', pain: 'Empty gas tank' },
+                    { name: 'New Tank', pain: 'Need new LPG tank' },
+                    { name: 'Regulator/Hose', pain: 'Broken regulator' }
+                ],
+                providers: [
+                    { id: 'G1', name: 'Gasul Amadeo', logo: '🔥', cat: 'Official Dealer', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: ['11kg - ₱950', '22kg - ₱1,800', 'Regulator - ₱350'], phone: '0917-200-0001', hours: '6AM-8PM', rating: 4.9, jobs: 1500 },
+                    { id: 'G2', name: 'Solane Center', logo: '🛢️', cat: 'Official Dealer', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: ['11kg - ₱980', '22kg - ₱1,850', 'New Tank - ₱2,500'], phone: '0918-200-0002', hours: '6AM-9PM', rating: 4.8, jobs: 1100 },
+                    { id: 'G3', name: 'Total Gas Express', logo: '⛽', cat: 'LPG Delivery', type: 'delivery', label: '🚚 Delivery', loc: 'Maitim, Dagatan', services: ['11kg - ₱920', '22kg - ₱1,750', '24/7 +₱100'], phone: '0919-200-0003', hours: '24/7', rating: 4.7, jobs: 700 }
+                ]
+            },
+
+            // ========== 4. FOOD & GROCERY (8) ==========
+            {
+                id: 'food',
+                icon: '🍲',
+                title: 'Food, Grocery & Essentials',
+                subtitle: 'Meals, rice, eggs, vegetables, pharmacy',
+                services: [
+                    { name: 'Cooked Meals', pain: 'No time to cook' },
+                    { name: 'Rice Delivery', pain: 'Out of rice' },
+                    { name: 'Eggs & Poultry', pain: 'Need fresh eggs' },
+                    { name: 'Vegetables', pain: 'Need fresh produce' },
+                    { name: 'Grocery Items', pain: 'Daily essentials' },
+                    { name: 'Pharmacy', pain: 'Need medicine' },
+                    { name: 'Catering', pain: 'Party/event food' },
+                    { name: 'Cakes & Bakery', pain: 'Birthday cake' }
+                ],
+                providers: [
+                    { id: 'F1', name: "Lola's Kitchen", logo: '🍳', cat: 'Home Cooked', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: ['Adobo - ₱250', 'Sinigang - ₱280', 'Fried Chicken'], phone: '0917-300-0001', hours: '10AM-8PM', rating: 4.9, jobs: 800 },
+                    { id: 'F2', name: 'Bigas Express', logo: '🍚', cat: 'Rice Dealer', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: ['Premium 25kg - ₱1,400', 'Regular 25kg - ₱1,200', 'NFA - ₱1,000'], phone: '0918-300-0002', hours: '6AM-6PM', rating: 4.8, jobs: 600 },
+                    { id: 'F3', name: 'Fresh Eggs Farm', logo: '🥚', cat: 'Poultry', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: ['30pcs - ₱200', 'Native Chicken - ₱220/kg', 'Bulk Available'], phone: '0919-300-0003', hours: '5AM-5PM', rating: 4.8, jobs: 500 },
+                    { id: 'F4', name: 'Amadeo Fresh Farm', logo: '🥬', cat: 'Vegetables', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: ['Veggie Bundle - ₱150', 'Tomatoes/kg - ₱80', 'Leafy Greens'], phone: '0920-300-0004', hours: '5AM-5PM', rating: 4.9, jobs: 700 },
+                    { id: 'F5', name: "Aling Rosa's Store", logo: '🏪', cat: 'Sari-Sari', type: 'delivery', label: '🚚 Delivery', loc: 'Poblacion Area', services: ['Groceries', 'Snacks', 'Beverages', 'Load'], phone: '0921-300-0005', hours: '6AM-11PM', rating: 4.6, jobs: 1500 },
+                    { id: 'F6', name: 'Amadeo Pharmacy', logo: '💊', cat: 'Pharmacy', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: ['Prescription', 'OTC', 'Vitamins', 'SC/PWD Discount'], phone: '0922-300-0006', hours: '7AM-10PM', rating: 4.9, jobs: 900 },
+                    { id: 'F7', name: 'Kusina ni Juan Catering', logo: '🍖', cat: 'Catering', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Wedding - ₱15K+', 'Birthday - ₱8K+', 'Lechon - ₱7,500'], phone: '0923-300-0007', hours: 'By Booking', rating: 4.8, jobs: 200 },
+                    { id: 'F8', name: 'Sweet Delights Bakery', logo: '🎂', cat: 'Bakery', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: ['Custom Cake - ₱850+', 'Cupcakes - ₱350', 'Pandesal - ₱50'], phone: '0924-300-0008', hours: '5AM-7PM', rating: 4.9, jobs: 450 }
+                ]
+            },
+
+            // ========== 5. PLUMBING (4) ==========
+            {
+                id: 'plumbing',
+                icon: '🚿',
+                title: 'Plumbing & Water Systems',
+                subtitle: 'Pipes, faucets, tanks, pumps',
+                services: [
+                    { name: 'Pipe Repair', pain: 'Leaking/broken pipes' },
+                    { name: 'Unclogging', pain: 'Clogged drain/toilet' },
+                    { name: 'Faucet/Fixture', pain: 'Broken faucet' },
+                    { name: 'Water Pump', pain: 'Pump not working' }
+                ],
+                providers: [
+                    { id: 'P1', name: 'Master Plumber Juan', logo: '🔧', cat: 'Licensed Plumber', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: ['Unclog - ₱300+', 'Pipe - ₱500+', 'Faucet - ₱250'], phone: '0917-400-0001', hours: '7AM-7PM', rating: 4.9, jobs: 600 },
+                    { id: 'P2', name: 'Quick Fix Plumbing', logo: '🚿', cat: 'Plumbing', type: 'book', label: '📅 Book', loc: 'Poblacion Area', services: ['Toilet - ₱400+', 'Grease Trap - ₱800+', 'Free Estimate'], phone: '0918-400-0002', hours: '8AM-6PM', rating: 4.7, jobs: 400 },
+                    { id: 'P3', name: 'Water Pump Specialist', logo: '⛽', cat: 'Pump Repair', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Jet Pump - ₱500+', 'Submersible - ₱800+', 'Installation'], phone: '0919-400-0003', hours: '8AM-5PM', rating: 4.8, jobs: 300 },
+                    { id: 'P4', name: 'Tank Cleaning Pro', logo: '🪣', cat: 'Water Tank', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Tank Clean - ₱500+', 'Disinfection', 'Annual Contract'], phone: '0920-400-0004', hours: 'By Booking', rating: 4.8, jobs: 200 }
+                ]
+            },
+
+            // ========== 6. ELECTRICAL (5) ==========
+            {
+                id: 'electrical',
+                icon: '⚡',
+                title: 'Electrical & Power',
+                subtitle: 'Wiring, outlets, Meralco, solar, generator',
+                services: [
+                    { name: 'Wiring/Outlets', pain: 'Need new outlet/wiring' },
+                    { name: 'Troubleshoot', pain: 'Tripping breaker' },
+                    { name: 'Meralco Service', pain: 'New connection' },
+                    { name: 'Solar Panels', pain: 'Want solar power' },
+                    { name: 'Generator', pain: 'Need backup power' }
+                ],
+                providers: [
+                    { id: 'EL1', name: 'Electrician Pro', logo: '⚡', cat: 'Licensed Electrician', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: ['Outlet - ₱200', 'Wiring - ₱50/m', 'Troubleshoot - ₱300'], phone: '0917-500-0001', hours: '7AM-6PM', rating: 4.9, jobs: 500 },
+                    { id: 'EL2', name: 'Spark Electric', logo: '💡', cat: 'Electrical', type: 'book', label: '📅 Book', loc: 'Halang, Poblacion', services: ['Fan Install - ₱200', 'Lighting', 'Panel Upgrade'], phone: '0918-500-0002', hours: '8AM-5PM', rating: 4.8, jobs: 350 },
+                    { id: 'EL3', name: 'Meralco Accredited', logo: '🏢', cat: 'Meralco Service', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['New Connection', 'Relocation', 'Upgrade', 'Service Entrance'], phone: '0919-500-0003', hours: 'By Booking', rating: 4.8, jobs: 250 },
+                    { id: 'EL4', name: 'Solar Power Amadeo', logo: '☀️', cat: 'Solar Installation', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Assessment - FREE', 'Installation', 'Maintenance', 'Financing'], phone: '0920-500-0004', hours: 'By Booking', rating: 4.9, jobs: 100 },
+                    { id: 'EL5', name: 'GenSet Rental', logo: '🔌', cat: 'Generator', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: ['Daily - ₱1,500+', 'Weekly Rates', 'Events', 'Emergency'], phone: '0921-500-0005', hours: '24/7', rating: 4.7, jobs: 150 }
+                ]
+            },
+
+            // ========== 7. AIRCON & COOLING (3) ==========
+            {
+                id: 'aircon',
+                icon: '❄️',
+                title: 'Aircon & Cooling',
+                subtitle: 'Cleaning, repair, installation, freon',
+                services: [
+                    { name: 'AC Cleaning', pain: 'AC not cold, smelly' },
+                    { name: 'AC Repair', pain: 'AC broken' },
+                    { name: 'AC Install', pain: 'Need new aircon' }
+                ],
+                providers: [
+                    { id: 'AC1', name: 'Cool Tech Aircon', logo: '❄️', cat: 'AC Specialist', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: ['Clean - ₱400', 'Repair - ₱500+', 'Freon - ₱1,500+'], phone: '0917-600-0001', hours: '8AM-6PM', rating: 4.9, jobs: 450 },
+                    { id: 'AC2', name: 'Aircon Doctor', logo: '🩺', cat: 'AC Repair', type: 'book', label: '📅 Book', loc: 'Halang, Poblacion', services: ['Split - ₱450', 'Window - ₱350', 'FREE Diagnosis'], phone: '0918-600-0002', hours: '8AM-5PM', rating: 4.8, jobs: 350 },
+                    { id: 'AC3', name: 'AC Install Express', logo: '🔧', cat: 'Installation', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Window - ₱1,500', 'Split - ₱3,000', 'Relocate - ₱2,000'], phone: '0919-600-0003', hours: 'By Booking', rating: 4.7, jobs: 200 }
+                ]
+            },
+
+            // ========== 8. CLEANING SERVICES (5) ==========
+            {
+                id: 'cleaning',
+                icon: '🧹',
+                title: 'Cleaning Services',
+                subtitle: 'House, sofa, mattress, carpet, post-construction',
+                services: [
+                    { name: 'House Cleaning', pain: 'Messy home' },
+                    { name: 'Deep Cleaning', pain: 'Need thorough clean' },
+                    { name: 'Sofa Cleaning', pain: 'Dirty sofa' },
+                    { name: 'Mattress Cleaning', pain: 'Dusty mattress' },
+                    { name: 'Post-Construction', pain: 'Renovation mess' }
+                ],
+                providers: [
+                    { id: 'CL1', name: 'Sparkle Home Cleaning', logo: '✨', cat: 'Professional', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: ['General - ₱500+', 'Deep Clean - ₱1,500+', 'Hourly - ₱150'], phone: '0917-700-0001', hours: '7AM-5PM', rating: 4.9, jobs: 400 },
+                    { id: 'CL2', name: 'Maid For You', logo: '🧹', cat: 'Cleaning', type: 'book', label: '📅 Book', loc: 'Poblacion Area', services: ['Studio - ₱400', '2BR - ₱600', 'Weekly Plans'], phone: '0918-700-0002', hours: '8AM-5PM', rating: 4.7, jobs: 250 },
+                    { id: 'CL3', name: 'Sofa & Carpet Pro', logo: '🛋️', cat: 'Upholstery', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Sofa 3-seater - ₱800', 'Carpet - ₱50/sqm', 'Car Seat'], phone: '0919-700-0003', hours: 'By Booking', rating: 4.8, jobs: 200 },
+                    { id: 'CL4', name: 'Mattress Fresh', logo: '🛏️', cat: 'Mattress', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Single - ₱400', 'Queen - ₱600', 'King - ₱800', 'Sanitize'], phone: '0920-700-0004', hours: 'By Booking', rating: 4.8, jobs: 180 },
+                    { id: 'CL5', name: 'Post-Con Cleaners', logo: '🏗️', cat: 'Construction', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Per SQM - ₱30', 'Whole House Quote', 'Debris Removal'], phone: '0921-700-0005', hours: 'By Booking', rating: 4.7, jobs: 150 }
+                ]
+            },
+
+            // ========== 9. LAUNDRY & FABRIC (3) ==========
+            {
+                id: 'laundry',
+                icon: '👕',
+                title: 'Laundry & Fabric Care',
+                subtitle: 'Wash, dry, fold, dry clean, curtains',
+                services: [
+                    { name: 'Laundry', pain: 'Dirty clothes piling up' },
+                    { name: 'Dry Cleaning', pain: 'Delicate fabrics' },
+                    { name: 'Curtains/Bedding', pain: 'Heavy items' }
+                ],
+                providers: [
+                    { id: 'L1', name: 'Fresh & Clean Laundry', logo: '👕', cat: 'Full Service', type: 'pickup', label: '🔄 Pickup', loc: 'All Amadeo', featured: true, services: ['Wash-Dry-Fold - ₱60/kg', 'Express - ₱100/kg', 'Blanket - ₱150'], phone: '0917-800-0001', hours: '7AM-7PM', rating: 4.9, jobs: 800 },
+                    { id: 'L2', name: 'Sparkle Laundromat', logo: '✨', cat: 'Laundry', type: 'pickup', label: '🔄 Pickup', loc: 'Poblacion Area', services: ['Regular - ₱55/kg', 'Self-Service - ₱50/load', 'Dry Clean - ₱150'], phone: '0918-800-0002', hours: '6AM-9PM', rating: 4.8, jobs: 600 },
+                    { id: 'L3', name: 'Curtain & Bedding Care', logo: '🪟', cat: 'Specialty', type: 'pickup', label: '🔄 Pickup', loc: 'All Amadeo', services: ['Curtains - ₱100/panel', 'Comforter - ₱200', 'Bedsheet Set - ₱80'], phone: '0919-800-0003', hours: 'By Pickup', rating: 4.7, jobs: 300 }
+                ]
+            },
+
+            // ========== 10. APPLIANCE & GADGET REPAIR (5) ==========
+            {
+                id: 'repair',
+                icon: '🔧',
+                title: 'Appliance & Gadget Repair',
+                subtitle: 'Ref, washer, TV, phone, computer',
+                services: [
+                    { name: 'Refrigerator', pain: 'Ref not cooling' },
+                    { name: 'Washing Machine', pain: 'Washer broken' },
+                    { name: 'TV Repair', pain: 'TV not working' },
+                    { name: 'Phone Repair', pain: 'Cracked screen' },
+                    { name: 'Computer/Laptop', pain: 'PC problems' }
+                ],
+                providers: [
+                    { id: 'R1', name: 'Appliance Repair Pro', logo: '🔌', cat: 'Appliances', type: 'pickup', label: '🔄 Pickup', loc: 'All Amadeo', featured: true, services: ['Ref - ₱500+', 'Washer - ₱400+', 'TV - ₱300+', 'FREE Diagnosis'], phone: '0917-900-0001', hours: '8AM-6PM', rating: 4.8, jobs: 400 },
+                    { id: 'R2', name: 'Ref Doctor', logo: '❄️', cat: 'Refrigerator', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Diagnosis - FREE', 'Freon - ₱1,200+', 'Compressor', 'Thermostat'], phone: '0918-900-0002', hours: '8AM-5PM', rating: 4.8, jobs: 300 },
+                    { id: 'R3', name: 'Phone Fix Express', logo: '📱', cat: 'Phone Repair', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: ['Screen - ₱800+', 'Battery - ₱500+', 'Port - ₱400', 'Water Damage'], phone: '0919-900-0003', hours: '9AM-8PM', rating: 4.7, jobs: 500 },
+                    { id: 'R4', name: 'PC & Laptop Clinic', logo: '💻', cat: 'Computer', type: 'pickup', label: '🔄 Pickup', loc: 'All Amadeo', services: ['Format - ₱500', 'Virus - ₱300', 'Data Recovery - ₱1,000+'], phone: '0920-900-0004', hours: '9AM-7PM', rating: 4.8, jobs: 350 },
+                    { id: 'R5', name: 'Fix-It Electronics', logo: '📺', cat: 'Electronics', type: 'visit', label: '📍 Visit', loc: 'Brgy. Poblacion', services: ['TV - ₱300+', 'Sound System', 'Microwave - ₱400', 'Fan - ₱200'], phone: '0921-900-0005', hours: '9AM-6PM', rating: 4.7, jobs: 280 }
+                ]
+            },
+
+            // ========== 11. PEST & SANITATION (4) ==========
+            {
+                id: 'pest',
+                icon: '🪳',
+                title: 'Pest Control & Sanitation',
+                subtitle: 'Termites, rats, roaches, septic tank',
+                services: [
+                    { name: 'General Pest', pain: 'Cockroaches, ants' },
+                    { name: 'Termite Control', pain: 'Wood damage' },
+                    { name: 'Rat Control', pain: 'Rat infestation' },
+                    { name: 'Septic Pumping', pain: 'Full septic tank' }
+                ],
+                providers: [
+                    { id: 'PS1', name: 'Pest Busters Cavite', logo: '🪳', cat: 'Pest Control', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: ['General - ₱1,500+', 'Termite - ₱3,000+', 'Rat - ₱1,200+'], phone: '0917-1000-001', hours: 'By Booking', rating: 4.9, jobs: 250 },
+                    { id: 'PS2', name: 'Bug-Off Exterminators', logo: '🦟', cat: 'Exterminator', type: 'book', label: '📅 Book', loc: 'Amadeo & Nearby', services: ['Cockroach - ₱800+', 'Ants - ₱600+', 'Bed Bugs - ₱2,000+'], phone: '0918-1000-002', hours: 'By Booking', rating: 4.7, jobs: 180 },
+                    { id: 'PS3', name: 'Malabanan Amadeo', logo: '🚛', cat: 'Septic', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: ['Pumping - ₱3,500+', 'Declog - ₱2,500+', 'Siphon'], phone: '0919-1000-003', hours: '6AM-10PM', rating: 4.8, jobs: 400 },
+                    { id: 'PS4', name: 'Pozo Negro Express', logo: '🚽', cat: 'Septic', type: 'book', label: '📅 Book', loc: 'Amadeo & Silang', services: ['Small - ₱3,000', 'Medium - ₱4,500', 'Large - ₱6,000'], phone: '0920-1000-004', hours: '24/7', rating: 4.7, jobs: 300 }
+                ]
+            },
+
+            // ========== 12. CONSTRUCTION & REPAIRS (6) ==========
+            {
+                id: 'construction',
+                icon: '🔨',
+                title: 'Construction & Home Repair',
+                subtitle: 'Carpentry, welding, painting, roofing, tiles, landscaping',
+                services: [
+                    { name: 'Carpentry', pain: 'Broken cabinet/furniture' },
+                    { name: 'Welding', pain: 'Gate/grill repair' },
+                    { name: 'Painting', pain: 'Walls need repaint' },
+                    { name: 'Roofing', pain: 'Leaking roof' },
+                    { name: 'Tiles/Masonry', pain: 'Broken tiles' },
+                    { name: 'Landscaping', pain: 'Overgrown garden' }
+                ],
+                providers: [
+                    { id: 'C1', name: 'Master Carpenter', logo: '🪚', cat: 'Carpentry', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: ['Cabinet - ₱500+', 'Door Repair - ₱300+', 'Custom Furniture'], phone: '0917-1100-001', hours: '7AM-5PM', rating: 4.9, jobs: 350 },
+                    { id: 'C2', name: 'Welding Works', logo: '⚒️', cat: 'Welding', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Gate Repair - ₱500+', 'Grills - ₱800+', 'Fabrication'], phone: '0918-1100-002', hours: '7AM-5PM', rating: 4.8, jobs: 300 },
+                    { id: 'C3', name: 'Paint Masters', logo: '🎨', cat: 'Painting', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Per SQM - ₱50+', 'Whole House Quote', 'Waterproofing'], phone: '0919-1100-003', hours: 'By Booking', rating: 4.8, jobs: 280 },
+                    { id: 'C4', name: 'Roof Fix Pro', logo: '🏠', cat: 'Roofing', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Leak Repair - ₱500+', 'Replace - Quote', 'Gutter Clean'], phone: '0920-1100-004', hours: 'By Booking', rating: 4.7, jobs: 200 },
+                    { id: 'C5', name: 'Tiles & Masonry', logo: '🧱', cat: 'Mason', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Tile Replace - ₱300+', 'Wall Repair', 'Grouting'], phone: '0921-1100-005', hours: 'By Booking', rating: 4.7, jobs: 250 },
+                    { id: 'C6', name: 'Green Thumb Landscaping', logo: '🌳', cat: 'Landscaping', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Lawn Mowing - ₱300+', 'Tree Trim - ₱500+', 'Garden Design'], phone: '0922-1100-006', hours: 'By Booking', rating: 4.8, jobs: 200 }
+                ]
+            },
+
+            // ========== 13. HARDWARE (3) ==========
+            {
+                id: 'hardware',
+                icon: '🏗️',
+                title: 'Hardware & Building Materials',
+                subtitle: 'Cement, steel, wood, paint, tools',
+                services: [
+                    { name: 'Construction Materials', pain: 'Building/renovation' },
+                    { name: 'Tools & Equipment', pain: 'Need tools' },
+                    { name: 'Glass & Aluminum', pain: 'Broken window' }
+                ],
+                providers: [
+                    { id: 'H1', name: 'Amadeo Builders Hardware', logo: '🔨', cat: 'Hardware', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: ['Cement - ₱280', 'Hollow Blocks', 'Steel Bars', 'Plywood'], phone: '0917-1200-001', hours: '6AM-6PM', rating: 4.8, jobs: 500 },
+                    { id: 'H2', name: "Mang Tony's Hardware", logo: '🔧', cat: 'Tools', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: ['Hand Tools', 'Power Tools', 'Plumbing', 'Electrical'], phone: '0918-1200-002', hours: '7AM-7PM', rating: 4.7, jobs: 400 },
+                    { id: 'H3', name: 'Glass & Aluminum Works', logo: '🪟', cat: 'Glass', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Window - ₱500+', 'Door - ₱1,500+', 'Shower Enclosure'], phone: '0919-1200-003', hours: '8AM-5PM', rating: 4.8, jobs: 250 }
+                ]
+            },
+
+            // ========== 14. VEHICLE SERVICES (4) ==========
+            {
+                id: 'vehicle',
+                icon: '🏍️',
+                title: 'Vehicle Services',
+                subtitle: 'Motor, car, vulcanizing, carwash',
+                services: [
+                    { name: 'Motor Repair', pain: 'Motorcycle problem' },
+                    { name: 'Car Repair', pain: 'Car not working' },
+                    { name: 'Vulcanizing', pain: 'Flat tire' },
+                    { name: 'Car Wash', pain: 'Dirty vehicle' }
+                ],
+                providers: [
+                    { id: 'V1', name: 'RJ Motor Shop', logo: '🏍️', cat: 'Motor', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', featured: true, services: ['Change Oil - ₱150+', 'Tune Up - ₱350', 'Parts Available'], phone: '0917-1300-001', hours: '7AM-6PM', rating: 4.8, jobs: 700 },
+                    { id: 'V2', name: 'Auto Care Center', logo: '🚗', cat: 'Car Repair', type: 'book', label: '📅 Book', loc: 'Brgy. Poblacion', services: ['PMS - ₱2,500+', 'Brake', 'AC Repair', 'Towing'], phone: '0918-1300-002', hours: '8AM-5PM', rating: 4.8, jobs: 300 },
+                    { id: 'V3', name: 'Gulong Express', logo: '🛞', cat: 'Vulcanizing', type: 'visit', label: '📍 Visit', loc: 'Brgy. Dagatan', services: ['Flat - ₱50', 'New Tires', 'Home Service +₱100'], phone: '0919-1300-003', hours: '6AM-8PM', rating: 4.7, jobs: 500 },
+                    { id: 'V4', name: 'Splash Car Wash', logo: '🚿', cat: 'Car Wash', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: ['Car - ₱150', 'Motor - ₱80', 'Interior - ₱200', 'Wax - ₱300'], phone: '0920-1300-004', hours: '7AM-6PM', rating: 4.7, jobs: 600 }
+                ]
+            },
+
+            // ========== 15. TECH & INTERNET (4) ==========
+            {
+                id: 'tech',
+                icon: '💻',
+                title: 'Tech, Internet & Security',
+                subtitle: 'WiFi, CCTV, printer, smart home',
+                services: [
+                    { name: 'Internet/WiFi', pain: 'No connection/slow' },
+                    { name: 'CCTV Install', pain: 'Need security camera' },
+                    { name: 'Printer Repair', pain: 'Printer not working' },
+                    { name: 'Smart Home', pain: 'Home automation' }
+                ],
+                providers: [
+                    { id: 'T1', name: 'NetWorks Amadeo', logo: '📶', cat: 'Internet', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: ['WiFi Setup - ₱500', 'Troubleshoot - ₱300', 'Piso WiFi'], phone: '0917-1400-001', hours: '8AM-6PM', rating: 4.8, jobs: 300 },
+                    { id: 'T2', name: 'CCTV Pro Install', logo: '📹', cat: 'Security', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: ['2-Cam - ₱8,000', '4-Cam - ₱12,000', 'Remote View'], phone: '0918-1400-002', hours: 'By Booking', rating: 4.9, jobs: 200 },
+                    { id: 'T3', name: 'Printer Solutions', logo: '🖨️', cat: 'Printer', type: 'pickup', label: '🔄 Pickup', loc: 'All Amadeo', services: ['Repair - ₱300+', 'Refill - ₱100+', 'Parts'], phone: '0919-1400-003', hours: '9AM-6PM', rating: 4.7, jobs: 250 },
+                    { id: 'T4', name: 'Smart Home Amadeo', logo: '🏠', cat: 'Smart Home', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Smart Lights', 'Smart Lock', 'Automation', 'Consultation'], phone: '0920-1400-004', hours: 'By Booking', rating: 4.8, jobs: 80 }
+                ]
+            },
+
+            // ========== 16. PERSONAL CARE (4) ==========
+            {
+                id: 'personal',
+                icon: '💇',
+                title: 'Personal Care & Wellness',
+                subtitle: 'Salon, barbershop, spa, massage',
+                services: [
+                    { name: 'Haircut/Salon', pain: 'Need haircut/styling' },
+                    { name: 'Barbershop', pain: 'Men\'s grooming' },
+                    { name: 'Massage/Spa', pain: 'Stress, body pain' },
+                    { name: 'Nails', pain: 'Manicure/pedicure' }
+                ],
+                providers: [
+                    { id: 'PR1', name: 'Glow Up Salon', logo: '💇‍♀️', cat: 'Salon', type: 'book', label: '📅 Book', loc: 'Brgy. Poblacion', featured: true, services: ['Haircut - ₱100+', 'Color - ₱500+', 'Rebond - ₱1,500+'], phone: '0917-1500-001', hours: '9AM-8PM', rating: 4.9, jobs: 500 },
+                    { id: 'PR2', name: "Mang Isko's Barbershop", logo: '💈', cat: 'Barbershop', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: ['Haircut - ₱60', 'Kids - ₱50', 'Shave - ₱40'], phone: '0918-1500-002', hours: '8AM-7PM', rating: 4.7, jobs: 800 },
+                    { id: 'PR3', name: 'Healing Hands Massage', logo: '💆', cat: 'Home Massage', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Swedish - ₱400', 'Shiatsu - ₱450', 'Hilot - ₱350'], phone: '0919-1500-003', hours: 'By Booking', rating: 4.8, jobs: 300 },
+                    { id: 'PR4', name: 'Nail Art Studio', logo: '💅', cat: 'Nails', type: 'book', label: '📅 Book', loc: 'Brgy. Dagatan', services: ['Manicure - ₱100', 'Pedicure - ₱150', 'Gel - ₱300'], phone: '0920-1500-004', hours: '10AM-8PM', rating: 4.9, jobs: 400 }
+                ]
+            },
+
+            // ========== 17. PET SERVICES (3) ==========
+            {
+                id: 'pets',
+                icon: '🐕',
+                title: 'Pet Services',
+                subtitle: 'Grooming, vet, pet supplies',
+                services: [
+                    { name: 'Pet Grooming', pain: 'Pet needs grooming' },
+                    { name: 'Veterinary', pain: 'Pet is sick' },
+                    { name: 'Pet Supplies', pain: 'Pet food/supplies' }
+                ],
+                providers: [
+                    { id: 'PT1', name: 'Pet Corner Amadeo', logo: '🐕', cat: 'Pet Shop', type: 'visit', label: '📍 Visit', loc: 'Brgy. Dagatan', featured: true, services: ['Groom Dog - ₱300+', 'Groom Cat - ₱250+', 'Pet Food', 'Accessories'], phone: '0917-1600-001', hours: '8AM-6PM', rating: 4.8, jobs: 400 },
+                    { id: 'PT2', name: 'Vets On Call', logo: '🩺', cat: 'Veterinary', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Checkup - ₱300', 'Vaccine - ₱500+', 'Deworm - ₱200', 'Emergency'], phone: '0918-1600-002', hours: 'By Booking', rating: 4.9, jobs: 250 },
+                    { id: 'PT3', name: 'Pet Food Delivery', logo: '🦴', cat: 'Pet Supplies', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: ['Dog Food', 'Cat Food', 'Accessories', 'Vitamins'], phone: '0919-1600-003', hours: '8AM-6PM', rating: 4.7, jobs: 300 }
+                ]
+            },
+
+            // ========== 18. BUSINESS SERVICES (6) ==========
+            {
+                id: 'business',
+                icon: '💼',
+                title: 'Business & Errands',
+                subtitle: 'Printing, bills, remittance, moving, tailoring',
+                services: [
+                    { name: 'Printing/Photocopy', pain: 'Need documents printed' },
+                    { name: 'Bills Payment', pain: 'Pay utilities' },
+                    { name: 'Remittance', pain: 'Send/receive money' },
+                    { name: 'Tailoring', pain: 'Clothes alteration' },
+                    { name: 'Moving/Lipat Bahay', pain: 'Relocating' },
+                    { name: 'Event Rentals', pain: 'Tables, chairs for event' }
+                ],
+                providers: [
+                    { id: 'B1', name: 'Amadeo Print Shop', logo: '🖨️', cat: 'Printing', type: 'visit', label: '📍 Visit', loc: 'Brgy. Poblacion', featured: true, services: ['Photocopy - ₱2', 'Print - ₱5', 'Tarpaulin - ₱30/sqft'], phone: '0917-1700-001', hours: '8AM-7PM', rating: 4.8, jobs: 800 },
+                    { id: 'B2', name: 'Bayad Center', logo: '💳', cat: 'Bills Payment', type: 'visit', label: '📍 Visit', loc: 'Brgy. Poblacion', services: ['Meralco', 'Water', 'Internet', 'Load'], phone: '0918-1700-002', hours: '8AM-6PM', rating: 4.7, jobs: 1500 },
+                    { id: 'B3', name: 'Pera Padala Hub', logo: '💸', cat: 'Remittance', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: ['GCash', 'MLhuillier', 'Palawan', 'Western Union'], phone: '0919-1700-003', hours: '8AM-7PM', rating: 4.7, jobs: 1000 },
+                    { id: 'B4', name: 'Master Tailor', logo: '🧵', cat: 'Tailoring', type: 'visit', label: '📍 Visit', loc: 'Brgy. Poblacion', services: ['Alteration - ₱50+', 'Hem - ₱30', 'Custom Made'], phone: '0920-1700-004', hours: '8AM-6PM', rating: 4.8, jobs: 400 },
+                    { id: 'B5', name: 'Lipat Bahay Express', logo: '🚛', cat: 'Moving', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: ['Pickup - ₱1,500+', 'Truck - ₱3,000+', 'Packing Help'], phone: '0921-1700-005', hours: 'By Booking', rating: 4.8, jobs: 200 },
+                    { id: 'B6', name: 'Event Rentals Amadeo', logo: '🎪', cat: 'Rentals', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: ['Chairs - ₱15', 'Tables - ₱50', 'Tent - ₱1,500+', 'Sound System'], phone: '0922-1700-006', hours: 'By Booking', rating: 4.7, jobs: 300 }
+                ]
+            }
+        ];
+
+        // ============================================
+        // RENDER
+        // ============================================
+        function renderAll() {
+            const main = document.getElementById('mainContent');
+            main.innerHTML = SERVICES.map(cat => renderCategory(cat)).join('');
+        }
+
+        function renderCategory(cat) {
+            const headerClass = cat.isEmergency ? 'category-header emergency-cat' : 'category-header';
+            const totalProviders = cat.providers.length;
+            
+            return `
+                <section class="category-section" id="cat-${cat.id}">
+                    <div class="${headerClass}">
+                        <div class="cat-icon">${cat.icon}</div>
+                        <div class="cat-info">
+                            <h2>${cat.title} <span class="cat-count">${totalProviders} providers</span></h2>
+                            <p>${cat.subtitle}</p>
+                        </div>
+                    </div>
+                    <div class="providers-grid">
+                        ${cat.providers.map(p => renderProvider(p, cat.isEmergency)).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderProvider(p, isEmergency) {
+            const typeClass = { delivery: 't-delivery', pickup: 't-pickup', book: 't-book', visit: 't-visit', emergency: 't-emergency' }[p.type] || 't-visit';
+            const ctaClass = (isEmergency || p.type === 'emergency') ? 'provider-cta emergency-cta' : 'provider-cta';
+            const ctaText = p.type === 'emergency' ? '🚨 Call' : '📞 Contact';
+
+            return `
+                <div class="provider-card ${p.featured ? 'featured' : ''}">
+                    <span class="service-badge ${typeClass}">${p.label}</span>
+                    <div class="provider-top">
+                        <div class="provider-logo">${p.logo}</div>
+                        <div>
+                            <div class="provider-name">${p.name} <span class="verified">✓</span></div>
+                            <div class="provider-location">📍 ${p.loc}</div>
+                        </div>
+                    </div>
+                    <div class="provider-services">
+                        ${p.services.slice(0, 4).map(s => `<span class="svc-tag ${s.includes('₱') ? 'price' : ''}">${s}</span>`).join('')}
+                    </div>
+                    <div class="provider-footer">
+                        <div class="provider-meta">
+                            <div class="meta-item"><strong>⭐ ${p.rating}</strong><span>Rating</span></div>
+                            <div class="meta-item"><strong>${p.jobs}+</strong><span>Jobs</span></div>
+                        </div>
+                        <button class="${ctaClass}" onclick="openModal('${p.id}')">
+                            ${ctaText}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openModal(id) {
+            let provider = null;
+            for (const cat of SERVICES) {
+                provider = cat.providers.find(p => p.id === id);
+                if (provider) break;
+            }
+            if (!provider) return;
+
+            document.getElementById('mLogo').textContent = provider.logo;
+            document.getElementById('mName').textContent = provider.name;
+            document.getElementById('mCat').textContent = provider.cat;
+
+            const phone = provider.phone.replace(/-/g, '');
+            document.getElementById('mContacts').innerHTML = `
+                <a href="tel:${phone}" class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-text">
+                        <h4>Call Now</h4>
+                        <p>${provider.phone}</p>
+                    </div>
+                </a>
+                <a href="sms:${phone}" class="contact-item">
+                    <div class="contact-icon sms">💬</div>
+                    <div class="contact-text">
+                        <h4>Send SMS</h4>
+                        <p>Text your inquiry</p>
+                    </div>
+                </a>
+                <a href="https://wa.me/63${phone.substring(1)}" target="_blank" class="contact-item">
+                    <div class="contact-icon wa">📱</div>
+                    <div class="contact-text">
+                        <h4>WhatsApp</h4>
+                        <p>Chat on WhatsApp</p>
+                    </div>
+                </a>
+            `;
+
+            document.getElementById('modal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
+
+        function scrollTo(id) {
+            const el = document.getElementById('cat-' + id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showAll() {
+            renderAll();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleSearch() {
+            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!q) { renderAll(); return; }
+
+            const results = [];
+            SERVICES.forEach(cat => {
+                cat.providers.forEach(p => {
+                    if (p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.services.some(s => s.toLowerCase().includes(q))) {
+                        results.push(p);
+                    }
+                });
+            });
+
+            document.getElementById('mainContent').innerHTML = `
+                <section class="category-section">
+                    <div class="category-header">
+                        <div class="cat-icon">🔍</div>
+                        <div class="cat-info">
+                            <h2>Search Results <span class="cat-count">${results.length} found</span></h2>
+                            <p>Showing results for "${q}"</p>
+                        </div>
+                    </div>
+                    <div class="providers-grid">
+                        ${results.length ? results.map(p => renderProvider(p, false)).join('') : '<p style="padding: 40px; text-align: center; color: var(--text-muted);">No providers found.</p>'}
+                    </div>
+                </section>
+            `;
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', renderAll);
+        document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+    </script>
+</body>
+</html>

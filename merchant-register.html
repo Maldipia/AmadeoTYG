@@ -455,6 +455,12 @@
             btn.textContent = 'Submitting...';
             
             try {
+                // Prepare documents array for upload
+                const docsToUpload = [];
+                if (documents.permit) docsToUpload.push(documents.permit);
+                if (documents.id) docsToUpload.push(documents.id);
+                if (documents.other) docsToUpload.push(documents.other);
+                
                 const applicationData = {
                     action: 'merchantRegister',
                     businessName: document.getElementById('businessName').value.trim(),
@@ -466,13 +472,7 @@
                     barangay: document.getElementById('barangay').value,
                     description: document.getElementById('description').value.trim(),
                     password: document.getElementById('password').value,
-                    // Document URLs (in production, these would be uploaded to cloud storage)
-                    permitDoc: documents.permit ? documents.permit.name : '',
-                    idDoc: documents.id ? documents.id.name : '',
-                    otherDoc: documents.other ? documents.other.name : '',
-                    hasPermit: !!documents.permit,
-                    hasId: !!documents.id,
-                    hasOtherDocs: !!documents.other
+                    documents: docsToUpload  // Send actual document data
                 };
                 
                 console.log('Submitting application:', applicationData);

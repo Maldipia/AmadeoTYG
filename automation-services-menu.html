@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TYG Services - Automation Menu</title>
+    <style>
+        @page { size: A4; margin: 0; }
+        @media print { 
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f0f0; }
+        
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 0 auto 20px;
+            padding: 15mm;
+            position: relative;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #1b4332;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 40px;
+        }
+        
+        .logo-text h1 {
+            font-size: 28px;
+            color: #1b4332;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        .logo-text p {
+            font-size: 12px;
+            color: #6b7280;
+            letter-spacing: 2px;
+        }
+        
+        .partner-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .intro-text {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0fdf4;
+            border-radius: 10px;
+        }
+        
+        .intro-text h2 {
+            font-size: 16px;
+            color: #1b4332;
+            margin-bottom: 5px;
+        }
+        
+        .intro-text p {
+            font-size: 12px;
+            color: #374151;
+        }
+        
+        .credential-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #1b4332;
+            color: white;
+            border-radius: 8px;
+        }
+        
+        .credential {
+            text-align: center;
+        }
+        
+        .credential-value {
+            font-size: 18px;
+            font-weight: 800;
+        }
+        
+        .credential-label {
+            font-size: 9px;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+        }
+        
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .package-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .package-card.popular {
+            border-color: #2d6a4f;
+            background: linear-gradient(180deg, #f0fdf4 0%, white 30%);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #2d6a4f;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+        
+        .package-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .package-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1b4332;
+            margin-bottom: 3px;
+        }
+        
+        .package-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: #2d6a4f;
+            margin-bottom: 10px;
+        }
+        
+        .package-price span {
+            font-size: 11px;
+            font-weight: 400;
+            color: #6b7280;
+        }
+        
+        .package-features {
+            list-style: none;
+            font-size: 10px;
+            color: #374151;
+        }
+        
+        .package-features li {
+            padding: 3px 0;
+            padding-left: 18px;
+            position: relative;
+        }
+        
+        .package-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2d6a4f;
+            font-weight: 700;
+        }
+        
+        .enterprise-section {
+            background: linear-gradient(135deg, #1b4332, #2d6a4f);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .enterprise-section h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .enterprise-section p {
+            font-size: 11px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .enterprise-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        .enterprise-feature {
+            background: rgba(255,255,255,0.15);
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 9px;
+        }
+        
+        .enterprise-feature-icon {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+        
+        .enterprise-price {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 20px;
+            font-weight: 800;
+        }
+        
+        .addons-section {
+            margin-bottom: 15px;
+        }
+        
+        .addons-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1b4332;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .addons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .addon-item {
+            background: #f9fafb;
+            padding: 10px 8px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .addon-item-name {
+            font-size: 9px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 3px;
+        }
+        
+        .addon-item-price {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2d6a4f;
+        }
+        
+        .why-section {
+            background: #fffbeb;
+            border: 2px solid #fcd34d;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .why-section h3 {
+            font-size: 13px;
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+        
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .why-item {
+            text-align: center;
+        }
+        
+        .why-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .why-text {
+            font-size: 9px;
+            color: #78350f;
+        }
+        
+        .cta-section {
+            background: #2d6a4f;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cta-text h3 {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        
+        .cta-text p {
+            font-size: 10px;
+            opacity: 0.9;
+        }
+        
+        .cta-contact {
+            text-align: right;
+        }
+        
+        .cta-phone {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+        
+        .cta-other {
+            font-size: 9px;
+            opacity: 0.9;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 9px;
+            color: #9ca3af;
+        }
+        
+        .print-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 40px;
+            background: #2d6a4f;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        @media print {
+            .print-btn { display: none; }
+            body { background: white; }
+            .page { margin: 0; box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">🖨️ Print Menu</button>
+    
+    <div class="page">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo-icon">⚡</div>
+                <div class="logo-text">
+                    <h1>TYG SERVICES</h1>
+                    <p>BUSINESS AUTOMATION EXPERTS</p>
+                </div>
+            </div>
+            <div class="partner-badge">⭐ AMADEO VERIFIED MARKETPLACE PARTNER PRICING</div>
+        </div>
+        
+        <!-- Intro -->
+        <div class="intro-text">
+            <h2>Automate Your Business, Multiply Your Income</h2>
+            <p>Hindi ka na mahihirapan sa manual tracking. Let our systems do the work while you focus on serving customers!</p>
+        </div>
+        
+        <!-- Credentials -->
+        <div class="credential-bar">
+            <div class="credential">
+                <div class="credential-value">100,000+</div>
+                <div class="credential-label">TRANSACTIONS AUTOMATED</div>
+            </div>
+            <div class="credential">
+                <div class="credential-value">5</div>
+                <div class="credential-label">BUSINESSES RUNNING</div>
+            </div>
+            <div class="credential">
+                <div class="credential-value">5+ Years</div>
+                <div class="credential-label">AUTOMATION EXPERIENCE</div>
+            </div>
+            <div class="credential">
+                <div class="credential-value">Amadeo</div>
+                <div class="credential-label">LOCAL BUSINESS OWNER</div>
+            </div>
+        </div>
+        
+        <!-- Packages -->
+        <div class="packages-grid">
+            <!-- Package 1 -->
+            <div class="package-card">
+                <div class="package-icon">📦</div>
+                <div class="package-name">ORDER TRACKER</div>
+                <div class="package-price">₱3,500 <span>one-time</span></div>
+                <ul class="package-features">
+                    <li>Google Sheets order management</li>
+                    <li>Auto-calculate daily/weekly totals</li>
+                    <li>Customer database with history</li>
+                    <li>Simple inventory count</li>
+                    <li>Printable order summary</li>
+                    <li>Free setup assistance</li>
+                </ul>
+            </div>
+            
+            <!-- Package 2 -->
+            <div class="package-card popular">
+                <div class="popular-badge">MOST POPULAR</div>
+                <div class="package-icon">📱</div>
+                <div class="package-name">AUTO-NOTIFY</div>
+                <div class="package-price">₱6,500 <span>one-time</span></div>
+                <ul class="package-features">
+                    <li>Everything in Order Tracker</li>
+                    <li>Auto SMS order confirmation</li>
+                    <li>Delivery status notifications</li>
+                    <li>Payment received alerts</li>
+                    <li>Follow-up reminders</li>
+                    <li>Customer birthday greetings</li>
+                </ul>
+            </div>
+            
+            <!-- Package 3 -->
+            <div class="package-card">
+                <div class="package-icon">📊</div>
+                <div class="package-name">SALES DASHBOARD</div>
+                <div class="package-price">₱10,000 <span>one-time</span></div>
+                <ul class="package-features">
+                    <li>Everything in Auto-Notify</li>
+                    <li>Visual sales dashboard</li>
+                    <li>Daily/weekly/monthly reports</li>
+                    <li>Best-selling products analysis</li>
+                    <li>Customer analytics</li>
+                    <li>Profit margin tracking</li>
+                </ul>
+            </div>
+            
+            <!-- Package 4 -->
+            <div class="package-card">
+                <div class="package-icon">📦</div>
+                <div class="package-name">INVENTORY PRO</div>
+                <div class="package-price">₱12,000 <span>one-time</span></div>
+                <ul class="package-features">
+                    <li>Everything in Sales Dashboard</li>
+                    <li>Full inventory management</li>
+                    <li>Low stock alerts (SMS/Email)</li>
+                    <li>Reorder point reminders</li>
+                    <li>Supplier tracking</li>
+                    <li>Stock movement history</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Enterprise -->
+        <div class="enterprise-section">
+            <h3>🚀 FULL BUSINESS SYSTEM</h3>
+            <p>Complete end-to-end automation for serious business owners who want to scale</p>
+            <div class="enterprise-features">
+                <div class="enterprise-feature">
+                    <div class="enterprise-feature-icon">📱</div>
+                    WhatsApp Auto-Reply
+                </div>
+                <div class="enterprise-feature">
+                    <div class="enterprise-feature-icon">🧾</div>
+                    Auto Invoicing
+                </div>
+                <div class="enterprise-feature">
+                    <div class="enterprise-feature-icon">👥</div>
+                    Staff Management
+                </div>
+                <div class="enterprise-feature">
+                    <div class="enterprise-feature-icon">💰</div>
+                    Commission Tracking
+                </div>
+                <div class="enterprise-feature">
+                    <div class="enterprise-feature-icon">📍</div>
+                    Multi-Branch Sync
+                </div>
+                <div class="enterprise-feature">
+                    <div class="enterprise-feature-icon">🎯</div>
+                    Custom Features
+                </div>
+            </div>
+            <div class="enterprise-price">Starting at ₱25,000</div>
+        </div>
+        
+        <!-- Add-ons -->
+        <div class="addons-section">
+            <div class="addons-title">➕ ADD-ON SERVICES</div>
+            <div class="addons-grid">
+                <div class="addon-item">
+                    <div class="addon-item-name">WhatsApp Bot</div>
+                    <div class="addon-item-price">+₱5,000</div>
+                </div>
+                <div class="addon-item">
+                    <div class="addon-item-name">Facebook Auto-Reply</div>
+                    <div class="addon-item-price">+₱3,000</div>
+                </div>
+                <div class="addon-item">
+                    <div class="addon-item-name">Email Marketing</div>
+                    <div class="addon-item-price">+₱4,000</div>
+                </div>
+                <div class="addon-item">
+                    <div class="addon-item-name">Monthly Support</div>
+                    <div class="addon-item-price">₱1,500/mo</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Why TYG -->
+        <div class="why-section">
+            <h3>💡 BAKIT TYG SERVICES?</h3>
+            <div class="why-grid">
+                <div class="why-item">
+                    <div class="why-icon">🏠</div>
+                    <div class="why-text"><strong>Local</strong><br>Taga-Amadeo din ako</div>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">✅</div>
+                    <div class="why-text"><strong>Proven</strong><br>Ginagamit ko sa sarili kong businesses</div>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">💰</div>
+                    <div class="why-text"><strong>Affordable</strong><br>One-time fee, lifetime use</div>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">🤝</div>
+                    <div class="why-text"><strong>Support</strong><br>Free training & troubleshooting</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA -->
+        <div class="cta-section">
+            <div class="cta-text">
+                <h3>Ready to Automate Your Business?</h3>
+                <p>Free consultation • No pressure • Fellow business owner lang tayo</p>
+            </div>
+            <div class="cta-contact">
+                <div class="cta-phone">📱 0966 960 6060</div>
+                <div class="cta-other">💬 WhatsApp / Viber / Call</div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            TYG Services • Amadeo, Cavite • tygfsb@gmail.com<br>
+            <em>Special pricing for Amadeo Verified Marketplace Partners</em>
+        </div>
+    </div>
+</body>
+</html>

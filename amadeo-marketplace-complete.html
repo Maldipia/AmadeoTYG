@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amadeo Verified Marketplace | Your Complete Local Directory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --primary-light: #40916c;
+            --primary-dark: #1b4332;
+            --accent: #f77f00;
+            --accent-light: #fcbf49;
+            --cream: #fefae0;
+            --warm-white: #fffef7;
+            --text-dark: #1a1a1a;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            
+            /* Service Type Colors */
+            --delivery: #10b981;
+            --visit: #6366f1;
+            --pickup-delivery: #f59e0b;
+            --appointment: #ec4899;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--warm-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-top {
+            background: var(--primary-dark);
+            color: white;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .header-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            line-height: 1.1;
+        }
+
+        .logo-tagline {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn {
+            background: var(--cream);
+            color: var(--primary-dark);
+            position: relative;
+        }
+
+        .cart-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ===== SERVICE TYPE LEGEND ===== */
+        .service-legend {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+        }
+
+        .service-legend-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .legend-title {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+
+        .legend-badge {
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-delivery {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--delivery);
+        }
+
+        .badge-visit {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--visit);
+        }
+
+        .badge-pickup {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--pickup-delivery);
+        }
+
+        .badge-appointment {
+            background: rgba(236, 72, 153, 0.15);
+            color: var(--appointment);
+        }
+
+        /* ===== CATEGORIES NAV ===== */
+        .categories-nav {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 80px;
+            z-index: 999;
+        }
+
+        .categories-scroll {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--text-muted);
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .category-chip:hover {
+            color: var(--primary);
+            background: rgba(45, 106, 79, 0.05);
+        }
+
+        .category-chip.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            padding: 50px 20px 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .hero-stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-count {
+            background: var(--cream);
+            color: var(--primary-dark);
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 5px;
+            background: #f3f4f6;
+            padding: 4px;
+            border-radius: var(--radius-md);
+        }
+
+        .toggle-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ===== MERCHANT GRID ===== */
+        .merchants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .merchant-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .merchant-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .merchant-card-header {
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .merchant-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .merchant-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .merchant-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .merchant-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .verified-badge {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .merchant-category {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .merchant-location {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Service Type Badge */
+        .service-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .service-delivery {
+            background: var(--delivery);
+            color: white;
+        }
+
+        .service-visit {
+            background: var(--visit);
+            color: white;
+        }
+
+        .service-pickup {
+            background: var(--pickup-delivery);
+            color: white;
+        }
+
+        .service-appointment {
+            background: var(--appointment);
+            color: white;
+        }
+
+        .merchant-card-body {
+            padding: 15px 20px;
+        }
+
+        .merchant-description {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .merchant-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .merchant-tag {
+            background: #f3f4f6;
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .merchant-card-footer {
+            padding: 15px 20px;
+            background: #f9fafb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .merchant-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .merchant-stat {
+            text-align: center;
+        }
+
+        .merchant-stat-value {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .merchant-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .merchant-cta {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .merchant-cta:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        /* ===== CATEGORY SECTION DIVIDER ===== */
+        .category-divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 40px 0 25px;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, var(--cream) 0%, transparent 100%);
+            border-radius: var(--radius-md);
+        }
+
+        .category-divider-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .category-divider-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+        }
+
+        .category-divider-text p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== CART SIDEBAR ===== */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            display: none;
+        }
+
+        .cart-overlay.show {
+            display: block;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 420px;
+            max-width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 3001;
+            transition: right 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.show {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .cart-empty-icon {
+            font-size: 4rem;
+            opacity: 0.3;
+            margin-bottom: 15px;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            background: #f9fafb;
+            border-top: 1px solid var(--border);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .checkout-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        /* ===== STOREFRONT MODAL ===== */
+        .storefront-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .storefront-overlay.show {
+            display: flex;
+        }
+
+        .storefront-modal {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .storefront-header {
+            padding: 25px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            position: relative;
+        }
+
+        .storefront-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .storefront-header-content {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .storefront-logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .storefront-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+        }
+
+        .storefront-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .storefront-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+        }
+
+        .storefront-section {
+            margin-bottom: 25px;
+        }
+
+        .storefront-section h4 {
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .storefront-description {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .storefront-services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .storefront-service-item {
+            background: #f3f4f6;
+            padding: 10px 15px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+        }
+
+        .storefront-contact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: var(--radius-md);
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .contact-text {
+            font-size: 0.9rem;
+        }
+
+        .contact-label {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .storefront-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .storefront-product {
+            background: #f9fafb;
+            border-radius: var(--radius-md);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .storefront-product-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .storefront-product-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .storefront-product-price {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .storefront-action-btn {
+            width: 100%;
+            margin-top: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 16px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-lg);
+            z-index: 5000;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 50px 20px 25px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 35px;
+        }
+
+        .footer-section h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--accent-light);
+        }
+
+        .footer-section p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            padding: 6px 0;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 30px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .search-container {
+                order: 3;
+                flex-basis: 100%;
+                max-width: 100%;
+            }
+
+            .service-legend-content {
+                justify-content: flex-start;
+                overflow-x: auto;
+            }
+
+            .merchants-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+            }
+
+            .storefront-modal {
+                max-height: 100vh;
+                border-radius: 0;
+            }
+
+            .storefront-header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            🌿 Supporting 40+ verified local businesses across Amadeo, Cavite
+        </div>
+        <div class="header-main">
+            <a href="#" class="logo">
+                <div class="logo-icon">🏪</div>
+                <div class="logo-text">
+                    <span class="logo-name">Amadeo Verified</span>
+                    <span class="logo-tagline">YOUR COMPLETE LOCAL DIRECTORY</span>
+                </div>
+            </a>
+
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search businesses, services, or products..." onkeyup="handleSearch()">
+            </div>
+
+            <div class="header-actions">
+                <button class="header-btn cart-btn" onclick="toggleCart()">
+                    🛒 Cart
+                    <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                </button>
+                <button class="header-btn login-btn">Sign In</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Service Type Legend -->
+    <div class="service-legend">
+        <div class="service-legend-content">
+            <span class="legend-title">Service Types:</span>
+            <div class="legend-item">
+                <span class="legend-badge badge-delivery">🚚 Delivery</span>
+                <span>They deliver to you</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-badge badge-visit">📍 Visit Store</span>
+                <span>You go to them</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-badge badge-pickup">🔄 Pickup & Delivery</span>
+                <span>They pick up & return</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-badge badge-appointment">📅 By Appointment</span>
+                <span>Need to book first</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Nav -->
+    <nav class="categories-nav">
+        <div class="categories-scroll">
+            <button class="category-chip active" onclick="filterCategory('all', this)">🏠 All</button>
+            <button class="category-chip" onclick="filterCategory('water', this)">💧 Water</button>
+            <button class="category-chip" onclick="filterCategory('food', this)">🍲 Food</button>
+            <button class="category-chip" onclick="filterCategory('laundry', this)">👕 Laundry</button>
+            <button class="category-chip" onclick="filterCategory('lpg', this)">🔥 LPG/Gas</button>
+            <button class="category-chip" onclick="filterCategory('hardware', this)">🔨 Hardware</button>
+            <button class="category-chip" onclick="filterCategory('pharmacy', this)">💊 Pharmacy</button>
+            <button class="category-chip" onclick="filterCategory('auto', this)">🏍️ Auto/Motor</button>
+            <button class="category-chip" onclick="filterCategory('salon', this)">💇 Salon</button>
+            <button class="category-chip" onclick="filterCategory('farm', this)">🌾 Farm Fresh</button>
+            <button class="category-chip" onclick="filterCategory('retail', this)">🛒 Retail</button>
+            <button class="category-chip" onclick="filterCategory('repair', this)">🔧 Repair</button>
+            <button class="category-chip" onclick="filterCategory('professional', this)">💼 Professional</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">✅ 40+ Verified Essential Services</div>
+            <h1>Everything You Need in Amadeo</h1>
+            <p>From water delivery to laundry pickup, find all essential services in one place</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">40+</div>
+                    <div class="hero-stat-label">Partners</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">12</div>
+                    <div class="hero-stat-label">Categories</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">12</div>
+                    <div class="hero-stat-label">Barangays</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-header">
+            <h2 class="section-title">
+                📍 Essential Partners Directory
+                <span class="section-count" id="merchantCount">40 businesses</span>
+            </h2>
+        </div>
+
+        <div id="merchantsContainer">
+            <!-- Merchants rendered by JS -->
+        </div>
+    </main>
+
+    <!-- Storefront Modal -->
+    <div class="storefront-overlay" id="storefrontOverlay" onclick="closeStorefront()">
+        <div class="storefront-modal" onclick="event.stopPropagation()">
+            <div class="storefront-header" id="storefrontHeader">
+                <button class="storefront-close" onclick="closeStorefront()">✕</button>
+                <div class="storefront-header-content">
+                    <div class="storefront-logo" id="storefrontLogo">🏪</div>
+                    <div>
+                        <h2 class="storefront-title" id="storefrontTitle">Business Name</h2>
+                        <div class="storefront-meta">
+                            <span id="storefrontCategory">Category</span>
+                            <span>📍 <span id="storefrontLocation">Location</span></span>
+                            <span id="storefrontServiceBadge" class="service-badge">🚚 Delivery</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="storefront-body">
+                <div class="storefront-section">
+                    <h4>📝 About</h4>
+                    <p class="storefront-description" id="storefrontDescription">Description...</p>
+                </div>
+                <div class="storefront-section">
+                    <h4>🛍️ Services/Products</h4>
+                    <div class="storefront-services" id="storefrontServices"></div>
+                </div>
+                <div class="storefront-section">
+                    <h4>📞 Contact</h4>
+                    <div class="storefront-contact" id="storefrontContact"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>🛒 Your Cart</h2>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span>₱0.00</span>
+            </div>
+            <button class="checkout-btn" disabled>Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span>✓</span>
+        <span id="toastMessage">Added!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>🏪 Amadeo Verified</h4>
+                <p>Your complete directory of verified local businesses in Amadeo, Cavite. Supporting local entrepreneurs since 2024.</p>
+                <p style="margin-top: 15px;">📱 0966 960 6060<br>📧 tygfsb@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#">🏠 Home</a></li>
+                    <li><a href="#">📂 All Categories</a></li>
+                    <li><a href="#">📍 Service Coverage</a></li>
+                    <li><a href="#">❓ Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>For Business Owners</h4>
+                <ul class="footer-links">
+                    <li><a href="#">📝 Register Your Business</a></li>
+                    <li><a href="#">📊 Merchant Dashboard</a></li>
+                    <li><a href="#">💰 Commission Info (5%)</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="#">📜 Terms & Conditions</a></li>
+                    <li><a href="#">🔒 Privacy Policy</a></li>
+                    <li><a href="#">↩️ Refund Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2024 Amadeo Verified Marketplace. Powered by TYG Services.
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // COMPLETE MERCHANT DATA - 40+ ESSENTIAL PARTNERS
+        // ============================================
+        const MERCHANTS = [
+            // ========== WATER DELIVERY (4) ==========
+            {
+                id: 'W001',
+                name: 'Aqua Pure Amadeo',
+                category: 'water',
+                categoryLabel: '💧 Water Station',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Halang',
+                coverage: 'Halang, Dagatan, Poblacion',
+                description: 'Premium purified and mineral water. Same-day delivery available. Serving the community for 10+ years.',
+                logo: '💧',
+                services: ['Purified Water 5gal - ₱50', 'Mineral Water 5gal - ₱60', 'Alkaline Water 5gal - ₱70', 'Hot & Cold Dispenser Rental'],
+                contact: { phone: '0917-XXX-XXXX', hours: '6AM - 8PM Daily' },
+                rating: 4.9,
+                orders: 500
+            },
+            {
+                id: 'W002',
+                name: 'Crystal Springs',
+                category: 'water',
+                categoryLabel: '💧 Water Station',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Poblacion',
+                coverage: 'Poblacion, Maitim, Salaban',
+                description: 'Fresh mountain spring water from Amadeo highlands. Fast and reliable delivery service.',
+                logo: '🌊',
+                services: ['Spring Water 5gal - ₱55', 'Purified Water 5gal - ₱50', 'Water Container - ₱200'],
+                contact: { phone: '0918-XXX-XXXX', hours: '5AM - 9PM Daily' },
+                rating: 4.8,
+                orders: 420
+            },
+            {
+                id: 'W003',
+                name: 'Blue Wave Water',
+                category: 'water',
+                categoryLabel: '💧 Water Station',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Talang',
+                coverage: 'Talang, Maymangga, Luksuhin',
+                description: 'Affordable water delivery. Subscribe and save! Free container for new customers.',
+                logo: '🚰',
+                services: ['Purified Water 5gal - ₱45', 'Mineral Water 5gal - ₱55', 'Monthly Subscription Available'],
+                contact: { phone: '0919-XXX-XXXX', hours: '6AM - 7PM Daily' },
+                rating: 4.7,
+                orders: 350
+            },
+            {
+                id: 'W004',
+                name: 'H2O Express',
+                category: 'water',
+                categoryLabel: '💧 Water Station',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Bucal',
+                coverage: 'Bucal, Minantok, Banaybanay',
+                description: 'Express same-day delivery! Order before 2PM for same-day service.',
+                logo: '💦',
+                services: ['Express Delivery - ₱55/5gal', 'Regular Delivery - ₱50/5gal', 'Bulk Orders 10+ Discount'],
+                contact: { phone: '0920-XXX-XXXX', hours: '5AM - 8PM Daily' },
+                rating: 4.8,
+                orders: 380
+            },
+
+            // ========== FOOD & CATERING (6) ==========
+            {
+                id: 'F001',
+                name: "Lola's Kitchen",
+                category: 'food',
+                categoryLabel: '🍲 Food & Catering',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Dagatan',
+                coverage: 'All of Amadeo',
+                description: 'Traditional Filipino home-cooked meals. Best Adobo and Sinigang in town! Catering for events available.',
+                logo: '🍳',
+                services: ['Adobo Family Size - ₱250', 'Sinigang - ₱280', 'Kare-kare - ₱350', 'Party Trays Available'],
+                contact: { phone: '0917-XXX-XXXX', hours: '8AM - 8PM Daily' },
+                rating: 4.9,
+                orders: 620
+            },
+            {
+                id: 'F002',
+                name: 'Kusina ni Juan Catering',
+                category: 'food',
+                categoryLabel: '🍲 Food & Catering',
+                serviceType: 'appointment',
+                serviceLabel: '📅 By Appointment',
+                location: 'Brgy. Poblacion',
+                coverage: 'Amadeo & Nearby Towns',
+                description: 'Full-service catering for weddings, birthdays, and fiestas. Book at least 3 days in advance.',
+                logo: '🍖',
+                services: ['Wedding Package - ₱15,000+', 'Birthday Package - ₱8,000+', 'Fiesta Package - ₱12,000+', 'Lechon - ₱7,500'],
+                contact: { phone: '0918-XXX-XXXX', hours: 'By Appointment' },
+                rating: 4.8,
+                orders: 150
+            },
+            {
+                id: 'F003',
+                name: 'Sweet Delights Bakery',
+                category: 'food',
+                categoryLabel: '🍰 Bakery',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Halang',
+                coverage: 'Store Pickup',
+                description: 'Fresh bread daily! Custom cakes for all occasions. Order 2 days ahead for custom designs.',
+                logo: '🍰',
+                services: ['Pandesal 10pcs - ₱50', 'Custom Cake - ₱850+', 'Cupcakes 12pcs - ₱350', 'Ensaymada - ₱25/pc'],
+                contact: { phone: '0919-XXX-XXXX', hours: '5AM - 7PM Daily' },
+                rating: 4.9,
+                orders: 380
+            },
+            {
+                id: 'F004',
+                name: 'Grill Masters BBQ',
+                category: 'food',
+                categoryLabel: '🔥 BBQ & Grill',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Maitim',
+                coverage: 'Maitim, Poblacion, Halang',
+                description: 'Best inasal in Amadeo! Charcoal grilled for authentic flavor. Party orders welcome.',
+                logo: '🔥',
+                services: ['Chicken Inasal - ₱150', 'Pork BBQ 5pcs - ₱100', 'Liempo - ₱180', 'Inihaw na Bangus - ₱200'],
+                contact: { phone: '0920-XXX-XXXX', hours: '10AM - 9PM Daily' },
+                rating: 4.7,
+                orders: 290
+            },
+            {
+                id: 'F005',
+                name: 'Merienda Corner',
+                category: 'food',
+                categoryLabel: '🥟 Merienda',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Poblacion (Market)',
+                coverage: 'Store Pickup',
+                description: 'Affordable merienda favorites! Siopao, siomai, lugaw, and more.',
+                logo: '🥟',
+                services: ['Siopao - ₱35', 'Siomai 8pcs - ₱50', 'Lugaw - ₱25', 'Goto - ₱45'],
+                contact: { phone: '0921-XXX-XXXX', hours: '6AM - 6PM Daily' },
+                rating: 4.6,
+                orders: 500
+            },
+            {
+                id: 'F006',
+                name: 'Coffee Cabin Amadeo',
+                category: 'food',
+                categoryLabel: '☕ Coffee Shop',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Dagatan',
+                coverage: 'Dine-in / Takeout',
+                description: 'Authentic Amadeo Barako coffee! Cozy cabin atmosphere. Free WiFi.',
+                logo: '☕',
+                services: ['Barako Hot - ₱50', 'Barako Iced - ₱65', 'Kapeng Barako Beans 250g - ₱200', 'Pastries Available'],
+                contact: { phone: '0922-XXX-XXXX', hours: '7AM - 9PM Daily' },
+                rating: 4.8,
+                orders: 320
+            },
+
+            // ========== LAUNDRY (3) ==========
+            {
+                id: 'L001',
+                name: 'Fresh & Clean Laundry',
+                category: 'laundry',
+                categoryLabel: '👕 Laundry Shop',
+                serviceType: 'pickup',
+                serviceLabel: '🔄 Pickup & Delivery',
+                location: 'Brgy. Halang',
+                coverage: 'All of Amadeo',
+                description: 'Full service laundry with FREE pickup and delivery! Same-day service available for extra fee.',
+                logo: '👕',
+                services: ['Wash-Dry-Fold - ₱60/kg', 'Wash Only - ₱35/kg', 'Dry Clean - ₱150/pc', 'Express (Same Day) - ₱100/kg'],
+                contact: { phone: '0917-XXX-XXXX', hours: '7AM - 7PM Mon-Sat' },
+                rating: 4.8,
+                orders: 420
+            },
+            {
+                id: 'L002',
+                name: 'Sparkle Laundromat',
+                category: 'laundry',
+                categoryLabel: '👕 Laundry Shop',
+                serviceType: 'pickup',
+                serviceLabel: '🔄 Pickup & Delivery',
+                location: 'Brgy. Poblacion',
+                coverage: 'Poblacion, Dagatan, Maitim',
+                description: 'Self-service or full-service available. Pickup & delivery with minimum 5kg order.',
+                logo: '✨',
+                services: ['Self-Service - ₱50/load', 'Full Service - ₱55/kg', 'Comforter/Blanket - ₱150', 'Curtains - ₱100'],
+                contact: { phone: '0918-XXX-XXXX', hours: '6AM - 8PM Daily' },
+                rating: 4.7,
+                orders: 380
+            },
+            {
+                id: 'L003',
+                name: 'QuickWash Express',
+                category: 'laundry',
+                categoryLabel: '👕 Laundry Shop',
+                serviceType: 'pickup',
+                serviceLabel: '🔄 Pickup & Delivery',
+                location: 'Brgy. Bucal',
+                coverage: 'Bucal, Talang, Banaybanay',
+                description: 'Express 4-hour service! Perfect for busy professionals. Free pickup for orders 7kg+.',
+                logo: '⚡',
+                services: ['Regular (24hrs) - ₱55/kg', 'Express (4hrs) - ₱90/kg', 'Corporate Accounts Welcome'],
+                contact: { phone: '0919-XXX-XXXX', hours: '6AM - 9PM Daily' },
+                rating: 4.6,
+                orders: 290
+            },
+
+            // ========== LPG / GAS DELIVERY (3) ==========
+            {
+                id: 'G001',
+                name: 'Gasul Amadeo',
+                category: 'lpg',
+                categoryLabel: '🔥 LPG Delivery',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Halang',
+                coverage: 'All of Amadeo',
+                description: 'Official Petron Gasul dealer. Same-day delivery! Tank exchange available.',
+                logo: '🔥',
+                services: ['11kg Tank - ₱950', '22kg Tank - ₱1,800', '50kg Tank - ₱4,200', 'Regulator - ₱350'],
+                contact: { phone: '0917-XXX-XXXX', hours: '6AM - 8PM Daily' },
+                rating: 4.9,
+                orders: 600
+            },
+            {
+                id: 'G002',
+                name: 'Solane Center Amadeo',
+                category: 'lpg',
+                categoryLabel: '🔥 LPG Delivery',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Poblacion',
+                coverage: 'All of Amadeo',
+                description: 'Authorized Solane dealer. Fast delivery within 2 hours. New tank and accessories available.',
+                logo: '🛢️',
+                services: ['11kg Tank - ₱980', '22kg Tank - ₱1,850', 'New Tank - ₱2,500', 'Hose Set - ₱250'],
+                contact: { phone: '0918-XXX-XXXX', hours: '7AM - 7PM Daily' },
+                rating: 4.8,
+                orders: 450
+            },
+            {
+                id: 'G003',
+                name: 'Total Gas Express',
+                category: 'lpg',
+                categoryLabel: '🔥 LPG Delivery',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Maitim',
+                coverage: 'Maitim, Salaban, Dagatan',
+                description: 'Affordable LPG delivery. Call or text to order. Emergency delivery available 24/7.',
+                logo: '⛽',
+                services: ['11kg Tank - ₱920', '22kg Tank - ₱1,750', '24/7 Emergency - +₱100'],
+                contact: { phone: '0919-XXX-XXXX', hours: '24/7 Hotline' },
+                rating: 4.7,
+                orders: 320
+            },
+
+            // ========== HARDWARE (3) ==========
+            {
+                id: 'H001',
+                name: 'Amadeo Builders Hardware',
+                category: 'hardware',
+                categoryLabel: '🔨 Hardware Store',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Poblacion',
+                coverage: 'All of Amadeo (₱100 delivery fee)',
+                description: 'Complete construction supplies. Cement, hollow blocks, steel bars, and more. Delivery for bulk orders.',
+                logo: '🔨',
+                services: ['Cement - ₱280/bag', 'Hollow Blocks', 'Steel Bars', 'Plywood', 'Paint', 'Electrical Supplies'],
+                contact: { phone: '0917-XXX-XXXX', hours: '6AM - 6PM Mon-Sat' },
+                rating: 4.7,
+                orders: 280
+            },
+            {
+                id: 'H002',
+                name: "Mang Tony's Hardware",
+                category: 'hardware',
+                categoryLabel: '🔨 Hardware Store',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Halang',
+                coverage: 'Store Pickup',
+                description: 'Small hardware essentials. Nails, screws, tools, plumbing supplies, and electrical items.',
+                logo: '🔧',
+                services: ['Tools', 'Nails/Screws', 'Plumbing Supplies', 'Electrical Items', 'Paint', 'Garden Tools'],
+                contact: { phone: '0918-XXX-XXXX', hours: '7AM - 7PM Daily' },
+                rating: 4.6,
+                orders: 350
+            },
+            {
+                id: 'H003',
+                name: 'ElectriKo Supply',
+                category: 'hardware',
+                categoryLabel: '⚡ Electrical Supply',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Dagatan',
+                coverage: 'Store Pickup',
+                description: 'Specialized electrical supplies. Wires, breakers, outlets, LED lights, and solar panels.',
+                logo: '⚡',
+                services: ['Wires All Sizes', 'Circuit Breakers', 'LED Lights', 'Solar Panels', 'Installation Services'],
+                contact: { phone: '0919-XXX-XXXX', hours: '8AM - 6PM Mon-Sat' },
+                rating: 4.8,
+                orders: 200
+            },
+
+            // ========== PHARMACY (3) ==========
+            {
+                id: 'P001',
+                name: 'Amadeo Pharmacy',
+                category: 'pharmacy',
+                categoryLabel: '💊 Pharmacy',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Poblacion',
+                coverage: 'All of Amadeo',
+                description: 'Complete medicine and healthcare needs. Senior citizen and PWD discounts. Delivery available.',
+                logo: '💊',
+                services: ['Prescription Medicines', 'OTC Medicines', 'Vitamins', 'Medical Supplies', 'BP Monitoring'],
+                contact: { phone: '0917-XXX-XXXX', hours: '7AM - 10PM Daily' },
+                rating: 4.9,
+                orders: 700
+            },
+            {
+                id: 'P002',
+                name: 'Mercury Drug Amadeo',
+                category: 'pharmacy',
+                categoryLabel: '💊 Pharmacy',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Halang',
+                coverage: 'All of Amadeo',
+                description: 'Trusted pharmacy chain. Suki Card discounts available. Order via Viber for delivery.',
+                logo: '🏥',
+                services: ['Prescription Medicines', 'Generics', 'Personal Care', 'Baby Products', 'Medical Devices'],
+                contact: { phone: '0918-XXX-XXXX', hours: '7AM - 9PM Daily' },
+                rating: 4.8,
+                orders: 650
+            },
+            {
+                id: 'P003',
+                name: 'Generics Pharmacy',
+                category: 'pharmacy',
+                categoryLabel: '💊 Pharmacy',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Poblacion (Market)',
+                coverage: 'Store Pickup',
+                description: 'Affordable generic medicines. Budget-friendly healthcare for every Filipino family.',
+                logo: '💉',
+                services: ['Generic Medicines', 'Vitamins', 'First Aid', 'Blood Pressure Check - FREE'],
+                contact: { phone: '0919-XXX-XXXX', hours: '8AM - 8PM Daily' },
+                rating: 4.7,
+                orders: 400
+            },
+
+            // ========== AUTO/MOTOR (3) ==========
+            {
+                id: 'A001',
+                name: 'RJ Motor Shop',
+                category: 'auto',
+                categoryLabel: '🏍️ Motor Repair',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Halang',
+                coverage: 'Walk-in',
+                description: 'Complete motorcycle repair and maintenance. All brands accepted. Genuine parts available.',
+                logo: '🏍️',
+                services: ['Change Oil - ₱150+', 'Tune Up - ₱350', 'Tire Change - ₱100', 'Parts & Accessories'],
+                contact: { phone: '0917-XXX-XXXX', hours: '7AM - 6PM Mon-Sat' },
+                rating: 4.8,
+                orders: 380
+            },
+            {
+                id: 'A002',
+                name: 'Auto Care Center',
+                category: 'auto',
+                categoryLabel: '🚗 Auto Repair',
+                serviceType: 'appointment',
+                serviceLabel: '📅 By Appointment',
+                location: 'Brgy. Poblacion',
+                coverage: 'By Appointment',
+                description: 'Full service auto repair shop. Cars, vans, and trucks. Computerized diagnostics available.',
+                logo: '🚗',
+                services: ['PMS Package - ₱2,500+', 'Brake Service', 'AC Repair', 'Engine Overhaul', 'Towing Available'],
+                contact: { phone: '0918-XXX-XXXX', hours: '8AM - 5PM Mon-Sat' },
+                rating: 4.7,
+                orders: 150
+            },
+            {
+                id: 'A003',
+                name: 'Gulong Express',
+                category: 'auto',
+                categoryLabel: '🛞 Vulcanizing',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Dagatan',
+                coverage: 'Walk-in / Mobile Service',
+                description: 'Tire repair and vulcanizing. New and surplus tires. Home service available for flat tires.',
+                logo: '🛞',
+                services: ['Flat Tire Repair - ₱50', 'New Tires', 'Surplus Tires', 'Home Service - ₱100+'],
+                contact: { phone: '0919-XXX-XXXX', hours: '6AM - 8PM Daily' },
+                rating: 4.6,
+                orders: 250
+            },
+
+            // ========== SALON & BEAUTY (3) ==========
+            {
+                id: 'S001',
+                name: 'Glow Up Salon',
+                category: 'salon',
+                categoryLabel: '💇 Beauty Salon',
+                serviceType: 'appointment',
+                serviceLabel: '📅 By Appointment',
+                location: 'Brgy. Poblacion',
+                coverage: 'Walk-in / Appointment',
+                description: 'Full service beauty salon. Haircut, color, rebond, and makeup. Bridal packages available.',
+                logo: '💇‍♀️',
+                services: ['Haircut - ₱100', 'Hair Color - ₱500+', 'Rebond - ₱1,500+', 'Bridal Makeup - ₱3,000+'],
+                contact: { phone: '0917-XXX-XXXX', hours: '9AM - 8PM Daily' },
+                rating: 4.8,
+                orders: 400
+            },
+            {
+                id: 'S002',
+                name: "Mang Isko's Barbershop",
+                category: 'salon',
+                categoryLabel: '💈 Barbershop',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Halang',
+                coverage: 'Walk-in',
+                description: 'Traditional barbershop. Affordable haircuts for men and kids. Hot towel shave available.',
+                logo: '💈',
+                services: ['Haircut - ₱60', 'Kids Cut - ₱50', 'Shave - ₱40', 'Haircut + Shave - ₱90'],
+                contact: { phone: '0918-XXX-XXXX', hours: '8AM - 7PM Daily' },
+                rating: 4.7,
+                orders: 600
+            },
+            {
+                id: 'S003',
+                name: 'Nail Art Studio',
+                category: 'salon',
+                categoryLabel: '💅 Nail Salon',
+                serviceType: 'appointment',
+                serviceLabel: '📅 By Appointment',
+                location: 'Brgy. Dagatan',
+                coverage: 'Walk-in / Appointment',
+                description: 'Nail art and pampering services. Manicure, pedicure, gel polish, and nail extensions.',
+                logo: '💅',
+                services: ['Manicure - ₱100', 'Pedicure - ₱150', 'Gel Polish - ₱300', 'Nail Art - ₱200+'],
+                contact: { phone: '0919-XXX-XXXX', hours: '10AM - 8PM Tue-Sun' },
+                rating: 4.9,
+                orders: 280
+            },
+
+            // ========== FARM FRESH (3) ==========
+            {
+                id: 'FF001',
+                name: 'Amadeo Fresh Farm',
+                category: 'farm',
+                categoryLabel: '🌾 Farm Products',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Maymangga',
+                coverage: 'All of Amadeo',
+                description: 'Direct from farm vegetables and fruits. Fresh harvest daily. Supporting local farmers.',
+                logo: '🥬',
+                services: ['Vegetable Bundle - ₱150', 'Tomatoes/kg - ₱80', 'Leafy Greens', 'Seasonal Fruits'],
+                contact: { phone: '0917-XXX-XXXX', hours: '5AM - 5PM Daily' },
+                rating: 4.9,
+                orders: 550
+            },
+            {
+                id: 'FF002',
+                name: 'Kape Amadeo',
+                category: 'farm',
+                categoryLabel: '☕ Coffee Farm',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Luksuhin',
+                coverage: 'All of Amadeo + Shipping',
+                description: 'Premium Amadeo coffee beans. Barako, Arabica, and specialty blends. Farm tours available.',
+                logo: '☕',
+                services: ['Barako Beans 500g - ₱350', 'Arabica 250g - ₱280', 'Ground Coffee', 'Farm Tour - ₱300'],
+                contact: { phone: '0918-XXX-XXXX', hours: '7AM - 5PM Daily' },
+                rating: 4.9,
+                orders: 480
+            },
+            {
+                id: 'FF003',
+                name: 'Eggs & Poultry Farm',
+                category: 'farm',
+                categoryLabel: '🥚 Poultry Farm',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Talang',
+                coverage: 'All of Amadeo',
+                description: 'Fresh eggs daily! Free-range chicken available. Bulk orders for restaurants and resellers.',
+                logo: '🥚',
+                services: ['Eggs 1 tray (30) - ₱200', 'Native Chicken/kg - ₱220', 'Dressed Chicken', 'Bulk Discounts'],
+                contact: { phone: '0919-XXX-XXXX', hours: '5AM - 4PM Daily' },
+                rating: 4.8,
+                orders: 400
+            },
+
+            // ========== RETAIL (3) ==========
+            {
+                id: 'R001',
+                name: 'Tindahan ni Aling Rosa',
+                category: 'retail',
+                categoryLabel: '🛒 Sari-Sari Store',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Poblacion',
+                coverage: 'Poblacion, Dagatan (₱20 delivery)',
+                description: 'Your neighborhood sari-sari store! Groceries, snacks, and household items. Pabili service.',
+                logo: '🏪',
+                services: ['Groceries', 'Snacks', 'Beverages', 'Household Items', 'Load & Bills Payment'],
+                contact: { phone: '0917-XXX-XXXX', hours: '6AM - 10PM Daily' },
+                rating: 4.6,
+                orders: 800
+            },
+            {
+                id: 'R002',
+                name: 'Tech Hub Amadeo',
+                category: 'retail',
+                categoryLabel: '📱 Tech Store',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Halang',
+                coverage: 'Store Pickup',
+                description: 'Mobile accessories, gadgets, and electronics. Phone repair services available.',
+                logo: '📱',
+                services: ['Phone Cases', 'Chargers', 'Earphones', 'Screen Protectors', 'Phone Repair'],
+                contact: { phone: '0918-XXX-XXXX', hours: '9AM - 8PM Daily' },
+                rating: 4.7,
+                orders: 350
+            },
+            {
+                id: 'R003',
+                name: 'Pet Corner',
+                category: 'retail',
+                categoryLabel: '🐕 Pet Shop',
+                serviceType: 'delivery',
+                serviceLabel: '🚚 Delivery',
+                location: 'Brgy. Dagatan',
+                coverage: 'All of Amadeo',
+                description: 'Pet food and supplies. Dog, cat, fish, and bird products. Grooming services available.',
+                logo: '🐕',
+                services: ['Dog Food', 'Cat Food', 'Pet Accessories', 'Grooming - ₱300+', 'Pet Vitamins'],
+                contact: { phone: '0919-XXX-XXXX', hours: '8AM - 7PM Daily' },
+                rating: 4.7,
+                orders: 280
+            },
+
+            // ========== REPAIR SERVICES (3) ==========
+            {
+                id: 'RP001',
+                name: 'Aircon Doctor',
+                category: 'repair',
+                categoryLabel: '❄️ Aircon Services',
+                serviceType: 'appointment',
+                serviceLabel: '📅 By Appointment',
+                location: 'Brgy. Halang',
+                coverage: 'All of Amadeo',
+                description: 'Aircon cleaning, repair, and installation. All brands serviced. Home service.',
+                logo: '❄️',
+                services: ['Cleaning - ₱400', 'Repair - ₱500+', 'Installation - ₱1,500+', 'Freon Refill'],
+                contact: { phone: '0917-XXX-XXXX', hours: 'By Appointment' },
+                rating: 4.8,
+                orders: 200
+            },
+            {
+                id: 'RP002',
+                name: 'Appliance Repair Pro',
+                category: 'repair',
+                categoryLabel: '🔌 Appliance Repair',
+                serviceType: 'pickup',
+                serviceLabel: '🔄 Pickup & Delivery',
+                location: 'Brgy. Poblacion',
+                coverage: 'All of Amadeo',
+                description: 'TV, refrigerator, washing machine repair. Pickup and delivery service available.',
+                logo: '🔌',
+                services: ['TV Repair - ₱300+', 'Ref Repair - ₱500+', 'Washing Machine - ₱400+', 'Free Checkup'],
+                contact: { phone: '0918-XXX-XXXX', hours: '8AM - 6PM Mon-Sat' },
+                rating: 4.7,
+                orders: 180
+            },
+            {
+                id: 'RP003',
+                name: 'PC & Gadget Clinic',
+                category: 'repair',
+                categoryLabel: '💻 Computer Repair',
+                serviceType: 'pickup',
+                serviceLabel: '🔄 Pickup & Delivery',
+                location: 'Brgy. Dagatan',
+                coverage: 'All of Amadeo',
+                description: 'Computer and laptop repair. Virus removal, upgrades, and data recovery.',
+                logo: '💻',
+                services: ['Format - ₱500', 'Virus Removal - ₱300', 'RAM Upgrade', 'Data Recovery - ₱1,000+'],
+                contact: { phone: '0919-XXX-XXXX', hours: '9AM - 7PM Mon-Sat' },
+                rating: 4.8,
+                orders: 150
+            },
+
+            // ========== PROFESSIONAL SERVICES (3) ==========
+            {
+                id: 'PR001',
+                name: 'Amadeo Print Shop',
+                category: 'professional',
+                categoryLabel: '🖨️ Printing Services',
+                serviceType: 'visit',
+                serviceLabel: '📍 Visit Store',
+                location: 'Brgy. Poblacion',
+                coverage: 'Store Pickup / Delivery Available',
+                description: 'Printing, photocopy, and document services. Tarpaulin, ID photos, and lamination.',
+                logo: '🖨️',
+                services: ['Photocopy - ₱2/page', 'Print B&W - ₱5/page', 'Print Color - ₱15/page', 'Tarpaulin - ₱30/sqft'],
+                contact: { phone: '0917-XXX-XXXX', hours: '8AM - 7PM Mon-Sat' },
+                rating: 4.7,
+                orders: 450
+            },
+            {
+                id: 'PR002',
+                name: 'Juan Plumbing Services',
+                category: 'professional',
+                categoryLabel: '🔧 Plumber',
+                serviceType: 'appointment',
+                serviceLabel: '📅 By Appointment',
+                location: 'Brgy. Maitim',
+                coverage: 'All of Amadeo',
+                description: 'Licensed plumber. Pipe repair, installation, and unclogging. Emergency service available.',
+                logo: '🚿',
+                services: ['Unclogging - ₱300+', 'Pipe Repair - ₱500+', 'Installation - Quote', '24/7 Emergency'],
+                contact: { phone: '0918-XXX-XXXX', hours: 'By Appointment / 24/7 Emergency' },
+                rating: 4.8,
+                orders: 180
+            },
+            {
+                id: 'PR003',
+                name: 'Kuryente Master Electrical',
+                category: 'professional',
+                categoryLabel: '⚡ Electrician',
+                serviceType: 'appointment',
+                serviceLabel: '📅 By Appointment',
+                location: 'Brgy. Halang',
+                coverage: 'All of Amadeo',
+                description: 'Licensed electrician. Wiring, installation, and repair. Meralco service entrance.',
+                logo: '⚡',
+                services: ['Minor Repair - ₱300+', 'Outlet Installation - ₱200', 'Service Entrance', 'Emergency'],
+                contact: { phone: '0919-XXX-XXXX', hours: 'By Appointment' },
+                rating: 4.9,
+                orders: 200
+            }
+        ];
+
+        // Category grouping
+        const CATEGORY_ORDER = [
+            { id: 'water', name: '💧 Water Delivery', desc: 'Purified & mineral water stations' },
+            { id: 'lpg', name: '🔥 LPG / Gas Delivery', desc: 'Cooking gas refill & delivery' },
+            { id: 'food', name: '🍲 Food & Catering', desc: 'Restaurants, bakery, catering' },
+            { id: 'laundry', name: '👕 Laundry Services', desc: 'Wash, dry, fold with pickup' },
+            { id: 'pharmacy', name: '💊 Pharmacy & Health', desc: 'Medicines & health products' },
+            { id: 'farm', name: '🌾 Farm Fresh', desc: 'Direct from local farmers' },
+            { id: 'retail', name: '🛒 Retail & Stores', desc: 'Sari-sari, tech, pet supplies' },
+            { id: 'hardware', name: '🔨 Hardware & Construction', desc: 'Building materials & tools' },
+            { id: 'auto', name: '🏍️ Auto & Motor', desc: 'Vehicle repair & services' },
+            { id: 'salon', name: '💇 Salon & Beauty', desc: 'Haircut, grooming, nails' },
+            { id: 'repair', name: '🔧 Repair Services', desc: 'Appliances, AC, computers' },
+            { id: 'professional', name: '💼 Professional Services', desc: 'Printing, plumbing, electrical' }
+        ];
+
+        // ============================================
+        // RENDER FUNCTIONS
+        // ============================================
+        function renderMerchants(filter = 'all') {
+            const container = document.getElementById('merchantsContainer');
+            let html = '';
+            let count = 0;
+
+            if (filter === 'all') {
+                // Group by category
+                CATEGORY_ORDER.forEach(cat => {
+                    const catMerchants = MERCHANTS.filter(m => m.category === cat.id);
+                    if (catMerchants.length === 0) return;
+
+                    html += `
+                        <div class="category-divider">
+                            <div class="category-divider-icon">${cat.name.split(' ')[0]}</div>
+                            <div class="category-divider-text">
+                                <h3>${cat.name}</h3>
+                                <p>${cat.desc} • ${catMerchants.length} partners</p>
+                            </div>
+                        </div>
+                        <div class="merchants-grid">
+                            ${catMerchants.map(m => renderMerchantCard(m)).join('')}
+                        </div>
+                    `;
+                    count += catMerchants.length;
+                });
+            } else {
+                const filtered = MERCHANTS.filter(m => m.category === filter);
+                const cat = CATEGORY_ORDER.find(c => c.id === filter);
+                
+                html = `
+                    <div class="category-divider">
+                        <div class="category-divider-icon">${cat?.name.split(' ')[0] || '📂'}</div>
+                        <div class="category-divider-text">
+                            <h3>${cat?.name || 'Results'}</h3>
+                            <p>${filtered.length} partners found</p>
+                        </div>
+                    </div>
+                    <div class="merchants-grid">
+                        ${filtered.map(m => renderMerchantCard(m)).join('')}
+                    </div>
+                `;
+                count = filtered.length;
+            }
+
+            container.innerHTML = html;
+            document.getElementById('merchantCount').textContent = `${count} businesses`;
+        }
+
+        function renderMerchantCard(merchant) {
+            const serviceClass = {
+                'delivery': 'service-delivery',
+                'visit': 'service-visit',
+                'pickup': 'service-pickup',
+                'appointment': 'service-appointment'
+            }[merchant.serviceType] || 'service-visit';
+
+            return `
+                <div class="merchant-card" onclick="openStorefront('${merchant.id}')">
+                    <span class="service-badge ${serviceClass}">${merchant.serviceLabel}</span>
+                    <div class="merchant-card-header">
+                        <div class="merchant-logo">${merchant.logo}</div>
+                        <div class="merchant-info">
+                            <div class="merchant-name">
+                                ${merchant.name}
+                                <span class="verified-badge">✓</span>
+                            </div>
+                            <div class="merchant-category">${merchant.categoryLabel}</div>
+                            <div class="merchant-location">📍 ${merchant.location}</div>
+                        </div>
+                    </div>
+                    <div class="merchant-card-body">
+                        <p class="merchant-description">${merchant.description}</p>
+                        <div class="merchant-tags">
+                            ${merchant.services.slice(0, 3).map(s => `<span class="merchant-tag">${s.split(' - ')[0]}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="merchant-card-footer">
+                        <div class="merchant-stats">
+                            <div class="merchant-stat">
+                                <div class="merchant-stat-value">⭐ ${merchant.rating}</div>
+                                <div class="merchant-stat-label">Rating</div>
+                            </div>
+                            <div class="merchant-stat">
+                                <div class="merchant-stat-value">${merchant.orders}+</div>
+                                <div class="merchant-stat-label">Orders</div>
+                            </div>
+                        </div>
+                        <button class="merchant-cta">View →</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openStorefront(id) {
+            const merchant = MERCHANTS.find(m => m.id === id);
+            if (!merchant) return;
+
+            const serviceClass = {
+                'delivery': 'service-delivery',
+                'visit': 'service-visit',
+                'pickup': 'service-pickup',
+                'appointment': 'service-appointment'
+            }[merchant.serviceType] || 'service-visit';
+
+            document.getElementById('storefrontLogo').textContent = merchant.logo;
+            document.getElementById('storefrontTitle').textContent = merchant.name;
+            document.getElementById('storefrontCategory').textContent = merchant.categoryLabel;
+            document.getElementById('storefrontLocation').textContent = merchant.location;
+            document.getElementById('storefrontDescription').textContent = merchant.description;
+
+            document.getElementById('storefrontServiceBadge').className = `service-badge ${serviceClass}`;
+            document.getElementById('storefrontServiceBadge').textContent = merchant.serviceLabel;
+
+            // Services
+            document.getElementById('storefrontServices').innerHTML = merchant.services.map(s => 
+                `<div class="storefront-service-item">${s}</div>`
+            ).join('');
+
+            // Contact
+            document.getElementById('storefrontContact').innerHTML = `
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div>
+                        <div class="contact-text">${merchant.contact.phone}</div>
+                        <div class="contact-label">Phone</div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🕐</div>
+                    <div>
+                        <div class="contact-text">${merchant.contact.hours}</div>
+                        <div class="contact-label">Hours</div>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <div class="contact-text">${merchant.coverage}</div>
+                        <div class="contact-label">Coverage Area</div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('storefrontOverlay').classList.add('show');
+        }
+
+        function closeStorefront() {
+            document.getElementById('storefrontOverlay').classList.remove('show');
+        }
+
+        function filterCategory(category, btn) {
+            document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            renderMerchants(category);
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!query) {
+                renderMerchants('all');
+                return;
+            }
+
+            const filtered = MERCHANTS.filter(m =>
+                m.name.toLowerCase().includes(query) ||
+                m.categoryLabel.toLowerCase().includes(query) ||
+                m.description.toLowerCase().includes(query) ||
+                m.services.some(s => s.toLowerCase().includes(query))
+            );
+
+            const container = document.getElementById('merchantsContainer');
+            container.innerHTML = `
+                <div class="category-divider">
+                    <div class="category-divider-icon">🔍</div>
+                    <div class="category-divider-text">
+                        <h3>Search Results for "${query}"</h3>
+                        <p>${filtered.length} businesses found</p>
+                    </div>
+                </div>
+                <div class="merchants-grid">
+                    ${filtered.length ? filtered.map(m => renderMerchantCard(m)).join('') : '<p style="padding: 40px; text-align: center; color: var(--text-muted);">No businesses found. Try a different search term.</p>'}
+                </div>
+            `;
+            document.getElementById('merchantCount').textContent = `${filtered.length} businesses`;
+        }
+
+        function toggleCart() {
+            document.getElementById('cartOverlay').classList.toggle('show');
+            document.getElementById('cartSidebar').classList.toggle('show');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMerchants('all');
+        });
+    </script>
+</body>
+</html>

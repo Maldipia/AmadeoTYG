@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amadeo Verified Marketplace | 50 Essential Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --primary-light: #40916c;
+            --primary-dark: #1b4332;
+            --accent: #f77f00;
+            --accent-light: #fcbf49;
+            --emergency: #dc2626;
+            --cream: #fefae0;
+            --warm-white: #fffef7;
+            --text-dark: #1a1a1a;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            
+            --delivery: #10b981;
+            --visit: #6366f1;
+            --pickup: #f59e0b;
+            --appointment: #ec4899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--warm-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Utility */
+        .hidden { display: none !important; }
+
+        /* Header */
+        .header {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-top {
+            background: linear-gradient(90deg, var(--emergency) 0%, #b91c1c 100%);
+            color: white;
+            padding: 8px 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .header-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .logo-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .logo-tag {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 350px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 38px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-family: inherit;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .search-box .icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--cream);
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            font-family: inherit;
+            position: relative;
+        }
+
+        .cart-btn:hover { background: var(--accent-light); }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            font-family: inherit;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* Quick Nav */
+        .quick-nav {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 8px 0;
+            position: sticky;
+            top: 65px;
+            z-index: 999;
+        }
+
+        .quick-nav-scroll {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .quick-nav-scroll::-webkit-scrollbar { display: none; }
+
+        .nav-chip {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .nav-chip:hover { background: var(--cream); }
+        .nav-chip.active { background: var(--primary); color: white; }
+        .nav-chip.emergency { background: #fee2e2; color: var(--emergency); }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            padding: 25px 20px;
+            color: white;
+        }
+
+        .stats-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stats-title h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+        }
+
+        .stats-title p {
+            opacity: 0.9;
+            font-size: 0.85rem;
+        }
+
+        .stats-nums {
+            display: flex;
+            gap: 25px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .stat-lbl {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        /* Legend */
+        .legend {
+            background: white;
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.7rem;
+        }
+
+        .legend-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge {
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.6rem;
+        }
+
+        .b-delivery { background: #d1fae5; color: #059669; }
+        .b-pickup { background: #fef3c7; color: #d97706; }
+        .b-book { background: #fce7f3; color: #db2777; }
+        .b-visit { background: #e0e7ff; color: #4f46e5; }
+        .b-emergency { background: #fee2e2; color: #dc2626; }
+
+        /* Main */
+        .main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Category */
+        .cat-section {
+            margin-bottom: 35px;
+            scroll-margin-top: 160px;
+        }
+
+        .cat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            background: linear-gradient(90deg, var(--cream) 0%, transparent 100%);
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--primary);
+        }
+
+        .cat-header.emergency { 
+            background: linear-gradient(90deg, #fef2f2 0%, transparent 100%);
+            border-left-color: var(--emergency);
+        }
+
+        .cat-icon {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cat-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+        }
+
+        .cat-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .cat-count {
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* Provider Grid */
+        .providers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
+        }
+
+        .provider-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .provider-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-light);
+        }
+
+        .provider-card.featured { border-color: var(--accent); }
+
+        .provider-card.featured::before {
+            content: '⭐ TOP';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: var(--accent);
+            color: white;
+            padding: 2px 6px;
+            border-radius: var(--radius-full);
+            font-size: 0.55rem;
+            font-weight: 700;
+            z-index: 1;
+        }
+
+        .svc-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 3px 8px;
+            border-radius: var(--radius-full);
+            font-size: 0.6rem;
+            font-weight: 700;
+            z-index: 1;
+        }
+
+        .t-delivery { background: var(--delivery); color: white; }
+        .t-pickup { background: var(--pickup); color: white; }
+        .t-book { background: var(--appointment); color: white; }
+        .t-visit { background: var(--visit); color: white; }
+        .t-emergency { background: var(--emergency); color: white; }
+
+        .provider-top {
+            padding: 12px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .provider-logo {
+            width: 45px;
+            height: 45px;
+            background: #f3f4f6;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .provider-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .provider-loc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .provider-services {
+            padding: 0 12px 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .svc-tag {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .svc-tag.price {
+            background: #ecfdf5;
+            color: #059669;
+            font-weight: 700;
+        }
+
+        .provider-footer {
+            padding: 10px 12px;
+            background: #f9fafb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .provider-meta {
+            display: flex;
+            gap: 10px;
+            font-size: 0.7rem;
+        }
+
+        .meta-item strong {
+            display: block;
+            color: var(--text-dark);
+        }
+
+        .meta-item span {
+            color: var(--text-muted);
+            font-size: 0.6rem;
+        }
+
+        .provider-cta {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .provider-cta:hover { background: var(--primary-dark); }
+        .provider-cta.emergency { background: var(--emergency); }
+
+        /* Cart Sidebar */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: none;
+        }
+
+        .cart-overlay.show { display: block; }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            max-width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 2001;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.show { right: 0; }
+
+        .cart-header {
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 { font-size: 1rem; }
+
+        .cart-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .cart-empty-icon { font-size: 3rem; opacity: 0.3; }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .cart-item-logo {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-weight: 600; font-size: 0.9rem; }
+        .cart-item-service { font-size: 0.75rem; color: var(--primary); }
+        .cart-item-price { font-weight: 700; color: var(--primary); font-size: 0.9rem; margin-top: 4px; }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .qty-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-remove:hover { color: var(--emergency); }
+
+        .cart-footer {
+            padding: 15px;
+            background: #f9fafb;
+            border-top: 1px solid var(--border);
+        }
+
+        .cart-summary {
+            margin-bottom: 15px;
+        }
+
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+
+        .cart-row.total {
+            font-weight: 700;
+            font-size: 1rem;
+            padding-top: 10px;
+            border-top: 2px solid var(--border);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .checkout-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        /* Checkout Modal */
+        .checkout-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 3000;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .checkout-overlay.show { display: flex; }
+
+        .checkout-modal {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+
+        .checkout-header {
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .checkout-body {
+            padding: 25px;
+        }
+
+        .checkout-section {
+            margin-bottom: 25px;
+        }
+
+        .checkout-section h4 {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .order-summary {
+            background: #f9fafb;
+            border-radius: var(--radius-md);
+            padding: 15px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+
+        .order-item:last-child { border-bottom: none; }
+
+        .order-item-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .order-totals {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--border);
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .payment-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .payment-option:hover { border-color: var(--primary-light); }
+        .payment-option.selected { border-color: var(--primary); background: #ecfdf5; }
+
+        .payment-option-icon { font-size: 1.5rem; margin-bottom: 5px; }
+        .payment-option-name { font-weight: 600; font-size: 0.85rem; }
+        .payment-option-desc { font-size: 0.7rem; color: var(--text-muted); }
+
+        .gcash-details {
+            background: #e0f2fe;
+            padding: 15px;
+            border-radius: var(--radius-md);
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .gcash-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0369a1;
+            margin: 8px 0;
+        }
+
+        .gcash-name { color: var(--text-muted); }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .upload-area:hover { border-color: var(--primary); background: #f9fafb; }
+        .upload-area.has-file { border-color: var(--primary); background: #ecfdf5; }
+
+        .upload-preview {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: var(--radius-sm);
+            margin-top: 10px;
+        }
+
+        .agreement-box {
+            background: #f9fafb;
+            border-radius: var(--radius-md);
+            padding: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group input {
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            font-size: 0.8rem;
+            color: var(--text-dark);
+        }
+
+        .place-order-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .place-order-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        /* Success Modal */
+        .success-modal {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .success-modal h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .order-id {
+            background: var(--cream);
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 15px 0;
+            display: inline-block;
+        }
+
+        /* Provider Detail Modal */
+        .detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 2500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .detail-overlay.show { display: flex; }
+
+        .detail-modal {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .detail-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            position: relative;
+        }
+
+        .detail-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .detail-logo {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .detail-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .detail-cat {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .detail-body {
+            padding: 20px;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-section h4 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .detail-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f9fafb;
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .detail-services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .detail-service-item {
+            background: #f9fafb;
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .detail-service-item:hover {
+            border-color: var(--primary-light);
+        }
+
+        .detail-service-item.selected {
+            border-color: var(--primary);
+            background: #ecfdf5;
+        }
+
+        .detail-service-name { font-weight: 600; }
+        .detail-service-price { color: var(--primary); font-weight: 700; margin-top: 3px; }
+
+        .detail-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .detail-actions button {
+            flex: 1;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .add-cart-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .call-btn {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            font-size: 0.85rem;
+            z-index: 5000;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success { background: var(--primary); }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 35px 20px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 25px;
+        }
+
+        .footer h4 {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            color: var(--accent-light);
+        }
+
+        .footer p, .footer a {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .footer a:hover { color: white; }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 25px auto 0;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-main { flex-wrap: wrap; }
+            .search-box { order: 3; flex-basis: 100%; max-width: 100%; margin-top: 8px; }
+            .providers-grid { grid-template-columns: 1fr; }
+            .cart-sidebar { width: 100%; }
+            .checkout-modal { margin: 10px; }
+            .form-row { grid-template-columns: 1fr; }
+            .detail-services-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            🚨 24/7 EMERGENCY: Plumber • Electrician • Locksmith — Call Now!
+        </div>
+        <div class="header-main">
+            <a href="#" class="logo">
+                <div class="logo-icon">🏠</div>
+                <div>
+                    <div class="logo-name">Amadeo Verified</div>
+                    <div class="logo-tag">50 ESSENTIAL SERVICES</div>
+                </div>
+            </a>
+            <div class="search-box">
+                <span class="icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search services..." onkeyup="handleSearch()">
+            </div>
+            <div class="header-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒 Cart
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <div id="authArea">
+                    <button class="auth-btn" onclick="showLogin()">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Nav -->
+    <nav class="quick-nav">
+        <div class="quick-nav-scroll" id="quickNav">
+            <!-- Rendered by JS -->
+        </div>
+    </nav>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-content">
+            <div class="stats-title">
+                <h1>🏠 Every Home Service You Need</h1>
+                <p>50 services • 100+ verified providers • All of Amadeo</p>
+            </div>
+            <div class="stats-nums">
+                <div class="stat-box">
+                    <div class="stat-val">50</div>
+                    <div class="stat-lbl">Services</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val">100+</div>
+                    <div class="stat-lbl">Providers</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val">24/7</div>
+                    <div class="stat-lbl">Emergency</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-content">
+            <strong>Service Types:</strong>
+            <div class="legend-item"><span class="badge b-delivery">🚚 DELIVERY</span></div>
+            <div class="legend-item"><span class="badge b-pickup">🔄 PICKUP</span></div>
+            <div class="legend-item"><span class="badge b-book">📅 BOOK</span></div>
+            <div class="legend-item"><span class="badge b-visit">📍 VISIT</span></div>
+            <div class="legend-item"><span class="badge b-emergency">🚨 24/7</span></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main" id="mainContent"></main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>🛒 Your Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-summary">
+                <div class="cart-row">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal">₱0.00</span>
+                </div>
+                <div class="cart-row">
+                    <span>Platform Fee (5%)</span>
+                    <span id="cartFee">₱0.00</span>
+                </div>
+                <div class="cart-row total">
+                    <span>Total</span>
+                    <span id="cartTotal">₱0.00</span>
+                </div>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn" onclick="showCheckout()" disabled>
+                Proceed to Checkout →
+            </button>
+        </div>
+    </div>
+
+    <!-- Provider Detail Modal -->
+    <div class="detail-overlay" id="detailOverlay">
+        <div class="detail-modal">
+            <div class="detail-header" id="detailHeader">
+                <button class="detail-close" onclick="closeDetail()">✕</button>
+                <div class="detail-logo" id="detailLogo">🏪</div>
+                <div class="detail-name" id="detailName">Provider</div>
+                <div class="detail-cat" id="detailCat">Category</div>
+            </div>
+            <div class="detail-body">
+                <div class="detail-section">
+                    <h4>📍 Information</h4>
+                    <div id="detailInfo"></div>
+                </div>
+                <div class="detail-section">
+                    <h4>🛍️ Services & Prices</h4>
+                    <div class="detail-services-grid" id="detailServices"></div>
+                </div>
+                <div class="detail-actions">
+                    <button class="call-btn" id="detailCallBtn">📞 Call</button>
+                    <button class="add-cart-btn" id="detailAddBtn" onclick="addSelectedToCart()">🛒 Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-overlay" id="checkoutOverlay">
+        <div class="checkout-modal">
+            <div class="checkout-header">
+                <h3>📦 Checkout</h3>
+                <button class="cart-close" onclick="closeCheckout()">✕</button>
+            </div>
+            <div class="checkout-body" id="checkoutBody">
+                <!-- Step 1: Customer Info -->
+                <div class="checkout-section">
+                    <h4>👤 Your Information</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="custName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number *</label>
+                            <input type="tel" id="custMobile" placeholder="09XX XXX XXXX" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Complete Address *</label>
+                        <textarea id="custAddress" rows="2" placeholder="House #, Street, Barangay, Amadeo"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Preferred Date *</label>
+                            <input type="date" id="custDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Time *</label>
+                            <select id="custTime">
+                                <option value="morning">Morning (8AM-12PM)</option>
+                                <option value="afternoon">Afternoon (12PM-5PM)</option>
+                                <option value="evening">Evening (5PM-8PM)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Instructions</label>
+                        <textarea id="custNotes" rows="2" placeholder="Any special requests..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 2: Order Summary -->
+                <div class="checkout-section">
+                    <h4>📋 Order Summary</h4>
+                    <div class="order-summary" id="orderSummary"></div>
+                </div>
+
+                <!-- Step 3: Payment -->
+                <div class="checkout-section">
+                    <h4>💳 Payment Method</h4>
+                    <div class="payment-options">
+                        <div class="payment-option selected" onclick="selectPayment('cod')">
+                            <div class="payment-option-icon">💵</div>
+                            <div class="payment-option-name">Cash on Delivery</div>
+                            <div class="payment-option-desc">Pay when service is done</div>
+                        </div>
+                        <div class="payment-option" onclick="selectPayment('gcash')">
+                            <div class="payment-option-icon">📱</div>
+                            <div class="payment-option-name">GCash</div>
+                            <div class="payment-option-desc">Pay via GCash</div>
+                        </div>
+                    </div>
+                    <div class="gcash-details hidden" id="gcashDetails">
+                        <p>Send payment to:</p>
+                        <div class="gcash-number">0966 960 6060</div>
+                        <div class="gcash-name">LEGERYN PIA</div>
+                        <div class="upload-area" id="uploadArea" onclick="document.getElementById('proofFile').click()">
+                            <input type="file" id="proofFile" accept="image/*" style="display:none" onchange="handleProofUpload(event)">
+                            <div>📤 Click to upload payment screenshot</div>
+                            <img id="proofPreview" class="upload-preview hidden">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Agreement -->
+                <div class="checkout-section">
+                    <h4>📜 Terms & Agreement</h4>
+                    <div class="agreement-box">
+                        <strong>Terms of Service</strong><br><br>
+                        By placing this order, you agree that:<br>
+                        • Amadeo Verified Marketplace acts as a platform connecting you with service providers<br>
+                        • A 5% platform fee is added to all orders<br>
+                        • Service quality is the responsibility of the provider<br>
+                        • Cancellations within 30 minutes are free; after that, fees may apply<br>
+                        • Refunds are processed within 3-5 business days for eligible cases<br>
+                        • Your information will be shared with the service provider for order fulfillment<br>
+                        • This agreement is governed by Philippine law
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeTerms">
+                        <label for="agreeTerms">I agree to the Terms & Conditions</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeRefund">
+                        <label for="agreeRefund">I understand the Refund & Cancellation Policy</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeInfo">
+                        <label for="agreeInfo">I confirm the information provided is accurate</label>
+                    </div>
+                </div>
+
+                <button class="place-order-btn" id="placeOrderBtn" onclick="placeOrder()" disabled>
+                    🛒 Place Order
+                </button>
+            </div>
+
+            <!-- Success State -->
+            <div class="success-modal hidden" id="successModal">
+                <div class="success-icon">✅</div>
+                <h2>Order Placed Successfully!</h2>
+                <p>Thank you for your order</p>
+                <div class="order-id" id="successOrderId">ORD-XXXXXX</div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin: 15px 0;">
+                    You will receive a confirmation via SMS.<br>
+                    The service provider will contact you shortly.
+                </p>
+                <button class="checkout-btn" onclick="closeCheckout(); location.reload();">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <h4>🏠 Amadeo Verified</h4>
+                <p>50 essential home services for Amadeo, Cavite.</p>
+                <p style="margin-top: 10px;">📱 0966 960 6060</p>
+                <p>📧 tygfsb@gmail.com</p>
+            </div>
+            <div>
+                <h4>🚨 Emergency</h4>
+                <a href="#">Plumber 24/7</a>
+                <a href="#">Electrician 24/7</a>
+                <a href="#">Locksmith</a>
+                <a href="#">Malabanan</a>
+            </div>
+            <div>
+                <h4>Popular</h4>
+                <a href="#">Water Delivery</a>
+                <a href="#">LPG Delivery</a>
+                <a href="#">Laundry Pickup</a>
+                <a href="#">Aircon Clean</a>
+            </div>
+            <div>
+                <h4>For Providers</h4>
+                <a href="merchant-dashboard.html">Partner Dashboard</a>
+                <a href="#">Register Business</a>
+                <a href="#">5% Commission</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2024 Amadeo Verified Marketplace. Powered by TYG Services.
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const CONFIG = {
+            PLATFORM_FEE: 0.05,
+            GCASH_NUMBER: '0966 960 6060',
+            GCASH_NAME: 'LEGERYN PIA',
+            BACKEND_URL: 'YOUR_BACKEND_URL' // Update with deployed Apps Script URL
+        };
+
+        // ============================================
+        // 50 SERVICES DATA
+        // ============================================
+        const SERVICES = [
+            // EMERGENCY
+            { id: 'emergency', icon: '🚨', title: 'EMERGENCY 24/7', subtitle: 'Urgent problems', isEmergency: true, providers: [
+                { id: 'E1', name: 'Tubero Express 24/7', logo: '🚿', cat: 'Emergency Plumber', type: 'emergency', label: '🚨 24/7', loc: 'All Amadeo', featured: true, services: [{ name: 'Burst Pipe Repair', price: 800 }, { name: 'Clogged Drain/Toilet', price: 500 }, { name: 'Leak Repair', price: 400 }], phone: '0917-111-1111', hours: '24/7', rating: 4.9, jobs: 450 },
+                { id: 'E2', name: 'Kuryente Master 24/7', logo: '⚡', cat: 'Emergency Electrician', type: 'emergency', label: '🚨 24/7', loc: 'All Amadeo', featured: true, services: [{ name: 'Power Restoration', price: 500 }, { name: 'Short Circuit Fix', price: 600 }, { name: 'Breaker Repair', price: 400 }], phone: '0918-222-2222', hours: '24/7', rating: 4.9, jobs: 380 },
+                { id: 'E3', name: 'Susi Express Locksmith', logo: '🔐', cat: 'Emergency Locksmith', type: 'emergency', label: '🚨 24/7', loc: 'All Amadeo', services: [{ name: 'Door Unlock', price: 300 }, { name: 'Lock Change', price: 500 }, { name: 'Key Duplicate', price: 150 }], phone: '0919-333-3333', hours: '24/7', rating: 4.8, jobs: 250 }
+            ]},
+            // WATER
+            { id: 'water', icon: '💧', title: 'Water Delivery', subtitle: 'Purified & mineral water', providers: [
+                { id: 'W1', name: 'Aqua Pure Amadeo', logo: '💧', cat: 'Water Station', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: [{ name: 'Purified Water 5gal', price: 50 }, { name: 'Mineral Water 5gal', price: 60 }, { name: 'Alkaline Water 5gal', price: 70 }], phone: '0917-100-0001', hours: '5AM-9PM', rating: 4.9, jobs: 1200 },
+                { id: 'W2', name: 'Crystal Springs', logo: '🌊', cat: 'Water Station', type: 'delivery', label: '🚚 Delivery', loc: 'Poblacion Area', services: [{ name: 'Spring Water 5gal', price: 55 }, { name: 'Purified 5gal', price: 50 }, { name: 'Water Container', price: 200 }], phone: '0918-100-0002', hours: '5AM-8PM', rating: 4.8, jobs: 900 },
+                { id: 'W3', name: 'Ice Factory Amadeo', logo: '🧊', cat: 'Ice Delivery', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: [{ name: 'Tube Ice per kg', price: 15 }, { name: 'Block Ice', price: 50 }, { name: 'Crushed Ice bag', price: 30 }], phone: '0919-100-0003', hours: '4AM-8PM', rating: 4.7, jobs: 500 }
+            ]},
+            // GAS
+            { id: 'gas', icon: '🔥', title: 'LPG / Gas Delivery', subtitle: 'Cooking gas refill', providers: [
+                { id: 'G1', name: 'Gasul Amadeo Official', logo: '🔥', cat: 'LPG Dealer', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: [{ name: 'LPG 11kg Tank', price: 950 }, { name: 'LPG 22kg Tank', price: 1800 }, { name: 'Regulator', price: 350 }], phone: '0917-200-0001', hours: '6AM-8PM', rating: 4.9, jobs: 1500 },
+                { id: 'G2', name: 'Solane Center', logo: '🛢️', cat: 'LPG Dealer', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: [{ name: 'LPG 11kg', price: 980 }, { name: 'LPG 22kg', price: 1850 }, { name: 'New Tank', price: 2500 }], phone: '0918-200-0002', hours: '6AM-9PM', rating: 4.8, jobs: 1100 }
+            ]},
+            // FOOD
+            { id: 'food', icon: '🍲', title: 'Food & Grocery', subtitle: 'Meals, rice, pharmacy', providers: [
+                { id: 'F1', name: "Lola's Kitchen", logo: '🍳', cat: 'Home Cooked', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: [{ name: 'Adobo Family Size', price: 250 }, { name: 'Sinigang na Baboy', price: 280 }, { name: 'Fried Chicken 6pcs', price: 300 }], phone: '0917-300-0001', hours: '10AM-8PM', rating: 4.9, jobs: 800 },
+                { id: 'F2', name: 'Bigas Express', logo: '🍚', cat: 'Rice Dealer', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: [{ name: 'Premium Rice 25kg', price: 1400 }, { name: 'Regular Rice 25kg', price: 1200 }, { name: 'NFA Rice 25kg', price: 1000 }], phone: '0918-300-0002', hours: '6AM-6PM', rating: 4.8, jobs: 600 },
+                { id: 'F3', name: 'Amadeo Pharmacy', logo: '💊', cat: 'Pharmacy', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: [{ name: 'Medicine Delivery', price: 50 }, { name: 'Vitamins Pack', price: 200 }, { name: 'First Aid Kit', price: 350 }], phone: '0919-300-0003', hours: '7AM-10PM', rating: 4.9, jobs: 900 },
+                { id: 'F4', name: 'Fresh Eggs Farm', logo: '🥚', cat: 'Poultry', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: [{ name: 'Eggs 30pcs', price: 200 }, { name: 'Native Chicken kg', price: 220 }, { name: 'Dressed Chicken kg', price: 180 }], phone: '0920-300-0004', hours: '5AM-5PM', rating: 4.8, jobs: 500 }
+            ]},
+            // PLUMBING
+            { id: 'plumbing', icon: '🚿', title: 'Plumbing Services', subtitle: 'Pipes, faucets, pumps', providers: [
+                { id: 'P1', name: 'Master Plumber Juan', logo: '🔧', cat: 'Licensed Plumber', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: [{ name: 'Unclogging Service', price: 300 }, { name: 'Pipe Repair', price: 500 }, { name: 'Faucet Installation', price: 250 }], phone: '0917-400-0001', hours: '7AM-7PM', rating: 4.9, jobs: 600 },
+                { id: 'P2', name: 'Water Pump Specialist', logo: '⛽', cat: 'Pump Repair', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: [{ name: 'Jet Pump Repair', price: 500 }, { name: 'Submersible Pump', price: 800 }, { name: 'Pump Installation', price: 1000 }], phone: '0918-400-0002', hours: '8AM-5PM', rating: 4.8, jobs: 300 }
+            ]},
+            // ELECTRICAL
+            { id: 'electrical', icon: '⚡', title: 'Electrical Services', subtitle: 'Wiring, outlets, solar', providers: [
+                { id: 'EL1', name: 'Electrician Pro', logo: '⚡', cat: 'Licensed Electrician', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: [{ name: 'Outlet Installation', price: 200 }, { name: 'Wiring per meter', price: 50 }, { name: 'Troubleshooting', price: 300 }], phone: '0917-500-0001', hours: '7AM-6PM', rating: 4.9, jobs: 500 },
+                { id: 'EL2', name: 'Solar Power Amadeo', logo: '☀️', cat: 'Solar Installation', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: [{ name: 'Solar Assessment', price: 0 }, { name: 'Basic Solar Kit', price: 25000 }, { name: 'Full Solar System', price: 80000 }], phone: '0918-500-0002', hours: 'By Booking', rating: 4.9, jobs: 100 }
+            ]},
+            // AIRCON
+            { id: 'aircon', icon: '❄️', title: 'Aircon Services', subtitle: 'Cleaning, repair, install', providers: [
+                { id: 'AC1', name: 'Cool Tech Aircon', logo: '❄️', cat: 'AC Specialist', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: [{ name: 'AC Cleaning Window', price: 350 }, { name: 'AC Cleaning Split', price: 450 }, { name: 'Freon Refill', price: 1500 }], phone: '0917-600-0001', hours: '8AM-6PM', rating: 4.9, jobs: 450 },
+                { id: 'AC2', name: 'AC Install Express', logo: '🔧', cat: 'Installation', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: [{ name: 'Window AC Install', price: 1500 }, { name: 'Split AC Install', price: 3000 }, { name: 'AC Relocation', price: 2000 }], phone: '0918-600-0002', hours: 'By Booking', rating: 4.7, jobs: 200 }
+            ]},
+            // CLEANING
+            { id: 'cleaning', icon: '🧹', title: 'Cleaning Services', subtitle: 'House, sofa, mattress', providers: [
+                { id: 'CL1', name: 'Sparkle Home Cleaning', logo: '✨', cat: 'Professional Clean', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: [{ name: 'General Cleaning', price: 500 }, { name: 'Deep Cleaning', price: 1500 }, { name: 'Hourly Rate', price: 150 }], phone: '0917-700-0001', hours: '7AM-5PM', rating: 4.9, jobs: 400 },
+                { id: 'CL2', name: 'Sofa & Carpet Pro', logo: '🛋️', cat: 'Upholstery', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: [{ name: '3-Seater Sofa', price: 800 }, { name: 'Carpet per sqm', price: 50 }, { name: 'Mattress Queen', price: 600 }], phone: '0918-700-0002', hours: 'By Booking', rating: 4.8, jobs: 200 }
+            ]},
+            // LAUNDRY
+            { id: 'laundry', icon: '👕', title: 'Laundry Services', subtitle: 'Wash, dry, fold', providers: [
+                { id: 'L1', name: 'Fresh & Clean Laundry', logo: '👕', cat: 'Full Service', type: 'pickup', label: '🔄 Pickup', loc: 'All Amadeo', featured: true, services: [{ name: 'Wash-Dry-Fold per kg', price: 60 }, { name: 'Express 4hrs per kg', price: 100 }, { name: 'Blanket/Comforter', price: 150 }], phone: '0917-800-0001', hours: '7AM-7PM', rating: 4.9, jobs: 800 },
+                { id: 'L2', name: 'Sparkle Laundromat', logo: '✨', cat: 'Laundry', type: 'pickup', label: '🔄 Pickup', loc: 'Poblacion Area', services: [{ name: 'Regular per kg', price: 55 }, { name: 'Self-Service load', price: 50 }, { name: 'Dry Clean piece', price: 150 }], phone: '0918-800-0002', hours: '6AM-9PM', rating: 4.8, jobs: 600 }
+            ]},
+            // REPAIR
+            { id: 'repair', icon: '🔧', title: 'Appliance Repair', subtitle: 'Ref, TV, phone, PC', providers: [
+                { id: 'R1', name: 'Appliance Repair Pro', logo: '🔌', cat: 'Home Appliances', type: 'pickup', label: '🔄 Pickup', loc: 'All Amadeo', featured: true, services: [{ name: 'Refrigerator Repair', price: 500 }, { name: 'Washing Machine', price: 400 }, { name: 'TV Repair', price: 300 }], phone: '0917-900-0001', hours: '8AM-6PM', rating: 4.8, jobs: 400 },
+                { id: 'R2', name: 'Phone Fix Express', logo: '📱', cat: 'Phone Repair', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: [{ name: 'Screen Replace', price: 800 }, { name: 'Battery Replace', price: 500 }, { name: 'Charging Port', price: 400 }], phone: '0918-900-0002', hours: '9AM-8PM', rating: 4.7, jobs: 500 },
+                { id: 'R3', name: 'PC & Laptop Clinic', logo: '💻', cat: 'Computer', type: 'pickup', label: '🔄 Pickup', loc: 'All Amadeo', services: [{ name: 'Format & Reinstall', price: 500 }, { name: 'Virus Removal', price: 300 }, { name: 'Data Recovery', price: 1000 }], phone: '0919-900-0003', hours: '9AM-7PM', rating: 4.8, jobs: 350 }
+            ]},
+            // PEST
+            { id: 'pest', icon: '🪳', title: 'Pest & Septic', subtitle: 'Pest control, malabanan', providers: [
+                { id: 'PS1', name: 'Pest Busters Cavite', logo: '🪳', cat: 'Pest Control', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: [{ name: 'General Pest', price: 1500 }, { name: 'Termite Treatment', price: 3000 }, { name: 'Rat Control', price: 1200 }], phone: '0917-1000-001', hours: 'By Booking', rating: 4.9, jobs: 250 },
+                { id: 'PS2', name: 'Malabanan Amadeo', logo: '🚛', cat: 'Septic Services', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: [{ name: 'Septic Pumping', price: 3500 }, { name: 'Declogging', price: 2500 }, { name: 'Siphoning', price: 2000 }], phone: '0918-1000-002', hours: '6AM-10PM', rating: 4.8, jobs: 400 }
+            ]},
+            // CONSTRUCTION
+            { id: 'construction', icon: '🔨', title: 'Construction & Repair', subtitle: 'Carpentry, welding, paint', providers: [
+                { id: 'C1', name: 'Master Carpenter', logo: '🪚', cat: 'Carpentry', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: [{ name: 'Cabinet Repair', price: 500 }, { name: 'Door Repair', price: 300 }, { name: 'Custom Furniture', price: 2000 }], phone: '0917-1100-001', hours: '7AM-5PM', rating: 4.9, jobs: 350 },
+                { id: 'C2', name: 'Welding Works', logo: '⚒️', cat: 'Welding', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: [{ name: 'Gate Repair', price: 500 }, { name: 'Grills Fabrication', price: 800 }, { name: 'General Welding', price: 300 }], phone: '0918-1100-002', hours: '7AM-5PM', rating: 4.8, jobs: 300 },
+                { id: 'C3', name: 'Paint Masters', logo: '🎨', cat: 'Painting', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: [{ name: 'Painting per sqm', price: 50 }, { name: 'Room Repaint', price: 2000 }, { name: 'Whole House Quote', price: 5000 }], phone: '0919-1100-003', hours: 'By Booking', rating: 4.8, jobs: 280 }
+            ]},
+            // HARDWARE
+            { id: 'hardware', icon: '🏗️', title: 'Hardware Store', subtitle: 'Construction materials', providers: [
+                { id: 'H1', name: 'Amadeo Builders Hardware', logo: '🔨', cat: 'Hardware', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', featured: true, services: [{ name: 'Cement bag', price: 280 }, { name: 'Hollow Blocks 100pcs', price: 1200 }, { name: 'Steel Bar 10mm', price: 350 }], phone: '0917-1200-001', hours: '6AM-6PM', rating: 4.8, jobs: 500 },
+                { id: 'H2', name: "Mang Tony's Hardware", logo: '🔧', cat: 'Tools', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: [{ name: 'Hand Tools', price: 100 }, { name: 'Power Tools', price: 500 }, { name: 'Plumbing Supplies', price: 50 }], phone: '0918-1200-002', hours: '7AM-7PM', rating: 4.7, jobs: 400 }
+            ]},
+            // VEHICLE
+            { id: 'vehicle', icon: '🏍️', title: 'Vehicle Services', subtitle: 'Motor, car, vulcanizing', providers: [
+                { id: 'V1', name: 'RJ Motor Shop', logo: '🏍️', cat: 'Motorcycle', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', featured: true, services: [{ name: 'Change Oil', price: 150 }, { name: 'Tune Up', price: 350 }, { name: 'Tire Change', price: 100 }], phone: '0917-1300-001', hours: '7AM-6PM', rating: 4.8, jobs: 700 },
+                { id: 'V2', name: 'Gulong Express', logo: '🛞', cat: 'Vulcanizing', type: 'visit', label: '📍 Visit', loc: 'Brgy. Dagatan', services: [{ name: 'Flat Tire Repair', price: 50 }, { name: 'Tire Replacement', price: 500 }, { name: 'Home Service', price: 150 }], phone: '0918-1300-002', hours: '6AM-8PM', rating: 4.7, jobs: 500 },
+                { id: 'V3', name: 'Splash Car Wash', logo: '🚿', cat: 'Car Wash', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: [{ name: 'Car Wash', price: 150 }, { name: 'Motor Wash', price: 80 }, { name: 'Interior Cleaning', price: 200 }], phone: '0919-1300-003', hours: '7AM-6PM', rating: 4.7, jobs: 600 }
+            ]},
+            // TECH
+            { id: 'tech', icon: '💻', title: 'Tech & Internet', subtitle: 'WiFi, CCTV, smart home', providers: [
+                { id: 'T1', name: 'NetWorks Amadeo', logo: '📶', cat: 'Internet', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: [{ name: 'WiFi Setup', price: 500 }, { name: 'Troubleshooting', price: 300 }, { name: 'Piso WiFi Setup', price: 1500 }], phone: '0917-1400-001', hours: '8AM-6PM', rating: 4.8, jobs: 300 },
+                { id: 'T2', name: 'CCTV Pro Install', logo: '📹', cat: 'Security', type: 'book', label: '📅 Book', loc: 'All Amadeo', featured: true, services: [{ name: '2-Camera Package', price: 8000 }, { name: '4-Camera Package', price: 12000 }, { name: 'DVR Setup', price: 3000 }], phone: '0918-1400-002', hours: 'By Booking', rating: 4.9, jobs: 200 }
+            ]},
+            // PERSONAL
+            { id: 'personal', icon: '💇', title: 'Personal Care', subtitle: 'Salon, barber, massage', providers: [
+                { id: 'PR1', name: 'Glow Up Salon', logo: '💇‍♀️', cat: 'Salon', type: 'book', label: '📅 Book', loc: 'Brgy. Poblacion', featured: true, services: [{ name: 'Haircut Ladies', price: 100 }, { name: 'Hair Color', price: 500 }, { name: 'Rebond', price: 1500 }], phone: '0917-1500-001', hours: '9AM-8PM', rating: 4.9, jobs: 500 },
+                { id: 'PR2', name: "Mang Isko's Barbershop", logo: '💈', cat: 'Barbershop', type: 'visit', label: '📍 Visit', loc: 'Brgy. Halang', services: [{ name: 'Haircut Men', price: 60 }, { name: 'Kids Haircut', price: 50 }, { name: 'Shave', price: 40 }], phone: '0918-1500-002', hours: '8AM-7PM', rating: 4.7, jobs: 800 },
+                { id: 'PR3', name: 'Healing Hands Massage', logo: '💆', cat: 'Home Massage', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: [{ name: 'Swedish Massage', price: 400 }, { name: 'Shiatsu', price: 450 }, { name: 'Hilot Traditional', price: 350 }], phone: '0919-1500-003', hours: 'By Booking', rating: 4.8, jobs: 300 }
+            ]},
+            // PETS
+            { id: 'pets', icon: '🐕', title: 'Pet Services', subtitle: 'Grooming, vet, supplies', providers: [
+                { id: 'PT1', name: 'Pet Corner Amadeo', logo: '🐕', cat: 'Pet Shop', type: 'visit', label: '📍 Visit', loc: 'Brgy. Dagatan', featured: true, services: [{ name: 'Dog Grooming', price: 300 }, { name: 'Cat Grooming', price: 250 }, { name: 'Pet Supplies', price: 100 }], phone: '0917-1600-001', hours: '8AM-6PM', rating: 4.8, jobs: 400 },
+                { id: 'PT2', name: 'Vets On Call', logo: '🩺', cat: 'Veterinary', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: [{ name: 'Home Checkup', price: 300 }, { name: 'Vaccination', price: 500 }, { name: 'Deworming', price: 200 }], phone: '0918-1600-002', hours: 'By Booking', rating: 4.9, jobs: 250 }
+            ]},
+            // BUSINESS
+            { id: 'business', icon: '💼', title: 'Business Services', subtitle: 'Print, bills, moving', providers: [
+                { id: 'B1', name: 'Amadeo Print Shop', logo: '🖨️', cat: 'Printing', type: 'visit', label: '📍 Visit', loc: 'Brgy. Poblacion', featured: true, services: [{ name: 'Photocopy per page', price: 2 }, { name: 'Print B&W page', price: 5 }, { name: 'Tarpaulin per sqft', price: 30 }], phone: '0917-1700-001', hours: '8AM-7PM', rating: 4.8, jobs: 800 },
+                { id: 'B2', name: 'Lipat Bahay Express', logo: '🚛', cat: 'Moving', type: 'book', label: '📅 Book', loc: 'All Amadeo', services: [{ name: 'Pickup Truck', price: 1500 }, { name: 'Closed Van', price: 3000 }, { name: 'Helpers per person', price: 500 }], phone: '0918-1700-002', hours: 'By Booking', rating: 4.8, jobs: 200 },
+                { id: 'B3', name: 'Event Rentals Amadeo', logo: '🎪', cat: 'Rentals', type: 'delivery', label: '🚚 Delivery', loc: 'All Amadeo', services: [{ name: 'Chairs per pc', price: 15 }, { name: 'Tables per pc', price: 50 }, { name: 'Tent 10x10', price: 1500 }], phone: '0919-1700-003', hours: 'By Booking', rating: 4.7, jobs: 300 }
+            ]}
+        ];
+
+        // ============================================
+        // STATE
+        // ============================================
+        let cart = [];
+        let currentUser = null;
+        let selectedProvider = null;
+        let selectedServices = [];
+        let paymentMethod = 'cod';
+        let paymentProof = null;
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+            renderNav();
+            renderAll();
+            setMinDate();
+        });
+
+        function setMinDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('custDate').min = today;
+            document.getElementById('custDate').value = today;
+        }
+
+        // ============================================
+        // RENDER
+        // ============================================
+        function renderNav() {
+            const nav = document.getElementById('quickNav');
+            nav.innerHTML = `
+                <button class="nav-chip active" onclick="showAll()">🏠 All</button>
+                <button class="nav-chip emergency" onclick="scrollTo('emergency')">🚨 Emergency</button>
+                ${SERVICES.filter(s => !s.isEmergency).map(s => 
+                    `<button class="nav-chip" onclick="scrollTo('${s.id}')">${s.icon} ${s.title.split(' ')[0]}</button>`
+                ).join('')}
+            `;
+        }
+
+        function renderAll() {
+            document.getElementById('mainContent').innerHTML = SERVICES.map(cat => renderCategory(cat)).join('');
+        }
+
+        function renderCategory(cat) {
+            const headerClass = cat.isEmergency ? 'cat-header emergency' : 'cat-header';
+            return `
+                <section class="cat-section" id="cat-${cat.id}">
+                    <div class="${headerClass}">
+                        <div class="cat-icon">${cat.icon}</div>
+                        <div class="cat-info">
+                            <h2>${cat.title} <span class="cat-count">${cat.providers.length}</span></h2>
+                            <p>${cat.subtitle}</p>
+                        </div>
+                    </div>
+                    <div class="providers-grid">
+                        ${cat.providers.map(p => renderProvider(p, cat.isEmergency)).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderProvider(p, isEmergency) {
+            const typeClass = { delivery: 't-delivery', pickup: 't-pickup', book: 't-book', visit: 't-visit', emergency: 't-emergency' }[p.type] || 't-visit';
+            const ctaClass = (isEmergency || p.type === 'emergency') ? 'provider-cta emergency' : 'provider-cta';
+            
+            return `
+                <div class="provider-card ${p.featured ? 'featured' : ''}" onclick="openDetail('${p.id}')">
+                    <span class="svc-badge ${typeClass}">${p.label}</span>
+                    <div class="provider-top">
+                        <div class="provider-logo">${p.logo}</div>
+                        <div>
+                            <div class="provider-name">${p.name}</div>
+                            <div class="provider-loc">📍 ${p.loc}</div>
+                        </div>
+                    </div>
+                    <div class="provider-services">
+                        ${p.services.slice(0, 3).map(s => `<span class="svc-tag ${s.price > 0 ? 'price' : ''}">${s.name}${s.price > 0 ? ' ₱' + s.price : ''}</span>`).join('')}
+                    </div>
+                    <div class="provider-footer">
+                        <div class="provider-meta">
+                            <div class="meta-item"><strong>⭐ ${p.rating}</strong><span>Rating</span></div>
+                            <div class="meta-item"><strong>${p.jobs}+</strong><span>Jobs</span></div>
+                        </div>
+                        <button class="${ctaClass}" onclick="event.stopPropagation(); openDetail('${p.id}')">View</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============================================
+        // PROVIDER DETAIL
+        // ============================================
+        function openDetail(id) {
+            let provider = null;
+            for (const cat of SERVICES) {
+                provider = cat.providers.find(p => p.id === id);
+                if (provider) break;
+            }
+            if (!provider) return;
+
+            selectedProvider = provider;
+            selectedServices = [];
+
+            document.getElementById('detailLogo').textContent = provider.logo;
+            document.getElementById('detailName').textContent = provider.name;
+            document.getElementById('detailCat').textContent = provider.cat;
+
+            document.getElementById('detailInfo').innerHTML = `
+                <div class="detail-info-item">📍 ${provider.loc}</div>
+                <div class="detail-info-item">🕐 ${provider.hours}</div>
+                <div class="detail-info-item">📞 ${provider.phone}</div>
+                <div class="detail-info-item">⭐ ${provider.rating} rating • ${provider.jobs}+ jobs completed</div>
+            `;
+
+            document.getElementById('detailServices').innerHTML = provider.services.map((s, i) => `
+                <div class="detail-service-item" onclick="toggleService(${i}, this)">
+                    <div class="detail-service-name">${s.name}</div>
+                    <div class="detail-service-price">${s.price > 0 ? '₱' + s.price.toLocaleString() : 'FREE'}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('detailCallBtn').onclick = () => window.location.href = 'tel:' + provider.phone.replace(/-/g, '');
+            document.getElementById('detailOverlay').classList.add('show');
+        }
+
+        function closeDetail() {
+            document.getElementById('detailOverlay').classList.remove('show');
+            selectedProvider = null;
+            selectedServices = [];
+        }
+
+        function toggleService(index, el) {
+            el.classList.toggle('selected');
+            const idx = selectedServices.indexOf(index);
+            if (idx > -1) {
+                selectedServices.splice(idx, 1);
+            } else {
+                selectedServices.push(index);
+            }
+        }
+
+        function addSelectedToCart() {
+            if (!selectedProvider || selectedServices.length === 0) {
+                showToast('Please select at least one service');
+                return;
+            }
+
+            selectedServices.forEach(i => {
+                const service = selectedProvider.services[i];
+                const cartItem = {
+                    id: `${selectedProvider.id}-${i}`,
+                    providerId: selectedProvider.id,
+                    providerName: selectedProvider.name,
+                    providerLogo: selectedProvider.logo,
+                    providerPhone: selectedProvider.phone,
+                    serviceName: service.name,
+                    price: service.price,
+                    qty: 1
+                };
+
+                const existing = cart.find(c => c.id === cartItem.id);
+                if (existing) {
+                    existing.qty++;
+                } else {
+                    cart.push(cartItem);
+                }
+            });
+
+            saveCart();
+            updateCartUI();
+            closeDetail();
+            showToast('Added to cart!', true);
+        }
+
+        // ============================================
+        // CART
+        // ============================================
+        function toggleCart() {
+            document.getElementById('cartOverlay').classList.toggle('show');
+            document.getElementById('cartSidebar').classList.toggle('show');
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cartBadge');
+            const items = document.getElementById('cartItems');
+            const subtotalEl = document.getElementById('cartSubtotal');
+            const feeEl = document.getElementById('cartFee');
+            const totalEl = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const fee = subtotal * CONFIG.PLATFORM_FEE;
+            const total = subtotal + fee;
+
+            badge.textContent = totalQty;
+            subtotalEl.textContent = '₱' + subtotal.toLocaleString('en-PH', { minimumFractionDigits: 2 });
+            feeEl.textContent = '₱' + fee.toLocaleString('en-PH', { minimumFractionDigits: 2 });
+            totalEl.textContent = '₱' + total.toLocaleString('en-PH', { minimumFractionDigits: 2 });
+            checkoutBtn.disabled = cart.length === 0;
+
+            if (cart.length === 0) {
+                items.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Your cart is empty</p></div>';
+                return;
+            }
+
+            items.innerHTML = cart.map((item, i) => `
+                <div class="cart-item">
+                    <div class="cart-item-logo">${item.providerLogo}</div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.providerName}</div>
+                        <div class="cart-item-service">${item.serviceName}</div>
+                        <div class="cart-item-price">₱${(item.price * item.qty).toLocaleString()}</div>
+                        <div class="cart-item-qty">
+                            <button class="qty-btn" onclick="updateQty(${i}, -1)">−</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" onclick="updateQty(${i}, 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeItem(${i})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function updateQty(index, change) {
+            cart[index].qty += change;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            saveCart();
+            updateCartUI();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            saveCart();
+            updateCartUI();
+        }
+
+        function saveCart() {
+            localStorage.setItem('amadeo_cart', JSON.stringify(cart));
+        }
+
+        function loadCart() {
+            const saved = localStorage.getItem('amadeo_cart');
+            if (saved) cart = JSON.parse(saved);
+            updateCartUI();
+        }
+
+        // ============================================
+        // CHECKOUT
+        // ============================================
+        function showCheckout() {
+            if (cart.length === 0) return;
+            toggleCart();
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const fee = subtotal * CONFIG.PLATFORM_FEE;
+            const total = subtotal + fee;
+
+            document.getElementById('orderSummary').innerHTML = `
+                ${cart.map(item => `
+                    <div class="order-item">
+                        <div class="order-item-name">
+                            <span>${item.providerLogo}</span>
+                            <div>
+                                <div>${item.serviceName}</div>
+                                <div style="font-size: 0.7rem; color: var(--text-muted);">${item.providerName} × ${item.qty}</div>
+                            </div>
+                        </div>
+                        <strong>₱${(item.price * item.qty).toLocaleString()}</strong>
+                    </div>
+                `).join('')}
+                <div class="order-totals">
+                    <div class="cart-row"><span>Subtotal</span><span>₱${subtotal.toLocaleString()}</span></div>
+                    <div class="cart-row"><span>Platform Fee (5%)</span><span>₱${fee.toLocaleString()}</span></div>
+                    <div class="cart-row total"><span>Total</span><span>₱${total.toLocaleString()}</span></div>
+                </div>
+            `;
+
+            document.getElementById('checkoutBody').classList.remove('hidden');
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('checkoutOverlay').classList.add('show');
+
+            // Add validation listeners
+            ['custName', 'custMobile', 'custAddress', 'custDate', 'agreeTerms', 'agreeRefund', 'agreeInfo'].forEach(id => {
+                document.getElementById(id).addEventListener('change', validateCheckout);
+                document.getElementById(id).addEventListener('input', validateCheckout);
+            });
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutOverlay').classList.remove('show');
+        }
+
+        function selectPayment(method) {
+            paymentMethod = method;
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            document.getElementById('gcashDetails').classList.toggle('hidden', method !== 'gcash');
+            validateCheckout();
+        }
+
+        function handleProofUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                paymentProof = event.target.result;
+                document.getElementById('proofPreview').src = paymentProof;
+                document.getElementById('proofPreview').classList.remove('hidden');
+                document.getElementById('uploadArea').classList.add('has-file');
+                validateCheckout();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function validateCheckout() {
+            const name = document.getElementById('custName').value.trim();
+            const mobile = document.getElementById('custMobile').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const date = document.getElementById('custDate').value;
+            const terms = document.getElementById('agreeTerms').checked;
+            const refund = document.getElementById('agreeRefund').checked;
+            const info = document.getElementById('agreeInfo').checked;
+
+            let valid = name && mobile && address && date && terms && refund && info;
+            if (paymentMethod === 'gcash' && !paymentProof) valid = false;
+
+            document.getElementById('placeOrderBtn').disabled = !valid;
+        }
+
+        function placeOrder() {
+            const orderId = 'ORD-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+            
+            const orderData = {
+                orderId: orderId,
+                customer: {
+                    name: document.getElementById('custName').value,
+                    mobile: document.getElementById('custMobile').value,
+                    address: document.getElementById('custAddress').value
+                },
+                delivery: {
+                    date: document.getElementById('custDate').value,
+                    time: document.getElementById('custTime').value,
+                    notes: document.getElementById('custNotes').value
+                },
+                items: cart,
+                subtotal: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+                fee: cart.reduce((sum, item) => sum + (item.price * item.qty), 0) * CONFIG.PLATFORM_FEE,
+                total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0) * (1 + CONFIG.PLATFORM_FEE),
+                payment: {
+                    method: paymentMethod,
+                    proof: paymentMethod === 'gcash' ? paymentProof : null
+                },
+                createdAt: new Date().toISOString()
+            };
+
+            console.log('Order placed:', orderData);
+
+            // Show success
+            document.getElementById('successOrderId').textContent = orderId;
+            document.getElementById('checkoutBody').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('hidden');
+
+            // Clear cart
+            cart = [];
+            saveCart();
+            updateCartUI();
+        }
+
+        // ============================================
+        // UTILITIES
+        // ============================================
+        function scrollTo(id) {
+            const el = document.getElementById('cat-' + id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showAll() {
+            renderAll();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleSearch() {
+            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!q) { renderAll(); return; }
+
+            const results = [];
+            SERVICES.forEach(cat => {
+                cat.providers.forEach(p => {
+                    if (p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.services.some(s => s.name.toLowerCase().includes(q))) {
+                        results.push(p);
+                    }
+                });
+            });
+
+            document.getElementById('mainContent').innerHTML = `
+                <section class="cat-section">
+                    <div class="cat-header">
+                        <div class="cat-icon">🔍</div>
+                        <div class="cat-info">
+                            <h2>Search Results <span class="cat-count">${results.length}</span></h2>
+                            <p>Results for "${q}"</p>
+                        </div>
+                    </div>
+                    <div class="providers-grid">
+                        ${results.length ? results.map(p => renderProvider(p, false)).join('') : '<p style="padding: 40px; text-align: center; color: var(--text-muted);">No results found.</p>'}
+                    </div>
+                </section>
+            `;
+        }
+
+        function showToast(msg, success = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast' + (success ? ' success' : '');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function showLogin() {
+            alert('Google Sign-In will be integrated here');
+        }
+
+        // Close modals on overlay click
+        document.getElementById('detailOverlay').addEventListener('click', e => { if (e.target.id === 'detailOverlay') closeDetail(); });
+        document.getElementById('checkoutOverlay').addEventListener('click', e => { if (e.target.id === 'checkoutOverlay') closeCheckout(); });
+    </script>
+</body>
+</html>

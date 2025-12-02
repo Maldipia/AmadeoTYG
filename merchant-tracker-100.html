@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amadeo Marketplace - 100+ Merchant Recruitment</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { color: #1b4332; margin-bottom: 5px; }
+        .subtitle { color: #6b7280; margin-bottom: 20px; }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: #2d6a4f; }
+        .stat-label { font-size: 0.8rem; color: #6b7280; }
+        .stat-card.pending .stat-value { color: #f59e0b; }
+        .stat-card.confirmed .stat-value { color: #10b981; }
+        .stat-card.declined .stat-value { color: #ef4444; }
+        
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 6px 14px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        
+        .filter-btn:hover { border-color: #2d6a4f; }
+        .filter-btn.active { background: #2d6a4f; color: white; border-color: #2d6a4f; }
+        
+        .cat-section {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .cat-header {
+            background: linear-gradient(90deg, #2d6a4f, #40916c);
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cat-header.emergency { background: linear-gradient(90deg, #dc2626, #ef4444); }
+        .cat-title { font-size: 1rem; font-weight: 700; }
+        .cat-count { background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 15px; font-size: 0.8rem; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f9fafb; font-weight: 600; font-size: 0.75rem; color: #6b7280; text-transform: uppercase; }
+        td { font-size: 0.85rem; }
+        
+        .prov-name { font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .prov-logo { width: 28px; height: 28px; background: #f3f4f6; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+        
+        .input { width: 100%; padding: 5px 8px; border: 1px solid #e5e7eb; border-radius: 5px; font-size: 0.8rem; font-family: inherit; }
+        .input:focus { outline: none; border-color: #2d6a4f; }
+        
+        .priority-high { color: #dc2626; font-weight: 700; }
+        .priority-medium { color: #f59e0b; font-weight: 600; }
+        .priority-low { color: #6b7280; }
+        
+        .export-section {
+            margin-top: 25px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background: #2d6a4f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 8px;
+        }
+        
+        .btn:hover { background: #1b4332; }
+        .btn.secondary { background: #6b7280; }
+        
+        @media (max-width: 768px) {
+            table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏪 100+ Merchant Recruitment Tracker</h1>
+        <p class="subtitle">Amadeo Verified Marketplace - Complete Provider Database</p>
+        
+        <div class="stats-row">
+            <div class="stat-card"><div class="stat-value" id="totalCount">0</div><div class="stat-label">Total</div></div>
+            <div class="stat-card"><div class="stat-value" id="notStartedCount">0</div><div class="stat-label">Not Started</div></div>
+            <div class="stat-card pending"><div class="stat-value" id="contactedCount">0</div><div class="stat-label">Contacted</div></div>
+            <div class="stat-card confirmed"><div class="stat-value" id="confirmedCount">0</div><div class="stat-label">Confirmed</div></div>
+            <div class="stat-card declined"><div class="stat-value" id="declinedCount">0</div><div class="stat-label">Declined</div></div>
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active" onclick="filter('all', this)">All</button>
+            <button class="filter-btn" onclick="filter('not-started', this)">Not Started</button>
+            <button class="filter-btn" onclick="filter('contacted', this)">Contacted</button>
+            <button class="filter-btn" onclick="filter('confirmed', this)">Confirmed</button>
+            <button class="filter-btn" onclick="filter('declined', this)">Declined</button>
+            <button class="filter-btn" onclick="filter('HIGH', this)">🔴 High Priority</button>
+        </div>
+        
+        <div id="list"></div>
+        
+        <div class="export-section">
+            <button class="btn" onclick="exportCSV()">📊 Export CSV</button>
+            <button class="btn secondary" onclick="save()">💾 Save</button>
+            <button class="btn secondary" onclick="load()">📂 Load</button>
+        </div>
+    </div>
+
+    <script>
+        const M = [
+            // EMERGENCY
+            {c:'emergency',cn:'🚨 EMERGENCY 24/7',id:'E1',n:'Tubero Express 24/7',l:'🚿',s:'Emergency Plumber',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'emergency',cn:'🚨 EMERGENCY 24/7',id:'E2',n:'Kuryente Master 24/7',l:'⚡',s:'Emergency Electrician',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'emergency',cn:'🚨 EMERGENCY 24/7',id:'E3',n:'Susi Express Locksmith',l:'🔐',s:'Emergency Locksmith',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            
+            // WATER
+            {c:'water',cn:'💧 Water Delivery',id:'W1',n:'Aqua Pure Amadeo',l:'💧',s:'Water Station',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'water',cn:'💧 Water Delivery',id:'W2',n:'Crystal Springs',l:'🌊',s:'Water Station',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'water',cn:'💧 Water Delivery',id:'W3',n:'Ice Factory Amadeo',l:'🧊',s:'Ice Delivery',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            
+            // GAS
+            {c:'gas',cn:'🔥 LPG / Cooking Gas',id:'G1',n:'Gasul Amadeo',l:'🔥',s:'Official Dealer',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'gas',cn:'🔥 LPG / Cooking Gas',id:'G2',n:'Solane Center',l:'🛢️',s:'Official Dealer',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'gas',cn:'🔥 LPG / Cooking Gas',id:'G3',n:'Total Gas Express',l:'⛽',s:'LPG Delivery',ph:'',ow:'',loc:'Maitim',st:'not-started',nt:'',pr:'MEDIUM'},
+            
+            // FOOD
+            {c:'food',cn:'🍲 Food & Grocery',id:'F1',n:"Lola's Kitchen",l:'🍳',s:'Home Cooked',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'food',cn:'🍲 Food & Grocery',id:'F2',n:'Bigas Express',l:'🍚',s:'Rice Dealer',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'food',cn:'🍲 Food & Grocery',id:'F3',n:'Fresh Eggs Farm',l:'🥚',s:'Poultry',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'food',cn:'🍲 Food & Grocery',id:'F4',n:'Amadeo Fresh Farm',l:'🥬',s:'Vegetables',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'food',cn:'🍲 Food & Grocery',id:'F5',n:'Amadeo Pharmacy',l:'💊',s:'Pharmacy',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'food',cn:'🍲 Food & Grocery',id:'F6',n:'Sweet Delights Bakery',l:'🎂',s:'Bakery',ph:'',ow:'',loc:'Halang',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'food',cn:'🍲 Food & Grocery',id:'F7',n:"Aling Rosa's Store",l:'🏪',s:'Sari-sari',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'food',cn:'🍲 Food & Grocery',id:'F8',n:'Kusina ni Juan Catering',l:'🍽️',s:'Catering',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            
+            // PLUMBING
+            {c:'plumbing',cn:'🚿 Plumbing',id:'P1',n:'Master Plumber Juan',l:'🔧',s:'Licensed Plumber',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'plumbing',cn:'🚿 Plumbing',id:'P2',n:'Quick Fix Plumbing',l:'🚿',s:'Plumbing',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'plumbing',cn:'🚿 Plumbing',id:'P3',n:'Water Pump Specialist',l:'💦',s:'Pump Repair',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'plumbing',cn:'🚿 Plumbing',id:'P4',n:'Tank Cleaning Pro',l:'🪣',s:'Tank Cleaning',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'LOW'},
+            
+            // ELECTRICAL
+            {c:'electrical',cn:'⚡ Electrical',id:'EL1',n:'Electrician Pro',l:'⚡',s:'Licensed Electrician',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'electrical',cn:'⚡ Electrical',id:'EL2',n:'Spark Electric',l:'💡',s:'Electrical',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'electrical',cn:'⚡ Electrical',id:'EL3',n:'Meralco Accredited',l:'🔌',s:'Meralco Services',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'electrical',cn:'⚡ Electrical',id:'EL4',n:'Solar Power Amadeo',l:'☀️',s:'Solar Installation',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'electrical',cn:'⚡ Electrical',id:'EL5',n:'GenSet Rental',l:'🔋',s:'Generator Rental',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'LOW'},
+            
+            // AIRCON
+            {c:'aircon',cn:'❄️ Aircon',id:'AC1',n:'Cool Tech Aircon',l:'❄️',s:'AC Specialist',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'aircon',cn:'❄️ Aircon',id:'AC2',n:'Aircon Doctor',l:'🩺',s:'AC Repair',ph:'',ow:'',loc:'Halang',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'aircon',cn:'❄️ Aircon',id:'AC3',n:'AC Install Express',l:'🔧',s:'AC Installation',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            
+            // CLEANING
+            {c:'cleaning',cn:'🧹 Cleaning',id:'CL1',n:'Sparkle Home Cleaning',l:'✨',s:'Professional Cleaning',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'cleaning',cn:'🧹 Cleaning',id:'CL2',n:'Maid For You',l:'🧹',s:'House Cleaning',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'cleaning',cn:'🧹 Cleaning',id:'CL3',n:'Sofa & Carpet Pro',l:'🛋️',s:'Upholstery',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'cleaning',cn:'🧹 Cleaning',id:'CL4',n:'Mattress Fresh',l:'🛏️',s:'Mattress Cleaning',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'LOW'},
+            {c:'cleaning',cn:'🧹 Cleaning',id:'CL5',n:'Post-Con Cleaners',l:'🏗️',s:'Post-Construction',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'LOW'},
+            
+            // LAUNDRY
+            {c:'laundry',cn:'👕 Laundry',id:'L1',n:'Fresh & Clean Laundry',l:'👕',s:'Full Service',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'laundry',cn:'👕 Laundry',id:'L2',n:'Sparkle Laundromat',l:'✨',s:'Laundromat',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'laundry',cn:'👕 Laundry',id:'L3',n:'Curtain & Bedding Care',l:'🪟',s:'Specialty',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'LOW'},
+            
+            // REPAIR
+            {c:'repair',cn:'🔧 Appliance Repair',id:'R1',n:'Appliance Repair Pro',l:'🔌',s:'Appliances',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'repair',cn:'🔧 Appliance Repair',id:'R2',n:'Ref Doctor',l:'❄️',s:'Refrigerator',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'repair',cn:'🔧 Appliance Repair',id:'R3',n:'Phone Fix Express',l:'📱',s:'Phone Repair',ph:'',ow:'',loc:'Halang',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'repair',cn:'🔧 Appliance Repair',id:'R4',n:'PC & Laptop Clinic',l:'💻',s:'Computer',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'repair',cn:'🔧 Appliance Repair',id:'R5',n:'Fix-It Electronics',l:'📺',s:'Electronics',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'LOW'},
+            
+            // PEST
+            {c:'pest',cn:'🪳 Pest & Septic',id:'PS1',n:'Pest Busters Cavite',l:'🪳',s:'Pest Control',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'pest',cn:'🪳 Pest & Septic',id:'PS2',n:'Bug-Off Exterminators',l:'🐜',s:'Pest Control',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'pest',cn:'🪳 Pest & Septic',id:'PS3',n:'Malabanan Amadeo',l:'🚛',s:'Septic',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'pest',cn:'🪳 Pest & Septic',id:'PS4',n:'Pozo Negro Express',l:'🪠',s:'Septic Pumping',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            
+            // CONSTRUCTION
+            {c:'construction',cn:'🔨 Construction',id:'C1',n:'Master Carpenter',l:'🪚',s:'Carpentry',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'construction',cn:'🔨 Construction',id:'C2',n:'Welding Works',l:'⚒️',s:'Welding',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'construction',cn:'🔨 Construction',id:'C3',n:'Paint Masters',l:'🎨',s:'Painting',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'construction',cn:'🔨 Construction',id:'C4',n:'Roof Fix Pro',l:'🏠',s:'Roofing',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'construction',cn:'🔨 Construction',id:'C5',n:'Tiles & Masonry',l:'🧱',s:'Tiles',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'construction',cn:'🔨 Construction',id:'C6',n:'Green Thumb Landscaping',l:'🌳',s:'Landscaping',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'LOW'},
+            
+            // HARDWARE
+            {c:'hardware',cn:'🔩 Hardware',id:'H1',n:'Amadeo Builders Hardware',l:'🏗️',s:'Construction Materials',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'hardware',cn:'🔩 Hardware',id:'H2',n:"Mang Tony's Hardware",l:'🔧',s:'Tools',ph:'',ow:'',loc:'Halang',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'hardware',cn:'🔩 Hardware',id:'H3',n:'Glass & Aluminum Works',l:'🪟',s:'Glass & Aluminum',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            
+            // VEHICLE
+            {c:'vehicle',cn:'🏍️ Vehicle',id:'V1',n:'RJ Motor Shop',l:'🏍️',s:'Motorcycle',ph:'',ow:'',loc:'Halang',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'vehicle',cn:'🏍️ Vehicle',id:'V2',n:'Auto Care Center',l:'🚗',s:'Car Repair',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'vehicle',cn:'🏍️ Vehicle',id:'V3',n:'Gulong Express',l:'🛞',s:'Vulcanizing',ph:'',ow:'',loc:'Dagatan',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'vehicle',cn:'🏍️ Vehicle',id:'V4',n:'Splash Car Wash',l:'🚿',s:'Car Wash',ph:'',ow:'',loc:'Halang',st:'not-started',nt:'',pr:'MEDIUM'},
+            
+            // TECH
+            {c:'tech',cn:'💻 Tech & Internet',id:'T1',n:'NetWorks Amadeo',l:'📶',s:'Internet',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'tech',cn:'💻 Tech & Internet',id:'T2',n:'CCTV Pro Install',l:'📹',s:'Security',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'tech',cn:'💻 Tech & Internet',id:'T3',n:'Printer Solutions',l:'🖨️',s:'Printer Repair',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'LOW'},
+            {c:'tech',cn:'💻 Tech & Internet',id:'T4',n:'Smart Home Amadeo',l:'🏠',s:'Smart Home',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'LOW'},
+            
+            // PERSONAL
+            {c:'personal',cn:'💇 Personal Care',id:'PR1',n:'Glow Up Salon',l:'💇‍♀️',s:'Salon',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'personal',cn:'💇 Personal Care',id:'PR2',n:"Mang Isko's Barbershop",l:'💈',s:'Barbershop',ph:'',ow:'',loc:'Halang',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'personal',cn:'💇 Personal Care',id:'PR3',n:'Healing Hands Massage',l:'💆',s:'Massage',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'personal',cn:'💇 Personal Care',id:'PR4',n:'Nail Art Studio',l:'💅',s:'Nails',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'MEDIUM'},
+            
+            // PET
+            {c:'pet',cn:'🐕 Pet Services',id:'PT1',n:'Pet Corner Amadeo',l:'🐕',s:'Pet Grooming',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'pet',cn:'🐕 Pet Services',id:'PT2',n:'Vets On Call',l:'🏥',s:'Veterinary',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'pet',cn:'🐕 Pet Services',id:'PT3',n:'Pet Food Delivery',l:'🦴',s:'Pet Supplies',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'LOW'},
+            
+            // BUSINESS
+            {c:'business',cn:'💼 Business Services',id:'B1',n:'Amadeo Print Shop',l:'🖨️',s:'Printing',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'business',cn:'💼 Business Services',id:'B2',n:'Bayad Center',l:'💳',s:'Bills Payment',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'business',cn:'💼 Business Services',id:'B3',n:'Pera Padala Hub',l:'💸',s:'Money Transfer',ph:'',ow:'',loc:'Poblacion',st:'not-started',nt:'',pr:'HIGH'},
+            {c:'business',cn:'💼 Business Services',id:'B4',n:'Master Tailor',l:'🧵',s:'Tailoring',ph:'',ow:'',loc:'Halang',st:'not-started',nt:'',pr:'LOW'},
+            {c:'business',cn:'💼 Business Services',id:'B5',n:'Lipat Bahay Express',l:'🚛',s:'Moving',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'},
+            {c:'business',cn:'💼 Business Services',id:'B6',n:'Event Rentals Amadeo',l:'🎪',s:'Event Rentals',ph:'',ow:'',loc:'All Amadeo',st:'not-started',nt:'',pr:'MEDIUM'}
+        ];
+
+        let f = 'all';
+
+        function render() {
+            stats();
+            const g = {};
+            M.forEach(m => {
+                if (f === 'all' || m.st === f || m.pr === f) {
+                    if (!g[m.c]) g[m.c] = { n: m.cn, m: [] };
+                    g[m.c].m.push(m);
+                }
+            });
+            
+            document.getElementById('list').innerHTML = Object.keys(g).map(c => `
+                <div class="cat-section">
+                    <div class="cat-header ${c === 'emergency' ? 'emergency' : ''}">
+                        <span class="cat-title">${g[c].n}</span>
+                        <span class="cat-count">${g[c].m.length}</span>
+                    </div>
+                    <table>
+                        <thead><tr><th>Business</th><th>Service</th><th>Owner</th><th>Phone</th><th>Location</th><th>Priority</th><th>Status</th><th>Notes</th></tr></thead>
+                        <tbody>
+                            ${g[c].m.map(m => `
+                                <tr>
+                                    <td><div class="prov-name"><div class="prov-logo">${m.l}</div>${m.n}</div></td>
+                                    <td>${m.s}</td>
+                                    <td><input class="input" value="${m.ow}" onchange="u('${m.id}','ow',this.value)" placeholder="Owner name"></td>
+                                    <td><input class="input" value="${m.ph}" onchange="u('${m.id}','ph',this.value)" placeholder="09XX XXX XXXX"></td>
+                                    <td>${m.loc}</td>
+                                    <td class="priority-${m.pr.toLowerCase()}">${m.pr}</td>
+                                    <td><select class="input" onchange="u('${m.id}','st',this.value)">
+                                        <option value="not-started" ${m.st==='not-started'?'selected':''}>Not Started</option>
+                                        <option value="contacted" ${m.st==='contacted'?'selected':''}>Contacted</option>
+                                        <option value="confirmed" ${m.st==='confirmed'?'selected':''}>Confirmed</option>
+                                        <option value="declined" ${m.st==='declined'?'selected':''}>Declined</option>
+                                    </select></td>
+                                    <td><input class="input" value="${m.nt}" onchange="u('${m.id}','nt',this.value)" placeholder="Notes..."></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `).join('');
+        }
+
+        function stats() {
+            document.getElementById('totalCount').textContent = M.length;
+            document.getElementById('notStartedCount').textContent = M.filter(m => m.st === 'not-started').length;
+            document.getElementById('contactedCount').textContent = M.filter(m => m.st === 'contacted').length;
+            document.getElementById('confirmedCount').textContent = M.filter(m => m.st === 'confirmed').length;
+            document.getElementById('declinedCount').textContent = M.filter(m => m.st === 'declined').length;
+        }
+
+        function u(id, field, val) {
+            const m = M.find(x => x.id === id);
+            if (m) { m[field] = val; if (field === 'st') render(); }
+        }
+
+        function filter(v, btn) {
+            f = v;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            render();
+        }
+
+        function exportCSV() {
+            const h = ['ID','Category','Business','Service','Owner','Phone','Location','Priority','Status','Notes'];
+            const r = M.map(m => [m.id,m.cn,m.n,m.s,m.ow,m.ph,m.loc,m.pr,m.st,m.nt]);
+            const csv = [h,...r].map(row => row.map(c => `"${c}"`).join(',')).join('\n');
+            const blob = new Blob([csv], {type:'text/csv'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'amadeo-merchants-'+new Date().toISOString().slice(0,10)+'.csv';
+            a.click();
+        }
+
+        function save() {
+            localStorage.setItem('amadeo_m_v2', JSON.stringify(M));
+            alert('✅ Saved!');
+        }
+
+        function load() {
+            const d = localStorage.getItem('amadeo_m_v2');
+            if (d) {
+                JSON.parse(d).forEach((s,i) => {
+                    if (M[i]) { M[i].ow = s.ow||''; M[i].ph = s.ph||''; M[i].st = s.st||'not-started'; M[i].nt = s.nt||''; }
+                });
+                render();
+                alert('✅ Loaded!');
+            }
+        }
+
+        render();
+    </script>
+</body>
+</html>

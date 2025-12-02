@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TYG Services presents Amadeo Verified Marketplace - Connect with verified local businesses in Amadeo, Cavite. Register as merchant or shop from trusted vendors.">
+    <title>TYG Services | Amadeo Verified Marketplace</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            background: #2c3e50;
+            color: white;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .contact-info-top {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .contact-info-top span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .contact-info-top i {
+            color: #52c234;
+        }
+        
+        /* Main Header */
+        header {
+            background: #fff;
+            padding: 1rem 0;
+            position: sticky;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            color: #52c234;
+        }
+        
+        .nav-cta a {
+            background: linear-gradient(135deg, #52c234 0%, #8BC34A 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        /* Hero Section - Marketplace Announcement */
+        .hero-marketplace {
+            background: linear-gradient(135deg, #52c234 0%, #8BC34A 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #52c234;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1.2rem 3rem;
+            border: 3px solid white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: #52c234;
+        }
+        
+        /* Problem Statement Section */
+        .problem-section {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+        }
+        
+        .problem-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .problem-content h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 3rem;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .problem-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .problem-card h3 {
+            color: #52c234;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .problem-card ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+        
+        .problem-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #666;
+        }
+        
+        .problem-card li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+        
+        /* Solution Section */
+        .solution-section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+        
+        .solution-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .solution-content h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .solution-content .tagline {
+            font-size: 1.5rem;
+            color: #52c234;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #52c234 0%, #8BC34A 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-card p {
+            color: #666;
+        }
+        
+        /* Registration Sections */
+        .registration-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, rgba(82, 194, 52, 0.05) 0%, rgba(139, 195, 74, 0.05) 100%);
+        }
+        
+        .registration-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .registration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+        }
+        
+        .registration-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .registration-card h3 {
+            font-size: 2rem;
+            color: #52c234;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .registration-card .card-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+        
+        .benefits-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #555;
+            font-size: 1.05rem;
+        }
+        
+        .benefits-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #52c234;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #52c234;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .file-upload-box {
+            border: 2px dashed #52c234;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(82, 194, 52, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-box:hover {
+            background: rgba(82, 194, 52, 0.1);
+        }
+        
+        .file-upload-box i {
+            font-size: 3rem;
+            color: #52c234;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-box p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-upload-box .file-note {
+            font-size: 0.9rem;
+            color: #999;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #52c234 0%, #8BC34A 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(82, 194, 52, 0.3);
+        }
+        
+        /* Marketplace Preview Section */
+        .marketplace-preview {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+        }
+        
+        .preview-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .category-card i {
+            font-size: 3rem;
+            color: #52c234;
+            margin-bottom: 1rem;
+        }
+        
+        .category-card h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-card .count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            padding: 5rem 2rem;
+            background: white;
+        }
+        
+        .how-it-works-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .step-card {
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #52c234 0%, #8BC34A 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+        
+        .step-card h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .step-card p {
+            color: #666;
+        }
+        
+        /* Trust Badges */
+        .trust-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #52c234 0%, #8BC34A 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .trust-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .trust-badges {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .trust-badge {
+            text-align: center;
+        }
+        
+        .trust-badge .badge-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .trust-badge p {
+            opacity: 0.95;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 3rem 2rem 1rem;
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Floating WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+            z-index: 999;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .registration-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info-top">
+                <span><i class="fas fa-phone"></i> 0997-260-3555</span>
+                <span><i class="fas fa-envelope"></i> tygfsb@gmail.com</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">TYG SERVICES</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#marketplace">Marketplace</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#register">Register</a></li>
+                    <li><a href="#browse">Browse</a></li>
+                    <li class="nav-cta">
+                        <a href="#register">Join Now</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-marketplace" id="marketplace">
+        <div class="hero-content">
+            <h1>Amadeo Verified Marketplace</h1>
+            <p class="subtitle">Tayo-Tayo Lang. Verified. Trusted. Local.</p>
+            <p>Connect with verified Amadeo businesses in 2 minutes. No more scrolling for hours. No more scammers. Just real businesses, real people, real trust.</p>
+            <div class="hero-buttons">
+                <a href="#merchant-register" class="btn-primary">
+                    <i class="fas fa-store"></i> Register as Merchant
+                </a>
+                <a href="#browse-marketplace" class="btn-secondary">
+                    <i class="fas fa-shopping-bag"></i> Browse Marketplace
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="problem-content">
+            <h2>Napapagod Na Tayong Lahat</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <h3>For Customers</h3>
+                    <ul>
+                        <li>2-3 hours scrolling Facebook marketplace</li>
+                        <li>Don't know who's legit, who's scammer</li>
+                        <li>Message 20 sellers, wait for replies</li>
+                        <li>End up ordering from Silang/Tagaytay</li>
+                        <li>"Available?" "Magkano?" "May delivery?"</li>
+                    </ul>
+                </div>
+                
+                <div class="problem-card">
+                    <h3>For Merchants</h3>
+                    <ul>
+                        <li>Lose customers to faraway sellers</li>
+                        <li>Hours wasted answering same questions</li>
+                        <li>Buried by scammers and fake listings</li>
+                        <li>No time for actual business work</li>
+                        <li>Hard to build trust online</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <div class="solution-content">
+            <h2>The Solution: Verified. Automated. Local.</h2>
+            <p class="tagline">Built by TYG Services - The team that manages ₱2M+ inventory systems</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Verified Only</h3>
+                    <p>Business permit required. Personal verification. No scammers.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Find in 2 Minutes</h3>
+                    <p>Search, compare, order. No more endless scrolling.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Amadeo First</h3>
+                    <p>Support local. Money stays in our community.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>Prices Upfront</h3>
+                    <p>See prices immediately. No "PM for price" nonsense.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Merchant Registration Section -->
+    <section class="registration-section" id="register">
+        <div class="registration-container">
+            <div class="section-title">
+                <h2>Register Your Business</h2>
+                <p>Join 20+ verified Amadeo merchants already on the platform</p>
+            </div>
+            
+            <div class="registration-grid">
+                <!-- Merchant Registration -->
+                <div class="registration-card" id="merchant-register">
+                    <h3><i class="fas fa-store"></i> Merchant Registration</h3>
+                    <p class="card-subtitle">FREE for the first 30 merchants</p>
+                    
+                    <ul class="benefits-list">
+                        <li>Amadeo Verified badge</li>
+                        <li>Local customers find you first</li>
+                        <li>Upload unlimited products & photos</li>
+                        <li>Set your own prices</li>
+                        <li>Auto-notifications for orders</li>
+                        <li>FREE for first 6 months</li>
+                    </ul>
+                    
+                    <form id="merchantRegistrationForm">
+                        <div class="form-group">
+                            <label>Business Name *</label>
+                            <input type="text" name="businessName" required placeholder="e.g., Aling Maria's Water Refilling">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select name="category" required>
+                                <option value="">Select category...</option>
+                                <option value="water">Water Delivery</option>
+                                <option value="food">Food & Restaurants</option>
+                                <option value="construction">Construction & Hardware</option>
+                                <option value="services">Home Services</option>
+                                <option value="retail">Retail & Shopping</option>
+                                <option value="health">Health & Wellness</option>
+                                <option value="agriculture">Agriculture & Farming</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Owner Name *</label>
+                            <input type="text" name="ownerName" required placeholder="Your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Mobile Number *</label>
+                            <input type="tel" name="mobileNumber" required placeholder="09XX-XXX-XXXX">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" name="email" required placeholder="your@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Business Address *</label>
+                            <textarea name="address" required placeholder="Complete address in Amadeo"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Brief Description *</label>
+                            <textarea name="description" required placeholder="What products/services do you offer?"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Business Permit Photo *</label>
+                            <div class="file-upload-box" onclick="document.getElementById('permitUpload').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p><strong>Click to upload</strong> or drag and drop</p>
+                                <p class="file-note">Business permit or DTI registration (JPG, PNG, PDF)</p>
+                                <input type="file" id="permitUpload" name="permit" accept="image/*,.pdf" style="display: none;">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-check-circle"></i> Submit Application
+                        </button>
+                        
+                        <p style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                            We'll verify and contact you within 3-5 days
+                        </p>
+                    </form>
+                </div>
+                
+                <!-- Customer Access -->
+                <div class="registration-card" id="browse-marketplace">
+                    <h3><i class="fas fa-shopping-bag"></i> Browse Marketplace</h3>
+                    <p class="card-subtitle">Find verified Amadeo businesses instantly</p>
+                    
+                    <ul class="benefits-list">
+                        <li>Search verified local businesses</li>
+                        <li>See prices upfront - no "PM"</li>
+                        <li>Check business hours & locations</li>
+                        <li>Read reviews from locals</li>
+                        <li>Order directly from merchants</li>
+                        <li>100% FREE to use</li>
+                    </ul>
+                    
+                    <div style="margin: 2rem 0; padding: 2rem; background: rgba(82, 194, 52, 0.05); border-radius: 10px; text-align: center;">
+                        <i class="fas fa-rocket" style="font-size: 3rem; color: #52c234; margin-bottom: 1rem;"></i>
+                        <h4 style="color: #333; margin-bottom: 1rem;">Coming Soon!</h4>
+                        <p style="color: #666; margin-bottom: 1.5rem;">We're onboarding merchants now. Be the first to know when we launch!</p>
+                        
+                        <form id="earlyAccessForm">
+                            <div class="form-group">
+                                <input type="text" name="name" required placeholder="Your name">
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" name="mobile" required placeholder="Mobile number">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" required placeholder="Email address">
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-bell"></i> Notify Me at Launch
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 10px;">
+                        <h4 style="color: #333; margin-bottom: 1rem; text-align: center;">
+                            <i class="fas fa-search"></i> What You'll Find:
+                        </h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; font-size: 0.95rem;">
+                            <div><i class="fas fa-tint" style="color: #52c234;"></i> Water Delivery</div>
+                            <div><i class="fas fa-utensils" style="color: #52c234;"></i> Food & Catering</div>
+                            <div><i class="fas fa-tools" style="color: #52c234;"></i> Construction</div>
+                            <div><i class="fas fa-home" style="color: #52c234;"></i> Home Services</div>
+                            <div><i class="fas fa-shopping-cart" style="color: #52c234;"></i> Retail & Shops</div>
+                            <div><i class="fas fa-heartbeat" style="color: #52c234;"></i> Health & Wellness</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Upload Preview Section (For Merchants) -->
+    <section style="padding: 5rem 2rem; background: white;" id="add-products">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div class="section-title">
+                <h2>Easy Product Management</h2>
+                <p>After verification, you'll get access to your merchant dashboard</p>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 3rem; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
+                <h3 style="color: #52c234; margin-bottom: 2rem; text-align: center;">
+                    <i class="fas fa-plus-circle"></i> Add Product Preview
+                </h3>
+                
+                <form>
+                    <div class="form-group">
+                        <label>Product Name *</label>
+                        <input type="text" placeholder="e.g., Premium Distilled Water (5 gallons)" disabled>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Price *</label>
+                        <input type="number" placeholder="₱ 120" disabled>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Product Description</label>
+                        <textarea placeholder="Describe your product..." disabled></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Product Photos (Up to 5)</label>
+                        <div class="file-upload-box">
+                            <i class="fas fa-images"></i>
+                            <p><strong>Upload product photos</strong></p>
+                            <p class="file-note">Clear photos help customers trust your products</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Stock Status</label>
+                        <select disabled>
+                            <option>In Stock</option>
+                            <option>Out of Stock</option>
+                            <option>Limited Stock</option>
+                        </select>
+                    </div>
+                    
+                    <button type="button" class="submit-btn" disabled style="opacity: 0.6;">
+                        <i class="fas fa-lock"></i> Available After Merchant Verification
+                    </button>
+                </form>
+                
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(82, 194, 52, 0.1); border-radius: 10px; border-left: 4px solid #52c234;">
+                    <strong style="color: #52c234;">Once verified, you can:</strong>
+                    <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                        <li>Add unlimited products</li>
+                        <li>Upload multiple photos per product</li>
+                        <li>Update prices anytime</li>
+                        <li>Manage stock levels</li>
+                        <li>Track orders & customer inquiries</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="how-it-works-container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Simple. Fast. Effective.</p>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Register</h4>
+                    <p>Submit your business info & permit. Takes 10 minutes.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Get Verified</h4>
+                    <p>We verify your business. Get approved in 3-5 days.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Add Products</h4>
+                    <p>Upload products, photos, and prices to your profile.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Get Customers</h4>
+                    <p>Local customers find you instantly. Receive orders.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust-section">
+        <div class="trust-container">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Built by TYG Services</h2>
+            <p style="font-size: 1.2rem; opacity: 0.95; margin-bottom: 3rem;">The team that manages ₱2M+ inventory systems for The Gold Blessing</p>
+            
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <div class="badge-number">₱2M+</div>
+                    <p>Monthly Inventory Managed</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="badge-number">100K+</div>
+                    <p>Transactions Automated</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="badge-number">3+</div>
+                    <p>Businesses Automated</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="badge-number">FREE</div>
+                    <p>First 6 Months</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3 style="margin-bottom: 1rem;">TYG Services</h3>
+            <p style="margin-bottom: 1rem;">Amadeo Verified Marketplace</p>
+            <p>
+                <i class="fas fa-phone"></i> 0997-260-3555 | 
+                <i class="fas fa-envelope"></i> tygfsb@gmail.com
+            </p>
+            <p style="margin-top: 2rem; opacity: 0.7;">&copy; 2024 TYG Services. All Rights Reserved.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">SVC Amadeo, Cavite</p>
+        </div>
+    </footer>
+    
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/639972603555?text=Hi!%20I'm%20interested%20in%20Amadeo%20Verified%20Marketplace" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Form Submission Handlers
+        document.getElementById('merchantRegistrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // TODO: Replace with your actual Google Apps Script Web App URL
+            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+            
+            const formData = new FormData(this);
+            
+            // Show loading state
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            submitBtn.disabled = true;
+            
+            // Send to Google Sheets via Apps Script
+            fetch(scriptURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('🎉 Application submitted successfully! We\'ll contact you within 3-5 days for verification.');
+                this.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Thank you for submitting! We\'ll contact you soon.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+        
+        document.getElementById('earlyAccessForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing up...';
+            
+            // TODO: Add your early access signup logic here
+            
+            setTimeout(() => {
+                alert('🎉 You\'re on the list! We\'ll notify you when we launch.');
+                this.reset();
+                submitBtn.innerHTML = originalText;
+            }, 1000);
+        });
+        
+        // File upload preview
+        document.getElementById('permitUpload').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name;
+            if (fileName) {
+                const uploadBox = this.closest('.file-upload-box');
+                uploadBox.querySelector('p strong').textContent = fileName;
+                uploadBox.style.borderColor = '#52c234';
+                uploadBox.style.background = 'rgba(82, 194, 52, 0.1)';
+            }
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

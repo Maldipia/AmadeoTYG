@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print QR Handouts - Amadeo Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        .print-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .controls button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .controls button.primary {
+            background: #1a472a;
+            color: white;
+        }
+
+        .controls button.secondary {
+            background: #e8f5e9;
+            color: #1a472a;
+        }
+
+        /* A4 Page with 4 QR cards */
+        .print-page {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 10mm;
+            margin: 0 auto 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 10mm;
+        }
+
+        .qr-card {
+            border: 2px dashed #ccc;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .qr-card .logo {
+            font-size: 30px;
+            margin-bottom: 5px;
+        }
+
+        .qr-card h2 {
+            color: #1a472a;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .qr-card .tagline {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .qr-card img {
+            margin-bottom: 10px;
+        }
+
+        .qr-card .scan-text {
+            background: #1a472a;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .qr-card .url {
+            font-family: monospace;
+            font-size: 9px;
+            color: #1a472a;
+            background: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .qr-card .features {
+            display: flex;
+            gap: 10px;
+            font-size: 18px;
+        }
+
+        .qr-card .powered {
+            font-size: 8px;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        /* Business Card Size */
+        .print-page.business-cards {
+            grid-template-columns: repeat(2, 85mm);
+            grid-template-rows: repeat(5, 55mm);
+            gap: 5mm;
+            padding: 5mm 20mm;
+        }
+
+        .print-page.business-cards .qr-card {
+            padding: 8px;
+        }
+
+        .print-page.business-cards .qr-card .logo {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .print-page.business-cards .qr-card h2 {
+            font-size: 10px;
+        }
+
+        .print-page.business-cards .qr-card .tagline {
+            font-size: 7px;
+            margin-bottom: 5px;
+        }
+
+        .print-page.business-cards .qr-card img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .print-page.business-cards .qr-card .scan-text {
+            font-size: 8px;
+            padding: 3px 10px;
+        }
+
+        .print-page.business-cards .qr-card .url {
+            font-size: 7px;
+            padding: 3px 6px;
+            margin-bottom: 5px;
+        }
+
+        .print-page.business-cards .qr-card .features {
+            font-size: 12px;
+            gap: 5px;
+        }
+
+        .print-page.business-cards .qr-card .powered {
+            font-size: 6px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .controls {
+                display: none;
+            }
+
+            .print-page {
+                box-shadow: none;
+                margin: 0;
+                page-break-after: always;
+            }
+
+            .qr-card {
+                border: 1px dashed #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-container">
+        <div class="controls">
+            <button class="primary" onclick="window.print()">🖨️ Print Handouts</button>
+            <button class="secondary" onclick="toggleSize()">📐 Switch Size</button>
+            <span style="color: #666; font-size: 13px;">Currently: <strong id="sizeLabel">4 per page (Large)</strong></span>
+        </div>
+
+        <!-- Large Format: 4 per A4 page -->
+        <div class="print-page" id="printPage">
+            <!-- Card 1 -->
+            <div class="qr-card">
+                <div class="logo">🏠</div>
+                <h2>Amadeo Marketplace</h2>
+                <p class="tagline">Ang Online Palengke ng Amadeo</p>
+                <img src="https://chart.googleapis.com/chart?cht=qr&chs=120x120&chl=https://amadeomarketplace.com&choe=UTF-8" alt="QR">
+                <div class="scan-text">📱 SCAN TO VISIT</div>
+                <div class="url">amadeomarketplace.com</div>
+                <div class="features">🛒 📍 🚚</div>
+                <div class="powered">Powered by TYG Services</div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="qr-card">
+                <div class="logo">🏠</div>
+                <h2>Amadeo Marketplace</h2>
+                <p class="tagline">Ang Online Palengke ng Amadeo</p>
+                <img src="https://chart.googleapis.com/chart?cht=qr&chs=120x120&chl=https://amadeomarketplace.com&choe=UTF-8" alt="QR">
+                <div class="scan-text">📱 SCAN TO VISIT</div>
+                <div class="url">amadeomarketplace.com</div>
+                <div class="features">🛒 📍 🚚</div>
+                <div class="powered">Powered by TYG Services</div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="qr-card">
+                <div class="logo">🏠</div>
+                <h2>Amadeo Marketplace</h2>
+                <p class="tagline">Ang Online Palengke ng Amadeo</p>
+                <img src="https://chart.googleapis.com/chart?cht=qr&chs=120x120&chl=https://amadeomarketplace.com&choe=UTF-8" alt="QR">
+                <div class="scan-text">📱 SCAN TO VISIT</div>
+                <div class="url">amadeomarketplace.com</div>
+                <div class="features">🛒 📍 🚚</div>
+                <div class="powered">Powered by TYG Services</div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="qr-card">
+                <div class="logo">🏠</div>
+                <h2>Amadeo Marketplace</h2>
+                <p class="tagline">Ang Online Palengke ng Amadeo</p>
+                <img src="https://chart.googleapis.com/chart?cht=qr&chs=120x120&chl=https://amadeomarketplace.com&choe=UTF-8" alt="QR">
+                <div class="scan-text">📱 SCAN TO VISIT</div>
+                <div class="url">amadeomarketplace.com</div>
+                <div class="features">🛒 📍 🚚</div>
+                <div class="powered">Powered by TYG Services</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isBusinessCard = false;
+
+        function toggleSize() {
+            const page = document.getElementById('printPage');
+            const label = document.getElementById('sizeLabel');
+            
+            isBusinessCard = !isBusinessCard;
+            
+            if (isBusinessCard) {
+                page.classList.add('business-cards');
+                label.textContent = '10 per page (Business Card)';
+                
+                // Add more cards for business card layout
+                const cardHTML = page.innerHTML;
+                page.innerHTML = cardHTML + cardHTML + cardHTML.replace(/Card \d/g, '');
+            } else {
+                page.classList.remove('business-cards');
+                label.textContent = '4 per page (Large)';
+                
+                // Reset to 4 cards
+                const cards = page.querySelectorAll('.qr-card');
+                for (let i = 4; i < cards.length; i++) {
+                    cards[i].remove();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
