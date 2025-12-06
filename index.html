@@ -50,7 +50,7 @@
         .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
         .grid.svc{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
         .grid.stay{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
-        .card{background:#fff;border-radius:var(--rd);overflow:hidden;box-shadow:var(--sh);transition:transform .2s}
+        .card{background:#fff;border-radius:var(--rd);overflow:hidden;box-shadow:var(--sh);transition:transform .2s;contain:layout style paint}
         .card:hover{transform:translateY(-4px)}
         .card-img{height:140px;background:linear-gradient(135deg,#ccfbf1,#99f6e4);position:relative;overflow:hidden}
         .card-img img{width:100%;height:100%;object-fit:cover}
@@ -170,90 +170,1052 @@
         .partners{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
         .partners a{background:rgba(255,255,255,.1);padding:5px 10px;border-radius:12px;font-size:11px;color:#fff;text-decoration:none}
         .ftr-btm{border-top:1px solid rgba(255,255,255,.1);padding-top:15px;font-size:11px;opacity:.8}
-        @media(max-width:768px){.hdr-in{flex-wrap:wrap}.srch{order:3;flex:100%;margin-top:8px}.hero h1{font-size:24px}.stats{gap:20px}.stat .n{font-size:22px}.tab{padding:12px 14px;font-size:12px}.tab span:not(.i){display:none}.grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}.card-img{height:110px}.card-body{padding:10px}.card-name{font-size:12px;height:32px}.card-price{font-size:15px}.fg-row{grid-template-columns:1fr}.pay-opts{grid-template-columns:repeat(2,1fr)}.ftr-grid{grid-template-columns:1fr 1fr}}
+        @media(max-width:768px){
+            .hdr-in{flex-wrap:wrap}.srch{order:3;flex:100%;margin-top:8px}
+            .hero h1{font-size:24px}.stats{gap:20px}.stat .n{font-size:22px}
+            .tab{padding:12px 14px;font-size:12px}.tab span:not(.i){display:none}
+            .grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+            .card-img{height:110px}.card-body{padding:10px}.card-name{font-size:12px;height:32px}.card-price{font-size:15px}
+            .fg-row{grid-template-columns:1fr}.pay-opts{grid-template-columns:repeat(2,1fr)}.ftr-grid{grid-template-columns:1fr 1fr}
+        }
         @media(max-width:480px){.nav a:not(.cart-btn){display:none}.grid{grid-template-columns:1fr 1fr}}
     </style>
 </head>
 <body>
     <header class="hdr"><div class="hdr-in"><div class="logo"><a href="/">🏪 Amadeo Market</a></div><div class="srch"><input type="text" id="search" placeholder="Search products, services, stays..." oninput="debounceSearch(this.value)"></div><nav class="nav"><a href="/merchant-register">Sell</a><a href="#" class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-c" id="cartCount">0</span></a><a href="/login" id="loginLink">Login</a></nav></div></header>
-    <div class="tabs"><div class="tabs-in"><button class="tab on" data-tab="products"><span class="i">🛍️</span><span>Products</span></button><button class="tab" data-tab="services"><span class="i">🔧</span><span>Services</span><span class="badge" id="svcBadge">0</span></button><button class="tab" data-tab="stays"><span class="i">🏡</span><span>Stays</span><span class="badge" id="stayBadge">0</span></button></div></div>
+    <div class="tabs"><div class="tabs-in"><button class="tab on" data-tab="products"><span class="i">🛍️</span><span>Products</span></button><button class="tab" data-tab="services"><span class="i">🔧</span><span>Services</span><span class="badge" id="svcBadge">6</span></button><button class="tab" data-tab="stays"><span class="i">🏡</span><span>Stays</span><span class="badge" id="stayBadge">6</span></button></div></div>
     
-    <section id="products" class="section"><div class="hero prod"><h1>Shop Local, Support Amadeo</h1><p>Fresh products from your neighbors. Fast delivery within Amadeo.</p><div class="stats"><div class="stat"><div class="n" id="prodCount">0</div><div class="l">Products</div></div><div class="stat"><div class="n" id="shopCount">0</div><div class="l">Shops</div></div><div class="stat"><div class="n">24</div><div class="l">Barangays</div></div></div></div><div class="cats"><div class="cats-in" id="prodCats"></div></div><div class="wrap"><div class="grid" id="prodGrid"><div class="loading"><div class="spinner"></div><p>Loading...</p></div></div></div></section>
+    <section id="products" class="section">
+        <div class="hero prod"><h1>Shop Local, Support Amadeo</h1><p>Fresh products from your neighbors. Fast delivery within Amadeo.</p><div class="stats"><div class="stat"><div class="n" id="prodCount">0</div><div class="l">Products</div></div><div class="stat"><div class="n" id="shopCount">0</div><div class="l">Shops</div></div><div class="stat"><div class="n">24</div><div class="l">Barangays</div></div></div></div>
+        <div class="cats"><div class="cats-in" id="prodCats"></div></div>
+        <div class="wrap"><div class="grid" id="prodGrid"><div class="loading"><div class="spinner"></div><p>Loading...</p></div></div></div>
+    </section>
     
-    <section id="services" class="section hide"><div class="hero svc"><h1>Book Local Services</h1><p>Professional services from trusted Amadeo providers.</p><div class="stats"><div class="stat"><div class="n" id="svcCount">0</div><div class="l">Services</div></div><div class="stat"><div class="n" id="provCount">0</div><div class="l">Providers</div></div><div class="stat"><div class="n">11</div><div class="l">Categories</div></div></div></div><div class="cats"><div class="cats-in" id="svcCats"></div></div><div class="wrap"><div class="grid svc" id="svcGrid"><div class="loading"><div class="spinner"></div><p>Loading services...</p></div></div></div></section>
+    <section id="services" class="section hide">
+        <div class="hero svc"><h1>Book Local Services</h1><p>Professional services from trusted Amadeo providers.</p><div class="stats"><div class="stat"><div class="n" id="svcCount">6</div><div class="l">Services</div></div><div class="stat"><div class="n" id="provCount">6</div><div class="l">Providers</div></div><div class="stat"><div class="n">11</div><div class="l">Categories</div></div></div></div>
+        <div class="cats"><div class="cats-in" id="svcCats"></div></div>
+        <div class="wrap"><div class="grid svc" id="svcGrid"><div class="loading"><div class="spinner"></div><p>Loading services...</p></div></div></div>
+    </section>
     
-    <section id="stays" class="section hide"><div class="hero stay"><h1>Find Unique Stays</h1><p>Private pools, rest houses, resorts in beautiful Amadeo.</p><div class="stats"><div class="stat"><div class="n" id="propCount">0</div><div class="l">Properties</div></div><div class="stat"><div class="n" id="hostCount">0</div><div class="l">Hosts</div></div><div class="stat"><div class="n">5★</div><div class="l">Top Rated</div></div></div></div><div class="cats"><div class="cats-in" id="stayCats"></div></div><div class="wrap"><div class="grid stay" id="stayGrid"><div class="loading"><div class="spinner"></div><p>Loading stays...</p></div></div></div></section>
+    <section id="stays" class="section hide">
+        <div class="hero stay"><h1>Find Unique Stays</h1><p>Private pools, rest houses, resorts in beautiful Amadeo.</p><div class="stats"><div class="stat"><div class="n" id="propCount">6</div><div class="l">Properties</div></div><div class="stat"><div class="n" id="hostCount">6</div><div class="l">Hosts</div></div><div class="stat"><div class="n">5★</div><div class="l">Top Rated</div></div></div></div>
+        <div class="cats"><div class="cats-in" id="stayCats"></div></div>
+        <div class="wrap"><div class="grid stay" id="stayGrid"><div class="loading"><div class="spinner"></div><p>Loading properties...</p></div></div></div>
+    </section>
     
     <div class="overlay" id="overlay" onclick="toggleCart()"></div>
     <div class="cart-side" id="cartSide"><div class="cart-hdr"><h3>🛒 Your Cart</h3><button class="close" onclick="toggleCart()">×</button></div><div class="cart-items" id="cartItems"><div class="cart-empty"><div class="i">🛒</div><p>Empty</p></div></div><div class="cart-ft hide" id="cartFt"><div class="cart-row"><span>Subtotal</span><span id="cartSub">₱0</span></div><div class="cart-row"><span>Delivery</span><span>₱50</span></div><div class="cart-row total"><span>Total</span><span id="cartTot">₱0</span></div><button class="btn btn-p" style="margin-top:10px" onclick="checkout()">Checkout</button></div></div>
     
     <!-- CHECKOUT MODAL -->
-    <div class="modal-bg" id="checkoutModal"><div class="modal"><div class="modal-hdr"><h2>Checkout</h2><button class="close" onclick="closeModal('checkoutModal')">×</button></div><div class="modal-body"><form id="checkoutForm" onsubmit="submitOrder(event)"><h4 style="margin-bottom:10px;color:var(--g7);font-size:13px">📦 Customer Info</h4><div class="fg-row"><div class="fg"><label>Full Name *</label><input type="text" id="custName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="custPhone" required></div></div><div class="fg"><label>Email</label><input type="email" id="custEmail"></div><h4 style="margin:14px 0 10px;color:var(--g7);font-size:13px">🚚 Delivery</h4><div class="fg"><label>Barangay *</label><select id="custBrgy" required><option value="">Select</option><option>Barangay I (Poblacion)</option><option>Barangay II (Poblacion)</option><option>Barangay III (Poblacion)</option><option>Barangay IV (Poblacion)</option><option>Barangay V (Poblacion)</option><option>Barangay VI (Poblacion)</option><option>Barangay VII (Poblacion)</option><option>Barangay VIII (Poblacion)</option><option>Banaybanay</option><option>Buho</option><option>Dagatan</option><option>Halang</option><option>Loma</option><option>Lucsuhin</option><option>Magallanes</option><option>Maymangga</option><option>Minantok Kanluran</option><option>Minantok Silangan</option><option>Pangil</option><option>Salaban</option><option>Talon</option><option>Tamacan</option><option>Tibig</option><option>Ulo</option></select></div><div class="fg"><label>Complete Address *</label><textarea id="custAddr" rows="2" required></textarea></div><h4 style="margin:14px 0 10px;color:var(--g7);font-size:13px">💳 Payment Method</h4><div class="pay-opts"><div class="pay-opt sel" onclick="selPay('cod')"><div class="i">💵</div><div class="nm">COD</div><div class="fee">Cash</div></div><div class="pay-opt" onclick="selPay('gcash')"><div class="i">📱</div><div class="nm">GCash</div><div class="fee">Instant</div></div><div class="pay-opt" onclick="selPay('maya')"><div class="i">💳</div><div class="nm">Maya</div><div class="fee">Instant</div></div><div class="pay-opt" onclick="selPay('bank')"><div class="i">🏦</div><div class="nm">Bank</div><div class="fee">Transfer</div></div></div><div id="paymentSection" class="hide"><div class="order-ref-box"><div class="lbl">📋 Your Order Reference</div><div class="ref" id="orderRefDisplay">AMV-00000000-0000</div><div class="note">Save this! Include in your payment reference.</div></div><div id="gcashPay" class="pay-section gcash hide"><div class="qr-container"><p class="pay-instruct">Scan QR or send to:</p><img id="gcashQR" alt="GCash QR"><div class="acc-name">TYG Services</div><div class="acc-num">0966 960 6060</div><button type="button" class="copy-btn" onclick="copyNum('09669606060')">📋 Copy Number</button></div></div><div id="mayaPay" class="pay-section maya hide"><div class="qr-container"><p class="pay-instruct">Scan QR or send to:</p><img id="mayaQR" alt="Maya QR"><div class="acc-name">TYG Services</div><div class="acc-num">0966 960 6060</div><button type="button" class="copy-btn" onclick="copyNum('09669606060')">📋 Copy Number</button></div></div><div id="bankPay" class="pay-section bank hide"><div class="bank-tabs"><button type="button" class="bank-tab sel" onclick="showBank('bdo')">BDO</button><button type="button" class="bank-tab" onclick="showBank('bpi')">BPI</button></div><div id="bdoContent" class="bank-content show"><div class="qr-container"><img id="bdoQR" alt="BDO QR"><div class="acc-name">TYG Services</div><div class="acc-num">0066 7890 1234</div><button type="button" class="copy-btn" onclick="copyNum('006678901234')">📋 Copy</button></div></div><div id="bpiContent" class="bank-content"><div class="qr-container"><img id="bpiQR" alt="BPI QR"><div class="acc-name">TYG Services</div><div class="acc-num">1234 5678 90</div><button type="button" class="copy-btn" onclick="copyNum('1234567890')">📋 Copy</button></div></div></div><div class="fg"><label>Amount to Pay</label><div style="font-size:24px;font-weight:700;color:var(--p);text-align:center;padding:10px;background:var(--g1);border-radius:8px" id="amountToPay">₱0</div></div><div class="fg"><label>Upload Payment Screenshot *</label><label class="upload" id="uploadLabel"><div class="i">📷</div><p style="font-size:12px">Click to upload proof of payment</p><input type="file" id="screenshot" accept="image/*" onchange="handleUpload(this)"></label><div id="screenshotPreview"></div></div></div><div class="summary"><h4>📋 Order Summary</h4><div id="checkoutItems"></div><div class="sum-row"><span>Subtotal</span><span id="chkSub">₱0</span></div><div class="sum-row"><span>Delivery Fee</span><span>₱50</span></div><div class="sum-row total"><span>Total</span><span id="chkTot">₱0</span></div></div><button type="submit" class="btn btn-p" id="orderBtn">Place Order</button></form></div></div></div>
+    <div class="modal-bg" id="checkoutModal"><div class="modal"><div class="modal-hdr"><h2>Checkout</h2><button class="close" onclick="closeModal('checkoutModal')">×</button></div><div class="modal-body"><form id="checkoutForm" onsubmit="submitOrder(event)">
+        <h4 style="margin-bottom:10px;color:var(--g7);font-size:13px">📦 Customer Info</h4>
+        <div class="fg-row"><div class="fg"><label>Full Name *</label><input type="text" id="custName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="custPhone" required></div></div>
+        <div class="fg"><label>Email</label><input type="email" id="custEmail"></div>
+        <h4 style="margin:14px 0 10px;color:var(--g7);font-size:13px">🚚 Delivery</h4>
+        <div class="fg"><label>Barangay *</label><select id="custBrgy" required><option value="">Select</option><option>Barangay I (Poblacion)</option><option>Barangay II (Poblacion)</option><option>Barangay III (Poblacion)</option><option>Barangay IV (Poblacion)</option><option>Barangay V (Poblacion)</option><option>Barangay VI (Poblacion)</option><option>Barangay VII (Poblacion)</option><option>Barangay VIII (Poblacion)</option><option>Banaybanay</option><option>Buho</option><option>Dagatan</option><option>Halang</option><option>Loma</option><option>Lucsuhin</option><option>Magallanes</option><option>Maymangga</option><option>Minantok Kanluran</option><option>Minantok Silangan</option><option>Pangil</option><option>Salaban</option><option>Talon</option><option>Tamacan</option><option>Tibig</option><option>Ulo</option></select></div>
+        <div class="fg"><label>Complete Address *</label><textarea id="custAddr" rows="2" required></textarea></div>
+        <h4 style="margin:14px 0 10px;color:var(--g7);font-size:13px">💳 Payment Method</h4>
+        <div class="pay-opts">
+            <div class="pay-opt sel" onclick="selPay('cod')"><div class="i">💵</div><div class="nm">COD</div><div class="fee">Cash</div></div>
+            <div class="pay-opt" onclick="selPay('gcash')"><div class="i">📱</div><div class="nm">GCash</div><div class="fee">Instant</div></div>
+            <div class="pay-opt" onclick="selPay('maya')"><div class="i">💳</div><div class="nm">Maya</div><div class="fee">Instant</div></div>
+            <div class="pay-opt" onclick="selPay('bank')"><div class="i">🏦</div><div class="nm">Bank</div><div class="fee">Transfer</div></div>
+        </div>
+        <div id="paymentSection" class="hide">
+            <div class="order-ref-box"><div class="lbl">📋 Your Order Reference</div><div class="ref" id="orderRefDisplay">AMV-00000000-0000</div><div class="note">Save this! Include in your payment reference.</div></div>
+            <div id="gcashPay" class="pay-section gcash hide"><div class="qr-container"><p class="pay-instruct">Scan QR or send to:</p><img id="gcashQR" alt="GCash QR"><div class="acc-name">TYG Services</div><div class="acc-num">0966 960 6060</div><button type="button" class="copy-btn" onclick="copyNum('09669606060')">📋 Copy Number</button></div></div>
+            <div id="mayaPay" class="pay-section maya hide"><div class="qr-container"><p class="pay-instruct">Scan QR or send to:</p><img id="mayaQR" alt="Maya QR"><div class="acc-name">TYG Services</div><div class="acc-num">0966 960 6060</div><button type="button" class="copy-btn" onclick="copyNum('09669606060')">📋 Copy Number</button></div></div>
+            <div id="bankPay" class="pay-section bank hide"><div class="bank-tabs"><button type="button" class="bank-tab sel" onclick="showBank('bdo')">BDO</button><button type="button" class="bank-tab" onclick="showBank('bpi')">BPI</button></div><div id="bdoContent" class="bank-content show"><div class="qr-container"><img id="bdoQR" alt="BDO QR"><div class="acc-name">TYG Services</div><div class="acc-num">0066 7890 1234</div><button type="button" class="copy-btn" onclick="copyNum('006678901234')">📋 Copy</button></div></div><div id="bpiContent" class="bank-content"><div class="qr-container"><img id="bpiQR" alt="BPI QR"><div class="acc-name">TYG Services</div><div class="acc-num">1234 5678 90</div><button type="button" class="copy-btn" onclick="copyNum('1234567890')">📋 Copy</button></div></div></div>
+            <div class="fg"><label>Amount to Pay</label><div style="font-size:24px;font-weight:700;color:var(--p);text-align:center;padding:10px;background:var(--g1);border-radius:8px" id="amountToPay">₱0</div></div>
+            <div class="fg"><label>Upload Payment Screenshot *</label><label class="upload" id="uploadLabel"><div class="i">📷</div><p style="font-size:12px">Click to upload proof of payment</p><input type="file" id="screenshot" accept="image/*" onchange="handleUpload(this)"></label><div id="screenshotPreview"></div></div>
+        </div>
+        <div class="summary"><h4>📋 Order Summary</h4><div id="checkoutItems"></div><div class="sum-row"><span>Subtotal</span><span id="chkSub">₱0</span></div><div class="sum-row"><span>Delivery Fee</span><span>₱50</span></div><div class="sum-row total"><span>Total</span><span id="chkTot">₱0</span></div></div>
+        <button type="submit" class="btn btn-p" id="orderBtn">Place Order</button>
+    </form></div></div></div>
     
     <!-- SERVICE BOOKING MODAL -->
-    <div class="modal-bg" id="svcModal"><div class="modal"><div class="modal-hdr"><h2>Book Service</h2><button class="close" onclick="closeModal('svcModal')">×</button></div><div class="modal-body"><form id="svcBookingForm" onsubmit="submitSvcBooking(event)"><div id="svcDetails"></div><div class="fg-row" style="margin-top:12px"><div class="fg"><label>Your Name *</label><input type="text" id="bookName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="bookPhone" required></div></div><div class="fg"><label>Email</label><input type="email" id="bookEmail"></div><div class="fg"><label>Preferred Date *</label><input type="date" id="svcDate" required></div><div class="fg"><label>Preferred Time *</label><input type="hidden" id="selTime"><div class="time-slots" id="timeSlots"></div></div><div class="fg"><label>Service Location</label><select id="svcLoc" onchange="toggleSvcAddr()"><option value="home">🏠 Home Service</option><option value="shop">🏪 Visit Shop</option></select></div><div class="fg" id="svcAddrField"><label>Your Address</label><textarea id="svcAddr" rows="2" placeholder="Complete address for home service"></textarea></div><div class="fg"><label>Barangay</label><select id="svcBrgy"><option value="">Select</option><option>Barangay I (Poblacion)</option><option>Barangay II (Poblacion)</option><option>Barangay III (Poblacion)</option><option>Barangay IV (Poblacion)</option><option>Barangay V (Poblacion)</option><option>Barangay VI (Poblacion)</option><option>Barangay VII (Poblacion)</option><option>Barangay VIII (Poblacion)</option><option>Banaybanay</option><option>Buho</option><option>Dagatan</option><option>Halang</option><option>Loma</option><option>Lucsuhin</option><option>Magallanes</option><option>Maymangga</option><option>Minantok Kanluran</option><option>Minantok Silangan</option><option>Pangil</option><option>Salaban</option><option>Talon</option><option>Tamacan</option><option>Tibig</option><option>Ulo</option></select></div><div class="fg"><label>Notes</label><textarea id="svcNotes" rows="2" placeholder="Special requests or instructions"></textarea></div><div class="summary"><h4>Booking Summary</h4><div class="sum-row"><span>Service</span><span id="bookSvc">-</span></div><div class="sum-row"><span>Provider</span><span id="bookProv">-</span></div><div class="sum-row"><span>Service Fee (10%)</span><span id="bookFee">₱0</span></div><div class="sum-row total"><span>Total</span><span id="bookTot">₱0</span></div></div><button type="submit" class="btn btn-p" id="svcBookBtn">Confirm Booking</button></form></div></div></div>
+    <div class="modal-bg" id="svcModal"><div class="modal"><div class="modal-hdr"><h2>Book Service</h2><button class="close" onclick="closeModal('svcModal')">×</button></div><div class="modal-body"><form onsubmit="submitSvcBooking(event)">
+        <div id="svcDetails"></div>
+        <div class="fg-row" style="margin-top:12px"><div class="fg"><label>Your Name *</label><input type="text" id="bookName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="bookPhone" required></div></div>
+        <div class="fg"><label>Email</label><input type="email" id="bookEmail"></div>
+        <div class="fg"><label>Preferred Date *</label><input type="date" id="svcDate" required></div>
+        <div class="fg"><label>Preferred Time *</label><input type="hidden" id="selTime"><div class="time-slots" id="timeSlots"></div></div>
+        <div class="fg"><label>Service Location</label><select id="svcLoc" onchange="toggleSvcAddr()"><option value="home">🏠 Home Service</option><option value="shop">🏪 Visit Shop</option></select></div>
+        <div class="fg" id="svcAddrDiv"><label>Barangay</label><select id="svcBrgy"><option value="">Select</option><option>Dagatan</option><option>Halang</option><option>Maymangga</option><option>Poblacion</option><option>Tibig</option></select></div>
+        <div class="fg"><label>Address / Notes</label><textarea id="svcAddress" rows="2" placeholder="Complete address or special instructions"></textarea></div>
+        <div class="summary"><h4>Booking Summary</h4><div class="sum-row"><span>Service</span><span id="bookSvc">-</span></div><div class="sum-row"><span>Provider</span><span id="bookProv">-</span></div><div class="sum-row"><span>Duration</span><span id="bookDur">-</span></div><div class="sum-row"><span>Service Fee (10%)</span><span id="bookFee">₱0</span></div><div class="sum-row total"><span>Total</span><span id="bookTot">₱0</span></div></div>
+        <button type="submit" class="btn btn-p">Confirm Booking</button>
+    </form></div></div></div>
     
     <!-- STAY BOOKING MODAL -->
-    <div class="modal-bg" id="stayModal"><div class="modal"><div class="modal-hdr"><h2>Book Stay</h2><button class="close" onclick="closeModal('stayModal')">×</button></div><div class="modal-body"><form id="stayBookingForm" onsubmit="submitStayBooking(event)"><div id="stayDetails"></div><div class="fg-row" style="margin-top:12px"><div class="fg"><label>Guest Name *</label><input type="text" id="guestName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="guestPhone" required></div></div><div class="fg"><label>Email</label><input type="email" id="guestEmail"></div><div class="fg"><label>Booking Type</label><select id="stayType" onchange="calcStay()"><option value="overnight">🌙 Overnight</option><option value="dayuse">☀️ Day Use (8AM-5PM)</option></select></div><div class="fg-row"><div class="fg"><label>Check-in *</label><input type="date" id="checkIn" required onchange="calcStay()"></div><div class="fg"><label>Check-out *</label><input type="date" id="checkOut" required onchange="calcStay()"></div></div><div class="fg"><label>Number of Guests *</label><input type="number" id="numGuests" min="1" max="150" value="2" onchange="calcStay()"></div><div class="fg"><label>Special Requests</label><textarea id="stayNotes" rows="2" placeholder="Any special requests or requirements"></textarea></div><div class="summary"><h4>Booking Summary</h4><div class="sum-row"><span>Property</span><span id="stayProp">-</span></div><div class="sum-row"><span>Host</span><span id="stayHost">-</span></div><div class="sum-row"><span id="nightsLabel">Nights</span><span id="stayNights">0</span></div><div class="sum-row"><span>Accommodation</span><span id="stayAccom">₱0</span></div><div class="sum-row"><span>Cleaning Fee</span><span id="stayCln">₱0</span></div><div class="sum-row"><span>Service Fee (12%)</span><span id="stayFee">₱0</span></div><div class="sum-row total"><span>Total</span><span id="stayTot">₱0</span></div></div><button type="submit" class="btn btn-p" id="stayBookBtn">Request Booking</button></form></div></div></div>
+    <div class="modal-bg" id="stayModal"><div class="modal"><div class="modal-hdr"><h2>Book Stay</h2><button class="close" onclick="closeModal('stayModal')">×</button></div><div class="modal-body"><form onsubmit="submitStayBooking(event)">
+        <div id="stayDetails"></div>
+        <div class="fg-row" style="margin-top:12px"><div class="fg"><label>Guest Name *</label><input type="text" id="guestName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="guestPhone" required></div></div>
+        <div class="fg"><label>Email</label><input type="email" id="guestEmail"></div>
+        <div class="fg"><label>Booking Type</label><select id="stayType" onchange="calcStay()"><option value="overnight">🌙 Overnight</option><option value="dayuse">☀️ Day Use (8AM-5PM)</option></select></div>
+        <div class="fg-row"><div class="fg"><label>Check-in *</label><input type="date" id="checkIn" required onchange="calcStay()"></div><div class="fg"><label>Check-out *</label><input type="date" id="checkOut" required onchange="calcStay()"></div></div>
+        <div class="fg"><label>Number of Guests *</label><input type="number" id="numGuests" min="1" value="2" onchange="calcStay()"></div>
+        <div class="fg"><label>Special Requests</label><textarea id="stayNotes" rows="2" placeholder="Any special requests..."></textarea></div>
+        <div class="summary"><h4>Booking Summary</h4><div class="sum-row"><span>Property</span><span id="stayProp">-</span></div><div class="sum-row"><span>Host</span><span id="stayHost">-</span></div><div class="sum-row"><span id="nightsLabel">Nights</span><span id="stayNights">0</span></div><div class="sum-row"><span>Accommodation</span><span id="stayAccom">₱0</span></div><div class="sum-row"><span>Cleaning Fee</span><span id="stayCln">₱0</span></div><div class="sum-row"><span>Service Fee (12%)</span><span id="stayFee">₱0</span></div><div class="sum-row total"><span>Total</span><span id="stayTot">₱0</span></div></div>
+        <button type="submit" class="btn btn-p">Request Booking</button>
+    </form></div></div></div>
     
     <footer class="ftr"><div class="ftr-in"><div class="ftr-grid"><div class="ftr-col"><h4>🏪 Amadeo Marketplace</h4><a href="#">About Us</a><a href="#">How It Works</a><a href="#">Become a Seller</a><a href="#">Contact</a></div><div class="ftr-col"><h4>Shop</h4><a href="#">Products</a><a href="#">Services</a><a href="#">Stays</a><a href="#">Deals</a></div><div class="ftr-col"><h4>Support</h4><a href="#">Help Center</a><a href="#">Order Tracking</a><a href="#">Returns</a><a href="#">FAQs</a></div><div class="ftr-col"><h4>Connect</h4><a href="#">📱 0966 960 6060</a><a href="#">✉️ hello@amadeo.market</a><a href="#">📍 Amadeo, Cavite</a></div></div><div class="partners"><span style="opacity:.6">TYG Family:</span><a href="https://tyg-services.com">TYG Services</a><a href="https://thegoldblessing.com">The Gold Blessing</a><a href="https://soleblessing.com">Sole Blessing</a><a href="https://ast3r.store">AST3R Fashion</a><a href="https://luntian.net">Luntian</a></div><div class="ftr-btm">© 2024 Amadeo Marketplace by TYG Services. All rights reserved.</div></div></footer>
 
 <script>
-const API='https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
-const QR_IMAGES={gcash:'https://lh3.googleusercontent.com/d/1ABC123',maya:'https://lh3.googleusercontent.com/d/1DEF456',bdo:'https://lh3.googleusercontent.com/d/1GHI789',bpi:'https://lh3.googleusercontent.com/d/1JKL012'};
-let products=[],merchants={},cart=JSON.parse(localStorage.getItem('cart')||'[]');
-let services=[],servicesLoaded=false,properties=[],propertiesLoaded=false;
-let curTab='products',curCat='all',selPayment='cod',screenshot='',screenshotFile=null;
-let selService=null,selStay=null,selTime='',searchTimer=null,currentOrderRef='';
-const PROD_CATS=[{id:'all',n:'All',i:'🏷️'},{id:'Food & Beverages',n:'Food',i:'🍔'},{id:'Fresh Produce',n:'Fresh',i:'🥬'},{id:'Groceries',n:'Groceries',i:'🛒'},{id:'Health & Beauty',n:'Beauty',i:'💄'},{id:'Home & Living',n:'Home',i:'🏠'},{id:'Fashion',n:'Fashion',i:'👗'},{id:'Electronics',n:'Electronics',i:'📱'},{id:'Plants',n:'Plants',i:'🌱'}];
-const SVC_CATS=[{id:'all',n:'All',i:'🏷️'},{id:'Laundry',n:'Laundry',i:'🧺'},{id:'Beauty',n:'Beauty',i:'💅'},{id:'Massage',n:'Massage',i:'💆'},{id:'Home Repair',n:'Repairs',i:'🔨'},{id:'Cleaning',n:'Cleaning',i:'🧹'},{id:'Automotive',n:'Auto',i:'🚗'},{id:'Tech',n:'Tech',i:'💻'},{id:'Pet',n:'Pet',i:'🐕'},{id:'Events',n:'Events',i:'🎉'},{id:'Tutoring',n:'Tutoring',i:'📚'}];
-const STAY_CATS=[{id:'all',n:'All',i:'🏷️'},{id:'Private Pool',n:'Pools',i:'🏊'},{id:'Rest House',n:'Rest House',i:'🏡'},{id:'Resort',n:'Resorts',i:'🏨'},{id:'Farm Stay',n:'Farm',i:'🌾'},{id:'Cabin',n:'Cabins',i:'🛖'},{id:'Venue',n:'Venues',i:'🎪'}];
-const SVC_ICONS={Laundry:'🧺',Beauty:'💅',Massage:'💆','Home Repair':'🔨',Cleaning:'🧹',Automotive:'🚗',Tech:'💻',Pet:'🐕',Events:'🎉',Tutoring:'📚'};
-const STAY_ICONS={'Private Pool':'🏊','Rest House':'🏡',Resort:'🏨','Farm Stay':'🌾',Cabin:'🛖',Venue:'🎪'};
-const FALLBACK_SERVICES=[{id:'SVC001',name:'Premium Wash & Fold',category:'Laundry',provider:'Linis Express',price:150,unit:'/kg',duration:'1-2 days',serviceType:'Home Service',barangay:'Poblacion',rating:4.8,reviewCount:45},{id:'SVC002',name:'Haircut & Styling',category:'Beauty',provider:'Ganda Mo Salon',price:250,unit:'',duration:'1 hour',serviceType:'Shop Service',barangay:'Halang',rating:4.7,reviewCount:32},{id:'SVC003',name:'Full Body Massage',category:'Massage',provider:'Healing Hands Spa',price:500,unit:'/hr',duration:'1.5 hours',serviceType:'Home Service',barangay:'Dagatan',rating:4.9,reviewCount:78},{id:'SVC004',name:'Aircon Cleaning',category:'Home Repair',provider:'Cool Tech Services',price:800,unit:'/unit',duration:'2 hours',serviceType:'Home Service',barangay:'Maymangga',rating:4.6,reviewCount:23},{id:'SVC005',name:'House Deep Cleaning',category:'Cleaning',provider:'Sparkle Clean Co',price:2500,unit:'',duration:'4 hours',serviceType:'Home Service',barangay:'Tibig',rating:4.8,reviewCount:56},{id:'SVC006',name:'Pet Grooming',category:'Pet',provider:'Happy Paws Amadeo',price:450,unit:'',duration:'2 hours',serviceType:'Shop Service',barangay:'Halang',rating:4.9,reviewCount:89}];
-const FALLBACK_PROPERTIES=[{id:'PROP001',name:'Mountain View Private Pool',type:'Private Pool',host:'Juan Reyes',barangay:'Dagatan',maxGuests:15,bedrooms:3,bathrooms:2,regularRate:5000,weekendRate:6000,cleaningFee:500,amenities:'Pool,Parking,Grill,Videoke,WiFi',rating:4.9,reviewCount:45},{id:'PROP002',name:'Hilltop Pool Villa',type:'Private Pool',host:'Maria Santos',barangay:'Halang',maxGuests:20,bedrooms:4,bathrooms:3,regularRate:6000,weekendRate:7500,cleaningFee:600,amenities:'Pool,Parking,Kitchen,AC,WiFi',rating:4.8,reviewCount:32},{id:'PROP003',name:'Cozy Farm Cabin',type:'Farm Stay',host:'Pedro Dela Cruz',barangay:'Halang',maxGuests:6,bedrooms:2,bathrooms:1,regularRate:2500,weekendRate:3000,cleaningFee:300,amenities:'Parking,Kitchen,Garden,Grill',rating:4.7,reviewCount:28},{id:'PROP004',name:'Luntian Log Cabin',type:'Cabin',host:'TYG Family',barangay:'Dagatan',maxGuests:8,bedrooms:2,bathrooms:1,regularRate:3000,weekendRate:3500,cleaningFee:300,amenities:'Parking,Kitchen,Garden,Grill,WiFi',rating:4.9,reviewCount:67},{id:'PROP005',name:'Amadeo Garden Resort',type:'Resort',host:'Amadeo Resort Corp',barangay:'Maymangga',maxGuests:50,bedrooms:10,bathrooms:5,regularRate:800,weekendRate:1000,cleaningFee:0,amenities:'Pool,Parking,Restaurant,WiFi,AC',rating:4.5,reviewCount:124},{id:'PROP006',name:'Grand Function Hall',type:'Venue',host:'Events Amadeo',barangay:'Poblacion',maxGuests:150,bedrooms:0,bathrooms:4,regularRate:15000,weekendRate:18000,cleaningFee:1000,amenities:'Parking,AC,Sound System,Catering',rating:4.6,reviewCount:45}];
-document.addEventListener('DOMContentLoaded',()=>{initTabs();renderCats();loadProducts();updateCart();checkLogin();setMinDates();initTimeSlots();document.getElementById('gcashQR').src=QR_IMAGES.gcash;document.getElementById('mayaQR').src=QR_IMAGES.maya;document.getElementById('bdoQR').src=QR_IMAGES.bdo;document.getElementById('bpiQR').src=QR_IMAGES.bpi;});
-function setMinDates(){const t=new Date().toISOString().split('T')[0];document.querySelectorAll('input[type="date"]').forEach(i=>i.min=t)}
-function initTimeSlots(){document.getElementById('timeSlots').innerHTML=['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00'].map(t=>`<div class="time-slot" onclick="pickTime('${t}')">${fmtTime(t)}</div>`).join('')}
-function fmtTime(t){const h=+t.split(':')[0];return h<12?`${h} AM`:h===12?'12 PM':`${h-12} PM`}
-function generateOrderRef(){const now=new Date();const date=now.toISOString().slice(0,10).replace(/-/g,'');const time=now.getTime().toString().slice(-4);return `AMV-${date}-${time}`;}
-function initTabs(){document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>switchTab(t.dataset.tab))}
-function switchTab(tab){curTab=tab;curCat='all';document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===tab));document.querySelectorAll('.section').forEach(s=>s.classList.toggle('hide',s.id!==tab));window.scrollTo({top:0,behavior:'smooth'});renderCats();if(tab==='services'&&!servicesLoaded)loadServices();else if(tab==='stays'&&!propertiesLoaded)loadProperties();}
-function renderCats(){const c=curTab==='products'?PROD_CATS:curTab==='services'?SVC_CATS:STAY_CATS;const id=curTab==='products'?'prodCats':curTab==='services'?'svcCats':'stayCats';document.getElementById(id).innerHTML=c.map(x=>`<button class="cat${x.id===curCat?' on':''}" onclick="filterCat('${x.id}')">${x.i} ${x.n}</button>`).join('')}
-function filterCat(cat){curCat=cat;renderCats();if(curTab==='products')renderProducts();else if(curTab==='services')renderServices();else renderStays();}
-async function loadProducts(){try{const[p,m]=await Promise.all([fetch(`${API}?action=getAllInventory`),fetch(`${API}?action=getMerchants`)]);const pd=await p.json(),md=await m.json();if(pd.success){products=pd.data||[];document.getElementById('prodCount').textContent=products.length}if(md.success){md.data.forEach(x=>merchants[x.MerchantId]=x);document.getElementById('shopCount').textContent=md.data.length}renderProducts()}catch(e){document.getElementById('prodGrid').innerHTML='<div class="empty"><div class="i">😕</div><h3>Error</h3></div>'}}
-function renderProducts(){const g=document.getElementById('prodGrid');let list=curCat==='all'?products:products.filter(p=>p.Category&&p.Category.includes(curCat));if(!list.length){g.innerHTML='<div class="empty"><div class="i">📦</div><h3>No products</h3></div>';return}g.innerHTML=list.map(p=>{const m=merchants[p.MerchantId]||{},img=p.Image||p.ImageUrl||'',stk=p.available||p.StockLevel||999;const pickup=p.offersPickup||m.offersPickup;const delivery=p.offersDelivery||m.offersDelivery;const badges=(pickup?'<span class="f-badge pickup">🏪 Pickup</span>':'')+(delivery?'<span class="f-badge delivery">🚚 Delivery</span>':'');return`<div class="card"><div class="card-img">${img?`<img src="${img}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=ph>📦</div>'">`:'<div class="ph">📦</div>'}${stk>0&&stk<=5?'<span class="card-badge">Low</span>':''}</div><div class="card-body"><div class="card-shop">${m.BusinessName||p.merchantName||'Local Shop'}</div><div class="card-name">${p.Name}</div><div class="fulfill-opts">${badges||'<span class="f-badge pickup">🏪 Pickup</span>'}</div><div class="card-meta"><span class="stars">★★★★★</span></div><div class="card-price">₱${(+p.Price).toLocaleString()}</div><button class="btn btn-p" onclick="addCart('${p.ProductId}')" ${stk<=0?'disabled':''}>${stk>0?'Add to Cart':'Out'}</button></div></div>`}).join('')}
-async function loadServices(){const grid=document.getElementById('svcGrid');grid.innerHTML='<div class="loading"><div class="spinner"></div><p>Loading services...</p></div>';try{const response=await fetch(`${API}?action=getServices`);const result=await response.json();if(result.success&&result.data&&result.data.length>0){services=result.data;servicesLoaded=true;document.getElementById('svcCount').textContent=services.length;document.getElementById('svcBadge').textContent=services.length;const providers=[...new Set(services.map(s=>s.ProviderId||s.ProviderName))];document.getElementById('provCount').textContent=providers.length;renderServices();}else{services=FALLBACK_SERVICES;servicesLoaded=true;document.getElementById('svcCount').textContent=services.length;document.getElementById('svcBadge').textContent=services.length;document.getElementById('provCount').textContent=6;renderServices();}}catch(error){services=FALLBACK_SERVICES;servicesLoaded=true;renderServices();}}
-function renderServices(){const g=document.getElementById('svcGrid');let list=services.map(s=>({id:s.ServiceId||s.id,name:s.Name||s.name,category:s.Category||s.category,provider:s.ProviderName||s.provider,providerId:s.ProviderId||s.providerId||'',price:s.Price||s.price,unit:s.Unit||s.unit||'',duration:s.Duration||s.duration||'',serviceType:s.ServiceType||s.serviceType||'Home Service',barangay:s.Barangay||s.barangay||'Amadeo',rating:s.Rating||s.rating||4.5,reviewCount:s.ReviewCount||s.reviewCount||0}));if(curCat!=='all')list=list.filter(s=>s.category===curCat);if(!list.length){g.innerHTML='<div class="empty"><div class="i">🔧</div><h3>No services found</h3></div>';return}g.innerHTML=list.map(s=>{const icon=SVC_ICONS[s.category]||'🔧';const isHome=s.serviceType.toLowerCase().includes('home');const isShop=s.serviceType.toLowerCase().includes('shop')||!isHome;return`<div class="card"><div class="card-img"><div class="ph">${icon}</div></div><div class="card-body"><div class="card-shop">${s.provider}</div><div class="card-name">${s.name}</div><div class="svc-info"><span class="svc-dur">⏱️ ${s.duration||'Varies'}</span><span class="stars">★ ${s.rating.toFixed(1)} (${s.reviewCount})</span></div><div class="svc-type">${isHome?'<span class="home">🏠 Home</span>':''}${isShop?'<span class="shop">🏪 Shop</span>':''}</div><div class="card-price">₱${(+s.price).toLocaleString()}<span class="unit">${s.unit}</span></div><button class="btn btn-p" onclick="bookSvc('${s.id}')">Book</button></div></div>`}).join('')}
-async function loadProperties(){const grid=document.getElementById('stayGrid');grid.innerHTML='<div class="loading"><div class="spinner"></div><p>Loading stays...</p></div>';try{const response=await fetch(`${API}?action=getProperties`);const result=await response.json();if(result.success&&result.data&&result.data.length>0){properties=result.data;propertiesLoaded=true;document.getElementById('propCount').textContent=properties.length;document.getElementById('stayBadge').textContent=properties.length;const hosts=[...new Set(properties.map(p=>p.HostId||p.HostName))];document.getElementById('hostCount').textContent=hosts.length;renderStays();}else{properties=FALLBACK_PROPERTIES;propertiesLoaded=true;document.getElementById('propCount').textContent=properties.length;document.getElementById('stayBadge').textContent=properties.length;document.getElementById('hostCount').textContent=6;renderStays();}}catch(error){properties=FALLBACK_PROPERTIES;propertiesLoaded=true;renderStays();}}
-function renderStays(){const g=document.getElementById('stayGrid');let list=properties.map(p=>({id:p.PropertyId||p.id,name:p.Name||p.name,type:p.Type||p.type,host:p.HostName||p.host,hostId:p.HostId||p.hostId||'',barangay:p.Barangay||p.barangay||'Amadeo',maxGuests:p.MaxGuests||p.maxGuests||10,bedrooms:p.Bedrooms||p.bedrooms||2,bathrooms:p.Bathrooms||p.bathrooms||1,regularRate:p.RegularRate||p.regularRate||p.price||3000,weekendRate:p.WeekendRate||p.weekendRate||0,cleaningFee:p.CleaningFee||p.cleaningFee||500,amenities:p.Amenities||p.amenities||'',rating:p.Rating||p.rating||4.5,reviewCount:p.ReviewCount||p.reviewCount||0}));if(curCat!=='all')list=list.filter(p=>p.type===curCat);if(!list.length){g.innerHTML='<div class="empty"><div class="i">🏡</div><h3>No stays found</h3></div>';return}g.innerHTML=list.map(p=>{const icon=STAY_ICONS[p.type]||'🏠';const amenList=typeof p.amenities==='string'?p.amenities.split(','):(p.amenities||[]);return`<div class="card"><div class="card-img"><div class="ph">${icon}</div></div><div class="card-body"><div class="card-shop">📍 ${p.barangay}</div><div class="card-name">${p.name}</div><div class="stay-feat"><span>👥 ${p.maxGuests}</span><span>🛏️ ${p.bedrooms}</span><span>🚿 ${p.bathrooms}</span></div><div class="card-meta"><span class="stars">★ ${p.rating.toFixed(1)} (${p.reviewCount})</span></div><div class="stay-amen">${amenList.slice(0,3).join(' • ')}</div><div class="card-price">₱${p.regularRate.toLocaleString()}<span class="unit">/night</span></div><button class="btn btn-p" onclick="bookStay('${p.id}')">Book</button></div></div>`}).join('')}
-function bookSvc(id){selService=services.find(s=>(s.ServiceId||s.id)===id);if(!selService)selService=FALLBACK_SERVICES.find(s=>s.id===id);if(!selService)return;const svc={id:selService.ServiceId||selService.id,name:selService.Name||selService.name,category:selService.Category||selService.category,provider:selService.ProviderName||selService.provider,providerId:selService.ProviderId||selService.providerId||'',price:selService.Price||selService.price,unit:selService.Unit||selService.unit||'',duration:selService.Duration||selService.duration||''};document.getElementById('svcDetails').innerHTML=`<div style="background:var(--g1);padding:10px;border-radius:8px"><h3 style="color:var(--p);font-size:15px;margin-bottom:4px">${svc.name}</h3><p style="color:var(--g5);font-size:12px">${svc.category} • ${svc.duration||'Varies'}</p></div>`;const serviceFee=Math.round(svc.price*0.10);const total=svc.price+serviceFee;document.getElementById('bookSvc').textContent=svc.name;document.getElementById('bookProv').textContent=svc.provider;document.getElementById('bookFee').textContent=`₱${serviceFee.toLocaleString()}`;document.getElementById('bookTot').textContent=`₱${total.toLocaleString()}`;document.getElementById('svcModal').classList.add('on');autoFill();}
-function pickTime(t){selTime=t;document.querySelectorAll('.time-slot').forEach(s=>s.classList.toggle('sel',s.textContent===fmtTime(t)));document.getElementById('selTime').value=t}
-function toggleSvcAddr(){document.getElementById('svcAddrField').style.display=document.getElementById('svcLoc').value==='home'?'block':'none'}
-async function submitSvcBooking(e){e.preventDefault();if(!selTime){alert('Please select a preferred time');return}const btn=document.getElementById('svcBookBtn');btn.disabled=true;btn.textContent='Booking...';try{const svc={id:selService.ServiceId||selService.id,name:selService.Name||selService.name,provider:selService.ProviderName||selService.provider,providerId:selService.ProviderId||selService.providerId||'',price:selService.Price||selService.price};const serviceFee=Math.round(svc.price*0.10);const total=svc.price+serviceFee;const data={action:'createServiceBooking',serviceId:svc.id,serviceName:svc.name,providerId:svc.providerId,providerName:svc.provider,customerName:document.getElementById('bookName').value,customerPhone:document.getElementById('bookPhone').value,customerEmail:document.getElementById('bookEmail').value||'',bookingDate:document.getElementById('svcDate').value,bookingTime:selTime,address:document.getElementById('svcAddr').value||'',barangay:document.getElementById('svcBrgy').value||'',notes:document.getElementById('svcNotes').value||'',price:svc.price,serviceFee:serviceFee,total:total};const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});const result=await res.json();if(result.success){closeModal('svcModal');alert(`✅ Service Booked!\n\n📋 Booking ID: ${result.bookingId||'Pending'}\n🔧 ${svc.name}\n📅 ${data.bookingDate} at ${fmtTime(selTime)}\n💰 Total: ₱${total.toLocaleString()}\n\nThe provider will contact you to confirm.`);document.getElementById('svcBookingForm').reset();selService=null;selTime='';}else{throw new Error(result.error||'Booking failed');}}catch(err){alert('Booking submitted!\n\n'+(selService.Name||selService.name)+'\n'+document.getElementById('svcDate').value);closeModal('svcModal');}finally{btn.disabled=false;btn.textContent='Confirm Booking';}}
-function bookStay(id){selStay=properties.find(p=>(p.PropertyId||p.id)===id);if(!selStay)selStay=FALLBACK_PROPERTIES.find(p=>p.id===id);if(!selStay)return;const prop={id:selStay.PropertyId||selStay.id,name:selStay.Name||selStay.name,host:selStay.HostName||selStay.host,hostId:selStay.HostId||selStay.hostId||'',barangay:selStay.Barangay||selStay.barangay,maxGuests:selStay.MaxGuests||selStay.maxGuests||10,regularRate:selStay.RegularRate||selStay.regularRate||3000,weekendRate:selStay.WeekendRate||selStay.weekendRate||0,cleaningFee:selStay.CleaningFee||selStay.cleaningFee||500};document.getElementById('stayDetails').innerHTML=`<div style="background:var(--g1);padding:10px;border-radius:8px"><h3 style="color:var(--p);font-size:15px;margin-bottom:4px">${prop.name}</h3><p style="color:var(--g5);font-size:12px">📍 ${prop.barangay} • Up to ${prop.maxGuests} guests</p></div>`;document.getElementById('stayProp').textContent=prop.name;document.getElementById('stayHost').textContent=prop.host;document.getElementById('stayCln').textContent=`₱${prop.cleaningFee.toLocaleString()}`;document.getElementById('numGuests').max=prop.maxGuests;document.getElementById('stayModal').classList.add('on');autoFill();calcStay();}
-function calcStay(){if(!selStay)return;const prop={regularRate:selStay.RegularRate||selStay.regularRate||3000,weekendRate:selStay.WeekendRate||selStay.weekendRate||0,cleaningFee:selStay.CleaningFee||selStay.cleaningFee||500};const inD=new Date(document.getElementById('checkIn').value);const outD=new Date(document.getElementById('checkOut').value);const type=document.getElementById('stayType').value;let nights=0,accom=0;if(type==='dayuse'){nights=1;accom=Math.round(prop.regularRate*0.6);document.getElementById('nightsLabel').textContent='Day Use';document.getElementById('stayNights').textContent='1 day';}else if(inD&&outD&&outD>inD){nights=Math.ceil((outD-inD)/(1000*60*60*24));if(prop.weekendRate){for(let d=new Date(inD);d<outD;d.setDate(d.getDate()+1)){const day=d.getDay();const isWeekend=day===0||day===5||day===6;accom+=isWeekend?prop.weekendRate:prop.regularRate;}}else{accom=nights*prop.regularRate;}document.getElementById('nightsLabel').textContent='Nights';document.getElementById('stayNights').textContent=`${nights} night${nights>1?'s':''}`;}const fee=Math.round(accom*0.12);const tot=accom+prop.cleaningFee+fee;document.getElementById('stayAccom').textContent=`₱${accom.toLocaleString()}`;document.getElementById('stayFee').textContent=`₱${fee.toLocaleString()}`;document.getElementById('stayTot').textContent=`₱${tot.toLocaleString()}`;}
-async function submitStayBooking(e){e.preventDefault();const checkIn=document.getElementById('checkIn').value;const checkOut=document.getElementById('checkOut').value;if(!checkIn||!checkOut){alert('Please select check-in and check-out dates');return}const btn=document.getElementById('stayBookBtn');btn.disabled=true;btn.textContent='Booking...';try{const prop={id:selStay.PropertyId||selStay.id,name:selStay.Name||selStay.name,host:selStay.HostName||selStay.host,hostId:selStay.HostId||selStay.hostId||'',regularRate:selStay.RegularRate||selStay.regularRate||3000,weekendRate:selStay.WeekendRate||selStay.weekendRate||0,cleaningFee:selStay.CleaningFee||selStay.cleaningFee||500};const inD=new Date(checkIn);const outD=new Date(checkOut);const type=document.getElementById('stayType').value;const guests=parseInt(document.getElementById('numGuests').value)||2;let nights=0,accom=0;if(type==='dayuse'){nights=1;accom=Math.round(prop.regularRate*0.6);}else{nights=Math.ceil((outD-inD)/(1000*60*60*24));if(prop.weekendRate){for(let d=new Date(inD);d<outD;d.setDate(d.getDate()+1)){const day=d.getDay();const isWeekend=day===0||day===5||day===6;accom+=isWeekend?prop.weekendRate:prop.regularRate;}}else{accom=nights*prop.regularRate;}}const fee=Math.round(accom*0.12);const tot=accom+prop.cleaningFee+fee;const data={action:'createStayBooking',propertyId:prop.id,propertyName:prop.name,hostId:prop.hostId,hostName:prop.host,customerName:document.getElementById('guestName').value,customerPhone:document.getElementById('guestPhone').value,customerEmail:document.getElementById('guestEmail').value||'',checkIn:checkIn,checkOut:checkOut,guests:guests,nights:nights,bookingType:type,nightlyTotal:accom,cleaningFee:prop.cleaningFee,serviceFee:fee,total:tot,notes:document.getElementById('stayNotes').value||'',paymentMethod:'pending'};const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});const result=await res.json();if(result.success){closeModal('stayModal');alert(`✅ Booking Requested!\n\n📋 Booking ID: ${result.bookingId||'Pending'}\n🏡 ${prop.name}\n📅 ${checkIn} to ${checkOut}\n👥 ${guests} guests\n💰 Total: ₱${tot.toLocaleString()}\n\nThe host will confirm your booking soon.`);document.getElementById('stayBookingForm').reset();selStay=null;}else{throw new Error(result.error||'Booking failed');}}catch(err){alert('Booking submitted!\n\n'+(selStay.Name||selStay.name)+'\nCheck-in: '+checkIn);closeModal('stayModal');}finally{btn.disabled=false;btn.textContent='Request Booking';}}
-function debounceSearch(q){clearTimeout(searchTimer);searchTimer=setTimeout(()=>doSearch(q),300)}
-function doSearch(q){q=q.toLowerCase().trim();if(!q){if(curTab==='products')renderProducts();else if(curTab==='services')renderServices();else renderStays();return}if(curTab==='products'){const orig=products;products=products.filter(p=>p.Name.toLowerCase().includes(q));renderProducts();products=orig;}else if(curTab==='services'){const orig=services;services=services.filter(s=>{const name=(s.Name||s.name||'').toLowerCase();const cat=(s.Category||s.category||'').toLowerCase();return name.includes(q)||cat.includes(q);});renderServices();services=orig;}else{const orig=properties;properties=properties.filter(p=>{const name=(p.Name||p.name||'').toLowerCase();const loc=(p.Barangay||p.barangay||'').toLowerCase();return name.includes(q)||loc.includes(q);});renderStays();properties=orig;}}
-function addCart(id){const p=products.find(x=>x.ProductId===id);if(!p)return;const item=cart.find(x=>x.id===id);if(item)item.qty++;else cart.push({id,name:p.Name,price:p.Price,qty:1,mid:p.MerchantId,img:p.Image||p.ImageUrl});saveCart();updateCart();notify('Added!')}
-function rmCart(id){cart=cart.filter(x=>x.id!==id);saveCart();updateCart()}
-function updQty(id,d){const item=cart.find(x=>x.id===id);if(!item)return;item.qty+=d;if(item.qty<=0){rmCart(id);return}saveCart();updateCart()}
-function saveCart(){localStorage.setItem('cart',JSON.stringify(cart))}
-function updateCart(){const cnt=cart.reduce((s,i)=>s+i.qty,0);document.getElementById('cartCount').textContent=cnt;const el=document.getElementById('cartItems'),ft=document.getElementById('cartFt');if(!cart.length){el.innerHTML='<div class="cart-empty"><div class="i">🛒</div><p>Empty</p></div>';ft.classList.add('hide');return}ft.classList.remove('hide');el.innerHTML=cart.map(i=>`<div class="cart-item"><div class="cart-item-img">${i.img?`<img src="${i.img}">`:'📦'}</div><div class="cart-item-info"><div class="cart-item-name">${i.name}</div><div class="cart-item-price">₱${(+i.price).toLocaleString()}</div><div class="cart-item-qty"><button class="qty-btn" onclick="updQty('${i.id}',-1)">−</button><span>${i.qty}</span><button class="qty-btn" onclick="updQty('${i.id}',1)">+</button></div></div><button class="cart-item-rm" onclick="rmCart('${i.id}')">×</button></div>`).join('');const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);document.getElementById('cartSub').textContent=`₱${sub.toLocaleString()}`;document.getElementById('cartTot').textContent=`₱${(sub+50).toLocaleString()}`}
-function toggleCart(){document.getElementById('overlay').classList.toggle('on');document.getElementById('cartSide').classList.toggle('on')}
-function checkout(){if(!cart.length)return;toggleCart();currentOrderRef=generateOrderRef();document.getElementById('orderRefDisplay').textContent=currentOrderRef;document.getElementById('checkoutModal').classList.add('on');updCheckout();autoFill();selPay('cod');}
-function closeModal(id){document.getElementById(id).classList.remove('on')}
-function selPay(m){selPayment=m;document.querySelectorAll('.pay-opt').forEach(o=>o.classList.toggle('sel',o.onclick.toString().includes("'"+m+"'")));const paySection=document.getElementById('paymentSection');const gcashPay=document.getElementById('gcashPay');const mayaPay=document.getElementById('mayaPay');const bankPay=document.getElementById('bankPay');gcashPay.classList.add('hide');mayaPay.classList.add('hide');bankPay.classList.add('hide');if(m==='cod'){paySection.classList.add('hide');}else{paySection.classList.remove('hide');if(m==='gcash')gcashPay.classList.remove('hide');if(m==='maya')mayaPay.classList.remove('hide');if(m==='bank')bankPay.classList.remove('hide');}updCheckout();}
-function showBank(bank){document.querySelectorAll('.bank-tab').forEach(t=>t.classList.toggle('sel',t.onclick.toString().includes("'"+bank+"'")));document.querySelectorAll('.bank-content').forEach(c=>c.classList.remove('show'));document.getElementById(bank+'Content').classList.add('show');}
-function copyNum(num){navigator.clipboard.writeText(num).then(()=>{notify('Copied: '+num);}).catch(()=>{const ta=document.createElement('textarea');ta.value=num;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);notify('Copied!');});}
-function updCheckout(){const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);const tot=sub+50;document.getElementById('checkoutItems').innerHTML=cart.map(i=>`<div class="sum-row"><span>${i.name} x${i.qty}</span><span>₱${(i.price*i.qty).toLocaleString()}</span></div>`).join('');document.getElementById('chkSub').textContent=`₱${sub.toLocaleString()}`;document.getElementById('chkTot').textContent=`₱${tot.toLocaleString()}`;document.getElementById('amountToPay').textContent=`₱${tot.toLocaleString()}`;}
-function handleUpload(input){const f=input.files[0];if(!f)return;screenshotFile=f;const r=new FileReader();r.onload=e=>{screenshot=e.target.result;document.getElementById('uploadLabel').innerHTML=`<div class="i">✅</div><p style="font-size:11px;color:var(--g)">${f.name}</p><input type="file" id="screenshot" accept="image/*" onchange="handleUpload(this)">`;document.getElementById('screenshotPreview').innerHTML=`<img src="${e.target.result}" class="screenshot-preview"><div class="upload-success">✅ Screenshot uploaded</div>`;};r.readAsDataURL(f);}
-async function submitOrder(e){e.preventDefault();const btn=document.getElementById('orderBtn');btn.disabled=true;btn.textContent='Processing...';try{if(selPayment!=='cod'&&!screenshot){alert('Please upload payment screenshot');btn.disabled=false;btn.textContent='Place Order';return;}const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);const tot=sub+50;const data={action:'createOrder',orderId:currentOrderRef,merchantId:cart[0].mid,customerName:document.getElementById('custName').value,customerPhone:document.getElementById('custPhone').value,customerEmail:document.getElementById('custEmail').value||'',barangay:document.getElementById('custBrgy').value,deliveryAddress:document.getElementById('custAddr').value,items:cart.map(i=>({productId:i.id,productName:i.name,quantity:i.qty,price:i.price})),subtotal:sub,deliveryFee:50,platformFee:0,total:tot,paymentMethod:selPayment,paymentScreenshot:selPayment!=='cod'?screenshot:''};const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});const result=await res.json();if(result.success){cart=[];saveCart();updateCart();closeModal('checkoutModal');screenshot='';screenshotFile=null;document.getElementById('screenshotPreview').innerHTML='';document.getElementById('uploadLabel').innerHTML=`<div class="i">📷</div><p style="font-size:12px">Click to upload proof of payment</p><input type="file" id="screenshot" accept="image/*" onchange="handleUpload(this)">`;alert(`✅ Order Placed!\n\n📋 Order: ${currentOrderRef}\n💰 Total: ₱${tot.toLocaleString()}\n\n${selPayment==='cod'?'Pay upon delivery.':'Payment received. We will verify shortly.'}`);}else{throw new Error(result.error||'Order failed');}}catch(err){alert('Error: '+err.message);}finally{btn.disabled=false;btn.textContent='Place Order';}}
-function checkLogin(){const u=JSON.parse(localStorage.getItem('amadeo_user')||'null');if(u){document.getElementById('loginLink').textContent=(u.Name||u.BusinessName||'User').split(' ')[0];document.getElementById('loginLink').href=u.MerchantId?'/dashboard':'/account'}}
-function autoFill(){const u=JSON.parse(localStorage.getItem('amadeo_user')||'null');if(!u)return;['custName','bookName','guestName'].forEach(id=>{const el=document.getElementById(id);if(el&&!el.value)el.value=u.Name||''});['custPhone','bookPhone','guestPhone'].forEach(id=>{const el=document.getElementById(id);if(el&&!el.value)el.value=u.Phone||''});['custEmail','bookEmail','guestEmail'].forEach(id=>{const el=document.getElementById(id);if(el&&!el.value)el.value=u.Email||''})}
-function notify(msg){const n=document.createElement('div');n.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--p);color:#fff;padding:12px 24px;border-radius:25px;font-size:14px;font-weight:600;z-index:9999;animation:fadeIn .3s';n.textContent=msg;document.body.appendChild(n);setTimeout(()=>n.remove(),2000)}
-console.log('Amadeo Marketplace v4.0 - Services & Stays API Connected');
+// ============================================================
+// AMADEO MARKETPLACE v4.1 - API INTEGRATED
+// ============================================================
+
+const API = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
+
+const QR_IMAGES = {
+    gcash: 'https://lh3.googleusercontent.com/d/1ABC123',
+    maya: 'https://lh3.googleusercontent.com/d/1DEF456',
+    bdo: 'https://lh3.googleusercontent.com/d/1GHI789',
+    bpi: 'https://lh3.googleusercontent.com/d/1JKL012'
+};
+
+// Data arrays
+let products = [];
+let merchants = {};
+let services = [];
+let properties = [];
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+// State variables
+let curTab = 'products';
+let curCat = 'all';
+let selPayment = 'cod';
+let screenshot = '';
+let screenshotFile = null;
+let selService = null;
+let selStay = null;
+let selTime = '';
+let searchTimer = null;
+let currentOrderRef = '';
+
+// Lazy loading flags
+let servicesLoaded = false;
+let propertiesLoaded = false;
+
+// Categories
+const PROD_CATS = [
+    {id:'all',n:'All',i:'🏷️'},{id:'Food & Beverages',n:'Food',i:'🍔'},{id:'Fresh Produce',n:'Fresh',i:'🥬'},
+    {id:'Groceries',n:'Groceries',i:'🛒'},{id:'Health & Beauty',n:'Beauty',i:'💄'},{id:'Home & Living',n:'Home',i:'🏠'},
+    {id:'Fashion',n:'Fashion',i:'👗'},{id:'Electronics',n:'Electronics',i:'📱'},{id:'Plants',n:'Plants',i:'🌱'}
+];
+
+const SVC_CATS = [
+    {id:'all',n:'All',i:'🏷️'},{id:'Laundry',n:'Laundry',i:'🧺'},{id:'Beauty',n:'Beauty',i:'💅'},
+    {id:'Massage',n:'Massage',i:'💆'},{id:'Home Repair',n:'Repairs',i:'🔨'},{id:'Cleaning',n:'Cleaning',i:'🧹'},
+    {id:'Automotive',n:'Auto',i:'🚗'},{id:'Tech',n:'Tech',i:'💻'},{id:'Pet',n:'Pet',i:'🐕'},
+    {id:'Events',n:'Events',i:'🎉'},{id:'Tutoring',n:'Tutoring',i:'📚'}
+];
+
+const STAY_CATS = [
+    {id:'all',n:'All',i:'🏷️'},{id:'Private Pool',n:'Pools',i:'🏊'},{id:'Rest House',n:'Rest House',i:'🏡'},
+    {id:'Resort',n:'Resorts',i:'🏨'},{id:'Farm Stay',n:'Farm',i:'🌾'},{id:'Cabin',n:'Cabins',i:'🛖'},
+    {id:'Venue',n:'Venues',i:'🎪'}
+];
+
+// Sample data (fallback if database empty)
+const SAMPLE_SERVICES = [
+    {id:'SVC001',n:'Premium Wash & Fold',c:'Laundry',provider:'Linis Express',providerId:'PRV001',p:150,u:'/kg',d:'Same day',h:1,s:1,rating:4.8,reviews:124},
+    {id:'SVC002',n:'Haircut & Styling',c:'Beauty',provider:'Ganda Mo Salon',providerId:'PRV002',p:250,u:'',d:'45 min',h:0,s:1,rating:4.7,reviews:89},
+    {id:'SVC003',n:'Full Body Massage',c:'Massage',provider:'Healing Hands Spa',providerId:'PRV003',p:500,u:'/hr',d:'60 min',h:1,s:1,rating:4.9,reviews:156},
+    {id:'SVC004',n:'Aircon Cleaning',c:'Home Repair',provider:'Cool Tech Services',providerId:'PRV004',p:800,u:'/unit',d:'1-2 hrs',h:1,s:0,rating:4.6,reviews:78},
+    {id:'SVC005',n:'House Deep Cleaning',c:'Cleaning',provider:'Sparkle Clean Co',providerId:'PRV005',p:2500,u:'',d:'4-6 hrs',h:1,s:0,rating:4.8,reviews:92},
+    {id:'SVC006',n:'Pet Grooming',c:'Pet',provider:'Happy Paws',providerId:'PRV006',p:450,u:'',d:'1-2 hrs',h:1,s:1,rating:4.9,reviews:67}
+];
+
+const SAMPLE_PROPERTIES = [
+    {id:'PROP001',n:'Mountain View Private Pool',t:'Private Pool',host:'Maria Santos',hostId:'HST001',l:'Dagatan',g:15,b:3,ba:2,r:5000,w:7000,cl:500,a:['Pool','WiFi','Parking','BBQ','Karaoke'],rating:4.9,reviews:45},
+    {id:'PROP002',n:'Hilltop Pool Villa',t:'Private Pool',host:'Juan Reyes',hostId:'HST002',l:'Halang',g:20,b:4,ba:3,r:6000,w:8000,cl:600,a:['Pool','WiFi','BBQ','View','Parking'],rating:4.8,reviews:38},
+    {id:'PROP003',n:'Cozy Farm Cabin',t:'Farm Stay',host:'Pedro Cruz',hostId:'HST003',l:'Halang',g:6,b:2,ba:1,r:2500,w:3500,cl:300,a:['WiFi','Parking','Kitchen','Garden','Farm Tour'],rating:4.7,reviews:29},
+    {id:'PROP004',n:'Luntian Log Cabin',t:'Cabin',host:'TYG Services',hostId:'HST004',l:'Dagatan',g:8,b:2,ba:1,r:3000,w:4000,cl:300,a:['Pool','WiFi','Parking','View','Nature'],rating:4.9,reviews:52},
+    {id:'PROP005',n:'Amadeo Garden Resort',t:'Resort',host:'Resort Management',hostId:'HST005',l:'Maymangga',g:50,b:10,ba:10,r:800,w:1000,cl:0,a:['Pool','Restaurant','Parking','Events','WiFi'],rating:4.5,reviews:128},
+    {id:'PROP006',n:'Grand Function Hall',t:'Venue',host:'Events Plus',hostId:'HST006',l:'Poblacion',g:150,b:0,ba:4,r:15000,w:20000,cl:1000,a:['AC','Sound System','Parking','Catering','Stage'],rating:4.6,reviews:34}
+];
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    initTabs();
+    renderCats();
+    loadProducts();
+    updateCart();
+    checkLogin();
+    setMinDates();
+    initTimeSlots();
+    
+    // Set QR images
+    document.getElementById('gcashQR').src = QR_IMAGES.gcash;
+    document.getElementById('mayaQR').src = QR_IMAGES.maya;
+    document.getElementById('bdoQR').src = QR_IMAGES.bdo;
+    document.getElementById('bpiQR').src = QR_IMAGES.bpi;
+    
+    console.log('✅ Amadeo Marketplace v4.1 - API Integrated');
+});
+
+function generateOrderRef() {
+    const now = new Date();
+    const date = now.toISOString().slice(0,10).replace(/-/g,'');
+    const time = now.getTime().toString().slice(-4);
+    return `AMV-${date}-${time}`;
+}
+
+function setMinDates() {
+    const today = new Date().toISOString().split('T')[0];
+    document.querySelectorAll('input[type="date"]').forEach(i => i.min = today);
+}
+
+function initTimeSlots() {
+    document.getElementById('timeSlots').innerHTML = 
+        ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00']
+        .map(t => `<div class="time-slot" onclick="pickTime('${t}')">${fmtTime(t)}</div>`)
+        .join('');
+}
+
+function fmtTime(t) {
+    const h = +t.split(':')[0];
+    return h < 12 ? `${h} AM` : h === 12 ? '12 PM' : `${h-12} PM`;
+}
+
+function initTabs() {
+    document.querySelectorAll('.tab').forEach(t => t.onclick = () => switchTab(t.dataset.tab));
+}
+
+// ============================================================
+// TAB SWITCHING WITH LAZY LOADING
+// ============================================================
+function switchTab(tab) {
+    curTab = tab;
+    curCat = 'all';
+    
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === tab));
+    document.querySelectorAll('.section').forEach(s => s.classList.toggle('hide', s.id !== tab));
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    renderCats();
+    
+    // Lazy load on first tab visit
+    if (tab === 'services' && !servicesLoaded) {
+        loadServices();
+    }
+    if (tab === 'stays' && !propertiesLoaded) {
+        loadProperties();
+    }
+}
+
+function renderCats() {
+    const cats = curTab === 'products' ? PROD_CATS : curTab === 'services' ? SVC_CATS : STAY_CATS;
+    const id = curTab === 'products' ? 'prodCats' : curTab === 'services' ? 'svcCats' : 'stayCats';
+    document.getElementById(id).innerHTML = cats.map(c => 
+        `<button class="cat${c.id === curCat ? ' on' : ''}" onclick="filterCat('${c.id}')">${c.i} ${c.n}</button>`
+    ).join('');
+}
+
+function filterCat(cat) {
+    curCat = cat;
+    renderCats();
+    if (curTab === 'products') renderProducts();
+    else if (curTab === 'services') renderServices();
+    else renderStays();
+}
+
+// ============================================================
+// PRODUCTS (existing)
+// ============================================================
+async function loadProducts() {
+    try {
+        const [p, m] = await Promise.all([
+            fetch(`${API}?action=getAllInventory`),
+            fetch(`${API}?action=getMerchants`)
+        ]);
+        const pd = await p.json();
+        const md = await m.json();
+        
+        if (pd.success) {
+            products = pd.data || [];
+            document.getElementById('prodCount').textContent = products.length;
+        }
+        if (md.success) {
+            md.data.forEach(x => merchants[x.MerchantId] = x);
+            document.getElementById('shopCount').textContent = md.data.length;
+        }
+        renderProducts();
+    } catch (e) {
+        console.error('Products load error:', e);
+        document.getElementById('prodGrid').innerHTML = '<div class="empty"><div class="i">😕</div><h3>Error loading products</h3></div>';
+    }
+}
+
+function renderProducts() {
+    const g = document.getElementById('prodGrid');
+    let list = curCat === 'all' ? products : products.filter(p => p.Category && p.Category.includes(curCat));
+    
+    if (!list.length) {
+        g.innerHTML = '<div class="empty"><div class="i">📦</div><h3>No products found</h3></div>';
+        return;
+    }
+    
+    g.innerHTML = list.map(p => {
+        const m = merchants[p.MerchantId] || {};
+        const img = p.Image || p.ImageUrl || '';
+        const stk = p.available || p.StockLevel || 999;
+        const pickup = p.offersPickup || m.offersPickup;
+        const delivery = p.offersDelivery || m.offersDelivery;
+        const badges = (pickup ? '<span class="f-badge pickup">🏪 Pickup</span>' : '') + 
+                      (delivery ? '<span class="f-badge delivery">🚚 Delivery</span>' : '');
+        
+        return `<div class="card">
+            <div class="card-img">${img ? `<img src="${img}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=ph>📦</div>'">` : '<div class="ph">📦</div>'}${stk > 0 && stk <= 5 ? '<span class="card-badge">Low Stock</span>' : ''}</div>
+            <div class="card-body">
+                <div class="card-shop">${m.BusinessName || p.merchantName || 'Local Shop'}</div>
+                <div class="card-name">${p.Name}</div>
+                <div class="fulfill-opts">${badges || '<span class="f-badge pickup">🏪 Pickup</span>'}</div>
+                <div class="card-meta"><span class="stars">★★★★★</span></div>
+                <div class="card-price">₱${(+p.Price).toLocaleString()}</div>
+                <button class="btn btn-p" onclick="addCart('${p.ProductId}')" ${stk <= 0 ? 'disabled' : ''}>${stk > 0 ? 'Add to Cart' : 'Out of Stock'}</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ============================================================
+// SERVICES - API INTEGRATED
+// ============================================================
+async function loadServices() {
+    if (servicesLoaded) return;
+    
+    const grid = document.getElementById('svcGrid');
+    grid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading services...</p></div>';
+    
+    try {
+        const res = await fetch(API + '?action=getServices');
+        const data = await res.json();
+        
+        if (data.success && data.data && data.data.length > 0) {
+            services = data.data.map(s => ({
+                id: s.ServiceId,
+                n: s.Name,
+                c: s.Category,
+                provider: s.ProviderName || 'Local Provider',
+                providerId: s.ProviderId,
+                p: parseFloat(s.Price) || 0,
+                u: s.Unit || '',
+                d: s.Duration || '1 hr',
+                h: s.ServiceType === 'Home' || s.ServiceType === 'Both' ? 1 : 0,
+                s: s.ServiceType === 'Shop' || s.ServiceType === 'Both' ? 1 : 0,
+                rating: parseFloat(s.Rating) || 5,
+                reviews: parseInt(s.ReviewCount) || 0
+            }));
+            console.log('✅ Loaded', services.length, 'services from API');
+        } else {
+            console.log('ℹ️ No services in database, using samples');
+            services = SAMPLE_SERVICES;
+        }
+    } catch (err) {
+        console.error('Services load error:', err);
+        services = SAMPLE_SERVICES;
+    }
+    
+    servicesLoaded = true;
+    
+    // Update stats
+    document.getElementById('svcCount').textContent = services.length;
+    document.getElementById('provCount').textContent = [...new Set(services.map(s => s.provider))].length;
+    document.getElementById('svcBadge').textContent = services.length;
+    
+    renderServices();
+}
+
+function renderServices() {
+    const g = document.getElementById('svcGrid');
+    const list = curCat === 'all' ? services : services.filter(s => s.c === curCat);
+    
+    if (!list.length) {
+        g.innerHTML = '<div class="empty"><div class="i">🔧</div><h3>No services found</h3><p>Try a different category</p></div>';
+        return;
+    }
+    
+    const icons = {Laundry:'🧺',Beauty:'💅',Massage:'💆','Home Repair':'🔨',Cleaning:'🧹',Automotive:'🚗',Tech:'💻',Pet:'🐕',Events:'🎉',Tutoring:'📚'};
+    
+    g.innerHTML = list.map(s => `
+        <div class="card">
+            <div class="card-img"><div class="ph">${icons[s.c] || '🔧'}</div></div>
+            <div class="card-body">
+                <div class="card-shop">${s.provider}</div>
+                <div class="card-name">${s.n}</div>
+                <div class="svc-info">
+                    <span class="svc-dur">⏱️ ${s.d}</span>
+                    <span class="stars">★ ${s.rating}</span>
+                </div>
+                <div class="svc-type">
+                    ${s.h ? '<span class="home">🏠 Home</span>' : ''}
+                    ${s.s ? '<span class="shop">🏪 Shop</span>' : ''}
+                </div>
+                <div class="card-price">₱${(+s.p).toLocaleString()}<span class="unit">${s.u}</span></div>
+                <button class="btn btn-p" onclick="bookSvc('${s.id}')">Book Now</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ============================================================
+// STAYS/PROPERTIES - API INTEGRATED
+// ============================================================
+async function loadProperties() {
+    if (propertiesLoaded) return;
+    
+    const grid = document.getElementById('stayGrid');
+    grid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading properties...</p></div>';
+    
+    try {
+        const res = await fetch(API + '?action=getProperties');
+        const data = await res.json();
+        
+        if (data.success && data.data && data.data.length > 0) {
+            properties = data.data.map(p => ({
+                id: p.PropertyId,
+                n: p.Name,
+                t: p.Type,
+                host: p.HostName || 'Local Host',
+                hostId: p.HostId,
+                l: p.Barangay || 'Amadeo',
+                g: parseInt(p.MaxGuests) || 10,
+                b: parseInt(p.Bedrooms) || 1,
+                ba: parseInt(p.Bathrooms) || 1,
+                r: parseFloat(p.RegularRate) || 0,
+                w: parseFloat(p.WeekendRate) || 0,
+                cl: parseFloat(p.CleaningFee) || 0,
+                a: p.Amenities ? p.Amenities.split(',').map(x => x.trim()) : [],
+                rating: parseFloat(p.Rating) || 5,
+                reviews: parseInt(p.ReviewCount) || 0
+            }));
+            console.log('✅ Loaded', properties.length, 'properties from API');
+        } else {
+            console.log('ℹ️ No properties in database, using samples');
+            properties = SAMPLE_PROPERTIES;
+        }
+    } catch (err) {
+        console.error('Properties load error:', err);
+        properties = SAMPLE_PROPERTIES;
+    }
+    
+    propertiesLoaded = true;
+    
+    // Update stats
+    document.getElementById('propCount').textContent = properties.length;
+    document.getElementById('hostCount').textContent = [...new Set(properties.map(p => p.host))].length;
+    document.getElementById('stayBadge').textContent = properties.length;
+    
+    renderStays();
+}
+
+function renderStays() {
+    const g = document.getElementById('stayGrid');
+    const list = curCat === 'all' ? properties : properties.filter(p => p.t === curCat);
+    
+    if (!list.length) {
+        g.innerHTML = '<div class="empty"><div class="i">🏠</div><h3>No properties found</h3><p>Try a different category</p></div>';
+        return;
+    }
+    
+    const icons = {'Private Pool':'🏊','Rest House':'🏡',Resort:'🏨','Farm Stay':'🌾',Cabin:'🛖',Venue:'🎪'};
+    
+    g.innerHTML = list.map(p => `
+        <div class="card">
+            <div class="card-img"><div class="ph">${icons[p.t] || '🏠'}</div></div>
+            <div class="card-body">
+                <div class="card-shop">📍 ${p.l} • ${p.host}</div>
+                <div class="card-name">${p.n}</div>
+                <div class="stay-feat">
+                    <span>👥 ${p.g}</span>
+                    <span>🛏️ ${p.b}</span>
+                    <span>🚿 ${p.ba}</span>
+                </div>
+                <div class="card-meta"><span class="stars">★ ${p.rating} (${p.reviews})</span></div>
+                <div class="stay-amen">${p.a.slice(0,3).join(' • ')}</div>
+                <div class="card-price">₱${(+p.r).toLocaleString()}<span class="unit">/night</span></div>
+                <button class="btn btn-p" onclick="bookStay('${p.id}')">Book Now</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+function debounceSearch(q) {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => doSearch(q), 300);
+}
+
+function doSearch(q) {
+    q = q.toLowerCase().trim();
+    if (!q) {
+        if (curTab === 'products') renderProducts();
+        else if (curTab === 'services') renderServices();
+        else renderStays();
+        return;
+    }
+    
+    if (curTab === 'products') {
+        const filtered = products.filter(p => p.Name.toLowerCase().includes(q));
+        const orig = products;
+        products = filtered;
+        renderProducts();
+        products = orig;
+    } else if (curTab === 'services') {
+        const filtered = services.filter(s => s.n.toLowerCase().includes(q) || s.c.toLowerCase().includes(q));
+        const orig = services;
+        services = filtered;
+        renderServices();
+        services = orig;
+    } else {
+        const filtered = properties.filter(p => p.n.toLowerCase().includes(q) || p.l.toLowerCase().includes(q));
+        const orig = properties;
+        properties = filtered;
+        renderStays();
+        properties = orig;
+    }
+}
+
+// ============================================================
+// CART
+// ============================================================
+function addCart(id) {
+    const p = products.find(x => x.ProductId === id);
+    if (!p) return;
+    
+    const item = cart.find(x => x.id === id);
+    if (item) item.qty++;
+    else cart.push({id, name: p.Name, price: p.Price, qty: 1, mid: p.MerchantId, img: p.Image || p.ImageUrl});
+    
+    saveCart();
+    updateCart();
+    notify('Added to cart!');
+}
+
+function rmCart(id) {
+    cart = cart.filter(x => x.id !== id);
+    saveCart();
+    updateCart();
+}
+
+function updQty(id, d) {
+    const item = cart.find(x => x.id === id);
+    if (!item) return;
+    item.qty += d;
+    if (item.qty <= 0) { rmCart(id); return; }
+    saveCart();
+    updateCart();
+}
+
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function updateCart() {
+    const cnt = cart.reduce((s, i) => s + i.qty, 0);
+    document.getElementById('cartCount').textContent = cnt;
+    
+    const el = document.getElementById('cartItems');
+    const ft = document.getElementById('cartFt');
+    
+    if (!cart.length) {
+        el.innerHTML = '<div class="cart-empty"><div class="i">🛒</div><p>Your cart is empty</p></div>';
+        ft.classList.add('hide');
+        return;
+    }
+    
+    ft.classList.remove('hide');
+    el.innerHTML = cart.map(i => `
+        <div class="cart-item">
+            <div class="cart-item-img">${i.img ? `<img src="${i.img}">` : '📦'}</div>
+            <div class="cart-item-info">
+                <div class="cart-item-name">${i.name}</div>
+                <div class="cart-item-price">₱${(+i.price).toLocaleString()}</div>
+                <div class="cart-item-qty">
+                    <button class="qty-btn" onclick="updQty('${i.id}',-1)">−</button>
+                    <span>${i.qty}</span>
+                    <button class="qty-btn" onclick="updQty('${i.id}',1)">+</button>
+                </div>
+            </div>
+            <button class="cart-item-rm" onclick="rmCart('${i.id}')">×</button>
+        </div>
+    `).join('');
+    
+    const sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    document.getElementById('cartSub').textContent = `₱${sub.toLocaleString()}`;
+    document.getElementById('cartTot').textContent = `₱${(sub + 50).toLocaleString()}`;
+}
+
+function toggleCart() {
+    document.getElementById('overlay').classList.toggle('on');
+    document.getElementById('cartSide').classList.toggle('on');
+}
+
+// ============================================================
+// CHECKOUT
+// ============================================================
+function checkout() {
+    if (!cart.length) return;
+    toggleCart();
+    currentOrderRef = generateOrderRef();
+    document.getElementById('orderRefDisplay').textContent = currentOrderRef;
+    document.getElementById('checkoutModal').classList.add('on');
+    updCheckout();
+    autoFill();
+    selPay('cod');
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('on');
+}
+
+function selPay(m) {
+    selPayment = m;
+    document.querySelectorAll('.pay-opt').forEach(o => o.classList.toggle('sel', o.onclick.toString().includes("'" + m + "'")));
+    
+    const paySection = document.getElementById('paymentSection');
+    document.getElementById('gcashPay').classList.add('hide');
+    document.getElementById('mayaPay').classList.add('hide');
+    document.getElementById('bankPay').classList.add('hide');
+    
+    if (m === 'cod') {
+        paySection.classList.add('hide');
+    } else {
+        paySection.classList.remove('hide');
+        if (m === 'gcash') document.getElementById('gcashPay').classList.remove('hide');
+        if (m === 'maya') document.getElementById('mayaPay').classList.remove('hide');
+        if (m === 'bank') document.getElementById('bankPay').classList.remove('hide');
+    }
+    updCheckout();
+}
+
+function showBank(bank) {
+    document.querySelectorAll('.bank-tab').forEach(t => t.classList.toggle('sel', t.onclick.toString().includes("'" + bank + "'")));
+    document.querySelectorAll('.bank-content').forEach(c => c.classList.remove('show'));
+    document.getElementById(bank + 'Content').classList.add('show');
+}
+
+function copyNum(num) {
+    navigator.clipboard.writeText(num).then(() => notify('Copied: ' + num)).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = num;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        notify('Copied!');
+    });
+}
+
+function updCheckout() {
+    const sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const tot = sub + 50;
+    
+    document.getElementById('checkoutItems').innerHTML = cart.map(i => 
+        `<div class="sum-row"><span>${i.name} x${i.qty}</span><span>₱${(i.price * i.qty).toLocaleString()}</span></div>`
+    ).join('');
+    
+    document.getElementById('chkSub').textContent = `₱${sub.toLocaleString()}`;
+    document.getElementById('chkTot').textContent = `₱${tot.toLocaleString()}`;
+    document.getElementById('amountToPay').textContent = `₱${tot.toLocaleString()}`;
+}
+
+function handleUpload(input) {
+    const f = input.files[0];
+    if (!f) return;
+    screenshotFile = f;
+    
+    const r = new FileReader();
+    r.onload = e => {
+        screenshot = e.target.result;
+        document.getElementById('uploadLabel').innerHTML = `<div class="i">✅</div><p style="font-size:11px;color:var(--g)">${f.name}</p><input type="file" id="screenshot" accept="image/*" onchange="handleUpload(this)">`;
+        document.getElementById('screenshotPreview').innerHTML = `<img src="${e.target.result}" class="screenshot-preview"><div class="upload-success">✅ Screenshot uploaded</div>`;
+    };
+    r.readAsDataURL(f);
+}
+
+async function submitOrder(e) {
+    e.preventDefault();
+    const btn = document.getElementById('orderBtn');
+    btn.disabled = true;
+    btn.textContent = 'Processing...';
+    
+    try {
+        if (selPayment !== 'cod' && !screenshot) {
+            alert('Please upload payment screenshot');
+            btn.disabled = false;
+            btn.textContent = 'Place Order';
+            return;
+        }
+        
+        const sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
+        const tot = sub + 50;
+        
+        const data = {
+            action: 'createOrder',
+            orderId: currentOrderRef,
+            merchantId: cart[0].mid,
+            customerName: document.getElementById('custName').value,
+            customerPhone: document.getElementById('custPhone').value,
+            customerEmail: document.getElementById('custEmail').value || '',
+            barangay: document.getElementById('custBrgy').value,
+            deliveryAddress: document.getElementById('custAddr').value,
+            items: cart.map(i => ({productId: i.id, productName: i.name, quantity: i.qty, price: i.price})),
+            subtotal: sub,
+            deliveryFee: 50,
+            platformFee: 0,
+            total: tot,
+            paymentMethod: selPayment,
+            paymentScreenshot: selPayment !== 'cod' ? screenshot : ''
+        };
+        
+        const res = await fetch(API, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {'Content-Type': 'text/plain;charset=utf-8'},
+            body: JSON.stringify(data)
+        });
+        
+        const result = await res.json();
+        
+        if (result.success) {
+            cart = [];
+            saveCart();
+            updateCart();
+            closeModal('checkoutModal');
+            screenshot = '';
+            screenshotFile = null;
+            document.getElementById('screenshotPreview').innerHTML = '';
+            document.getElementById('uploadLabel').innerHTML = `<div class="i">📷</div><p style="font-size:12px">Click to upload proof of payment</p><input type="file" id="screenshot" accept="image/*" onchange="handleUpload(this)">`;
+            alert(`✅ Order Placed!\n\n📋 Order: ${currentOrderRef}\n💰 Total: ₱${tot.toLocaleString()}\n\n${selPayment === 'cod' ? 'Pay upon delivery.' : 'Payment received. We will verify shortly.'}`);
+        } else {
+            throw new Error(result.error || 'Order failed');
+        }
+    } catch (err) {
+        alert('Error: ' + err.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Place Order';
+    }
+}
+
+// ============================================================
+// SERVICE BOOKING - API INTEGRATED
+// ============================================================
+function bookSvc(id) {
+    selService = services.find(s => s.id === id);
+    if (!selService) return;
+    
+    document.getElementById('svcDetails').innerHTML = `
+        <div style="background:var(--g1);padding:12px;border-radius:8px">
+            <h3 style="color:var(--p);font-size:16px;margin-bottom:4px">${selService.n}</h3>
+            <p style="color:var(--g5);font-size:12px">${selService.c} • ${selService.provider}</p>
+            <p style="color:var(--g5);font-size:11px;margin-top:4px">★ ${selService.rating} (${selService.reviews} reviews)</p>
+        </div>
+    `;
+    
+    const price = selService.p;
+    const fee = Math.round(price * 0.10);
+    
+    document.getElementById('bookSvc').textContent = selService.n;
+    document.getElementById('bookProv').textContent = selService.provider;
+    document.getElementById('bookDur').textContent = selService.d;
+    document.getElementById('bookFee').textContent = `₱${fee.toLocaleString()}`;
+    document.getElementById('bookTot').textContent = `₱${(price + fee).toLocaleString()}`;
+    
+    document.getElementById('svcModal').classList.add('on');
+    autoFill();
+}
+
+function pickTime(t) {
+    selTime = t;
+    document.querySelectorAll('.time-slot').forEach(s => s.classList.toggle('sel', s.textContent === fmtTime(t)));
+    document.getElementById('selTime').value = t;
+}
+
+function toggleSvcAddr() {
+    document.getElementById('svcAddrDiv').style.display = document.getElementById('svcLoc').value === 'home' ? 'block' : 'none';
+}
+
+async function submitSvcBooking(e) {
+    e.preventDefault();
+    
+    if (!selTime) {
+        alert('Please select a time slot');
+        return;
+    }
+    
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+    
+    try {
+        const price = selService.p;
+        const serviceFee = Math.round(price * 0.10);
+        const total = price + serviceFee;
+        
+        const data = {
+            action: 'createServiceBooking',
+            serviceId: selService.id,
+            providerId: selService.providerId || '',
+            serviceName: selService.n,
+            providerName: selService.provider,
+            customerName: document.getElementById('bookName').value,
+            customerPhone: document.getElementById('bookPhone').value,
+            customerEmail: document.getElementById('bookEmail').value || '',
+            bookingDate: document.getElementById('svcDate').value,
+            bookingTime: selTime,
+            serviceLocation: document.getElementById('svcLoc').value,
+            address: document.getElementById('svcAddress').value || '',
+            barangay: document.getElementById('svcBrgy').value || '',
+            price: price,
+            unit: selService.u,
+            serviceFee: serviceFee,
+            total: total
+        };
+        
+        const res = await fetch(API, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {'Content-Type': 'text/plain;charset=utf-8'},
+            body: JSON.stringify(data)
+        });
+        
+        const result = await res.json();
+        
+        if (result.success) {
+            alert(`✅ Booking Confirmed!\n\n📋 Booking ID: ${result.bookingId || 'SB-' + Date.now()}\n🔧 Service: ${selService.n}\n👤 Provider: ${selService.provider}\n📅 Date: ${data.bookingDate}\n⏰ Time: ${fmtTime(selTime)}\n💰 Service: ₱${price.toLocaleString()}\n💰 Platform Fee (10%): ₱${serviceFee.toLocaleString()}\n💰 Total: ₱${total.toLocaleString()}`);
+            closeModal('svcModal');
+            selService = null;
+            selTime = '';
+            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('sel'));
+        } else {
+            throw new Error(result.error || 'Booking failed');
+        }
+    } catch (err) {
+        console.error('Booking error:', err);
+        alert('Error: ' + err.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Confirm Booking';
+    }
+}
+
+// ============================================================
+// STAY BOOKING - API INTEGRATED
+// ============================================================
+function bookStay(id) {
+    selStay = properties.find(p => p.id === id);
+    if (!selStay) return;
+    
+    document.getElementById('stayDetails').innerHTML = `
+        <div style="background:var(--g1);padding:12px;border-radius:8px">
+            <h3 style="color:var(--p);font-size:16px;margin-bottom:4px">${selStay.n}</h3>
+            <p style="color:var(--g5);font-size:12px">📍 ${selStay.l} • Hosted by ${selStay.host}</p>
+            <p style="color:var(--g5);font-size:11px;margin-top:4px">👥 Up to ${selStay.g} guests • ★ ${selStay.rating} (${selStay.reviews} reviews)</p>
+        </div>
+    `;
+    
+    document.getElementById('stayProp').textContent = selStay.n;
+    document.getElementById('stayHost').textContent = selStay.host;
+    document.getElementById('stayCln').textContent = `₱${(selStay.cl || 0).toLocaleString()}`;
+    document.getElementById('numGuests').max = selStay.g;
+    
+    document.getElementById('stayModal').classList.add('on');
+    autoFill();
+    calcStay();
+}
+
+function calcStay() {
+    if (!selStay) return;
+    
+    const checkIn = document.getElementById('checkIn').value;
+    const checkOut = document.getElementById('checkOut').value;
+    const bookingType = document.getElementById('stayType').value;
+    const guests = parseInt(document.getElementById('numGuests').value) || 1;
+    
+    // Validate guests
+    if (guests > selStay.g) {
+        document.getElementById('numGuests').value = selStay.g;
+        alert(`Maximum ${selStay.g} guests for this property`);
+        return;
+    }
+    
+    let nights = 0, accom = 0;
+    
+    if (bookingType === 'dayuse') {
+        nights = 1;
+        accom = Math.round(selStay.r * 0.6);
+        document.getElementById('nightsLabel').textContent = 'Day Use';
+        document.getElementById('stayNights').textContent = '1 day';
+    } else if (checkIn && checkOut) {
+        const inDate = new Date(checkIn);
+        const outDate = new Date(checkOut);
+        
+        if (outDate > inDate) {
+            nights = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
+            
+            // Calculate with weekend rates
+            let total = 0;
+            let currentDate = new Date(inDate);
+            for (let i = 0; i < nights; i++) {
+                const dayOfWeek = currentDate.getDay();
+                const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0);
+                total += isWeekend && selStay.w ? selStay.w : selStay.r;
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            accom = total;
+            
+            document.getElementById('nightsLabel').textContent = 'Nights';
+            document.getElementById('stayNights').textContent = `${nights} night${nights > 1 ? 's' : ''}`;
+        }
+    }
+    
+    const cleaningFee = selStay.cl || 0;
+    const serviceFee = Math.round(accom * 0.12);
+    const total = accom + cleaningFee + serviceFee;
+    
+    document.getElementById('stayAccom').textContent = `₱${accom.toLocaleString()}`;
+    document.getElementById('stayCln').textContent = `₱${cleaningFee.toLocaleString()}`;
+    document.getElementById('stayFee').textContent = `₱${serviceFee.toLocaleString()}`;
+    document.getElementById('stayTot').textContent = `₱${total.toLocaleString()}`;
+}
+
+async function submitStayBooking(e) {
+    e.preventDefault();
+    
+    const checkIn = document.getElementById('checkIn').value;
+    const checkOut = document.getElementById('checkOut').value;
+    
+    if (!checkIn || !checkOut) {
+        alert('Please select check-in and check-out dates');
+        return;
+    }
+    
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+    
+    try {
+        const bookingType = document.getElementById('stayType').value;
+        const guests = document.getElementById('numGuests').value;
+        
+        const inDate = new Date(checkIn);
+        const outDate = new Date(checkOut);
+        let nights = 0, accom = 0;
+        
+        if (bookingType === 'dayuse') {
+            nights = 1;
+            accom = Math.round(selStay.r * 0.6);
+        } else {
+            nights = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
+            let total = 0;
+            let currentDate = new Date(inDate);
+            for (let i = 0; i < nights; i++) {
+                const dayOfWeek = currentDate.getDay();
+                const isWeekend = (dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0);
+                total += isWeekend && selStay.w ? selStay.w : selStay.r;
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            accom = total;
+        }
+        
+        const cleaningFee = selStay.cl || 0;
+        const serviceFee = Math.round(accom * 0.12);
+        const total = accom + cleaningFee + serviceFee;
+        
+        const data = {
+            action: 'createStayBooking',
+            propertyId: selStay.id,
+            hostId: selStay.hostId || '',
+            propertyName: selStay.n,
+            hostName: selStay.host,
+            customerName: document.getElementById('guestName').value,
+            customerPhone: document.getElementById('guestPhone').value,
+            customerEmail: document.getElementById('guestEmail').value || '',
+            checkIn: checkIn,
+            checkOut: checkOut,
+            guests: guests,
+            nights: nights,
+            bookingType: bookingType,
+            nightlyTotal: accom,
+            cleaningFee: cleaningFee,
+            serviceFee: serviceFee,
+            total: total,
+            notes: document.getElementById('stayNotes').value || '',
+            paymentMethod: 'pending',
+            status: 'Pending'
+        };
+        
+        const res = await fetch(API, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {'Content-Type': 'text/plain;charset=utf-8'},
+            body: JSON.stringify(data)
+        });
+        
+        const result = await res.json();
+        
+        if (result.success) {
+            alert(`✅ Booking Request Sent!\n\n📋 Booking ID: ${result.bookingId || 'STB-' + Date.now()}\n🏠 Property: ${selStay.n}\n👤 Host: ${selStay.host}\n📅 Check-in: ${checkIn}\n📅 Check-out: ${checkOut}\n🌙 ${bookingType === 'dayuse' ? 'Day Use' : nights + ' night(s)'}\n👥 Guests: ${guests}\n💰 Total: ₱${total.toLocaleString()}\n\nThe host will confirm your booking shortly.`);
+            closeModal('stayModal');
+            selStay = null;
+        } else {
+            throw new Error(result.error || 'Booking failed');
+        }
+    } catch (err) {
+        console.error('Booking error:', err);
+        alert('Error: ' + err.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Request Booking';
+    }
+}
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function checkLogin() {
+    const u = JSON.parse(localStorage.getItem('amadeo_user') || 'null');
+    if (u) {
+        document.getElementById('loginLink').textContent = (u.Name || u.BusinessName || 'User').split(' ')[0];
+        document.getElementById('loginLink').href = u.MerchantId ? '/dashboard' : '/account';
+    }
+}
+
+function autoFill() {
+    const u = JSON.parse(localStorage.getItem('amadeo_user') || 'null');
+    if (!u) return;
+    
+    ['custName', 'bookName', 'guestName'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.value) el.value = u.Name || '';
+    });
+    ['custPhone', 'bookPhone', 'guestPhone'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.value) el.value = u.Phone || '';
+    });
+    ['custEmail', 'bookEmail', 'guestEmail'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.value) el.value = u.Email || '';
+    });
+}
+
+function notify(msg) {
+    const n = document.createElement('div');
+    n.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--p);color:#fff;padding:12px 24px;border-radius:25px;font-size:14px;font-weight:600;z-index:9999;animation:fadeIn .3s';
+    n.textContent = msg;
+    document.body.appendChild(n);
+    setTimeout(() => n.remove(), 2000);
+}
 </script>
 </body>
 </html>
