@@ -324,9 +324,9 @@
         <button type="submit" class="btn btn-p">Request Booking</button>
     </form></div></div></div>
     
-    <footer class="ftr"><div class="ftr-in"><div class="ftr-grid"><div class="ftr-col"><h4>🏪 Amadeo Marketplace</h4><a href="#">About Us</a><a href="#">How It Works</a><a href="#">Become a Seller</a><a href="#">Contact</a></div><div class="ftr-col"><h4>Shop</h4><a href="#">Products</a><a href="#">Services</a><a href="#">Stays</a><a href="#">Deals</a></div><div class="ftr-col"><h4>Support</h4><a href="#">Help Center</a><a href="#">Order Tracking</a><a href="#">Returns</a><a href="#">FAQs</a></div><div class="ftr-col"><h4>Connect</h4><a href="#">📱 0966 960 6060</a><a href="#">✉️ hello@amadeomarket.com</a><a href="#">📍 Amadeo, Cavite</a></div></div><div class="partners"><span style="opacity:.6">TYG Family:</span><a href="https://tyg-services.com">TYG Services</a><a href="https://thegoldblessing.com">The Gold Blessing</a><a href="https://soleblessing.com">Sole Blessing</a><a href="https://ast3r.store">AST3R Fashion</a><a href="https://luntian.net">Luntian</a></div><div class="ftr-btm">© 2024 Amadeo Marketplace by TYG Services. All rights reserved.</div></div></footer>
+    <footer class="ftr"><div class="ftr-in"><div class="ftr-grid"><div class="ftr-col"><h4>🏪 Amadeo Marketplace</h4><a href="#">About Us</a><a href="#">How It Works</a><a href="#">Become a Seller</a><a href="#">Contact</a></div><div class="ftr-col"><h4>Shop</h4><a href="#">Products</a><a href="#">Services</a><a href="#">Stays</a><a href="#">Deals</a></div><div class="ftr-col"><h4>Support</h4><a href="#">Help Center</a><a href="#">Order Tracking</a><a href="#">Returns</a><a href="#">FAQs</a></div><div class="ftr-col"><h4>Connect</h4><a href="#">📱 0966 960 6060</a><a href="#">✉️ <span class="__cf_email__" data-cfemail="472f222b2b2807262a262322282a26352c22336924282a">[email&#160;protected]</span></a><a href="#">📍 Amadeo, Cavite</a></div></div><div class="partners"><span style="opacity:.6">TYG Family:</span><a href="https://tyg-services.com">TYG Services</a><a href="https://thegoldblessing.com">The Gold Blessing</a><a href="https://soleblessing.com">Sole Blessing</a><a href="https://ast3r.store">AST3R Fashion</a><a href="https://luntian.net">Luntian</a></div><div class="ftr-btm">© 2024 Amadeo Marketplace by TYG Services. All rights reserved.</div></div></footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ============================================================
 // AMADEO MARKETPLACE v4.2 - CORRECTED BARANGAYS
 // ============================================================
@@ -1270,23 +1270,22 @@ function checkLogin() {
     const link = document.getElementById('loginLink');
     if (u && u.Name) {
         link.textContent = (u.Name || u.BusinessName || 'User').split(' ')[0];
-        link.href = '#';
-        link.onclick = function(e) {
-            e.preventDefault();
-            if (confirm('Logout?')) {
-                localStorage.removeItem('amadeo_user');
-                localStorage.removeItem('amadeo_merchant');
-                localStorage.removeItem('merchant_session');
-                link.textContent = 'Login';
-                link.href = '/login';
-                link.onclick = null;
-                alert('Logged out successfully!');
-            }
-        };
+        link.href = 'javascript:void(0)';
+        link.setAttribute('onclick', 'doLogout()');
     } else {
         link.textContent = 'Login';
         link.href = '/login';
-        link.onclick = null;
+        link.removeAttribute('onclick');
+    }
+}
+
+function doLogout() {
+    if (confirm('Logout?')) {
+        localStorage.removeItem('amadeo_user');
+        localStorage.removeItem('amadeo_merchant');
+        localStorage.removeItem('merchant_session');
+        alert('Logged out!');
+        location.reload();
     }
 }
 
@@ -1301,14 +1300,4 @@ function autoFill() {
     ['custPhone', 'bookPhone', 'guestPhone'].forEach(id => {
         const el = document.getElementById(id);
         if (el && !el.value) el.value = u.Phone || '';
-    });
-    ['custEmail', 'bookEmail', 'guestEmail'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el && !el.value) el.value = u.Email || '';
-    });
-}
-
-
-</script>
-</body>
-</html>
+    })
