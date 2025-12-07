@@ -1142,7 +1142,7 @@
                     <p>This agreement is governed by the laws of the Republic of the Philippines. Disputes shall be resolved through mediation first, then appropriate legal channels if necessary.</p>
 
                     <p style="margin-top: 20px;"><strong>Effective Date:</strong> November 2024</p>
-                    <p><strong>Contact:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="463533363629343206272b272223292b27342d23326825292b">[email&#160;protected]</a></p>
+                    <p><strong>Contact:</strong> support@amadeomarket.com</p>
                 </div>
 
                 <div class="legal-section">
@@ -1204,7 +1204,7 @@
         <p style="margin-top: 15px; color: #666;">Loading...</p>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // ============================================
         // CONFIGURATION
         // ============================================
@@ -1631,12 +1631,7 @@
                     `).join('')}
                     <div class="order-item" style="border-top: 1px solid #ddd; margin-top: 10px; padding-top: 10px;">
                         <span>Subtotal</span>
-                        <span>₱${order.subtotal.toFixed(2)}</span>
-                    </div>
-                    <div class="order-item">
-                        <span>Platform Fee (5%)</span>
-                        <span>₱${order.fee.toFixed(2)}</span>
-                    </div>
+                        <span>₱${order.subtotal    </div>
                     <div class="order-item" style="font-weight: bold;">
                         <span>Total</span>
                         <span>₱${order.total.toFixed(2)}</span>
@@ -1797,4 +1792,20 @@
         // ============================================
         // UTILITIES
         // ============================================
-        fu
+        function logout() {
+            currentUser = null;
+            merchantData = null;
+            localStorage.removeItem('amadeo_merchant');
+            window.location.reload();
+        }
+
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('show');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
