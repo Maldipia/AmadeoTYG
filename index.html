@@ -1267,9 +1267,26 @@ async function submitStayBooking(e) {
 // ============================================================
 function checkLogin() {
     const u = JSON.parse(localStorage.getItem('amadeo_user') || 'null');
-    if (u) {
-        document.getElementById('loginLink').textContent = (u.Name || u.BusinessName || 'User').split(' ')[0];
-        document.getElementById('loginLink').href = u.MerchantId ? '/dashboard' : '/account';
+    const link = document.getElementById('loginLink');
+    if (u && u.Name) {
+        link.textContent = (u.Name || u.BusinessName || 'User').split(' ')[0];
+        link.href = '#';
+        link.onclick = function(e) {
+            e.preventDefault();
+            if (confirm('Logout?')) {
+                localStorage.removeItem('amadeo_user');
+                localStorage.removeItem('amadeo_merchant');
+                localStorage.removeItem('merchant_session');
+                link.textContent = 'Login';
+                link.href = '/login';
+                link.onclick = null;
+                alert('Logged out successfully!');
+            }
+        };
+    } else {
+        link.textContent = 'Login';
+        link.href = '/login';
+        link.onclick = null;
     }
 }
 
