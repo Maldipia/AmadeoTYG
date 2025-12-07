@@ -1142,7 +1142,7 @@
                     <p>This agreement is governed by the laws of the Republic of the Philippines. Disputes shall be resolved through mediation first, then appropriate legal channels if necessary.</p>
 
                     <p style="margin-top: 20px;"><strong>Effective Date:</strong> November 2024</p>
-                    <p><strong>Contact:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="463533363629343206272b272223292b27342d23326825292b">[email&#160;protected]</a></p>
+                    <p><strong>Contact:</strong> support@amadeomarket.com</p>
                 </div>
 
                 <div class="legal-section">
@@ -1204,13 +1204,12 @@
         <p style="margin-top: 15px; color: #666;">Loading...</p>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // ============================================
         // CONFIGURATION
         // ============================================
         const CONFIG = {
             GOOGLE_CLIENT_ID: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
-            BACKEND_URL: 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'
+            BACKEND_URL: 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec'
         };
 
         // ============================================
@@ -1400,18 +1399,30 @@
 
         async function loadDashboardData() {
             try {
-                // For demo, use sample data
-                orders = getSampleOrders();
-                products = getSampleProducts();
+                const merchant = JSON.parse(localStorage.getItem('amadeo_merchant') || '{}');
+                if (!merchant.MerchantId) {
+                    console.error('No merchant ID found');
+                    return;
+                }
+
+                // Load REAL orders from API
+                const ordersRes = await fetch(CONFIG.BACKEND_URL + '?action=getOrders&merchantId=' + merchant.MerchantId);
+                const ordersData = await ordersRes.json();
+                orders = ordersData.success ? ordersData.data : [];
+
+                // Load REAL products from API
+                const productsRes = await fetch(CONFIG.BACKEND_URL + '?action=getProducts&merchantId=' + merchant.MerchantId);
+                const productsData = await productsRes.json();
+                products = productsData.success ? productsData.data : [];
 
                 // Update stats
                 document.getElementById('statOrders').textContent = orders.length;
-                document.getElementById('statPending').textContent = orders.filter(o => o.status === 'New').length;
+                document.getElementById('statPending').textContent = orders.filter(o => o.Status === 'Pending' || o.Status === 'New').length;
                 document.getElementById('statProducts').textContent = products.length;
                 
                 const revenue = orders
-                    .filter(o => o.status === 'Delivered')
-                    .reduce((sum, o) => sum + o.total, 0);
+                    .filter(o => o.Status === 'Delivered' || o.Status === 'Completed')
+                    .reduce((sum, o) => sum + (parseFloat(o.Total) || 0), 0);
                 document.getElementById('statRevenue').textContent = '₱' + revenue.toLocaleString();
 
                 // Render tables
@@ -1422,6 +1433,7 @@
                 console.error('Error loading data:', error);
             }
         }
+
 
         function getSampleOrders() {
             return [
@@ -1631,12 +1643,7 @@
                     `).join('')}
                     <div class="order-item" style="border-top: 1px solid #ddd; margin-top: 10px; padding-top: 10px;">
                         <span>Subtotal</span>
-                        <span>₱${order.subtotal.toFixed(2)}</span>
-                    </div>
-                    <div class="order-item">
-                        <span>Platform Fee (5%)</span>
-                        <span>₱${order.fee.toFixed(2)}</span>
-                    </div>
+                        <span>₱${order.subtotal    </div>
                     <div class="order-item" style="font-weight: bold;">
                         <span>Total</span>
                         <span>₱${order.total.toFixed(2)}</span>
@@ -1797,4 +1804,20 @@
         // ============================================
         // UTILITIES
         // ============================================
-        fu
+        function logout() {
+            currentUser = null;
+            merchantData = null;
+            localStorage.removeItem('amadeo_merchant');
+            window.location.reload();
+        }
+
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('show');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
