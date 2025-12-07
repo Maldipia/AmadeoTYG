@@ -311,20 +311,45 @@
     <script>
     var API = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
     var uploadedDocs = [];
+    var SESSION_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours
     
-    document.addEventListener('DOMContentLoaded', function() {
+    // ═══════════════════════════════════════════════════════════════════════════
+    // SESSION MANAGEMENT
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    function isLoggedIn() {
         var merchant = localStorage.getItem('merchant');
-        if (merchant) {
-            try {
-                var data = JSON.parse(merchant);
-                if (data && data.MerchantId) {
-                    window.location.href = 'dashboard.html';
-                }
-            } catch(e) {
-                localStorage.removeItem('merchant');
-            }
+        var loginTime = localStorage.getItem('amadeo_login_time');
+        if (!merchant) return false;
+        
+        // Check if session expired (24 hours)
+        if (loginTime && (Date.now() - parseInt(loginTime)) > SESSION_TIMEOUT) {
+            // Session expired - clear everything
+            localStorage.removeItem('merchant');
+            localStorage.removeItem('merchantToken');
+            localStorage.removeItem('amadeo_login_time');
+            return false;
+        }
+        
+        try {
+            var data = JSON.parse(merchant);
+            return data && data.MerchantId;
+        } catch(e) {
+            localStorage.removeItem('merchant');
+            return false;
+        }
+    }
+    
+    // Auto-redirect if already logged in
+    document.addEventListener('DOMContentLoaded', function() {
+        if (isLoggedIn()) {
+            window.location.href = 'dashboard.html';
         }
     });
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // TAB & MESSAGE FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════════════════
     
     function showTab(tab) {
         document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
@@ -367,6 +392,10 @@
         var pct = Math.round((filled / 8) * 100);
         document.getElementById('progressFill').style.width = pct + '%';
     }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // FILE UPLOAD
+    // ═══════════════════════════════════════════════════════════════════════════
     
     function handleDocsUpload(input) {
         var files = Array.from(input.files);
@@ -416,6 +445,10 @@
         updateProgress();
     }
     
+    // ═══════════════════════════════════════════════════════════════════════════
+    // LOGIN HANDLER (with session time)
+    // ═══════════════════════════════════════════════════════════════════════════
+    
     function handleLogin(e) {
         e.preventDefault();
         var btn = document.getElementById('loginBtn');
@@ -445,8 +478,10 @@
         .then(function(res) { return res.json(); })
         .then(function(result) {
             if (result.success) {
+                // Save merchant data + login time for 24hr session
                 localStorage.setItem('merchant', JSON.stringify(result.data));
                 localStorage.setItem('merchantToken', result.token || 'authenticated');
+                localStorage.setItem('amadeo_login_time', Date.now().toString());
                 
                 showSuccess('Login successful! Redirecting...');
                 setTimeout(function() { window.location.href = 'dashboard.html'; }, 1000);
@@ -463,6 +498,10 @@
             btn.textContent = 'Login to Dashboard';
         });
     }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // REGISTER HANDLER
+    // ═══════════════════════════════════════════════════════════════════════════
     
     function handleRegister(e) {
         e.preventDefault();
