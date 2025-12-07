@@ -278,14 +278,16 @@
         
         fetch(API, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors', headers: {'Content-Type': 'text/plain;charset=utf-8'},
             body: JSON.stringify({
                 action: 'userLogin',
                 loginId: loginId,
                 password: password
             })
         })
-        .then(function(res) { return res.json(); })
+        .then(function(res) { 
+            return res.json(); 
+        })
         .then(function(result) {
             if (result.success) {
                 localStorage.setItem('user', JSON.stringify(result.data));
@@ -345,10 +347,12 @@
         
         fetch(API, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors', headers: {'Content-Type': 'text/plain;charset=utf-8'},
             body: JSON.stringify(data)
         })
-        .then(function(res) { return res.json(); })
+        .then(function(res) { 
+            return res.json(); 
+        })
         .then(function(result) {
             if (result.success) {
                 var userData = {
