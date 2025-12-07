@@ -414,11 +414,13 @@ document.addEventListener('DOMContentLoaded', () => {
     setMinDates();
     initTimeSlots();
     
-    // Set QR images
-    document.getElementById('gcashQR').src = QR_IMAGES.gcash;
-    document.getElementById('mayaQR').src = QR_IMAGES.maya;
-    document.getElementById('bdoQR').src = QR_IMAGES.bdo;
-    document.getElementById('bpiQR').src = QR_IMAGES.bpi;
+    // Set QR images (with error handling)
+    try {
+        if(document.getElementById('gcashQR')) document.getElementById('gcashQR').src = QR_IMAGES.gcash;
+        if(document.getElementById('mayaQR')) document.getElementById('mayaQR').src = QR_IMAGES.maya;
+        if(document.getElementById('bdoQR')) document.getElementById('bdoQR').src = QR_IMAGES.bdo;
+        if(document.getElementById('bpiQR')) document.getElementById('bpiQR').src = QR_IMAGES.bpi;
+    } catch(e) { console.error('QR init error:', e); }
     
     console.log('✅ Amadeo Marketplace v4.2 - Corrected Barangays (26 Official)');
 });
