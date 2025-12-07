@@ -154,34 +154,41 @@
                     <input type="text" id="address" required placeholder="Street, Purok/Sitio">
                 </div>
                 
+                <!-- ✅ CORRECTED: 26 Official Amadeo Barangays (PSA 2020 Census) -->
                 <div class="form-group">
                     <label>Barangay <span class="required">*</span></label>
                     <select id="barangay" required>
                         <option value="">Select Barangay</option>
-                        <option value="Poblacion">Poblacion</option>
-                        <option value="Dagatan">Dagatan</option>
-                        <option value="Buho">Buho</option>
-                        <option value="Talon">Talon</option>
-                        <option value="Pangil">Pangil</option>
-                        <option value="Halang">Halang</option>
-                        <option value="Maymangga">Maymangga</option>
-                        <option value="Banaybanay">Banaybanay</option>
-                        <option value="Salaban">Salaban</option>
-                        <option value="Iba">Iba</option>
-                        <option value="Lalaan I">Lalaan I</option>
-                        <option value="Lalaan II">Lalaan II</option>
-                        <option value="Cuyambay">Cuyambay</option>
-                        <option value="Lucsuhin">Lucsuhin</option>
-                        <option value="Maguyam">Maguyam</option>
-                        <option value="Minantok Kanluran">Minantok Kanluran</option>
-                        <option value="Minantok Silangan">Minantok Silangan</option>
-                        <option value="Banadero">Banadero</option>
-                        <option value="Luksuhin">Luksuhin</option>
-                        <option value="Bulihan">Bulihan</option>
-                        <option value="Kabakuhan">Kabakuhan</option>
-                        <option value="Paligawan">Paligawan</option>
-                        <option value="Tabang">Tabang</option>
-                        <option value="Tibig">Tibig</option>
+                        <optgroup label="📍 Poblacion (Urban) - 12 Barangays">
+                            <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
+                            <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
+                            <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
+                            <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
+                            <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
+                            <option value="Barangay VI (Poblacion)">Barangay VI (Poblacion)</option>
+                            <option value="Barangay VII (Poblacion)">Barangay VII (Poblacion)</option>
+                            <option value="Barangay VIII (Poblacion)">Barangay VIII (Poblacion)</option>
+                            <option value="Barangay IX (Poblacion)">Barangay IX (Poblacion)</option>
+                            <option value="Barangay X (Poblacion)">Barangay X (Poblacion)</option>
+                            <option value="Barangay XI (Poblacion)">Barangay XI (Poblacion)</option>
+                            <option value="Barangay XII (Poblacion)">Barangay XII (Poblacion)</option>
+                        </optgroup>
+                        <optgroup label="🏡 Rural Barangays - 14 Barangays">
+                            <option value="Banaybanay">Banaybanay</option>
+                            <option value="Bucal">Bucal</option>
+                            <option value="Buho">Buho</option>
+                            <option value="Dagatan">Dagatan</option>
+                            <option value="Halang">Halang</option>
+                            <option value="Loma">Loma</option>
+                            <option value="Maitim I">Maitim I</option>
+                            <option value="Maymangga">Maymangga</option>
+                            <option value="Minantok Kanluran">Minantok Kanluran</option>
+                            <option value="Minantok Silangan">Minantok Silangan</option>
+                            <option value="Pangil">Pangil</option>
+                            <option value="Salaban">Salaban</option>
+                            <option value="Talon">Talon</option>
+                            <option value="Tamacan">Tamacan</option>
+                        </optgroup>
                     </select>
                 </div>
                 
@@ -307,7 +314,8 @@
     </div>
     
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxMovH4KB7B6Jx2dIogP7xDB5B-GlbbeUNtx7kvkB6v7QUH9bXuqt4RbuMUkVu7_ogNig/exec';
+        // ✅ CORRECTED: Using Amadeo Marketplace API
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
         
         let currentStep = 1;
         let documents = {
@@ -462,24 +470,29 @@
                 if (documents.other) docsToUpload.push(documents.other);
                 
                 const applicationData = {
-                    action: 'merchantRegister',
+                    action: 'registerMerchant',
                     businessName: document.getElementById('businessName').value.trim(),
                     ownerName: document.getElementById('ownerName').value.trim(),
-                    category: document.getElementById('category').value,
+                    businessType: document.getElementById('category').value,
                     phone: document.getElementById('phone').value.trim(),
                     email: document.getElementById('email').value.trim(),
                     address: document.getElementById('address').value.trim(),
                     barangay: document.getElementById('barangay').value,
                     description: document.getElementById('description').value.trim(),
                     password: document.getElementById('password').value,
-                    documents: docsToUpload  // Send actual document data
+                    // Document uploads (base64)
+                    dtiPermit: documents.permit ? documents.permit.data : '',
+                    businessPermit: documents.permit ? documents.permit.data : '',
+                    validId: documents.id ? documents.id.data : '',
+                    otherDocs: documents.other ? documents.other.data : ''
                 };
                 
-                console.log('Submitting application:', applicationData);
+                console.log('Submitting application to Amadeo Marketplace API...');
                 
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'text/plain' },
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(applicationData)
                 });
                 
@@ -527,6 +540,11 @@
                 }
             });
         });
+        
+        // Console log version
+        console.log('✅ Amadeo Marketplace - Merchant Registration v1.3');
+        console.log('📍 26 Official Barangays (PSA 2020 Census)');
+        console.log('🔗 API: Amadeo Marketplace Backend');
     </script>
 </body>
 </html>
