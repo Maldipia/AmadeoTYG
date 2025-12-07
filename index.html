@@ -324,9 +324,9 @@
         <button type="submit" class="btn btn-p">Request Booking</button>
     </form></div></div></div>
     
-    <footer class="ftr"><div class="ftr-in"><div class="ftr-grid"><div class="ftr-col"><h4>🏪 Amadeo Marketplace</h4><a href="#">About Us</a><a href="#">How It Works</a><a href="#">Become a Seller</a><a href="#">Contact</a></div><div class="ftr-col"><h4>Shop</h4><a href="#">Products</a><a href="#">Services</a><a href="#">Stays</a><a href="#">Deals</a></div><div class="ftr-col"><h4>Support</h4><a href="#">Help Center</a><a href="#">Order Tracking</a><a href="#">Returns</a><a href="#">FAQs</a></div><div class="ftr-col"><h4>Connect</h4><a href="#">📱 0966 960 6060</a><a href="#">✉️ hello@amadeomarket.com</a><a href="#">📍 Amadeo, Cavite</a></div></div><div class="partners"><span style="opacity:.6">TYG Family:</span><a href="https://tyg-services.com">TYG Services</a><a href="https://thegoldblessing.com">The Gold Blessing</a><a href="https://soleblessing.com">Sole Blessing</a><a href="https://ast3r.store">AST3R Fashion</a><a href="https://luntian.net">Luntian</a></div><div class="ftr-btm">© 2024 Amadeo Marketplace by TYG Services. All rights reserved.</div></div></footer>
+    <footer class="ftr"><div class="ftr-in"><div class="ftr-grid"><div class="ftr-col"><h4>🏪 Amadeo Marketplace</h4><a href="#">About Us</a><a href="#">How It Works</a><a href="#">Become a Seller</a><a href="#">Contact</a></div><div class="ftr-col"><h4>Shop</h4><a href="#">Products</a><a href="#">Services</a><a href="#">Stays</a><a href="#">Deals</a></div><div class="ftr-col"><h4>Support</h4><a href="#">Help Center</a><a href="#">Order Tracking</a><a href="#">Returns</a><a href="#">FAQs</a></div><div class="ftr-col"><h4>Connect</h4><a href="#">📱 0966 960 6060</a><a href="#">✉️ <span class="__cf_email__" data-cfemail="472f222b2b2807262a262322282a26352c22336924282a">[email&#160;protected]</span></a><a href="#">📍 Amadeo, Cavite</a></div></div><div class="partners"><span style="opacity:.6">TYG Family:</span><a href="https://tyg-services.com">TYG Services</a><a href="https://thegoldblessing.com">The Gold Blessing</a><a href="https://soleblessing.com">Sole Blessing</a><a href="https://ast3r.store">AST3R Fashion</a><a href="https://luntian.net">Luntian</a></div><div class="ftr-btm">© 2024 Amadeo Marketplace by TYG Services. All rights reserved.</div></div></footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ============================================================
 // AMADEO MARKETPLACE v4.2 - CORRECTED BARANGAYS
 // ============================================================
@@ -406,21 +406,32 @@ const SAMPLE_PROPERTIES = [
 // INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-    initTabs();
-    renderCats();
-    loadProducts();
-    updateCart();
-    checkLogin();
-    setMinDates();
-    initTimeSlots();
-    
-    // Set QR images
-    document.getElementById('gcashQR').src = QR_IMAGES.gcash;
-    document.getElementById('mayaQR').src = QR_IMAGES.maya;
-    document.getElementById('bdoQR').src = QR_IMAGES.bdo;
-    document.getElementById('bpiQR').src = QR_IMAGES.bpi;
-    
-    console.log('✅ Amadeo Marketplace v4.2 - Corrected Barangays (26 Official)');
+    console.log('🚀 [1] DOMContentLoaded fired');
+    try {
+        initTabs();
+        console.log('🚀 [2] initTabs done');
+        renderCats();
+        console.log('🚀 [3] renderCats done');
+        loadProducts();
+        console.log('🚀 [4] loadProducts called');
+        updateCart();
+        console.log('🚀 [5] updateCart done');
+        checkLogin();
+        setMinDates();
+        initTimeSlots();
+        
+        // Set QR images (with error protection)
+        try {
+            if(document.getElementById('gcashQR')) document.getElementById('gcashQR').src = QR_IMAGES.gcash;
+            if(document.getElementById('mayaQR')) document.getElementById('mayaQR').src = QR_IMAGES.maya;
+            if(document.getElementById('bdoQR')) document.getElementById('bdoQR').src = QR_IMAGES.bdo;
+            if(document.getElementById('bpiQR')) document.getElementById('bpiQR').src = QR_IMAGES.bpi;
+        } catch(qrErr) { console.error('QR init error:', qrErr); }
+        
+        console.log('✅ Amadeo Marketplace v4.2 - Init Complete');
+    } catch(initErr) {
+        console.error('❌ INIT ERROR:', initErr);
+    }
 });
 
 function generateOrderRef() {
@@ -493,13 +504,18 @@ function filterCat(cat) {
 // PRODUCTS (existing)
 // ============================================================
 async function loadProducts() {
+    console.log('📦 [A] loadProducts started');
     try {
+        console.log('📦 [B] Fetching from API...');
         const [p, m] = await Promise.all([
             fetch(`${API}?action=getAllInventory`),
             fetch(`${API}?action=getMerchants`)
         ]);
+        console.log('📦 [C] Fetch complete, parsing JSON...');
         const pd = await p.json();
         const md = await m.json();
+        console.log('📦 [D] Products:', pd.success, pd.data?.length || 0);
+        console.log('📦 [E] Merchants:', md.success, md.data?.length || 0);
         
         if (pd.success) {
             products = pd.data || [];
@@ -509,10 +525,12 @@ async function loadProducts() {
             md.data.forEach(x => merchants[x.MerchantId] = x);
             document.getElementById('shopCount').textContent = md.data.length;
         }
+        console.log('📦 [F] Calling renderProducts...');
         renderProducts();
+        console.log('📦 [G] renderProducts complete!');
     } catch (e) {
-        console.error('Products load error:', e);
-        document.getElementById('prodGrid').innerHTML = '<div class="empty"><div class="i">😕</div><h3>Error loading products</h3></div>';
+        console.error('❌ Products load error:', e);
+        document.getElementById('prodGrid').innerHTML = '<div class="empty"><div class="i">😕</div><h3>Error loading products</h3><p>' + e.message + '</p></div>';
     }
 }
 
@@ -1118,7 +1136,12 @@ function calcStay() {
     if (bookingType === 'dayuse') {
         nights = 1;
         accom = Math.round(selStay.r * 0.6);
-        document.getElementById('nightsLabel').textContent = 'Day Use   
+        document.getElementById('nightsLabel').textContent = 'Day Use';
+        document.getElementById('stayNights').textContent = '1 day';
+    } else if (checkIn && checkOut) {
+        const inDate = new Date(checkIn);
+        const outDate = new Date(checkOut);
+        
         if (outDate > inDate) {
             nights = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
             
@@ -1247,10 +1270,12 @@ function checkLogin() {
     const link = document.getElementById('loginLink');
     if (u && u.Name) {
         link.textContent = (u.Name || u.BusinessName || 'User').split(' ')[0];
-        link.href = 'javascript:doLogout()';
+        link.href = 'javascript:void(0)';
+        link.setAttribute('onclick', 'doLogout()');
     } else {
         link.textContent = 'Login';
         link.href = '/login';
+        link.removeAttribute('onclick');
     }
 }
 
@@ -1275,20 +1300,4 @@ function autoFill() {
     ['custPhone', 'bookPhone', 'guestPhone'].forEach(id => {
         const el = document.getElementById(id);
         if (el && !el.value) el.value = u.Phone || '';
-    });
-    ['custEmail', 'bookEmail', 'guestEmail'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el && !el.value) el.value = u.Email || '';
-    });
-}
-
-function notify(msg) {
-    const n = document.createElement('div');
-    n.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--p);color:#fff;padding:12px 24px;border-radius:25px;font-size:14px;font-weight:600;z-index:9999;animation:fadeIn .3s';
-    n.textContent = msg;
-    document.body.appendChild(n);
-    setTimeout(() => n.remove(), 2000);
-}
-</script>
-</body>
-</html>
+    })
