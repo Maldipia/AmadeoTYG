@@ -30,6 +30,8 @@
         .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--p)}
         .form-group small{display:block;margin-top:4px;font-size:11px;color:var(--g5)}
         
+        .form-group select optgroup{font-weight:600;color:var(--p);background:var(--g1)}
+        
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
         @media(max-width:480px){.form-row{grid-template-columns:1fr}}
         
@@ -144,32 +146,36 @@
                             <label>Barangay *</label>
                             <select id="regBrgy" required>
                                 <option value="">Select Barangay</option>
-                                <option value="Alapan">Alapan</option>
-                                <option value="Banaybanay">Banaybanay</option>
-                                <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
-                                <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
-                                <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
-                                <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
-                                <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
-                                <option value="Bucal">Bucal</option>
-                                <option value="Buho">Buho</option>
-                                <option value="Dagatan">Dagatan</option>
-                                <option value="Halang">Halang</option>
-                                <option value="Lalaan I">Lalaan I</option>
-                                <option value="Lalaan II">Lalaan II</option>
-                                <option value="Lantic">Lantic</option>
-                                <option value="Lucsuhin">Lucsuhin</option>
-                                <option value="Maguyam">Maguyam</option>
-                                <option value="Mapagmahal">Mapagmahal</option>
-                                <option value="Maymangga">Maymangga</option>
-                                <option value="Munding">Munding</option>
-                                <option value="Paligawan">Paligawan</option>
-                                <option value="Pangil">Pangil</option>
-                                <option value="Salaban">Salaban</option>
-                                <option value="Talon">Talon</option>
-                                <option value="Tamacan">Tamacan</option>
-                                <option value="Tibig">Tibig</option>
-                                <option value="Ulo">Ulo</option>
+                                <optgroup label="📍 Poblacion (Urban) - 12 Barangays">
+                                    <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
+                                    <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
+                                    <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
+                                    <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
+                                    <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
+                                    <option value="Barangay VI (Poblacion)">Barangay VI (Poblacion)</option>
+                                    <option value="Barangay VII (Poblacion)">Barangay VII (Poblacion)</option>
+                                    <option value="Barangay VIII (Poblacion)">Barangay VIII (Poblacion)</option>
+                                    <option value="Barangay IX (Poblacion)">Barangay IX (Poblacion)</option>
+                                    <option value="Barangay X (Poblacion)">Barangay X (Poblacion)</option>
+                                    <option value="Barangay XI (Poblacion)">Barangay XI (Poblacion)</option>
+                                    <option value="Barangay XII (Poblacion)">Barangay XII (Poblacion)</option>
+                                </optgroup>
+                                <optgroup label="🏡 Rural Barangays - 14 Barangays">
+                                    <option value="Banaybanay">Banaybanay</option>
+                                    <option value="Bucal">Bucal</option>
+                                    <option value="Buho">Buho</option>
+                                    <option value="Dagatan">Dagatan</option>
+                                    <option value="Halang">Halang</option>
+                                    <option value="Loma">Loma</option>
+                                    <option value="Maitim I">Maitim I</option>
+                                    <option value="Maymangga">Maymangga</option>
+                                    <option value="Minantok Kanluran">Minantok Kanluran</option>
+                                    <option value="Minantok Silangan">Minantok Silangan</option>
+                                    <option value="Pangil">Pangil</option>
+                                    <option value="Salaban">Salaban</option>
+                                    <option value="Talon">Talon</option>
+                                    <option value="Tamacan">Tamacan</option>
+                                </optgroup>
                             </select>
                         </div>
                         <div class="form-group">
@@ -204,16 +210,14 @@
     </div>
     
     <script>
-    const API = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
+    var API = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
     
-    // Check if already logged in
     document.addEventListener('DOMContentLoaded', function() {
-        const user = localStorage.getItem('user');
+        var user = localStorage.getItem('user');
         if (user) {
             try {
-                const data = JSON.parse(user);
+                var data = JSON.parse(user);
                 if (data && data.UserId) {
-                    // Already logged in, go back to shopping
                     window.location.href = 'index.html';
                 }
             } catch(e) {
@@ -223,23 +227,23 @@
     });
     
     function showTab(tab) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+        document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
         document.getElementById(tab).classList.add('active');
-        const tabIndex = tab === 'login' ? 0 : 1;
+        var tabIndex = tab === 'login' ? 0 : 1;
         document.querySelectorAll('.tab')[tabIndex].classList.add('active');
         hideMessages();
     }
     
     function showError(msg) {
-        const el = document.getElementById('error');
+        var el = document.getElementById('error');
         el.textContent = msg;
         el.style.display = 'block';
         document.getElementById('success').style.display = 'none';
     }
     
     function showSuccess(msg) {
-        const el = document.getElementById('success');
+        var el = document.getElementById('success');
         el.textContent = msg;
         el.style.display = 'block';
         document.getElementById('error').style.display = 'none';
@@ -251,21 +255,19 @@
     }
     
     function continueAsGuest() {
-        // Set guest flag and redirect
         localStorage.setItem('guestCheckout', 'true');
         window.location.href = 'index.html';
     }
     
-    // ========== USER LOGIN ==========
-    async function handleLogin(e) {
+    function handleLogin(e) {
         e.preventDefault();
-        const btn = document.getElementById('loginBtn');
+        var btn = document.getElementById('loginBtn');
         btn.disabled = true;
         btn.textContent = 'Logging in...';
         hideMessages();
         
-        const loginId = document.getElementById('loginId').value.trim();
-        const password = document.getElementById('loginPassword').value;
+        var loginId = document.getElementById('loginId').value.trim();
+        var password = document.getElementById('loginPassword').value;
         
         if (!loginId || !password) {
             showError('Please enter email/phone and password');
@@ -274,19 +276,17 @@
             return;
         }
         
-        try {
-            const res = await fetch(API, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    action: 'userLogin',
-                    loginId: loginId,
-                    password: password
-                })
-            });
-            
-            const result = await res.json();
-            
+        fetch(API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'userLogin',
+                loginId: loginId,
+                password: password
+            })
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(result) {
             if (result.success) {
                 localStorage.setItem('user', JSON.stringify(result.data));
                 localStorage.setItem('userToken', result.token || 'authenticated');
@@ -294,31 +294,30 @@
                 
                 showSuccess('Login successful! Redirecting...');
                 
-                // Check if there's a redirect URL
-                const redirect = sessionStorage.getItem('loginRedirect') || 'index.html';
+                var redirect = sessionStorage.getItem('loginRedirect') || 'index.html';
                 sessionStorage.removeItem('loginRedirect');
                 
-                setTimeout(() => window.location.href = redirect, 1000);
+                setTimeout(function() { window.location.href = redirect; }, 1000);
             } else {
                 showError(result.error || 'Invalid credentials. Please try again.');
                 btn.disabled = false;
                 btn.textContent = 'Login';
             }
-        } catch (err) {
+        })
+        .catch(function(err) {
             console.error('Login error:', err);
             showError('Connection error. Please try again.');
             btn.disabled = false;
             btn.textContent = 'Login';
-        }
+        });
     }
     
-    // ========== USER REGISTER ==========
-    async function handleRegister(e) {
+    function handleRegister(e) {
         e.preventDefault();
         hideMessages();
         
-        const password = document.getElementById('regPassword').value;
-        const password2 = document.getElementById('regPassword2').value;
+        var password = document.getElementById('regPassword').value;
+        var password2 = document.getElementById('regPassword2').value;
         
         if (password !== password2) {
             showError('Passwords do not match');
@@ -330,11 +329,11 @@
             return;
         }
         
-        const btn = document.getElementById('regBtn');
+        var btn = document.getElementById('regBtn');
         btn.disabled = true;
         btn.textContent = 'Creating account...';
         
-        const data = {
+        var data = {
             action: 'registerUser',
             name: document.getElementById('regName').value.trim(),
             phone: document.getElementById('regPhone').value.trim(),
@@ -344,17 +343,15 @@
             address: document.getElementById('regAddress').value.trim()
         };
         
-        try {
-            const res = await fetch(API, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const result = await res.json();
-            
+        fetch(API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(result) {
             if (result.success) {
-                // Auto-login after registration
-                const userData = {
+                var userData = {
                     UserId: result.userId,
                     Name: data.name,
                     Phone: data.phone,
@@ -369,19 +366,19 @@
                 
                 showSuccess('Account created! Redirecting...');
                 
-                const redirect = sessionStorage.getItem('loginRedirect') || 'index.html';
+                var redirect = sessionStorage.getItem('loginRedirect') || 'index.html';
                 sessionStorage.removeItem('loginRedirect');
                 
-                setTimeout(() => window.location.href = redirect, 1500);
+                setTimeout(function() { window.location.href = redirect; }, 1500);
             } else {
                 throw new Error(result.error || 'Registration failed');
             }
-        } catch (err) {
+        })
+        .catch(function(err) {
             showError('Error: ' + err.message);
-        } finally {
             btn.disabled = false;
             btn.textContent = 'Create Account';
-        }
+        });
     }
     </script>
 </body>
