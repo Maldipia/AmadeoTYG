@@ -186,7 +186,7 @@
     <div class="tabs"><div class="tabs-in"><button class="tab on" data-tab="products"><span class="i">🛍️</span><span>Products</span></button><button class="tab" data-tab="services"><span class="i">🔧</span><span>Services</span><span class="badge" id="svcBadge">6</span></button><button class="tab" data-tab="stays"><span class="i">🏡</span><span>Stays</span><span class="badge" id="stayBadge">6</span></button></div></div>
     
     <section id="products" class="section">
-        <div class="hero prod"><h1>Shop Local, Support Amadeo</h1><p>Fresh products from your neighbors. Fast delivery within Amadeo.</p><div class="stats"><div class="stat"><div class="n" id="prodCount">0</div><div class="l">Products</div></div><div class="stat"><div class="n" id="shopCount">0</div><div class="l">Shops</div></div><div class="stat"><div class="n">24</div><div class="l">Barangays</div></div></div></div>
+        <div class="hero prod"><h1>Shop Local, Support Amadeo</h1><p>Fresh products from your neighbors. Fast delivery within Amadeo.</p><div class="stats"><div class="stat"><div class="n" id="prodCount">0</div><div class="l">Products</div></div><div class="stat"><div class="n" id="shopCount">0</div><div class="l">Shops</div></div><div class="stat"><div class="n">26</div><div class="l">Barangays</div></div></div></div>
         <div class="cats"><div class="cats-in" id="prodCats"></div></div>
         <div class="wrap"><div class="grid" id="prodGrid"><div class="loading"><div class="spinner"></div><p>Loading...</p></div></div></div>
     </section>
@@ -212,7 +212,39 @@
         <div class="fg-row"><div class="fg"><label>Full Name *</label><input type="text" id="custName" required></div><div class="fg"><label>Phone *</label><input type="tel" id="custPhone" required></div></div>
         <div class="fg"><label>Email</label><input type="email" id="custEmail"></div>
         <h4 style="margin:14px 0 10px;color:var(--g7);font-size:13px">🚚 Delivery</h4>
-        <div class="fg"><label>Barangay *</label><select id="custBrgy" required><option value="">Select</option><option>Barangay I (Poblacion)</option><option>Barangay II (Poblacion)</option><option>Barangay III (Poblacion)</option><option>Barangay IV (Poblacion)</option><option>Barangay V (Poblacion)</option><option>Barangay VI (Poblacion)</option><option>Barangay VII (Poblacion)</option><option>Barangay VIII (Poblacion)</option><option>Banaybanay</option><option>Buho</option><option>Dagatan</option><option>Halang</option><option>Loma</option><option>Lucsuhin</option><option>Magallanes</option><option>Maymangga</option><option>Minantok Kanluran</option><option>Minantok Silangan</option><option>Pangil</option><option>Salaban</option><option>Talon</option><option>Tamacan</option><option>Tibig</option><option>Ulo</option></select></div>
+        <div class="fg"><label>Barangay *</label><select id="custBrgy" required>
+            <option value="">Select Barangay</option>
+            <optgroup label="📍 Poblacion (Urban)">
+                <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
+                <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
+                <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
+                <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
+                <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
+                <option value="Barangay VI (Poblacion)">Barangay VI (Poblacion)</option>
+                <option value="Barangay VII (Poblacion)">Barangay VII (Poblacion)</option>
+                <option value="Barangay VIII (Poblacion)">Barangay VIII (Poblacion)</option>
+                <option value="Barangay IX (Poblacion)">Barangay IX (Poblacion)</option>
+                <option value="Barangay X (Poblacion)">Barangay X (Poblacion)</option>
+                <option value="Barangay XI (Poblacion)">Barangay XI (Poblacion)</option>
+                <option value="Barangay XII (Poblacion)">Barangay XII (Poblacion)</option>
+            </optgroup>
+            <optgroup label="🏡 Rural Barangays">
+                <option value="Banaybanay">Banaybanay</option>
+                <option value="Bucal">Bucal</option>
+                <option value="Buho">Buho</option>
+                <option value="Dagatan">Dagatan</option>
+                <option value="Halang">Halang</option>
+                <option value="Loma">Loma</option>
+                <option value="Maitim I">Maitim I</option>
+                <option value="Maymangga">Maymangga</option>
+                <option value="Minantok Kanluran">Minantok Kanluran</option>
+                <option value="Minantok Silangan">Minantok Silangan</option>
+                <option value="Pangil">Pangil</option>
+                <option value="Salaban">Salaban</option>
+                <option value="Talon">Talon</option>
+                <option value="Tamacan">Tamacan</option>
+            </optgroup>
+        </select></div>
         <div class="fg"><label>Complete Address *</label><textarea id="custAddr" rows="2" required></textarea></div>
         <h4 style="margin:14px 0 10px;color:var(--g7);font-size:13px">💳 Payment Method</h4>
         <div class="pay-opts">
@@ -241,7 +273,39 @@
         <div class="fg"><label>Preferred Date *</label><input type="date" id="svcDate" required></div>
         <div class="fg"><label>Preferred Time *</label><input type="hidden" id="selTime"><div class="time-slots" id="timeSlots"></div></div>
         <div class="fg"><label>Service Location</label><select id="svcLoc" onchange="toggleSvcAddr()"><option value="home">🏠 Home Service</option><option value="shop">🏪 Visit Shop</option></select></div>
-        <div class="fg" id="svcAddrDiv"><label>Barangay</label><select id="svcBrgy"><option value="">Select</option><option>Dagatan</option><option>Halang</option><option>Maymangga</option><option>Poblacion</option><option>Tibig</option></select></div>
+        <div class="fg" id="svcAddrDiv"><label>Barangay</label><select id="svcBrgy">
+            <option value="">Select Barangay</option>
+            <optgroup label="📍 Poblacion (Urban)">
+                <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
+                <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
+                <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
+                <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
+                <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
+                <option value="Barangay VI (Poblacion)">Barangay VI (Poblacion)</option>
+                <option value="Barangay VII (Poblacion)">Barangay VII (Poblacion)</option>
+                <option value="Barangay VIII (Poblacion)">Barangay VIII (Poblacion)</option>
+                <option value="Barangay IX (Poblacion)">Barangay IX (Poblacion)</option>
+                <option value="Barangay X (Poblacion)">Barangay X (Poblacion)</option>
+                <option value="Barangay XI (Poblacion)">Barangay XI (Poblacion)</option>
+                <option value="Barangay XII (Poblacion)">Barangay XII (Poblacion)</option>
+            </optgroup>
+            <optgroup label="🏡 Rural Barangays">
+                <option value="Banaybanay">Banaybanay</option>
+                <option value="Bucal">Bucal</option>
+                <option value="Buho">Buho</option>
+                <option value="Dagatan">Dagatan</option>
+                <option value="Halang">Halang</option>
+                <option value="Loma">Loma</option>
+                <option value="Maitim I">Maitim I</option>
+                <option value="Maymangga">Maymangga</option>
+                <option value="Minantok Kanluran">Minantok Kanluran</option>
+                <option value="Minantok Silangan">Minantok Silangan</option>
+                <option value="Pangil">Pangil</option>
+                <option value="Salaban">Salaban</option>
+                <option value="Talon">Talon</option>
+                <option value="Tamacan">Tamacan</option>
+            </optgroup>
+        </select></div>
         <div class="fg"><label>Address / Notes</label><textarea id="svcAddress" rows="2" placeholder="Complete address or special instructions"></textarea></div>
         <div class="summary"><h4>Booking Summary</h4><div class="sum-row"><span>Service</span><span id="bookSvc">-</span></div><div class="sum-row"><span>Provider</span><span id="bookProv">-</span></div><div class="sum-row"><span>Duration</span><span id="bookDur">-</span></div><div class="sum-row"><span>Service Fee (10%)</span><span id="bookFee">₱0</span></div><div class="sum-row total"><span>Total</span><span id="bookTot">₱0</span></div></div>
         <button type="submit" class="btn btn-p">Confirm Booking</button>
@@ -264,7 +328,7 @@
 
 <script>
 // ============================================================
-// AMADEO MARKETPLACE v4.1 - API INTEGRATED
+// AMADEO MARKETPLACE v4.2 - CORRECTED BARANGAYS
 // ============================================================
 
 const API = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
@@ -356,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('bdoQR').src = QR_IMAGES.bdo;
     document.getElementById('bpiQR').src = QR_IMAGES.bpi;
     
-    console.log('✅ Amadeo Marketplace v4.1 - API Integrated');
+    console.log('✅ Amadeo Marketplace v4.2 - Corrected Barangays (26 Official)');
 });
 
 function generateOrderRef() {
