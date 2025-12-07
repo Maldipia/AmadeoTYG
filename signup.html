@@ -36,6 +36,7 @@
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; font-size: 14px; }
         .form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px; transition: border-color 0.3s; }
         .form-group input:focus, .form-group select:focus { outline: none; border-color: #0f766e; }
+        .form-group select optgroup { font-weight: 600; color: #0f766e; background: #f9fafb; }
         .terms-check { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; }
         .terms-check input { width: 18px; height: 18px; margin-top: 2px; accent-color: #0f766e; }
         .terms-check label { font-size: 13px; color: #666; line-height: 1.4; }
@@ -74,38 +75,44 @@
                 <input type="email" id="email" placeholder="optional">
             </div>
             <div class="form-group">
-                <label>Delivery Address *</label>
-                <input type="text" id="address" required placeholder="House/Unit No., Street">
-            </div>
-            <div class="form-group">
                 <label>Barangay *</label>
                 <select id="barangay" required>
                     <option value="">Select Barangay</option>
-                    <option value="Poblacion">Poblacion</option>
-                    <option value="Dagatan">Dagatan</option>
-                    <option value="Halang">Halang</option>
-                    <option value="Iba">Iba</option>
-                    <option value="Kaysuyo">Kaysuyo</option>
-                    <option value="Lalaan I">Lalaan I</option>
-                    <option value="Lalaan II">Lalaan II</option>
-                    <option value="Maymangga">Maymangga</option>
-                    <option value="Minantok East">Minantok East</option>
-                    <option value="Minantok West">Minantok West</option>
-                    <option value="Pangil">Pangil</option>
-                    <option value="Salaban">Salaban</option>
-                    <option value="Talon">Talon</option>
-                    <option value="Tamlong">Tamlong</option>
-                    <option value="Banaybanay">Banaybanay</option>
-                    <option value="Buho">Buho</option>
-                    <option value="Kabigting">Kabigting</option>
-                    <option value="Labac">Labac</option>
-                    <option value="Luksuhin">Luksuhin</option>
-                    <option value="Maitim">Maitim</option>
-                    <option value="Mahabang Kahoy">Mahabang Kahoy</option>
-                    <option value="Paligawan">Paligawan</option>
-                    <option value="San Agustin">San Agustin</option>
-                    <option value="Tiambong">Tiambong</option>
+                    <optgroup label="📍 Poblacion (Urban) - 12 Barangays">
+                        <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
+                        <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
+                        <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
+                        <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
+                        <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
+                        <option value="Barangay VI (Poblacion)">Barangay VI (Poblacion)</option>
+                        <option value="Barangay VII (Poblacion)">Barangay VII (Poblacion)</option>
+                        <option value="Barangay VIII (Poblacion)">Barangay VIII (Poblacion)</option>
+                        <option value="Barangay IX (Poblacion)">Barangay IX (Poblacion)</option>
+                        <option value="Barangay X (Poblacion)">Barangay X (Poblacion)</option>
+                        <option value="Barangay XI (Poblacion)">Barangay XI (Poblacion)</option>
+                        <option value="Barangay XII (Poblacion)">Barangay XII (Poblacion)</option>
+                    </optgroup>
+                    <optgroup label="🏡 Rural Barangays - 14 Barangays">
+                        <option value="Banaybanay">Banaybanay</option>
+                        <option value="Bucal">Bucal</option>
+                        <option value="Buho">Buho</option>
+                        <option value="Dagatan">Dagatan</option>
+                        <option value="Halang">Halang</option>
+                        <option value="Loma">Loma</option>
+                        <option value="Maitim I">Maitim I</option>
+                        <option value="Maymangga">Maymangga</option>
+                        <option value="Minantok Kanluran">Minantok Kanluran</option>
+                        <option value="Minantok Silangan">Minantok Silangan</option>
+                        <option value="Pangil">Pangil</option>
+                        <option value="Salaban">Salaban</option>
+                        <option value="Talon">Talon</option>
+                        <option value="Tamacan">Tamacan</option>
+                    </optgroup>
                 </select>
+            </div>
+            <div class="form-group">
+                <label>Delivery Address (Optional)</label>
+                <input type="text" id="address" placeholder="House/Unit No., Street">
             </div>
             <div class="form-row">
                 <div class="form-group">
@@ -119,15 +126,15 @@
             </div>
             <div class="terms-check">
                 <input type="checkbox" id="agreeTerms" required>
-                <label for="agreeTerms">I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a></label>
+                <label for="agreeTerms">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></label>
             </div>
             <button type="submit" class="signup-btn" id="signupBtn">Create Account</button>
         </form>
-        <div class="login-link">Already have an account? <a href="/login">Login here</a></div>
-        <div class="merchant-link">Want to sell? <a href="/register">Register as Merchant →</a></div>
+        <div class="login-link">Already have an account? <a href="login.html">Login here</a></div>
+        <div class="merchant-link">Want to sell? <a href="merchant-login.html">Register as Merchant →</a></div>
     </div>
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxMovH4KB7B6Jx2dIogP7xDB5B-GlbbeUNtx7kvkB6v7QUH9bXuqt4RbuMUkVu7_ogNig/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
         function showStatus(message, type) {
             const el = document.getElementById('statusMessage');
             el.textContent = message;
@@ -139,6 +146,7 @@
             const confirmPassword = document.getElementById('confirmPassword').value;
             if (password !== confirmPassword) { showStatus('Passwords do not match', 'error'); return; }
             if (password.length < 6) { showStatus('Password must be at least 6 characters', 'error'); return; }
+            if (!document.getElementById('agreeTerms').checked) { showStatus('Please agree to Terms of Service and Privacy Policy', 'error'); return; }
             const btn = document.getElementById('signupBtn');
             btn.disabled = true;
             btn.textContent = 'Creating account...';
@@ -146,13 +154,14 @@
             try {
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'text/plain' },
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'registerUser',
                         name: document.getElementById('fullName').value,
                         phone: document.getElementById('phone').value,
                         email: document.getElementById('email').value || '',
-                        address: document.getElementById('address').value,
+                        address: document.getElementById('address').value || '',
                         barangay: document.getElementById('barangay').value,
                         password: password
                     })
@@ -160,7 +169,7 @@
                 const result = await response.json();
                 if (result.success) {
                     showStatus('Account created! Redirecting to login...', 'success');
-                    setTimeout(() => { window.location.href = '/login'; }, 2000);
+                    setTimeout(() => { window.location.href = 'login.html'; }, 2000);
                 } else {
                     showStatus(result.error || 'Registration failed', 'error');
                     btn.disabled = false;

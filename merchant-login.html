@@ -76,6 +76,18 @@
         .required-docs ul{margin-left:16px;color:#92400e}
         .required-docs li{margin-bottom:2px}
         
+        .commission-info{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);padding:14px;border-radius:10px;margin:16px 0;border:1px solid #99f6e4}
+        .commission-info h5{color:var(--pd);margin-bottom:10px;font-size:14px;display:flex;align-items:center;gap:6px}
+        .commission-info ul{list-style:none;font-size:12px;color:var(--g7)}
+        .commission-info li{padding:4px 0;display:flex;align-items:center;gap:6px}
+        .commission-info .highlight{background:var(--g);color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;font-size:11px}
+        .commission-info .free{background:var(--o);color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;font-size:11px}
+        
+        .terms-check{display:flex;align-items:flex-start;gap:10px;margin:16px 0;padding:12px;background:var(--g1);border-radius:8px}
+        .terms-check input{width:18px;height:18px;margin-top:2px;accent-color:var(--p);flex-shrink:0}
+        .terms-check label{font-size:12px;color:var(--g5);line-height:1.4}
+        .terms-check a{color:var(--p);font-weight:500}
+        
         .progress-bar{height:4px;background:var(--g2);border-radius:2px;margin-bottom:16px;overflow:hidden}
         .progress-fill{height:100%;background:var(--p);width:0%;transition:width .3s}
         
@@ -222,7 +234,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label>Complete Address</label>
+                            <label>Complete Address (Optional)</label>
                             <input type="text" id="regAddress" placeholder="Street, Building, Landmark">
                         </div>
                         
@@ -249,6 +261,24 @@
                                 <input type="file" id="regDocs" multiple accept="image/*,.pdf" onchange="handleDocsUpload(this)">
                             </div>
                             <div class="file-list" id="fileList"></div>
+                        </div>
+                        
+                        <!-- COMMISSION INFO BOX -->
+                        <div class="commission-info">
+                            <h5>💰 Commission Structure</h5>
+                            <ul>
+                                <li><span class="highlight">0%</span> Commission on Cash on Delivery</li>
+                                <li><span class="highlight">5%</span> Commission on Online Payments</li>
+                                <li><span class="free">FREE</span> First 30 days - 0% on all orders!</li>
+                                <li>📅 Weekly settlement via GCash (Tuesdays)</li>
+                                <li>💵 Minimum payout: ₱100</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- TERMS CHECKBOX -->
+                        <div class="terms-check">
+                            <input type="checkbox" id="regTerms" required>
+                            <label for="regTerms">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>, including the commission structure above.</label>
                         </div>
                         
                         <button type="submit" class="btn btn-primary" id="regBtn">Create Merchant Account</button>
@@ -453,6 +483,12 @@
         
         if (uploadedDocs.length === 0) {
             showError('Please upload at least one business document (DTI, Mayor\'s Permit, or Valid ID)');
+            return;
+        }
+        
+        // Check terms checkbox
+        if (!document.getElementById('regTerms').checked) {
+            showError('Please agree to the Terms of Service and Privacy Policy');
             return;
         }
         
