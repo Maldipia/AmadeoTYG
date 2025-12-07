@@ -80,6 +80,10 @@
         .success-content h2 { color: #0f766e; margin-bottom: 15px; }
         .success-content p { color: #666; margin-bottom: 20px; line-height: 1.6; }
         
+        .start-over { text-align: center; margin-top: 15px; }
+        .start-over a { color: #0f766e; font-size: 14px; text-decoration: none; }
+        .start-over a:hover { text-decoration: underline; }
+        
         @media (max-width: 600px) {
             .form-row { grid-template-columns: 1fr; }
             .card { padding: 25px; }
@@ -291,6 +295,11 @@
                     <button class="btn btn-outline" onclick="prevStep(3)">← Back</button>
                     <button class="btn btn-primary" id="submitBtn" onclick="submitApplication()">Submit Application</button>
                 </div>
+                
+                <!-- ✅ ADDED: Start Over Option -->
+                <div class="start-over">
+                    <a href="#" onclick="startOver(); return false;">🔄 Start Over - Edit Registration Details</a>
+                </div>
             </div>
             
             <!-- Success Section -->
@@ -314,7 +323,7 @@
     </div>
     
     <script>
-        // ✅ CORRECTED: Using Amadeo Marketplace API
+        // ✅ Using Amadeo Marketplace API
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
         
         let currentStep = 1;
@@ -422,6 +431,16 @@
             window.scrollTo(0, 0);
         }
         
+        // ✅ ADDED: Start Over function
+        function startOver() {
+            if (confirm('Are you sure you want to start over? Your entered data will be kept, but you can edit it.')) {
+                currentStep = 1;
+                updateSteps();
+                hideStatus();
+                window.scrollTo(0, 0);
+            }
+        }
+        
         function handleDocUpload(type, event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -463,17 +482,15 @@
             btn.textContent = 'Submitting...';
             
             try {
-                // Prepare documents array for upload
-                const docsToUpload = [];
-                if (documents.permit) docsToUpload.push(documents.permit);
-                if (documents.id) docsToUpload.push(documents.id);
-                if (documents.other) docsToUpload.push(documents.other);
+                const categoryValue = document.getElementById('category').value;
                 
+                // ✅ FIXED: Send BOTH category AND businessType for API compatibility
                 const applicationData = {
                     action: 'registerMerchant',
                     businessName: document.getElementById('businessName').value.trim(),
                     ownerName: document.getElementById('ownerName').value.trim(),
-                    businessType: document.getElementById('category').value,
+                    category: categoryValue,           // ✅ Original field name
+                    businessType: categoryValue,       // ✅ Alternative field name
                     phone: document.getElementById('phone').value.trim(),
                     email: document.getElementById('email').value.trim(),
                     address: document.getElementById('address').value.trim(),
@@ -487,7 +504,11 @@
                     otherDocs: documents.other ? documents.other.data : ''
                 };
                 
-                console.log('Submitting application to Amadeo Marketplace API...');
+                console.log('Submitting application...', {
+                    businessName: applicationData.businessName,
+                    category: applicationData.category,
+                    barangay: applicationData.barangay
+                });
                 
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
@@ -542,9 +563,9 @@
         });
         
         // Console log version
-        console.log('✅ Amadeo Marketplace - Merchant Registration v1.3');
+        console.log('✅ Amadeo Marketplace - Merchant Registration v1.4');
         console.log('📍 26 Official Barangays (PSA 2020 Census)');
-        console.log('🔗 API: Amadeo Marketplace Backend');
+        console.log('🔧 Fixed: category field + Start Over option');
     </script>
 </body>
 </html>
