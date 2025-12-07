@@ -406,23 +406,32 @@ const SAMPLE_PROPERTIES = [
 // INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-    initTabs();
-    renderCats();
-    loadProducts();
-    updateCart();
-    checkLogin();
-    setMinDates();
-    initTimeSlots();
-    
-    // Set QR images (with error handling)
+    console.log('🚀 [1] DOMContentLoaded fired');
     try {
-        if(document.getElementById('gcashQR')) document.getElementById('gcashQR').src = QR_IMAGES.gcash;
-        if(document.getElementById('mayaQR')) document.getElementById('mayaQR').src = QR_IMAGES.maya;
-        if(document.getElementById('bdoQR')) document.getElementById('bdoQR').src = QR_IMAGES.bdo;
-        if(document.getElementById('bpiQR')) document.getElementById('bpiQR').src = QR_IMAGES.bpi;
-    } catch(e) { console.error('QR init error:', e); }
-    
-    console.log('✅ Amadeo Marketplace v4.2 - Corrected Barangays (26 Official)');
+        initTabs();
+        console.log('🚀 [2] initTabs done');
+        renderCats();
+        console.log('🚀 [3] renderCats done');
+        loadProducts();
+        console.log('🚀 [4] loadProducts called');
+        updateCart();
+        console.log('🚀 [5] updateCart done');
+        checkLogin();
+        setMinDates();
+        initTimeSlots();
+        
+        // Set QR images (with error protection)
+        try {
+            if(document.getElementById('gcashQR')) document.getElementById('gcashQR').src = QR_IMAGES.gcash;
+            if(document.getElementById('mayaQR')) document.getElementById('mayaQR').src = QR_IMAGES.maya;
+            if(document.getElementById('bdoQR')) document.getElementById('bdoQR').src = QR_IMAGES.bdo;
+            if(document.getElementById('bpiQR')) document.getElementById('bpiQR').src = QR_IMAGES.bpi;
+        } catch(qrErr) { console.error('QR init error:', qrErr); }
+        
+        console.log('✅ Amadeo Marketplace v4.2 - Init Complete');
+    } catch(initErr) {
+        console.error('❌ INIT ERROR:', initErr);
+    }
 });
 
 function generateOrderRef() {
@@ -495,13 +504,18 @@ function filterCat(cat) {
 // PRODUCTS (existing)
 // ============================================================
 async function loadProducts() {
+    console.log('📦 [A] loadProducts started');
     try {
+        console.log('📦 [B] Fetching from API...');
         const [p, m] = await Promise.all([
             fetch(`${API}?action=getAllInventory`),
             fetch(`${API}?action=getMerchants`)
         ]);
+        console.log('📦 [C] Fetch complete, parsing JSON...');
         const pd = await p.json();
         const md = await m.json();
+        console.log('📦 [D] Products:', pd.success, pd.data?.length || 0);
+        console.log('📦 [E] Merchants:', md.success, md.data?.length || 0);
         
         if (pd.success) {
             products = pd.data || [];
@@ -511,10 +525,12 @@ async function loadProducts() {
             md.data.forEach(x => merchants[x.MerchantId] = x);
             document.getElementById('shopCount').textContent = md.data.length;
         }
+        console.log('📦 [F] Calling renderProducts...');
         renderProducts();
+        console.log('📦 [G] renderProducts complete!');
     } catch (e) {
-        console.error('Products load error:', e);
-        document.getElementById('prodGrid').innerHTML = '<div class="empty"><div class="i">😕</div><h3>Error loading products</h3></div>';
+        console.error('❌ Products load error:', e);
+        document.getElementById('prodGrid').innerHTML = '<div class="empty"><div class="i">😕</div><h3>Error loading products</h3><p>' + e.message + '</p></div>';
     }
 }
 
