@@ -473,18 +473,7 @@
                         </select>
                     </div>
                     <div class="form-group"><label>Description</label><textarea id="prodDesc" rows="3"></textarea></div>
-                    <div class="form-group">
-                        <label>Product Photo</label>
-                        <div class="file-upload-box" onclick="document.getElementById('prodImageFile').click()" style="border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; background: #fafafa;">
-                            <div class="upload-icon" style="font-size: 32px; margin-bottom: 10px;">📸</div>
-                            <p style="color: #666; margin: 5px 0;">Click to upload product photo</p>
-                            <small style="color: #999;">JPG, PNG, GIF (max 2MB)</small>
-                            <img id="prodImagePreview" style="max-width: 200px; max-height: 150px; margin-top: 15px; border-radius: 8px; display: none;" alt="Preview">
-                            <div id="prodImageName" style="color: #0f766e; font-weight: 600; margin-top: 10px; display: none;"></div>
-                        </div>
-                        <input type="file" id="prodImageFile" accept="image/*" style="display: none;" onchange="handleProductImage(event)">
-                        <input type="hidden" id="prodImage">
-                    </div>
+                    <div class="form-group"><label>Image URL</label><input type="url" id="prodImage" placeholder="https://..."></div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -584,7 +573,7 @@
     </div>
     
     <script>
-    const API='https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
+    const API='https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
     let merchant=null,orders=[],products=[],services=[],properties=[],currentOrderFilter='all',selectedOrder=null;
     
     document.addEventListener('DOMContentLoaded',()=>{loadMerchant();checkHash()});
@@ -717,7 +706,7 @@
         
         grid.innerHTML=products.map(p=>`
             <div class="item-card">
-               <div class="item-img">${p.ImageUrl ? `<img src="${p.ImageUrl}" alt="${p.Name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='📦'">` : '📦'}</div>
+                <div class="item-img">${p.Image?`<img src="${p.Image}" onerror="this.parentElement.innerHTML='📦'">`:'📦'}</div>
                 <div class="item-body">
                     <div class="item-name">${p.Name||'Product'}</div>
                     <div class="item-meta">${p.Category||'-'} • Stock: ${p.StockLevel||0}</div>
@@ -818,51 +807,10 @@
     }
     
     // PRODUCT FUNCTIONS
-    let productImageData = null;
-    
-    function handleProductImage(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        if (file.size > 2 * 1024 * 1024) {
-            alert('File too large. Maximum size is 2MB.');
-            return;
-        }
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            productImageData = {
-                name: file.name,
-                type: file.type,
-                data: e.target.result
-            };
-            
-            // Show preview
-            const preview = document.getElementById('prodImagePreview');
-            const fileName = document.getElementById('prodImageName');
-            const uploadBox = document.querySelector('.file-upload-box');
-            
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-            fileName.textContent = '✓ ' + file.name;
-            fileName.style.display = 'block';
-            uploadBox.style.borderColor = '#10b981';
-            uploadBox.style.background = '#d1fae5';
-        };
-        reader.readAsDataURL(file);
-    }
-    
     function openProductModal(productId){
         document.getElementById('productForm').reset();
         document.getElementById('prodId').value='';
         document.getElementById('productModalTitle').textContent='Add Product';
-        productImageData = null;
-        
-        // Reset image preview
-        document.getElementById('prodImagePreview').style.display = 'none';
-        document.getElementById('prodImageName').style.display = 'none';
-        document.querySelector('.file-upload-box').style.borderColor = '#ddd';
-        document.querySelector('.file-upload-box').style.background = '#fafafa';
         
         if(productId){
             const p=products.find(x=>x.ProductId===productId);
@@ -873,14 +821,7 @@
                 document.getElementById('prodStock').value=p.StockLevel||'';
                 document.getElementById('prodCategory').value=p.Category||'';
                 document.getElementById('prodDesc').value=p.Description||'';
-                
-                if(p.Image) {
-                    document.getElementById('prodImagePreview').src = p.Image;
-                    document.getElementById('prodImagePreview').style.display = 'block';
-                    document.getElementById('prodImageName').textContent = '✓ Current photo';
-                    document.getElementById('prodImageName').style.display = 'block';
-                }
-                
+                document.getElementById('prodImage').value=p.Image||'';
                 document.getElementById('productModalTitle').textContent='Edit Product';
             }
         }
@@ -898,10 +839,10 @@
             merchantId:merchant.MerchantId,
             name:document.getElementById('prodName').value,
             price:parseFloat(document.getElementById('prodPrice').value),
-            initialStock:parseInt(document.getElementById('prodStock').value),
+            stockLevel:parseInt(document.getElementById('prodStock').value),
             category:document.getElementById('prodCategory').value,
             description:document.getElementById('prodDesc').value,
-            productImage: productImageData  // Send image data
+            image:document.getElementById('prodImage').value
         };
         
         try{

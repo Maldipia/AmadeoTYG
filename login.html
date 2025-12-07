@@ -5,402 +5,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Amadeo Marketplace</title>
     <style>
-        :root{--p:#0f766e;--pd:#134e4a;--pl:#14b8a6;--r:#ef4444;--g:#22c55e;--o:#f97316;--g1:#f9fafb;--g2:#e5e7eb;--g5:#6b7280;--g7:#374151;--g9:#111827;--sh:0 4px 6px -1px rgba(0,0,0,0.1)}
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:system-ui,-apple-system,sans-serif;background:linear-gradient(135deg,var(--pd) 0%,var(--p) 50%,var(--pl) 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-        
-        .container{width:100%;max-width:420px}
-        .logo{text-align:center;margin-bottom:30px}
-        .logo a{color:#fff;text-decoration:none;font-size:28px;font-weight:700}
-        .logo p{color:rgba(255,255,255,.8);font-size:14px;margin-top:8px}
-        
-        .card{background:#fff;border-radius:16px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);overflow:hidden}
-        .card-header{padding:24px;text-align:center;border-bottom:1px solid var(--g2)}
-        .card-header h1{font-size:22px;color:var(--g9);margin-bottom:4px}
-        .card-header p{font-size:14px;color:var(--g5)}
-        
-        .card-body{padding:24px}
-        .tabs{display:flex;margin-bottom:24px;background:var(--g1);border-radius:8px;padding:4px}
-        .tab{flex:1;padding:12px;border:none;background:none;cursor:pointer;font-weight:600;font-size:14px;color:var(--g5);border-radius:6px;transition:all .2s}
-        .tab.active{background:#fff;color:var(--p);box-shadow:var(--sh)}
-        
-        .form-group{margin-bottom:16px}
-        .form-group label{display:block;font-size:13px;font-weight:600;color:var(--g7);margin-bottom:6px}
-        .form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--g2);border-radius:8px;font-size:14px;transition:border-color .2s}
-        .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--p)}
-        .form-group small{display:block;margin-top:4px;font-size:11px;color:var(--g5)}
-        
-        .form-group select optgroup{font-weight:600;color:var(--p);background:var(--g1)}
-        
-        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-        @media(max-width:480px){.form-row{grid-template-columns:1fr}}
-        
-        .terms-check{display:flex;align-items:flex-start;gap:10px;margin:16px 0;padding:12px;background:var(--g1);border-radius:8px}
-        .terms-check input{width:18px;height:18px;margin-top:2px;accent-color:var(--p);flex-shrink:0}
-        .terms-check label{font-size:12px;color:var(--g5);line-height:1.4}
-        .terms-check a{color:var(--p);font-weight:500}
-        
-        .btn{width:100%;padding:14px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
-        .btn-primary{background:linear-gradient(135deg,var(--p),var(--pl));color:#fff}
-        .btn-primary:hover{opacity:.9;transform:translateY(-1px)}
-        .btn-primary:disabled{background:var(--g2);color:var(--g5);cursor:not-allowed;transform:none}
-        
-        .link{text-align:center;margin-top:20px}
-        .link a{color:var(--p);text-decoration:none;font-size:14px;font-weight:500}
-        .link a:hover{text-decoration:underline}
-        
-        .error{background:#fee2e2;color:#dc2626;padding:12px;border-radius:8px;margin-bottom:18px;font-size:13px;display:none}
-        .success{background:#dcfce7;color:#16a34a;padding:12px;border-radius:8px;margin-bottom:18px;font-size:13px;display:none}
-        
-        .footer{text-align:center;margin-top:30px;color:rgba(255,255,255,.7);font-size:13px}
-        .footer a{color:#fff}
-        
-        .section{display:none}
-        .section.active{display:block}
-        
-        .seller-link{background:linear-gradient(135deg,#fef3c7,#fde68a);padding:12px;border-radius:8px;text-align:center;margin-top:16px;border:1px solid #fbbf24}
-        .seller-link p{font-size:12px;color:#92400e;margin-bottom:4px}
-        .seller-link a{color:#92400e;font-weight:600;font-size:13px}
-        
-        .benefits{margin-top:20px;padding-top:20px;border-top:1px solid var(--g2)}
-        .benefits h4{font-size:13px;color:var(--g7);margin-bottom:12px}
-        .benefits ul{list-style:none;font-size:13px;color:var(--g5)}
-        .benefits li{padding:5px 0;display:flex;align-items:center;gap:8px}
-        .benefits li::before{content:'✓';color:var(--g);font-weight:bold}
-        
-        .guest-btn{width:100%;padding:12px;border:2px solid var(--g2);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:#fff;color:var(--g7);margin-top:12px;transition:all .2s}
-        .guest-btn:hover{border-color:var(--p);color:var(--p)}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-container { width: 100%; max-width: 420px; }
+        .login-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(15,118,110,0.15); }
+        .logo { text-align: center; margin-bottom: 30px; }
+        .logo h1 { color: #0f766e; font-size: 28px; margin-bottom: 5px; }
+        .logo p { color: #666; font-size: 14px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 30px; }
+        .tab { flex: 1; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; background: white; cursor: pointer; font-weight: 600; color: #666; transition: all 0.3s; }
+        .tab.active { border-color: #0f766e; background: #f0fdfa; color: #0f766e; }
+        .tab:hover:not(.active) { border-color: #14b8a6; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px; }
+        .form-group input { width: 100%; padding: 14px 16px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
+        .form-group input:focus { outline: none; border-color: #0f766e; }
+        .remember-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; font-size: 14px; }
+        .remember-row label { display: flex; align-items: center; gap: 8px; cursor: pointer; color: #666; }
+        .remember-row a { color: #0f766e; text-decoration: none; }
+        .login-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(15,118,110,0.3); }
+        .login-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .register-link { text-align: center; margin-top: 25px; padding-top: 25px; border-top: 1px solid #eee; font-size: 14px; color: #666; }
+        .register-link a { color: #0f766e; font-weight: 600; text-decoration: none; }
+        .status { padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; display: none; }
+        .status.error { display: block; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+        .status.success { display: block; background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .home-link { text-align: center; margin-top: 20px; }
+        .home-link a { color: #0f766e; text-decoration: none; font-size: 14px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <a href="index.html">🏪 Amadeo Marketplace</a>
-            <p>Shop Local, Support Amadeo</p>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <h1>Welcome!</h1>
-                <p>Login or create an account to start shopping</p>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">
+                <h1>🏪 Amadeo Marketplace</h1>
+                <p>Welcome back!</p>
             </div>
-            
-            <div class="card-body">
-                <div class="tabs">
-                    <button class="tab active" onclick="showTab('login')">Login</button>
-                    <button class="tab" onclick="showTab('register')">Register</button>
-                </div>
-                
-                <div id="error" class="error"></div>
-                <div id="success" class="success"></div>
-                
-                <!-- ========== LOGIN FORM ========== -->
-                <div id="login" class="section active">
-                    <form onsubmit="handleLogin(event)">
-                        <div class="form-group">
-                            <label>Email or Phone *</label>
-                            <input type="text" id="loginId" required placeholder="email@example.com or 09XX XXX XXXX">
-                        </div>
-                        <div class="form-group">
-                            <label>Password *</label>
-                            <input type="password" id="loginPassword" required placeholder="Enter your password">
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
-                        <button type="button" class="guest-btn" onclick="continueAsGuest()">Continue as Guest</button>
-                    </form>
-                    
-                    <div class="link">
-                        <p style="color:var(--g5);font-size:13px;margin-bottom:8px">Don't have an account?</p>
-                        <a href="#" onclick="showTab('register')">Create Account →</a>
-                    </div>
-                    
-                    <div class="seller-link">
-                        <p>Want to sell on Amadeo Marketplace?</p>
-                        <a href="merchant-login.html">Register as Merchant →</a>
-                    </div>
-                </div>
-                
-                <!-- ========== REGISTER FORM ========== -->
-                <div id="register" class="section">
-                    <form onsubmit="handleRegister(event)" id="registerForm">
-                        <div class="form-group">
-                            <label>Full Name *</label>
-                            <input type="text" id="regName" required placeholder="Juan Dela Cruz">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Phone Number *</label>
-                                <input type="tel" id="regPhone" required placeholder="09XX XXX XXXX">
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" id="regEmail" placeholder="your@email.com">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Password *</label>
-                                <input type="password" id="regPassword" required placeholder="Min 6 characters" minlength="6">
-                            </div>
-                            <div class="form-group">
-                                <label>Confirm Password *</label>
-                                <input type="password" id="regPassword2" required placeholder="Confirm password" minlength="6">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Barangay *</label>
-                            <select id="regBrgy" required>
-                                <option value="">Select Barangay</option>
-                                <optgroup label="📍 Poblacion (Urban) - 12 Barangays">
-                                    <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
-                                    <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
-                                    <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
-                                    <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
-                                    <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
-                                    <option value="Barangay VI (Poblacion)">Barangay VI (Poblacion)</option>
-                                    <option value="Barangay VII (Poblacion)">Barangay VII (Poblacion)</option>
-                                    <option value="Barangay VIII (Poblacion)">Barangay VIII (Poblacion)</option>
-                                    <option value="Barangay IX (Poblacion)">Barangay IX (Poblacion)</option>
-                                    <option value="Barangay X (Poblacion)">Barangay X (Poblacion)</option>
-                                    <option value="Barangay XI (Poblacion)">Barangay XI (Poblacion)</option>
-                                    <option value="Barangay XII (Poblacion)">Barangay XII (Poblacion)</option>
-                                </optgroup>
-                                <optgroup label="🏡 Rural Barangays - 14 Barangays">
-                                    <option value="Banaybanay">Banaybanay</option>
-                                    <option value="Bucal">Bucal</option>
-                                    <option value="Buho">Buho</option>
-                                    <option value="Dagatan">Dagatan</option>
-                                    <option value="Halang">Halang</option>
-                                    <option value="Loma">Loma</option>
-                                    <option value="Maitim I">Maitim I</option>
-                                    <option value="Maymangga">Maymangga</option>
-                                    <option value="Minantok Kanluran">Minantok Kanluran</option>
-                                    <option value="Minantok Silangan">Minantok Silangan</option>
-                                    <option value="Pangil">Pangil</option>
-                                    <option value="Salaban">Salaban</option>
-                                    <option value="Talon">Talon</option>
-                                    <option value="Tamacan">Tamacan</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Complete Address (Optional)</label>
-                            <input type="text" id="regAddress" placeholder="House #, Street, Landmark">
-                        </div>
-                        
-                        <!-- TERMS & PRIVACY CHECKBOX -->
-                        <div class="terms-check">
-                            <input type="checkbox" id="regTerms" required>
-                            <label for="regTerms">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a></label>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary" id="regBtn">Create Account</button>
-                    </form>
-                    
-                    <div class="benefits">
-                        <h4>Why create an account?</h4>
-                        <ul>
-                            <li>Track your orders easily</li>
-                            <li>Save delivery addresses</li>
-                            <li>Faster checkout</li>
-                            <li>Get exclusive deals</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="link">
-                        <p style="color:var(--g5);font-size:13px;margin-bottom:8px">Already have an account?</p>
-                        <a href="#" onclick="showTab('login')">← Back to Login</a>
-                    </div>
-                </div>
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('customer')">👤 Customer</button>
+                <button class="tab" onclick="switchTab('merchant')">🏪 Merchant</button>
             </div>
-        </div>
-        
-        <div class="footer">
-            <p>© 2025 <a href="index.html">Amadeo Marketplace</a>. Powered by TYG Services.</p>
+            <div class="status" id="status"></div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <input type="hidden" id="loginType" value="customer">
+                <div class="form-group">
+                    <label id="emailLabel">Email or Phone</label>
+                    <input type="text" id="email" required placeholder="Enter email or phone">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required placeholder="Enter password">
+                </div>
+                <div class="remember-row">
+                    <label><input type="checkbox" id="remember"> Remember me</label>
+                    <a href="/forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" class="login-btn" id="loginBtn">Login</button>
+            </form>
+            <div class="register-link">
+                <span id="registerText">Don't have an account?</span> <a href="/register" id="registerLink">Register</a>
+            </div>
+            <div class="home-link"><a href="/">← Back to Marketplace</a></div>
         </div>
     </div>
-    
     <script>
-    var API = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        var user = localStorage.getItem('user');
-        if (user) {
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
+        
+        function switchTab(type) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('loginType').value = type;
+            document.getElementById('emailLabel').textContent = type === 'merchant' ? 'Email' : 'Email or Phone';
+            document.getElementById('email').placeholder = type === 'merchant' ? 'Enter business email' : 'Enter email or phone';
+            document.getElementById('registerText').textContent = type === 'merchant' ? 'Want to sell on Amadeo?' : "Don't have an account?";
+            document.getElementById('registerLink').textContent = type === 'merchant' ? 'Apply as Merchant' : 'Register';
+            document.getElementById('registerLink').href = type === 'merchant' ? '/merchant-register' : '/register';
+            hideStatus();
+        }
+        
+        function showStatus(msg, type) {
+            const el = document.getElementById('status');
+            el.textContent = msg;
+            el.className = 'status ' + type;
+        }
+        
+        function hideStatus() {
+            document.getElementById('status').className = 'status';
+        }
+        
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.textContent = 'Logging in...';
+            hideStatus();
+            
+            const loginType = document.getElementById('loginType').value;
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember').checked;
+            
+            // FIXED: Use correct action names from backend
+            // Backend has: 'merchantLogin' for merchants, 'userLogin' for customers
+            const action = loginType === 'merchant' ? 'merchantLogin' : 'userLogin';
+            
+            console.log('Login attempt:', { action, loginType, email });
+            
             try {
-                var data = JSON.parse(user);
-                if (data && data.UserId) {
-                    window.location.href = 'index.html';
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({ 
+                        action: action, 
+                        email: email, 
+                        phone: email, 
+                        password: password 
+                    })
+                });
+                
+                const result = await response.json();
+                console.log('Login response:', result);
+                
+                if (result.success) {
+                    showStatus('Login successful! Redirecting...', 'success');
+                    
+                    // Get user data - backend returns it in 'data' field
+                    const userData = result.data || result.user || result.merchant || {};
+                    console.log('User data to store:', userData);
+                    
+                    // Store in both session and local storage based on remember me
+                    const storage = rememberMe ? localStorage : sessionStorage;
+                    storage.setItem('amadeo_user', JSON.stringify(userData));
+                    storage.setItem('amadeo_token', result.token || 'authenticated');
+                    storage.setItem('amadeo_login_type', loginType);
+                    
+                    // Always store in sessionStorage for current session
+                    sessionStorage.setItem('amadeo_user', JSON.stringify(userData));
+                    sessionStorage.setItem('amadeo_token', result.token || 'authenticated');
+                    sessionStorage.setItem('amadeo_login_type', loginType);
+                    
+                    setTimeout(() => { 
+                        window.location.href = loginType === 'merchant' ? '/dashboard' : '/'; 
+                    }, 1000);
+                } else {
+                    showStatus(result.error || 'Invalid credentials. Please try again.', 'error');
+                    btn.disabled = false;
+                    btn.textContent = 'Login';
                 }
-            } catch(e) {
-                localStorage.removeItem('user');
-            }
-        }
-    });
-    
-    function showTab(tab) {
-        document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
-        document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
-        document.getElementById(tab).classList.add('active');
-        var tabIndex = tab === 'login' ? 0 : 1;
-        document.querySelectorAll('.tab')[tabIndex].classList.add('active');
-        hideMessages();
-    }
-    
-    function showError(msg) {
-        var el = document.getElementById('error');
-        el.textContent = msg;
-        el.style.display = 'block';
-        document.getElementById('success').style.display = 'none';
-    }
-    
-    function showSuccess(msg) {
-        var el = document.getElementById('success');
-        el.textContent = msg;
-        el.style.display = 'block';
-        document.getElementById('error').style.display = 'none';
-    }
-    
-    function hideMessages() {
-        document.getElementById('error').style.display = 'none';
-        document.getElementById('success').style.display = 'none';
-    }
-    
-    function continueAsGuest() {
-        localStorage.setItem('guestCheckout', 'true');
-        window.location.href = 'index.html';
-    }
-    
-    function handleLogin(e) {
-        e.preventDefault();
-        var btn = document.getElementById('loginBtn');
-        btn.disabled = true;
-        btn.textContent = 'Logging in...';
-        hideMessages();
-        
-        var loginId = document.getElementById('loginId').value.trim();
-        var password = document.getElementById('loginPassword').value;
-        
-        if (!loginId || !password) {
-            showError('Please enter email/phone and password');
-            btn.disabled = false;
-            btn.textContent = 'Login';
-            return;
-        }
-        
-        fetch(API, {
-            method: 'POST',
-            mode: 'cors', headers: {'Content-Type': 'text/plain;charset=utf-8'},
-            body: JSON.stringify({
-                action: 'userLogin',
-                loginId: loginId,
-                password: password
-            })
-        })
-        .then(function(res) { 
-            return res.json(); 
-        })
-        .then(function(result) {
-            if (result.success) {
-                localStorage.setItem('user', JSON.stringify(result.data));
-                localStorage.setItem('userToken', result.token || 'authenticated');
-                localStorage.removeItem('guestCheckout');
-                
-                showSuccess('Login successful! Redirecting...');
-                
-                var redirect = sessionStorage.getItem('loginRedirect') || 'index.html';
-                sessionStorage.removeItem('loginRedirect');
-                
-                setTimeout(function() { window.location.href = redirect; }, 1000);
-            } else {
-                showError(result.error || 'Invalid credentials. Please try again.');
+            } catch (error) {
+                console.error('Login error:', error);
+                showStatus('Connection error. Please check your internet and try again.', 'error');
                 btn.disabled = false;
                 btn.textContent = 'Login';
             }
-        })
-        .catch(function(err) {
-            console.error('Login error:', err);
-            showError('Connection error. Please try again.');
-            btn.disabled = false;
-            btn.textContent = 'Login';
-        });
-    }
-    
-    function handleRegister(e) {
-        e.preventDefault();
-        hideMessages();
-        
-        var password = document.getElementById('regPassword').value;
-        var password2 = document.getElementById('regPassword2').value;
-        
-        if (password !== password2) {
-            showError('Passwords do not match');
-            return;
         }
         
-        if (password.length < 6) {
-            showError('Password must be at least 6 characters');
-            return;
-        }
-        
-        // Check terms checkbox
-        if (!document.getElementById('regTerms').checked) {
-            showError('Please agree to the Terms of Service and Privacy Policy');
-            return;
-        }
-        
-        var btn = document.getElementById('regBtn');
-        btn.disabled = true;
-        btn.textContent = 'Creating account...';
-        
-        var data = {
-            action: 'registerUser',
-            name: document.getElementById('regName').value.trim(),
-            phone: document.getElementById('regPhone').value.trim(),
-            email: document.getElementById('regEmail').value.trim(),
-            password: password,
-            barangay: document.getElementById('regBrgy').value,
-            address: document.getElementById('regAddress').value.trim()
-        };
-        
-        fetch(API, {
-            method: 'POST',
-            mode: 'cors', headers: {'Content-Type': 'text/plain;charset=utf-8'},
-            body: JSON.stringify(data)
-        })
-        .then(function(res) { 
-            return res.json(); 
-        })
-        .then(function(result) {
-            if (result.success) {
-                var userData = {
-                    UserId: result.userId,
-                    Name: data.name,
-                    Phone: data.phone,
-                    Email: data.email,
-                    Barangay: data.barangay,
-                    Address: data.address
-                };
-                
-                localStorage.setItem('user', JSON.stringify(userData));
-                localStorage.setItem('userToken', 'authenticated');
-                localStorage.removeItem('guestCheckout');
-                
-                showSuccess('Account created! Redirecting...');
-                
-                var redirect = sessionStorage.getItem('loginRedirect') || 'index.html';
-                sessionStorage.removeItem('loginRedirect');
-                
-                setTimeout(function() { window.location.href = redirect; }, 1500);
-            } else {
-                throw new Error(result.error || 'Registration failed');
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user');
+            const type = sessionStorage.getItem('amadeo_login_type') || localStorage.getItem('amadeo_login_type');
+            if (user && type) { 
+                try {
+                    const userData = JSON.parse(user);
+                    if (userData && Object.keys(userData).length > 0) {
+                        window.location.href = type === 'merchant' ? '/dashboard' : '/'; 
+                    }
+                } catch(e) {
+                    console.error('Invalid stored data, clearing...');
+                    sessionStorage.clear();
+                    localStorage.removeItem('amadeo_user');
+                }
             }
-        })
-        .catch(function(err) {
-            showError('Error: ' + err.message);
-            btn.disabled = false;
-            btn.textContent = 'Create Account';
         });
-    }
     </script>
 </body>
 </html>

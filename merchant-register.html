@@ -4,975 +4,528 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Become a Merchant - Amadeo Marketplace</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏪</text></svg>">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header .logo {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-
-        .header h1 {
-            font-size: 2.2rem;
-            color: #0f766e;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #64748b;
-            font-size: 1.1rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .steps {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .step {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .step.active {
-            background: #0f766e;
-            color: white;
-        }
-
-        .step.completed {
-            background: #0f766e;
-            color: white;
-        }
-
-        .step.inactive {
-            background: #e5e7eb;
-            color: #9ca3af;
-        }
-
-        .step-line {
-            width: 60px;
-            height: 3px;
-            background: #e5e7eb;
-            margin: 0 10px;
-        }
-
-        .step-line.active {
-            background: #0f766e;
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.4rem;
-            color: #0f766e;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0fdfa;
-        }
-
-        .section-title .icon {
-            font-size: 1.5rem;
-        }
-
-        .form-section {
-            display: none;
-        }
-
-        .form-section.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        .form-group label .required {
-            color: #ef4444;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #0f766e;
-            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: #9ca3af;
-        }
-
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .form-group select optgroup {
-            font-weight: 600;
-            color: #0f766e;
-            background: #f0fdfa;
-        }
-
-        .form-group select option {
-            padding: 8px;
-            color: #374151;
-        }
-
-        .upload-area {
-            border: 2px dashed #d1d5db;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #f9fafb;
-        }
-
-        .upload-area:hover {
-            border-color: #0f766e;
-            background: #f0fdfa;
-        }
-
-        .upload-area.has-files {
-            border-color: #22c55e;
-            background: #f0fdf4;
-        }
-
-        .upload-area .icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-
-        .upload-area h4 {
-            color: #374151;
-            margin-bottom: 8px;
-        }
-
-        .upload-area p {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-
-        .upload-area input {
-            display: none;
-        }
-
-        .file-list {
-            margin-top: 15px;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 15px;
-            background: white;
-            border-radius: 8px;
-            margin-top: 8px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .file-item .file-icon {
-            font-size: 20px;
-        }
-
-        .file-item .file-name {
-            flex: 1;
-            font-size: 0.9rem;
-            color: #374151;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .file-item .file-remove {
-            color: #ef4444;
-            cursor: pointer;
-            padding: 5px;
-            font-size: 18px;
-        }
-
-        .file-item .file-remove:hover {
-            background: #fef2f2;
-            border-radius: 4px;
-        }
-
-        .required-docs {
-            background: #fef3c7;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-
-        .required-docs h4 {
-            color: #92400e;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .required-docs ul {
-            margin-left: 25px;
-            color: #92400e;
-        }
-
-        .required-docs li {
-            margin-bottom: 5px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 16px 24px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(15, 118, 110, 0.3);
-        }
-
-        .btn-primary:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-secondary {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .btn-secondary:hover {
-            background: #e5e7eb;
-        }
-
-        .footer-links {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .footer-links a {
-            color: #0f766e;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
-        .footer-links span {
-            color: #9ca3af;
-            margin: 0 10px;
-        }
-
-        .message {
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: none;
-        }
-
-        .message.error {
-            background: #fef2f2;
-            color: #dc2626;
-            border: 1px solid #fecaca;
-            display: block;
-        }
-
-        .message.success {
-            background: #f0fdf4;
-            color: #16a34a;
-            border: 1px solid #bbf7d0;
-            display: block;
-        }
-
-        .message.hidden {
-            display: none;
-        }
-
-        .password-strength {
-            margin-top: 8px;
-        }
-
-        .strength-bar {
-            height: 4px;
-            background: #e5e7eb;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .strength-fill {
-            height: 100%;
-            width: 0%;
-            transition: all 0.3s;
-        }
-
-        .strength-fill.weak {
-            width: 33%;
-            background: #ef4444;
-        }
-
-        .strength-fill.medium {
-            width: 66%;
-            background: #f59e0b;
-        }
-
-        .strength-fill.strong {
-            width: 100%;
-            background: #22c55e;
-        }
-
-        .strength-text {
-            font-size: 0.85rem;
-            color: #6b7280;
-            margin-top: 5px;
-        }
-
-        .success-screen {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .success-screen .icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        .success-screen h2 {
-            color: #0f766e;
-            margin-bottom: 15px;
-        }
-
-        .success-screen p {
-            color: #6b7280;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-        .success-screen .merchant-id {
-            background: #f0fdfa;
-            padding: 15px 25px;
-            border-radius: 10px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0f766e;
-            margin: 20px 0;
-            display: inline-block;
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); min-height: 100vh; padding: 20px; }
+        
+        .container { max-width: 700px; margin: 0 auto; }
+        
+        .header { text-align: center; margin-bottom: 30px; padding-top: 20px; }
+        .header h1 { color: #0f766e; font-size: 32px; margin-bottom: 10px; }
+        .header p { color: #666; font-size: 16px; }
+        
+        .card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(15,118,110,0.15); margin-bottom: 20px; }
+        
+        .step-indicator { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+        .step { width: 40px; height: 40px; border-radius: 50%; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #666; transition: all 0.3s; }
+        .step.active { background: #0f766e; color: white; }
+        .step.completed { background: #10b981; color: white; }
+        .step-line { width: 60px; height: 3px; background: #e5e7eb; align-self: center; }
+        .step-line.completed { background: #10b981; }
+        
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        
+        .section-title { color: #0f766e; font-size: 20px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #f0fdfa; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px; }
+        .form-group label .required { color: #ef4444; }
+        .form-group label .optional { color: #666; font-weight: normal; font-size: 12px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px 16px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #0f766e; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
+        .file-upload { border: 2px dashed #ddd; border-radius: 12px; padding: 25px; text-align: center; cursor: pointer; transition: all 0.3s; background: #fafafa; }
+        .file-upload:hover { border-color: #0f766e; background: #f0fdfa; }
+        .file-upload.has-file { border-color: #10b981; background: #d1fae5; }
+        .file-upload .icon { font-size: 36px; margin-bottom: 10px; }
+        .file-upload p { color: #666; font-size: 14px; margin-bottom: 5px; }
+        .file-upload small { color: #999; font-size: 12px; }
+        .file-upload .file-name { color: #0f766e; font-weight: 600; margin-top: 10px; display: none; }
+        .file-upload.has-file .file-name { display: block; }
+        .file-upload input[type="file"] { display: none; }
+        
+        .doc-preview { max-width: 100px; max-height: 80px; border-radius: 8px; margin-top: 10px; display: none; }
+        .file-upload.has-file .doc-preview { display: inline-block; }
+        
+        .btn-row { display: flex; gap: 15px; margin-top: 30px; }
+        .btn { flex: 1; padding: 16px; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(15,118,110,0.3); }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .btn-outline { background: white; border: 2px solid #ddd; color: #333; }
+        .btn-outline:hover { border-color: #0f766e; color: #0f766e; }
+        
+        .status { padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; display: none; }
+        .status.error { display: block; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+        .status.success { display: block; background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .status.info { display: block; background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+        
+        .info-box { background: #f0fdfa; border: 1px solid #14b8a6; border-radius: 10px; padding: 15px; margin-bottom: 20px; font-size: 14px; color: #0f766e; }
+        .info-box h4 { margin-bottom: 8px; }
+        .info-box ul { margin-left: 20px; margin-top: 8px; }
+        .info-box li { margin-bottom: 5px; }
+        
+        .terms-check { display: flex; align-items: flex-start; gap: 10px; margin: 20px 0; }
+        .terms-check input { margin-top: 3px; width: 18px; height: 18px; }
+        .terms-check label { font-size: 14px; color: #666; line-height: 1.4; }
+        .terms-check a { color: #0f766e; }
+        
+        .home-link { text-align: center; margin-top: 20px; }
+        .home-link a { color: #0f766e; text-decoration: none; font-size: 14px; }
+        
+        .success-content { text-align: center; padding: 40px 20px; }
+        .success-icon { font-size: 80px; margin-bottom: 20px; }
+        .success-content h2 { color: #0f766e; margin-bottom: 15px; }
+        .success-content p { color: #666; margin-bottom: 20px; line-height: 1.6; }
+        
         @media (max-width: 600px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .card {
-                padding: 25px;
-            }
-
-            .header h1 {
-                font-size: 1.8rem;
-            }
-
-            .steps {
-                transform: scale(0.9);
-            }
+            .form-row { grid-template-columns: 1fr; }
+            .card { padding: 25px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">🏪</div>
-            <h1>Become a Merchant</h1>
+            <h1>🏪 Become a Merchant</h1>
             <p>Join Amadeo Marketplace and grow your business</p>
         </div>
-
+        
         <div class="card">
-            <div class="steps" id="stepsContainer">
-                <div class="step active" id="step1Indicator">1</div>
+            <div class="step-indicator">
+                <div class="step active" id="step1">1</div>
                 <div class="step-line" id="line1"></div>
-                <div class="step inactive" id="step2Indicator">2</div>
+                <div class="step" id="step2">2</div>
                 <div class="step-line" id="line2"></div>
-                <div class="step inactive" id="step3Indicator">3</div>
+                <div class="step" id="step3">3</div>
             </div>
-
-            <div id="errorMsg" class="message hidden"></div>
-            <div id="successMsg" class="message hidden"></div>
-
-            <!-- STEP 1: Business Information -->
-            <div class="form-section active" id="step1">
-                <div class="section-title">
-                    <span class="icon">📁</span>
-                    Business Information
-                </div>
-
+            
+            <div class="status" id="status"></div>
+            
+            <!-- Step 1: Business Information -->
+            <div class="form-section active" id="section1">
+                <h3 class="section-title">📋 Business Information</h3>
+                
                 <div class="form-group">
                     <label>Business Name <span class="required">*</span></label>
-                    <input type="text" id="businessName" placeholder="e.g., Aster Rice Trading" required>
+                    <input type="text" id="businessName" required placeholder="e.g., Aster Rice Trading">
                 </div>
-
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label>Owner's Full Name <span class="required">*</span></label>
-                        <input type="text" id="ownerName" placeholder="Juan Dela Cruz" required>
+                        <input type="text" id="ownerName" required placeholder="Juan Dela Cruz">
                     </div>
                     <div class="form-group">
                         <label>Business Category <span class="required">*</span></label>
                         <select id="category" required>
                             <option value="">Select Category</option>
-                            <option value="Food & Beverages">Food & Beverages</option>
-                            <option value="Fresh Produce">Fresh Produce</option>
-                            <option value="Groceries">Groceries</option>
-                            <option value="Health & Beauty">Health & Beauty</option>
-                            <option value="Home & Living">Home & Living</option>
-                            <option value="Fashion">Fashion</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Plants & Garden">Plants & Garden</option>
+                            <option value="Water">Water Station</option>
+                            <option value="Food">Food & Restaurant</option>
+                            <option value="Coffee">Coffee Shop</option>
+                            <option value="Bakery">Bakery</option>
+                            <option value="Rice">Rice Dealer</option>
+                            <option value="Meat">Meat Shop</option>
+                            <option value="Produce">Farm Produce</option>
+                            <option value="Grocery">Grocery & Sari-sari</option>
                             <option value="Services">Services</option>
+                            <option value="Hardware">Hardware</option>
+                            <option value="Health">Health & Pharmacy</option>
                             <option value="Other">Other</option>
                         </select>
                     </div>
                 </div>
-
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label>Phone Number <span class="required">*</span></label>
-                        <input type="tel" id="phone" placeholder="09XX XXX XXXX" required>
+                        <input type="tel" id="phone" required placeholder="09XX XXX XXXX">
                     </div>
                     <div class="form-group">
                         <label>Email Address <span class="required">*</span></label>
-                        <input type="email" id="email" placeholder="business@email.com" required>
+                        <input type="email" id="email" required placeholder="business@email.com">
                     </div>
                 </div>
-
+                
                 <div class="form-group">
                     <label>Business Address <span class="required">*</span></label>
-                    <input type="text" id="address" placeholder="Street, Purok/Sitio" required>
+                    <input type="text" id="address" required placeholder="Street, Purok/Sitio">
                 </div>
-
+                
                 <div class="form-group">
                     <label>Barangay <span class="required">*</span></label>
                     <select id="barangay" required>
                         <option value="">Select Barangay</option>
-                        <optgroup label="📍 Poblacion (Urban) - 12 Barangays">
-                            <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
-                            <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
-                            <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
-                            <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
-                            <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
-                            <option value="Barangay VI (Poblacion)">Barangay VI (Poblacion)</option>
-                            <option value="Barangay VII (Poblacion)">Barangay VII (Poblacion)</option>
-                            <option value="Barangay VIII (Poblacion)">Barangay VIII (Poblacion)</option>
-                            <option value="Barangay IX (Poblacion)">Barangay IX (Poblacion)</option>
-                            <option value="Barangay X (Poblacion)">Barangay X (Poblacion)</option>
-                            <option value="Barangay XI (Poblacion)">Barangay XI (Poblacion)</option>
-                            <option value="Barangay XII (Poblacion)">Barangay XII (Poblacion)</option>
-                        </optgroup>
-                        <optgroup label="🏡 Rural Barangays - 14 Barangays">
-                            <option value="Banaybanay">Banaybanay</option>
-                            <option value="Bucal">Bucal</option>
-                            <option value="Buho">Buho</option>
-                            <option value="Dagatan">Dagatan</option>
-                            <option value="Halang">Halang</option>
-                            <option value="Loma">Loma</option>
-                            <option value="Maitim I">Maitim I</option>
-                            <option value="Maymangga">Maymangga</option>
-                            <option value="Minantok Kanluran">Minantok Kanluran</option>
-                            <option value="Minantok Silangan">Minantok Silangan</option>
-                            <option value="Pangil">Pangil</option>
-                            <option value="Salaban">Salaban</option>
-                            <option value="Talon">Talon</option>
-                            <option value="Tamacan">Tamacan</option>
-                        </optgroup>
+                        <option value="Poblacion">Poblacion</option>
+                        <option value="Dagatan">Dagatan</option>
+                        <option value="Buho">Buho</option>
+                        <option value="Talon">Talon</option>
+                        <option value="Pangil">Pangil</option>
+                        <option value="Halang">Halang</option>
+                        <option value="Maymangga">Maymangga</option>
+                        <option value="Banaybanay">Banaybanay</option>
+                        <option value="Salaban">Salaban</option>
+                        <option value="Iba">Iba</option>
+                        <option value="Lalaan I">Lalaan I</option>
+                        <option value="Lalaan II">Lalaan II</option>
+                        <option value="Cuyambay">Cuyambay</option>
+                        <option value="Lucsuhin">Lucsuhin</option>
+                        <option value="Maguyam">Maguyam</option>
+                        <option value="Minantok Kanluran">Minantok Kanluran</option>
+                        <option value="Minantok Silangan">Minantok Silangan</option>
+                        <option value="Banadero">Banadero</option>
+                        <option value="Luksuhin">Luksuhin</option>
+                        <option value="Bulihan">Bulihan</option>
+                        <option value="Kabakuhan">Kabakuhan</option>
+                        <option value="Paligawan">Paligawan</option>
+                        <option value="Tabang">Tabang</option>
+                        <option value="Tibig">Tibig</option>
                     </select>
                 </div>
-
+                
                 <div class="form-group">
                     <label>Brief Business Description</label>
-                    <textarea id="description" placeholder="Tell customers about your business..."></textarea>
+                    <textarea id="description" rows="3" placeholder="Tell customers about your business..."></textarea>
                 </div>
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" onclick="goToStep(2)">Continue →</button>
+                
+                <div class="btn-row">
+                    <button class="btn btn-primary" onclick="nextStep(1)">Continue →</button>
                 </div>
             </div>
-
-            <!-- STEP 2: Account Security -->
-            <div class="form-section" id="step2">
-                <div class="section-title">
-                    <span class="icon">🔐</span>
-                    Account Security
+            
+            <!-- Step 2: Documents -->
+            <div class="form-section" id="section2">
+                <h3 class="section-title">📁 Required Documents</h3>
+                
+                <div class="info-box">
+                    <h4>📌 Document Requirements</h4>
+                    <ul>
+                        <li><strong>Business Permit</strong> - Mayor's permit or DTI registration (Required)</li>
+                        <li><strong>Valid ID</strong> - Any government-issued ID (Optional for now)</li>
+                    </ul>
+                    <p style="margin-top:10px;font-size:13px;">Files accepted: JPG, PNG, PDF (max 5MB each)</p>
                 </div>
-
+                
                 <div class="form-group">
-                    <label>Create Password <span class="required">*</span></label>
-                    <input type="password" id="password" placeholder="Create a strong password" required oninput="checkPasswordStrength()">
-                    <div class="password-strength">
-                        <div class="strength-bar">
-                            <div class="strength-fill" id="strengthFill"></div>
-                        </div>
-                        <div class="strength-text" id="strengthText">Password must be at least 6 characters</div>
+                    <label>Business Permit / DTI Registration <span class="required">*</span></label>
+                    <div class="file-upload" id="permitUpload" onclick="document.getElementById('permitFile').click()">
+                        <div class="icon">📄</div>
+                        <p>Click to upload or drag & drop</p>
+                        <small>Mayor's Permit, DTI, or SEC Registration</small>
+                        <img class="doc-preview" id="permitPreview" alt="">
+                        <div class="file-name" id="permitFileName"></div>
+                    </div>
+                    <input type="file" id="permitFile" accept="image/*,.pdf" onchange="handleDocUpload('permit', event)">
+                </div>
+                
+                <div class="form-group">
+                    <label>Valid ID (Owner) <span class="optional">(Optional for now - have it ready)</span></label>
+                    <div class="file-upload" id="idUpload" onclick="document.getElementById('idFile').click()">
+                        <div class="icon">🪪</div>
+                        <p>Click to upload or drag & drop</p>
+                        <small>Any government-issued ID</small>
+                        <img class="doc-preview" id="idPreview" alt="">
+                        <div class="file-name" id="idFileName"></div>
+                    </div>
+                    <input type="file" id="idFile" accept="image/*,.pdf" onchange="handleDocUpload('id', event)">
+                </div>
+                
+                <div class="form-group">
+                    <label>Other Supporting Documents <span class="optional">(Optional)</span></label>
+                    <div class="file-upload" id="otherUpload" onclick="document.getElementById('otherFile').click()">
+                        <div class="icon">📎</div>
+                        <p>Click to upload or drag & drop</p>
+                        <small>BIR, Sanitary Permit, etc.</small>
+                        <img class="doc-preview" id="otherPreview" alt="">
+                        <div class="file-name" id="otherFileName"></div>
+                    </div>
+                    <input type="file" id="otherFile" accept="image/*,.pdf" onchange="handleDocUpload('other', event)">
+                </div>
+                
+                <div class="btn-row">
+                    <button class="btn btn-outline" onclick="prevStep(2)">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep(2)">Continue →</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Account Setup -->
+            <div class="form-section" id="section3">
+                <h3 class="section-title">🔐 Account Setup</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Create Password <span class="required">*</span></label>
+                        <input type="password" id="password" required placeholder="Min. 8 characters" minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password <span class="required">*</span></label>
+                        <input type="password" id="confirmPassword" required placeholder="Re-enter password">
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label>Confirm Password <span class="required">*</span></label>
-                    <input type="password" id="password2" placeholder="Confirm your password" required>
-                </div>
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
-                    <button type="button" class="btn btn-primary" onclick="goToStep(3)">Continue →</button>
-                </div>
-            </div>
-
-            <!-- STEP 3: Business Documents -->
-            <div class="form-section" id="step3">
-                <div class="section-title">
-                    <span class="icon">📄</span>
-                    Business Documents
-                </div>
-
-                <div class="required-docs">
-                    <h4>📋 Required Documents</h4>
+                
+                <div class="info-box">
+                    <h4>💰 Commission Structure</h4>
+                    <p>Amadeo Marketplace has a simple, fair pricing:</p>
                     <ul>
-                        <li>DTI / SEC / CDA Registration Certificate</li>
-                        <li>Mayor's Permit / Barangay Business Clearance</li>
-                        <li>Valid Government ID (Owner)</li>
+                        <li><strong>Cash on Delivery (COD):</strong> 0% - You keep 100%!</li>
+                        <li><strong>GCash Payments:</strong> 5% platform fee</li>
+                        <li><strong>Notification Service:</strong> Optional 5% (FREE for first 3 months)</li>
                     </ul>
                 </div>
-
-                <div class="form-group">
-                    <label>Upload Documents <span class="required">*</span></label>
-                    <div class="upload-area" id="uploadArea" onclick="document.getElementById('documents').click()">
-                        <div class="icon">📁</div>
-                        <h4>Click to upload documents</h4>
-                        <p>Accepted formats: JPG, PNG, PDF (Max 5MB each)</p>
-                        <input type="file" id="documents" multiple accept="image/*,.pdf" onchange="handleFileUpload(this)">
-                    </div>
-                    <div class="file-list" id="fileList"></div>
+                
+                <div class="terms-check">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>. I understand my application will be reviewed before approval.</label>
                 </div>
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-secondary" onclick="goToStep(2)">← Back</button>
-                    <button type="button" class="btn btn-primary" id="submitBtn" onclick="submitRegistration()">Submit Application</button>
+                
+                <div class="btn-row">
+                    <button class="btn btn-outline" onclick="prevStep(3)">← Back</button>
+                    <button class="btn btn-primary" id="submitBtn" onclick="submitApplication()">Submit Application</button>
                 </div>
             </div>
-
-            <!-- SUCCESS SCREEN -->
-            <div class="form-section" id="successScreen">
-                <div class="success-screen">
-                    <div class="icon">🎉</div>
-                    <h2>Registration Submitted!</h2>
-                    <p>Thank you for registering your business with Amadeo Marketplace.</p>
-                    <div class="merchant-id" id="merchantIdDisplay">M-XXXXXX</div>
-                    <p>Your documents are being reviewed. You will receive an email notification once your account is approved.</p>
-                    <p><strong>You can then login with your email and password.</strong></p>
-                    <div class="btn-group" style="justify-content: center; margin-top: 30px;">
-                        <a href="merchant-login.html" class="btn btn-primary" style="text-decoration: none; text-align: center; flex: 0 1 auto; padding: 16px 40px;">Go to Login</a>
+            
+            <!-- Success Section -->
+            <div class="form-section" id="successSection">
+                <div class="success-content">
+                    <div class="success-icon">🎉</div>
+                    <h2>Application Submitted!</h2>
+                    <p>Thank you for applying to become an Amadeo Marketplace merchant!</p>
+                    <p>We will review your application and documents within <strong>1-2 business days</strong>. You'll receive an email notification once approved.</p>
+                    <p style="margin-top:20px;"><strong>Application ID:</strong> <span id="applicationId" style="font-family:monospace;color:#0f766e;"></span></p>
+                    <div class="btn-row" style="justify-content:center;margin-top:30px;">
+                        <a href="/" class="btn btn-primary" style="text-decoration:none;text-align:center;">Back to Marketplace</a>
                     </div>
                 </div>
-            </div>
-
-            <div class="footer-links" id="footerLinks">
-                <a href="index.html">← Back to Marketplace</a>
-                <span>|</span>
-                <a href="merchant-login.html">Already have an account? Login</a>
             </div>
         </div>
+        
+        <div class="home-link">
+            <a href="/">← Back to Marketplace</a> | <a href="/login">Already have an account? Login</a>
+        </div>
     </div>
-
+    
     <script>
-        const API = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
-        let uploadedDocs = [];
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
+        
         let currentStep = 1;
-
-        function showError(msg) {
-            const el = document.getElementById('errorMsg');
+        let documents = {
+            permit: null,
+            id: null,
+            other: null
+        };
+        
+        function showStatus(msg, type) {
+            const el = document.getElementById('status');
             el.textContent = msg;
-            el.className = 'message error';
-            document.getElementById('successMsg').className = 'message hidden';
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.className = 'status ' + type;
         }
-
-        function showSuccess(msg) {
-            const el = document.getElementById('successMsg');
-            el.textContent = msg;
-            el.className = 'message success';
-            document.getElementById('errorMsg').className = 'message hidden';
+        
+        function hideStatus() {
+            document.getElementById('status').className = 'status';
         }
-
-        function hideMessages() {
-            document.getElementById('errorMsg').className = 'message hidden';
-            document.getElementById('successMsg').className = 'message hidden';
-        }
-
-        function updateStepIndicators(step) {
+        
+        function updateSteps() {
             for (let i = 1; i <= 3; i++) {
-                const indicator = document.getElementById('step' + i + 'Indicator');
-                if (i < step) {
-                    indicator.className = 'step completed';
-                    indicator.innerHTML = '✓';
-                } else if (i === step) {
-                    indicator.className = 'step active';
-                    indicator.innerHTML = i;
-                } else {
-                    indicator.className = 'step inactive';
-                    indicator.innerHTML = i;
+                const step = document.getElementById('step' + i);
+                const line = document.getElementById('line' + (i-1));
+                const section = document.getElementById('section' + i);
+                
+                step.classList.remove('active', 'completed');
+                if (line) line.classList.remove('completed');
+                section.classList.remove('active');
+                
+                if (i < currentStep) {
+                    step.classList.add('completed');
+                    if (line) line.classList.add('completed');
+                } else if (i === currentStep) {
+                    step.classList.add('active');
+                    section.classList.add('active');
                 }
             }
-            document.getElementById('line1').className = step >= 2 ? 'step-line active' : 'step-line';
-            document.getElementById('line2').className = step >= 3 ? 'step-line active' : 'step-line';
         }
-
-        function goToStep(step) {
-            hideMessages();
-
-            if (step > currentStep) {
-                if (currentStep === 1 && !validateStep1()) return;
-                if (currentStep === 2 && !validateStep2()) return;
-            }
-
-            document.querySelectorAll('.form-section').forEach(function(s) {
-                s.classList.remove('active');
-            });
-
-            document.getElementById('step' + step).classList.add('active');
-            currentStep = step;
-            updateStepIndicators(step);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function validateStep1() {
-            var businessName = document.getElementById('businessName').value.trim();
-            var ownerName = document.getElementById('ownerName').value.trim();
-            var category = document.getElementById('category').value;
-            var phone = document.getElementById('phone').value.trim();
-            var email = document.getElementById('email').value.trim();
-            var address = document.getElementById('address').value.trim();
-            var barangay = document.getElementById('barangay').value;
-
-            if (!businessName) {
-                showError('Please enter your business name');
-                document.getElementById('businessName').focus();
-                return false;
-            }
-            if (!ownerName) {
-                showError('Please enter the owner\'s name');
-                document.getElementById('ownerName').focus();
-                return false;
-            }
-            if (!category) {
-                showError('Please select a business category');
-                document.getElementById('category').focus();
-                return false;
-            }
-            if (!phone) {
-                showError('Please enter your phone number');
-                document.getElementById('phone').focus();
-                return false;
-            }
-            if (!email) {
-                showError('Please enter your email address');
-                document.getElementById('email').focus();
-                return false;
-            }
-            if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
-                showError('Please enter a valid email address');
-                document.getElementById('email').focus();
-                return false;
-            }
-            if (!address) {
-                showError('Please enter your business address');
-                document.getElementById('address').focus();
-                return false;
-            }
-            if (!barangay) {
-                showError('Please select your barangay');
-                document.getElementById('barangay').focus();
-                return false;
-            }
-            return true;
-        }
-
-        function validateStep2() {
-            var password = document.getElementById('password').value;
-            var password2 = document.getElementById('password2').value;
-
-            if (!password) {
-                showError('Please create a password');
-                document.getElementById('password').focus();
-                return false;
-            }
-            if (password.length < 6) {
-                showError('Password must be at least 6 characters');
-                document.getElementById('password').focus();
-                return false;
-            }
-            if (password !== password2) {
-                showError('Passwords do not match');
-                document.getElementById('password2').focus();
-                return false;
-            }
-            return true;
-        }
-
-        function checkPasswordStrength() {
-            var password = document.getElementById('password').value;
-            var fill = document.getElementById('strengthFill');
-            var text = document.getElementById('strengthText');
-
-            fill.className = 'strength-fill';
-
-            if (password.length === 0) {
-                text.textContent = 'Password must be at least 6 characters';
-            } else if (password.length < 6) {
-                fill.className = 'strength-fill weak';
-                text.textContent = 'Too short - need at least 6 characters';
-            } else if (password.length < 10) {
-                fill.className = 'strength-fill medium';
-                text.textContent = 'Medium strength';
-            } else {
-                fill.className = 'strength-fill strong';
-                text.textContent = 'Strong password!';
-            }
-        }
-
-        function handleFileUpload(input) {
-            var files = input.files;
-            var maxSize = 5 * 1024 * 1024;
-
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-
-                if (file.size > maxSize) {
-                    showError('File "' + file.name + '" is too large. Maximum size is 5MB.');
-                    continue;
-                }
-
-                var isDuplicate = false;
-                for (var j = 0; j < uploadedDocs.length; j++) {
-                    if (uploadedDocs[j].name === file.name) {
-                        isDuplicate = true;
-                        break;
+        
+        function validateStep(step) {
+            hideStatus();
+            
+            if (step === 1) {
+                const fields = ['businessName', 'ownerName', 'category', 'phone', 'email', 'address', 'barangay'];
+                for (const field of fields) {
+                    const el = document.getElementById(field);
+                    if (!el.value.trim()) {
+                        showStatus('Please fill in all required fields', 'error');
+                        el.focus();
+                        return false;
                     }
                 }
-                if (isDuplicate) continue;
-
-                (function(currentFile) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        uploadedDocs.push({
-                            name: currentFile.name,
-                            type: currentFile.type,
-                            data: e.target.result
-                        });
-                        renderFileList();
-                    };
-                    reader.readAsDataURL(currentFile);
-                })(file);
+                // Validate email
+                const email = document.getElementById('email').value;
+                if (!email.includes('@') || !email.includes('.')) {
+                    showStatus('Please enter a valid email address', 'error');
+                    return false;
+                }
+                // Validate phone
+                const phone = document.getElementById('phone').value;
+                if (phone.length < 10) {
+                    showStatus('Please enter a valid phone number', 'error');
+                    return false;
+                }
             }
-        }
-
-        function renderFileList() {
-            var list = document.getElementById('fileList');
-            var html = '';
-
-            for (var i = 0; i < uploadedDocs.length; i++) {
-                var f = uploadedDocs[i];
-                var icon = f.type.indexOf('pdf') !== -1 ? '📄' : '🖼️';
-                html += '<div class="file-item">';
-                html += '<span class="file-icon">' + icon + '</span>';
-                html += '<span class="file-name">' + f.name + '</span>';
-                html += '<span class="file-remove" onclick="removeFile(' + i + ')">✕</span>';
-                html += '</div>';
+            
+            if (step === 2) {
+                if (!documents.permit) {
+                    showStatus('Business Permit is required. Please upload your permit or DTI registration.', 'error');
+                    return false;
+                }
             }
-
-            list.innerHTML = html;
-
-            var uploadArea = document.getElementById('uploadArea');
-            if (uploadedDocs.length > 0) {
-                uploadArea.classList.add('has-files');
-            } else {
-                uploadArea.classList.remove('has-files');
+            
+            if (step === 3) {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                if (password.length < 8) {
+                    showStatus('Password must be at least 8 characters', 'error');
+                    return false;
+                }
+                if (password !== confirmPassword) {
+                    showStatus('Passwords do not match', 'error');
+                    return false;
+                }
+                if (!document.getElementById('terms').checked) {
+                    showStatus('Please agree to the Terms of Service', 'error');
+                    return false;
+                }
             }
+            
+            return true;
         }
-
-        function removeFile(index) {
-            uploadedDocs.splice(index, 1);
-            renderFileList();
+        
+        function nextStep(from) {
+            if (!validateStep(from)) return;
+            currentStep = from + 1;
+            updateSteps();
+            window.scrollTo(0, 0);
         }
-
-        function submitRegistration() {
-            hideMessages();
-
-            if (uploadedDocs.length === 0) {
-                showError('Please upload at least one business document (DTI, Permit, or Valid ID)');
+        
+        function prevStep(from) {
+            currentStep = from - 1;
+            updateSteps();
+            window.scrollTo(0, 0);
+        }
+        
+        function handleDocUpload(type, event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (file.size > 5 * 1024 * 1024) {
+                showStatus('File too large. Maximum size is 5MB.', 'error');
                 return;
             }
-
-            var btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span>Submitting...';
-
-            var data = {
-                action: 'registerMerchant',
-                businessName: document.getElementById('businessName').value.trim(),
-                ownerName: document.getElementById('ownerName').value.trim(),
-                category: document.getElementById('category').value,
-                phone: document.getElementById('phone').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                address: document.getElementById('address').value.trim(),
-                barangay: document.getElementById('barangay').value,
-                description: document.getElementById('description').value.trim(),
-                password: document.getElementById('password').value,
-                documents: uploadedDocs
-            };
-
-            fetch(API, {
-                method: 'POST',
-                mode: 'cors', headers: {'Content-Type': 'text/plain;charset=utf-8'},
-                body: JSON.stringify(data)
-            })
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(result) {
-                if (result.success) {
-                    document.querySelectorAll('.form-section').forEach(function(s) {
-                        s.classList.remove('active');
-                    });
-                    document.getElementById('successScreen').classList.add('active');
-                    document.getElementById('merchantIdDisplay').textContent = result.merchantId || 'M-' + Date.now();
-                    document.getElementById('stepsContainer').style.display = 'none';
-                    document.getElementById('footerLinks').style.display = 'none';
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                documents[type] = {
+                    name: file.name,
+                    type: file.type,
+                    data: e.target.result
+                };
+                
+                const uploadDiv = document.getElementById(type + 'Upload');
+                const preview = document.getElementById(type + 'Preview');
+                const fileName = document.getElementById(type + 'FileName');
+                
+                uploadDiv.classList.add('has-file');
+                fileName.textContent = '✓ ' + file.name;
+                
+                if (file.type.startsWith('image/')) {
+                    preview.src = e.target.result;
                 } else {
-                    throw new Error(result.error || 'Registration failed');
+                    preview.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" x="25" font-size="50">📄</text></svg>';
                 }
-            })
-            .catch(function(err) {
-                showError('Error: ' + err.message);
-                btn.disabled = false;
-                btn.innerHTML = 'Submit Application';
-            });
+            };
+            reader.readAsDataURL(file);
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var merchant = localStorage.getItem('merchant');
-            if (merchant) {
-                try {
-                    var data = JSON.parse(merchant);
-                    if (data && data.MerchantId && data.Status === 'Active') {
-                        window.location.href = 'dashboard.html';
-                    }
-                } catch (e) {
-                    localStorage.removeItem('merchant');
+        
+        async function submitApplication() {
+            if (!validateStep(3)) return;
+            
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+            
+            try {
+                const applicationData = {
+                    action: 'merchantRegister',
+                    businessName: document.getElementById('businessName').value.trim(),
+                    ownerName: document.getElementById('ownerName').value.trim(),
+                    category: document.getElementById('category').value,
+                    phone: document.getElementById('phone').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    address: document.getElementById('address').value.trim(),
+                    barangay: document.getElementById('barangay').value,
+                    description: document.getElementById('description').value.trim(),
+                    password: document.getElementById('password').value,
+                    // Document URLs (in production, these would be uploaded to cloud storage)
+                    permitDoc: documents.permit ? documents.permit.name : '',
+                    idDoc: documents.id ? documents.id.name : '',
+                    otherDoc: documents.other ? documents.other.name : '',
+                    hasPermit: !!documents.permit,
+                    hasId: !!documents.id,
+                    hasOtherDocs: !!documents.other
+                };
+                
+                console.log('Submitting application:', applicationData);
+                
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(applicationData)
+                });
+                
+                const result = await response.json();
+                console.log('Registration result:', result);
+                
+                if (result.success) {
+                    document.getElementById('applicationId').textContent = result.merchantId || 'M' + Date.now();
+                    document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+                    document.getElementById('successSection').classList.add('active');
+                    document.querySelector('.step-indicator').style.display = 'none';
+                } else {
+                    showStatus('Error: ' + (result.error || 'Registration failed. Please try again.'), 'error');
+                    btn.disabled = false;
+                    btn.textContent = 'Submit Application';
                 }
+            } catch (error) {
+                console.error('Submit error:', error);
+                showStatus('Connection error. Please try again.', 'error');
+                btn.disabled = false;
+                btn.textContent = 'Submit Application';
             }
+        }
+        
+        // Drag and drop for file uploads
+        document.querySelectorAll('.file-upload').forEach(upload => {
+            upload.addEventListener('dragover', e => {
+                e.preventDefault();
+                upload.style.borderColor = '#0f766e';
+                upload.style.background = '#f0fdfa';
+            });
+            upload.addEventListener('dragleave', e => {
+                e.preventDefault();
+                upload.style.borderColor = '#ddd';
+                upload.style.background = '#fafafa';
+            });
+            upload.addEventListener('drop', e => {
+                e.preventDefault();
+                upload.style.borderColor = '#ddd';
+                upload.style.background = '#fafafa';
+                const input = upload.querySelector('input[type="file"]');
+                if (e.dataTransfer.files.length) {
+                    input.files = e.dataTransfer.files;
+                    input.dispatchEvent(new Event('change'));
+                }
+            });
         });
     </script>
 </body>

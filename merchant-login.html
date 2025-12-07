@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merchant Portal - Amadeo Marketplace</title>
+    <title>Merchant Login - Amadeo Marketplace</title>
     <style>
         :root{--p:#0f766e;--pd:#134e4a;--pl:#14b8a6;--r:#ef4444;--g:#22c55e;--o:#f97316;--g1:#f9fafb;--g2:#e5e7eb;--g5:#6b7280;--g7:#374151;--g9:#111827;--sh:0 4px 6px -1px rgba(0,0,0,0.1)}
         *{margin:0;padding:0;box-sizing:border-box}
@@ -26,11 +26,9 @@
         
         .form-group{margin-bottom:16px}
         .form-group label{display:block;font-size:13px;font-weight:600;color:var(--g7);margin-bottom:6px}
-        .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 14px;border:1px solid var(--g2);border-radius:8px;font-size:14px;transition:border-color .2s;font-family:inherit}
-        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--p)}
+        .form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--g2);border-radius:8px;font-size:14px;transition:border-color .2s}
+        .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--p)}
         .form-group small{display:block;margin-top:4px;font-size:11px;color:var(--g5)}
-        
-        .form-group select optgroup{font-weight:600;color:var(--p);background:var(--g1)}
         
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
         @media(max-width:480px){.form-row{grid-template-columns:1fr}}
@@ -57,7 +55,7 @@
         .link a:hover{text-decoration:underline}
         
         .error{background:#fee2e2;color:#dc2626;padding:12px;border-radius:8px;margin-bottom:18px;font-size:13px;display:none}
-        .success{background:#dcfce7;color:#16a34a;padding:12px;border-radius:8px;margin-bottom:18px;font-size:13px;display:none;white-space:pre-line}
+        .success{background:#dcfce7;color:#16a34a;padding:12px;border-radius:8px;margin-bottom:18px;font-size:13px;display:none}
         
         .footer{text-align:center;margin-top:30px;color:rgba(255,255,255,.7);font-size:13px}
         .footer a{color:#fff}
@@ -76,30 +74,14 @@
         .required-docs ul{margin-left:16px;color:#92400e}
         .required-docs li{margin-bottom:2px}
         
-        .commission-info{background:linear-gradient(135deg,#f0fdfa,#ccfbf1);padding:14px;border-radius:10px;margin:16px 0;border:1px solid #99f6e4}
-        .commission-info h5{color:var(--pd);margin-bottom:10px;font-size:14px;display:flex;align-items:center;gap:6px}
-        .commission-info ul{list-style:none;font-size:12px;color:var(--g7)}
-        .commission-info li{padding:4px 0;display:flex;align-items:center;gap:6px}
-        .commission-info .highlight{background:var(--g);color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;font-size:11px}
-        .commission-info .free{background:var(--o);color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;font-size:11px}
-        
-        .terms-check{display:flex;align-items:flex-start;gap:10px;margin:16px 0;padding:12px;background:var(--g1);border-radius:8px}
-        .terms-check input{width:18px;height:18px;margin-top:2px;accent-color:var(--p);flex-shrink:0}
-        .terms-check label{font-size:12px;color:var(--g5);line-height:1.4}
-        .terms-check a{color:var(--p);font-weight:500}
-        
         .progress-bar{height:4px;background:var(--g2);border-radius:2px;margin-bottom:16px;overflow:hidden}
         .progress-fill{height:100%;background:var(--p);width:0%;transition:width .3s}
-        
-        .buyer-link{background:var(--g1);padding:12px;border-radius:8px;text-align:center;margin-top:16px}
-        .buyer-link p{font-size:12px;color:var(--g5);margin-bottom:4px}
-        .buyer-link a{color:var(--p);font-weight:600;font-size:13px}
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">
-            <a href="index.html">🏪 Amadeo Marketplace</a>
+            <a href="/">🏪 Amadeo Marketplace</a>
             <p>Merchant Portal</p>
         </div>
         
@@ -118,16 +100,17 @@
                 <div id="error" class="error"></div>
                 <div id="success" class="success"></div>
                 
-                <!-- ========== LOGIN FORM ========== -->
+                <!-- LOGIN FORM -->
                 <div id="login" class="section active">
                     <form onsubmit="handleLogin(event)">
                         <div class="form-group">
-                            <label>Email Address *</label>
-                            <input type="email" id="loginEmail" required placeholder="email@example.com">
+                            <label>Phone Number or Email</label>
+                            <input type="text" id="loginId" required placeholder="09XX XXX XXXX or email@example.com">
                         </div>
                         <div class="form-group">
-                            <label>Password *</label>
-                            <input type="password" id="loginPassword" required placeholder="Enter your password">
+                            <label>Merchant ID (Optional)</label>
+                            <input type="text" id="loginMerchant" placeholder="M-XXXXXX">
+                            <small>Leave blank to find by phone/email</small>
                         </div>
                         <button type="submit" class="btn btn-primary" id="loginBtn">Login to Dashboard</button>
                     </form>
@@ -136,14 +119,9 @@
                         <p style="color:var(--g5);font-size:13px;margin-bottom:8px">Don't have an account?</p>
                         <a href="#" onclick="showTab('register')">Register as Merchant →</a>
                     </div>
-                    
-                    <div class="buyer-link">
-                        <p>Looking to shop instead?</p>
-                        <a href="login.html">Login as Buyer →</a>
-                    </div>
                 </div>
                 
-                <!-- ========== REGISTER FORM ========== -->
+                <!-- REGISTER FORM -->
                 <div id="register" class="section">
                     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
                     
@@ -151,31 +129,21 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Business Name *</label>
-                                <input type="text" id="regBusiness" required placeholder="Your store name" oninput="updateProgress()">
+                                <input type="text" id="regBusiness" required placeholder="Your store name" onchange="updateProgress()">
                             </div>
                             <div class="form-group">
                                 <label>Owner Name *</label>
-                                <input type="text" id="regOwner" required placeholder="Your full name" oninput="updateProgress()">
+                                <input type="text" id="regOwner" required placeholder="Your full name" onchange="updateProgress()">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Phone Number *</label>
-                                <input type="tel" id="regPhone" required placeholder="09XX XXX XXXX" oninput="updateProgress()">
+                                <input type="tel" id="regPhone" required placeholder="09XX XXX XXXX" onchange="updateProgress()">
                             </div>
                             <div class="form-group">
-                                <label>Email *</label>
-                                <input type="email" id="regEmail" required placeholder="your@email.com" oninput="updateProgress()">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Password *</label>
-                                <input type="password" id="regPassword" required placeholder="Min 6 characters" minlength="6" oninput="updateProgress()">
-                            </div>
-                            <div class="form-group">
-                                <label>Confirm Password *</label>
-                                <input type="password" id="regPassword2" required placeholder="Confirm password" minlength="6">
+                                <label>Email</label>
+                                <input type="email" id="regEmail" placeholder="your@email.com">
                             </div>
                         </div>
                         <div class="form-row">
@@ -183,64 +151,29 @@
                                 <label>Business Category *</label>
                                 <select id="regCategory" required onchange="updateProgress()">
                                     <option value="">Select Category</option>
-                                    <option value="Food & Beverages">Food & Beverages</option>
-                                    <option value="Fresh Produce">Fresh Produce</option>
-                                    <option value="Groceries">Groceries</option>
-                                    <option value="Health & Beauty">Health & Beauty</option>
-                                    <option value="Home & Living">Home & Living</option>
-                                    <option value="Fashion">Fashion</option>
-                                    <option value="Electronics">Electronics</option>
-                                    <option value="Plants & Garden">Plants & Garden</option>
-                                    <option value="Services">Services</option>
-                                    <option value="Other">Other</option>
+                                    <option>Food & Beverages</option>
+                                    <option>Fresh Produce</option>
+                                    <option>Groceries</option>
+                                    <option>Health & Beauty</option>
+                                    <option>Home & Living</option>
+                                    <option>Fashion</option>
+                                    <option>Services</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Barangay *</label>
                                 <select id="regBrgy" required onchange="updateProgress()">
                                     <option value="">Select Barangay</option>
-                                    <optgroup label="📍 Poblacion (Urban) - 12 Barangays">
-                                        <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
-                                        <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
-                                        <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
-                                        <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
-                                        <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
-                                        <option value="Barangay VI (Poblacion)">Barangay VI (Poblacion)</option>
-                                        <option value="Barangay VII (Poblacion)">Barangay VII (Poblacion)</option>
-                                        <option value="Barangay VIII (Poblacion)">Barangay VIII (Poblacion)</option>
-                                        <option value="Barangay IX (Poblacion)">Barangay IX (Poblacion)</option>
-                                        <option value="Barangay X (Poblacion)">Barangay X (Poblacion)</option>
-                                        <option value="Barangay XI (Poblacion)">Barangay XI (Poblacion)</option>
-                                        <option value="Barangay XII (Poblacion)">Barangay XII (Poblacion)</option>
-                                    </optgroup>
-                                    <optgroup label="🏡 Rural Barangays - 14 Barangays">
-                                        <option value="Banaybanay">Banaybanay</option>
-                                        <option value="Bucal">Bucal</option>
-                                        <option value="Buho">Buho</option>
-                                        <option value="Dagatan">Dagatan</option>
-                                        <option value="Halang">Halang</option>
-                                        <option value="Loma">Loma</option>
-                                        <option value="Maitim I">Maitim I</option>
-                                        <option value="Maymangga">Maymangga</option>
-                                        <option value="Minantok Kanluran">Minantok Kanluran</option>
-                                        <option value="Minantok Silangan">Minantok Silangan</option>
-                                        <option value="Pangil">Pangil</option>
-                                        <option value="Salaban">Salaban</option>
-                                        <option value="Talon">Talon</option>
-                                        <option value="Tamacan">Tamacan</option>
-                                    </optgroup>
+                                    <option>Barangay I (Poblacion)</option>
+                                    <option>Barangay II (Poblacion)</option>
+                                    <option>Barangay III (Poblacion)</option>
+                                    <option>Dagatan</option>
+                                    <option>Halang</option>
+                                    <option>Maymangga</option>
+                                    <option>Tibig</option>
+                                    <option>Ulo</option>
                                 </select>
                             </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Complete Address (Optional)</label>
-                            <input type="text" id="regAddress" placeholder="Street, Building, Landmark">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Business Description</label>
-                            <textarea id="regDescription" rows="2" placeholder="Tell customers about your business..."></textarea>
                         </div>
                         
                         <div class="required-docs">
@@ -263,31 +196,13 @@
                             <div class="file-list" id="fileList"></div>
                         </div>
                         
-                        <!-- COMMISSION INFO BOX -->
-                        <div class="commission-info">
-                            <h5>💰 Commission Structure</h5>
-                            <ul>
-                                <li><span class="highlight">0%</span> Commission on Cash on Delivery</li>
-                                <li><span class="highlight">5%</span> Commission on Online Payments</li>
-                                <li><span class="free">FREE</span> First 30 days - 0% on all orders!</li>
-                                <li>📅 Weekly settlement via GCash (Tuesdays)</li>
-                                <li>💵 Minimum payout: ₱100</li>
-                            </ul>
-                        </div>
-                        
-                        <!-- TERMS CHECKBOX -->
-                        <div class="terms-check">
-                            <input type="checkbox" id="regTerms" required>
-                            <label for="regTerms">I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>, including the commission structure above.</label>
-                        </div>
-                        
                         <button type="submit" class="btn btn-primary" id="regBtn">Create Merchant Account</button>
                     </form>
                     
                     <div class="benefits">
                         <h4>Why sell on Amadeo Marketplace?</h4>
                         <ul>
-                            <li>Reach customers across all 26 barangays</li>
+                            <li>Reach customers across all 24 barangays</li>
                             <li>0% commission on Cash on Delivery orders</li>
                             <li>Only 5% on online payments</li>
                             <li>Free merchant dashboard & analytics</li>
@@ -304,111 +219,69 @@
         </div>
         
         <div class="footer">
-            <p>© 2025 <a href="index.html">Amadeo Marketplace</a>. Powered by TYG Services.</p>
+            <p>© 2025 <a href="/">Amadeo Marketplace</a>. Powered by TYG Services.</p>
         </div>
     </div>
     
     <script>
-    var API = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
-    var uploadedDocs = [];
-    var SESSION_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours
+    const API='https://script.google.com/macros/s/AKfycbzFo0Y_OPRZ4h9pr8lqqShRgT7NCnPSVTXf96LJ_x6DjKqUKzAAzwFkbq8NjGZAJVmncw/exec';
+    let uploadedDocs = [];
     
-    // ═══════════════════════════════════════════════════════════════════════════
-    // SESSION MANAGEMENT
-    // ═══════════════════════════════════════════════════════════════════════════
-    
-    function isLoggedIn() {
-        var merchant = localStorage.getItem('merchant');
-        var loginTime = localStorage.getItem('amadeo_login_time');
-        if (!merchant) return false;
-        
-        // Check if session expired (24 hours)
-        if (loginTime && (Date.now() - parseInt(loginTime)) > SESSION_TIMEOUT) {
-            // Session expired - clear everything
-            localStorage.removeItem('merchant');
-            localStorage.removeItem('merchantToken');
-            localStorage.removeItem('amadeo_login_time');
-            return false;
-        }
-        
-        try {
-            var data = JSON.parse(merchant);
-            return data && data.MerchantId;
-        } catch(e) {
-            localStorage.removeItem('merchant');
-            return false;
-        }
+    // Check if already logged in
+    if(localStorage.getItem('amadeo_merchant')){
+        window.location.href='/dashboard';
     }
     
-    // Auto-redirect if already logged in
-    document.addEventListener('DOMContentLoaded', function() {
-        if (isLoggedIn()) {
-            window.location.href = 'dashboard.html';
-        }
-    });
-    
-    // ═══════════════════════════════════════════════════════════════════════════
-    // TAB & MESSAGE FUNCTIONS
-    // ═══════════════════════════════════════════════════════════════════════════
-    
-    function showTab(tab) {
-        document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
-        document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    function showTab(tab){
+        document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
         document.getElementById(tab).classList.add('active');
-        var tabIndex = tab === 'login' ? 0 : 1;
-        document.querySelectorAll('.tab')[tabIndex].classList.add('active');
+        event.target.classList.add('active');
         hideMessages();
     }
     
-    function showError(msg) {
-        var el = document.getElementById('error');
-        el.textContent = msg;
-        el.style.display = 'block';
-        document.getElementById('success').style.display = 'none';
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    function showError(msg){
+        const el=document.getElementById('error');
+        el.textContent=msg;
+        el.style.display='block';
+        document.getElementById('success').style.display='none';
     }
     
-    function showSuccess(msg) {
-        var el = document.getElementById('success');
-        el.textContent = msg;
-        el.style.display = 'block';
-        document.getElementById('error').style.display = 'none';
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    function showSuccess(msg){
+        const el=document.getElementById('success');
+        el.textContent=msg;
+        el.style.display='block';
+        document.getElementById('error').style.display='none';
     }
     
-    function hideMessages() {
-        document.getElementById('error').style.display = 'none';
-        document.getElementById('success').style.display = 'none';
+    function hideMessages(){
+        document.getElementById('error').style.display='none';
+        document.getElementById('success').style.display='none';
     }
     
-    function updateProgress() {
-        var fields = ['regBusiness', 'regOwner', 'regPhone', 'regEmail', 'regPassword', 'regCategory', 'regBrgy'];
-        var filled = 0;
-        fields.forEach(function(id) {
-            var el = document.getElementById(id);
-            if (el && el.value) filled++;
+    function updateProgress(){
+        const fields = ['regBusiness','regOwner','regPhone','regCategory','regBrgy'];
+        let filled = 0;
+        fields.forEach(id => {
+            if(document.getElementById(id).value) filled++;
         });
-        if (uploadedDocs.length > 0) filled++;
-        var pct = Math.round((filled / 8) * 100);
+        if(uploadedDocs.length > 0) filled++;
+        const pct = Math.round((filled / 6) * 100);
         document.getElementById('progressFill').style.width = pct + '%';
     }
     
-    // ═══════════════════════════════════════════════════════════════════════════
-    // FILE UPLOAD
-    // ═══════════════════════════════════════════════════════════════════════════
-    
-    function handleDocsUpload(input) {
-        var files = Array.from(input.files);
-        var maxSize = 5 * 1024 * 1024;
+    function handleDocsUpload(input){
+        const files = Array.from(input.files);
+        const maxSize = 5 * 1024 * 1024; // 5MB
         
-        files.forEach(function(file) {
-            if (file.size > maxSize) {
-                showError('File "' + file.name + '" is too large. Max 5MB.');
+        files.forEach(file => {
+            if(file.size > maxSize){
+                showError(`File "${file.name}" is too large. Max 5MB.`);
                 return;
             }
             
-            var reader = new FileReader();
-            reader.onload = function(e) {
+            const reader = new FileReader();
+            reader.onload = e => {
                 uploadedDocs.push({
                     name: file.name,
                     type: file.type,
@@ -420,161 +293,135 @@
             reader.readAsDataURL(file);
         });
         
+        // Update upload box style
         document.getElementById('uploadBox').classList.add('has-file');
     }
     
-    function renderFileList() {
-        var list = document.getElementById('fileList');
-        var html = '';
-        uploadedDocs.forEach(function(f, i) {
-            html += '<div class="file-item">';
-            html += '<span>📄</span>';
-            html += '<span class="name">' + f.name + '</span>';
-            html += '<span class="remove" onclick="removeDoc(' + i + ')">✕</span>';
-            html += '</div>';
-        });
-        list.innerHTML = html;
+    function renderFileList(){
+        const list = document.getElementById('fileList');
+        list.innerHTML = uploadedDocs.map((f, i) => `
+            <div class="file-item">
+                <span>📄</span>
+                <span class="name">${f.name}</span>
+                <span class="remove" onclick="removeDoc(${i})">✕</span>
+            </div>
+        `).join('');
     }
     
-    function removeDoc(index) {
+    function removeDoc(index){
         uploadedDocs.splice(index, 1);
         renderFileList();
-        if (uploadedDocs.length === 0) {
+        if(uploadedDocs.length === 0){
             document.getElementById('uploadBox').classList.remove('has-file');
         }
         updateProgress();
     }
     
-    // ═══════════════════════════════════════════════════════════════════════════
-    // LOGIN HANDLER (with session time)
-    // ═══════════════════════════════════════════════════════════════════════════
-    
-    function handleLogin(e) {
+    async function handleLogin(e){
         e.preventDefault();
-        var btn = document.getElementById('loginBtn');
-        btn.disabled = true;
-        btn.textContent = 'Logging in...';
+        const btn=document.getElementById('loginBtn');
+        btn.disabled=true;
+        btn.textContent='Logging in...';
         hideMessages();
         
-        var email = document.getElementById('loginEmail').value.trim();
-        var password = document.getElementById('loginPassword').value;
+        const loginId=document.getElementById('loginId').value.trim();
+        const merchantId=document.getElementById('loginMerchant').value.trim();
         
-        if (!email || !password) {
-            showError('Please enter email and password');
-            btn.disabled = false;
-            btn.textContent = 'Login to Dashboard';
-            return;
-        }
-        
-        fetch(API, {
-            method: 'POST',
-            mode: 'cors', headers: {'Content-Type': 'text/plain;charset=utf-8'},
-            body: JSON.stringify({
-                action: 'merchantLogin',
-                email: email,
-                password: password
-            })
-        })
-        .then(function(res) { return res.json(); })
-        .then(function(result) {
-            if (result.success) {
-                // Save merchant data + login time for 24hr session
-                localStorage.setItem('merchant', JSON.stringify(result.data));
-                localStorage.setItem('merchantToken', result.token || 'authenticated');
-                localStorage.setItem('amadeo_login_time', Date.now().toString());
-                
-                showSuccess('Login successful! Redirecting...');
-                setTimeout(function() { window.location.href = 'dashboard.html'; }, 1000);
-            } else {
-                showError(result.error || 'Invalid email or password. Please try again.');
-                btn.disabled = false;
-                btn.textContent = 'Login to Dashboard';
+        try{
+            // Fetch all merchants and find match
+            const res=await fetch(`${API}?action=getMerchants`);
+            const data=await res.json();
+            
+            if(!data.success)throw new Error('Unable to connect');
+            
+            const merchants=data.data||[];
+            let merchant=null;
+            
+            if(merchantId){
+                merchant=merchants.find(m=>m.MerchantId===merchantId);
             }
-        })
-        .catch(function(err) {
-            console.error('Login error:', err);
-            showError('Connection error. Please check your internet and try again.');
-            btn.disabled = false;
-            btn.textContent = 'Login to Dashboard';
-        });
+            
+            if(!merchant){
+                merchant=merchants.find(m=>
+                    String(m.Phone||'')===loginId||
+                    m.Email?.toLowerCase()===loginId.toLowerCase()||
+                    String(m.Phone||'').replace(/\D/g,'')===loginId.replace(/\D/g,'')
+                );
+            }
+            
+            if(merchant){
+                localStorage.setItem('amadeo_merchant',JSON.stringify(merchant));
+                showSuccess('Login successful! Redirecting...');
+                setTimeout(()=>window.location.href='/dashboard',1000);
+            }else{
+                showError('No merchant found with those credentials. Please register first.');
+            }
+        }catch(err){
+            showError('Error: '+err.message);
+        }finally{
+            btn.disabled=false;
+            btn.textContent='Login to Dashboard';
+        }
     }
     
-    // ═══════════════════════════════════════════════════════════════════════════
-    // REGISTER HANDLER
-    // ═══════════════════════════════════════════════════════════════════════════
-    
-    function handleRegister(e) {
+    async function handleRegister(e){
         e.preventDefault();
-        hideMessages();
         
-        var password = document.getElementById('regPassword').value;
-        var password2 = document.getElementById('regPassword2').value;
-        
-        if (password !== password2) {
-            showError('Passwords do not match');
-            return;
-        }
-        
-        if (password.length < 6) {
-            showError('Password must be at least 6 characters');
-            return;
-        }
-        
-        if (uploadedDocs.length === 0) {
+        // Validate documents
+        if(uploadedDocs.length === 0){
             showError('Please upload at least one business document (DTI, Mayor\'s Permit, or Valid ID)');
             return;
         }
         
-        // Check terms checkbox
-        if (!document.getElementById('regTerms').checked) {
-            showError('Please agree to the Terms of Service and Privacy Policy');
-            return;
-        }
+        const btn=document.getElementById('regBtn');
+        btn.disabled=true;
+        btn.textContent='Creating account...';
+        hideMessages();
         
-        var btn = document.getElementById('regBtn');
-        btn.disabled = true;
-        btn.textContent = 'Creating account...';
-        
-        var data = {
-            action: 'registerMerchant',
-            businessName: document.getElementById('regBusiness').value.trim(),
-            ownerName: document.getElementById('regOwner').value.trim(),
-            phone: document.getElementById('regPhone').value.trim(),
-            email: document.getElementById('regEmail').value.trim(),
-            password: password,
-            category: document.getElementById('regCategory').value,
-            barangay: document.getElementById('regBrgy').value,
-            address: document.getElementById('regAddress').value.trim(),
-            description: document.getElementById('regDescription').value.trim(),
-            documents: uploadedDocs
+        const data={
+            action:'registerMerchant',
+            businessName:document.getElementById('regBusiness').value,
+            ownerName:document.getElementById('regOwner').value,
+            phone:document.getElementById('regPhone').value,
+            email:document.getElementById('regEmail').value,
+            category:document.getElementById('regCategory').value,
+            barangay:document.getElementById('regBrgy').value,
+            documents: uploadedDocs // Array of {name, type, data (base64)}
         };
         
-        fetch(API, {
-            method: 'POST',
-            mode: 'cors', headers: {'Content-Type': 'text/plain;charset=utf-8'},
-            body: JSON.stringify(data)
-        })
-        .then(function(res) { return res.json(); })
-        .then(function(result) {
-            if (result.success) {
-                showSuccess('✅ Account created successfully!\n\nYour Merchant ID: ' + result.merchantId + '\n\nYour documents are being reviewed. You\'ll receive an email once approved. You can then login with your email and password.');
-                
-                document.getElementById('registerForm').reset();
-                uploadedDocs = [];
-                renderFileList();
-                document.getElementById('uploadBox').classList.remove('has-file');
-                document.getElementById('progressFill').style.width = '0%';
-                
-                setTimeout(function() { showTab('login'); }, 5000);
-            } else {
-                throw new Error(result.error || 'Registration failed');
+        try{
+            const res=await fetch(API,{
+                method:'POST',
+                mode:'cors',
+                headers:{'Content-Type':'text/plain;charset=utf-8'},
+                body:JSON.stringify(data)
+            });
+            const result=await res.json();
+            
+            if(result.success){
+                const merchant={
+                    MerchantId:result.merchantId,
+                    BusinessName:data.businessName,
+                    OwnerName:data.ownerName,
+                    Phone:data.phone,
+                    Email:data.email,
+                    Category:data.category,
+                    Barangay:data.barangay,
+                    Status:'Pending',
+                    CreatedAt:new Date().toISOString()
+                };
+                localStorage.setItem('amadeo_merchant',JSON.stringify(merchant));
+                showSuccess(`Account created! Your Merchant ID: ${result.merchantId}\n\nYour documents are being reviewed. You'll be notified once approved.`);
+                setTimeout(()=>window.location.href='/dashboard',3000);
+            }else{
+                throw new Error(result.error||'Registration failed');
             }
-        })
-        .catch(function(err) {
-            showError('Error: ' + err.message);
-            btn.disabled = false;
-            btn.textContent = 'Create Merchant Account';
-        });
+        }catch(err){
+            showError('Error: '+err.message);
+        }finally{
+            btn.disabled=false;
+            btn.textContent='Create Merchant Account';
+        }
     }
     </script>
 </body>
