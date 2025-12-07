@@ -80,7 +80,7 @@
         .success-content h2 { color: #0f766e; margin-bottom: 15px; }
         .success-content p { color: #666; margin-bottom: 20px; line-height: 1.6; }
         
-        .start-over { text-align: center; margin-top: 15px; }
+        .start-over { text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e5e7eb; }
         .start-over a { color: #0f766e; font-size: 14px; text-decoration: none; }
         .start-over a:hover { text-decoration: underline; }
         
@@ -296,7 +296,7 @@
                     <button class="btn btn-primary" id="submitBtn" onclick="submitApplication()">Submit Application</button>
                 </div>
                 
-                <!-- ✅ ADDED: Start Over Option -->
+                <!-- ✅ Start Over Option -->
                 <div class="start-over">
                     <a href="#" onclick="startOver(); return false;">🔄 Start Over - Edit Registration Details</a>
                 </div>
@@ -323,8 +323,8 @@
     </div>
     
     <script>
-        // ✅ Using Amadeo Marketplace API
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
+        // ✅ KEEPING YOUR ORIGINAL API URL - This is the merchant registration backend
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxMovH4KB7B6Jx2dIogP7xDB5B-GlbbeUNtx7kvkB6v7QUH9bXuqt4RbuMUkVu7_ogNig/exec';
         
         let currentStep = 1;
         let documents = {
@@ -431,9 +431,9 @@
             window.scrollTo(0, 0);
         }
         
-        // ✅ ADDED: Start Over function
+        // ✅ Start Over function
         function startOver() {
-            if (confirm('Are you sure you want to start over? Your entered data will be kept, but you can edit it.')) {
+            if (confirm('Go back to Step 1 to edit your details?')) {
                 currentStep = 1;
                 updateSteps();
                 hideStatus();
@@ -482,38 +482,32 @@
             btn.textContent = 'Submitting...';
             
             try {
-                const categoryValue = document.getElementById('category').value;
+                // Prepare documents array for upload (original format)
+                const docsToUpload = [];
+                if (documents.permit) docsToUpload.push(documents.permit);
+                if (documents.id) docsToUpload.push(documents.id);
+                if (documents.other) docsToUpload.push(documents.other);
                 
-                // ✅ FIXED: Send BOTH category AND businessType for API compatibility
+                // ✅ USING ORIGINAL ACTION NAME AND FIELD STRUCTURE
                 const applicationData = {
-                    action: 'registerMerchant',
+                    action: 'merchantRegister',  // ✅ Original action name
                     businessName: document.getElementById('businessName').value.trim(),
                     ownerName: document.getElementById('ownerName').value.trim(),
-                    category: categoryValue,           // ✅ Original field name
-                    businessType: categoryValue,       // ✅ Alternative field name
+                    category: document.getElementById('category').value,  // ✅ category field
                     phone: document.getElementById('phone').value.trim(),
                     email: document.getElementById('email').value.trim(),
                     address: document.getElementById('address').value.trim(),
                     barangay: document.getElementById('barangay').value,
                     description: document.getElementById('description').value.trim(),
                     password: document.getElementById('password').value,
-                    // Document uploads (base64)
-                    dtiPermit: documents.permit ? documents.permit.data : '',
-                    businessPermit: documents.permit ? documents.permit.data : '',
-                    validId: documents.id ? documents.id.data : '',
-                    otherDocs: documents.other ? documents.other.data : ''
+                    documents: docsToUpload  // ✅ Original format - array of documents
                 };
                 
-                console.log('Submitting application...', {
-                    businessName: applicationData.businessName,
-                    category: applicationData.category,
-                    barangay: applicationData.barangay
-                });
+                console.log('Submitting to original API:', applicationData.businessName, applicationData.category);
                 
                 const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify(applicationData)
                 });
                 
@@ -562,10 +556,8 @@
             });
         });
         
-        // Console log version
-        console.log('✅ Amadeo Marketplace - Merchant Registration v1.4');
-        console.log('📍 26 Official Barangays (PSA 2020 Census)');
-        console.log('🔧 Fixed: category field + Start Over option');
+        console.log('✅ Amadeo Marketplace - Merchant Registration v1.5');
+        console.log('📍 26 Official Barangays + Original API');
     </script>
 </body>
 </html>
