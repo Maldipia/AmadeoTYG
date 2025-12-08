@@ -907,6 +907,64 @@
             align-items: center;
             gap: 6px;
         }
+        
+        /* TYG Business Network */
+        .footer-network {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+        }
+        .footer-network h4 {
+            text-align: center;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .network-item {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .network-item:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-3px);
+        }
+        .network-item.network-live {
+            background: rgba(247, 127, 0, 0.2);
+            border: 1px solid rgba(247, 127, 0, 0.4);
+        }
+        .network-item.network-live:hover {
+            background: rgba(247, 127, 0, 0.3);
+        }
+        .network-icon {
+            font-size: 1.8rem;
+        }
+        .network-name {
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .network-desc {
+            color: #9ca3af;
+            font-size: 0.7rem;
+        }
+        .network-item.network-live .network-desc {
+            color: #fcbf49;
+        }
 
         /* ============================================
            RESPONSIVE DESIGN
@@ -948,11 +1006,16 @@
             .footer-bottom-content { flex-direction: column; text-align: center; }
             .payment-options { grid-template-columns: 1fr; }
             .form-row { grid-template-columns: 1fr; }
+            .network-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .network-item { padding: 12px 8px; }
+            .network-icon { font-size: 1.5rem; }
+            .network-name { font-size: 0.8rem; }
         }
         
         @media (max-width: 480px) {
             .hero-stats { flex-direction: column; gap: 15px; }
             .store-grid { grid-template-columns: 1fr; }
+            .network-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -1286,12 +1349,49 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- TYG BUSINESS NETWORK -->
+            <div class="footer-network">
+                <h4>🔗 TYG Business Network</h4>
+                <div class="network-grid">
+                    <a href="https://tyg-services.com" target="_blank" rel="noopener" class="network-item">
+                        <span class="network-icon">🔧</span>
+                        <span class="network-name">TYG Services</span>
+                        <span class="network-desc">Services & Solutions</span>
+                    </a>
+                    <a href="https://luntian.net" target="_blank" rel="noopener" class="network-item">
+                        <span class="network-icon">🏡</span>
+                        <span class="network-name">Luntian</span>
+                        <span class="network-desc">Tagaytay Staycation</span>
+                    </a>
+                    <a href="https://soleblessing.com" target="_blank" rel="noopener" class="network-item">
+                        <span class="network-icon">👟</span>
+                        <span class="network-name">Sole Blessing</span>
+                        <span class="network-desc">Footwear & Sneakers</span>
+                    </a>
+                    <a href="https://www.ast3r.store/" target="_blank" rel="noopener" class="network-item">
+                        <span class="network-icon">👗</span>
+                        <span class="network-name">AST3R</span>
+                        <span class="network-desc">Fashion & Apparel</span>
+                    </a>
+                    <a href="https://www.thegoldblessing.com/" target="_blank" rel="noopener" class="network-item network-live">
+                        <span class="network-icon">💎</span>
+                        <span class="network-name">The Gold Blessing</span>
+                        <span class="network-desc">Jewelry ✨ NOW LIVE!</span>
+                    </a>
+                    <a href="https://musthavecorner.com" target="_blank" rel="noopener" class="network-item">
+                        <span class="network-icon">🛒</span>
+                        <span class="network-name">Must Have Corner</span>
+                        <span class="network-desc">Fresh Food Delivery</span>
+                    </a>
+                </div>
+            </div>
         </div>
         
         <div class="footer-bottom">
             <div class="footer-bottom-content">
                 <div class="footer-copyright">
-                    © 2025 Amadeo Marketplace. Powered by <a href="https://tygservices.com" target="_blank" rel="noopener" style="color: #f77f00;">TYG Services</a>
+                    © 2025 Amadeo Marketplace. Powered by <a href="https://tyg-services.com" target="_blank" rel="noopener" style="color: #f77f00;">TYG Services</a>
                 </div>
                 
                 <div class="footer-badges">
