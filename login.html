@@ -4,123 +4,449 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Amadeo Marketplace</title>
+    <meta name="description" content="Login to Amadeo Marketplace - Your trusted local marketplace in Amadeo, Cavite">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏪</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .login-container { width: 100%; max-width: 420px; }
-        .login-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(15,118,110,0.15); }
-        .logo { text-align: center; margin-bottom: 30px; }
-        .logo h1 { color: #0f766e; font-size: 28px; margin-bottom: 5px; }
-        .logo p { color: #666; font-size: 14px; }
-        .tabs { display: flex; gap: 10px; margin-bottom: 30px; }
-        .tab { flex: 1; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; background: white; cursor: pointer; font-weight: 600; color: #666; transition: all 0.3s; }
-        .tab.active { border-color: #0f766e; background: #f0fdfa; color: #0f766e; }
-        .tab:hover:not(.active) { border-color: #14b8a6; }
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #40916c 100%); 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+        }
+        
+        .login-container { width: 100%; max-width: 440px; }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+        .back-link:hover { opacity: 1; }
+        
+        .login-card { 
+            background: white; 
+            border-radius: 20px; 
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3); 
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+            padding: 35px 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .logo { font-size: 3rem; margin-bottom: 10px; }
+        .logo h1 { font-size: 1.6rem; margin-bottom: 5px; }
+        .logo p { opacity: 0.9; font-size: 0.9rem; }
+        
+        .login-body { padding: 30px; }
+        
+        .tabs { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 25px; 
+        }
+        .tab { 
+            flex: 1; 
+            padding: 14px; 
+            border: 2px solid #e5e7eb; 
+            border-radius: 12px; 
+            background: white; 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 0.95rem;
+            color: #6b7280; 
+            transition: all 0.3s; 
+        }
+        .tab.active { 
+            border-color: #2d6a4f; 
+            background: #f0fdf4; 
+            color: #2d6a4f; 
+        }
+        .tab:hover:not(.active) { 
+            border-color: #40916c; 
+            background: #f9fafb;
+        }
+        
+        .status { 
+            padding: 14px 18px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            font-size: 0.9rem; 
+            display: none; 
+        }
+        .status.error { 
+            display: block; 
+            background: #fef2f2; 
+            color: #dc2626; 
+            border: 1px solid #fecaca; 
+        }
+        .status.success { 
+            display: block; 
+            background: #f0fdf4; 
+            color: #16a34a; 
+            border: 1px solid #bbf7d0; 
+        }
+        
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px; }
-        .form-group input { width: 100%; padding: 14px 16px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
-        .form-group input:focus { outline: none; border-color: #0f766e; }
-        .remember-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; font-size: 14px; }
-        .remember-row label { display: flex; align-items: center; gap: 8px; cursor: pointer; color: #666; }
-        .remember-row a { color: #0f766e; text-decoration: none; }
-        .login-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #0f766e, #14b8a6); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
-        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(15,118,110,0.3); }
-        .login-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-        .register-link { text-align: center; margin-top: 25px; padding-top: 25px; border-top: 1px solid #eee; font-size: 14px; color: #666; }
-        .register-link a { color: #0f766e; font-weight: 600; text-decoration: none; }
-        .status { padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; display: none; }
-        .status.error { display: block; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
-        .status.success { display: block; background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
-        .home-link { text-align: center; margin-top: 20px; }
-        .home-link a { color: #0f766e; text-decoration: none; font-size: 14px; }
+        .form-group label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #1f2937; 
+            font-size: 0.9rem; 
+        }
+        .form-group input { 
+            width: 100%; 
+            padding: 14px 16px; 
+            border: 2px solid #e5e7eb; 
+            border-radius: 12px; 
+            font-size: 1rem; 
+            transition: all 0.3s; 
+        }
+        .form-group input:focus { 
+            outline: none; 
+            border-color: #2d6a4f; 
+            box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
+        }
+        .form-group input::placeholder { color: #9ca3af; }
+        
+        .remember-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 25px; 
+            font-size: 0.9rem; 
+        }
+        .remember-row label { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            cursor: pointer; 
+            color: #6b7280; 
+        }
+        .remember-row label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #2d6a4f;
+        }
+        .remember-row a { 
+            color: #2d6a4f; 
+            text-decoration: none; 
+            font-weight: 500;
+        }
+        .remember-row a:hover { text-decoration: underline; }
+        
+        .login-btn { 
+            width: 100%; 
+            padding: 16px; 
+            background: linear-gradient(135deg, #2d6a4f, #40916c); 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-size: 1rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .login-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(45,106,79,0.35); 
+        }
+        .login-btn:disabled { 
+            opacity: 0.7; 
+            cursor: not-allowed; 
+            transform: none; 
+            box-shadow: none;
+        }
+        
+        .login-footer {
+            text-align: center; 
+            padding: 20px 30px 30px;
+            border-top: 1px solid #f3f4f6;
+            background: #f9fafb;
+        }
+        .login-footer p {
+            font-size: 0.9rem; 
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+        .login-footer a { 
+            color: #2d6a4f; 
+            font-weight: 600; 
+            text-decoration: none; 
+        }
+        .login-footer a:hover { text-decoration: underline; }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .features-hint {
+            margin-top: 25px;
+            text-align: center;
+            color: white;
+        }
+        .features-hint h3 {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        .features-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        .feature-item {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 480px) {
+            .login-header { padding: 25px 20px; }
+            .login-body { padding: 25px 20px; }
+            .tabs { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <a href="/" class="back-link">← Back to Marketplace</a>
+        
         <div class="login-card">
-            <div class="logo">
-                <h1>🏪 Amadeo Marketplace</h1>
+            <div class="login-header">
+                <div class="logo">🏪</div>
+                <h1>Amadeo Marketplace</h1>
                 <p>Welcome back!</p>
             </div>
-            <div class="tabs">
-                <button class="tab active" onclick="switchTab('customer')">👤 Customer</button>
-                <button class="tab" onclick="switchTab('merchant')">🏪 Merchant</button>
+            
+            <div class="login-body">
+                <div class="tabs">
+                    <button class="tab" id="tabCustomer" onclick="switchTab('customer')">👤 Customer</button>
+                    <button class="tab" id="tabMerchant" onclick="switchTab('merchant')">🏪 Merchant</button>
+                </div>
+                
+                <div class="status" id="status"></div>
+                
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <input type="hidden" id="loginType" value="customer">
+                    
+                    <div class="form-group">
+                        <label id="emailLabel">Email or Phone</label>
+                        <input type="text" id="email" required placeholder="Enter email or phone" autocomplete="email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" required placeholder="Enter password" autocomplete="current-password">
+                    </div>
+                    
+                    <div class="remember-row">
+                        <label><input type="checkbox" id="remember"> Remember me</label>
+                        <a href="/forgot-password">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-btn" id="loginBtn">
+                        <span id="loginBtnText">Sign In</span>
+                    </button>
+                </form>
             </div>
-            <div class="status" id="status"></div>
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <input type="hidden" id="loginType" value="customer">
-                <div class="form-group">
-                    <label id="emailLabel">Email or Phone</label>
-                    <input type="text" id="email" required placeholder="Enter email or phone">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="password" required placeholder="Enter password">
-                </div>
-                <div class="remember-row">
-                    <label><input type="checkbox" id="remember"> Remember me</label>
-                    <a href="/forgot-password">Forgot password?</a>
-                </div>
-                <button type="submit" class="login-btn" id="loginBtn">Login</button>
-            </form>
-            <div class="register-link">
-                <span id="registerText">Don't have an account?</span> <a href="/register" id="registerLink">Register</a>
+            
+            <div class="login-footer">
+                <p id="registerText">Don't have an account?</p>
+                <a href="/signup" id="registerLink">Create Account →</a>
             </div>
-            <div class="home-link"><a href="/">← Back to Marketplace</a></div>
+        </div>
+        
+        <div class="features-hint" id="featuresHint">
+            <h3 id="featuresTitle">Customer Benefits</h3>
+            <div class="features-grid" id="featuresGrid">
+                <span class="feature-item">🛒 Easy Shopping</span>
+                <span class="feature-item">📦 Track Orders</span>
+                <span class="feature-item">💳 Secure Payments</span>
+            </div>
         </div>
     </div>
+
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec';
-        
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const CONFIG = {
+            API_URL: 'https://script.google.com/macros/s/AKfycbwgHmmK1j8a6rqx_Zfk5nPGqdUIRSo1oIUNgGoVr2-in988F3K8Kyp8PN15zHS3InIUgw/exec'
+        };
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check URL for merchant login redirect
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            const path = window.location.pathname;
+            
+            // Auto-switch to merchant tab if:
+            // 1. URL has ?type=merchant
+            // 2. Path is /merchant-login
+            if (type === 'merchant' || path.includes('merchant-login')) {
+                switchTab('merchant');
+            } else {
+                switchTab('customer');
+            }
+            
+            // Check if already logged in
+            checkExistingSession();
+        });
+
+        function checkExistingSession() {
+            const user = sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user');
+            const loginType = sessionStorage.getItem('amadeo_login_type') || localStorage.getItem('amadeo_login_type');
+            
+            if (user && loginType) {
+                try {
+                    const userData = JSON.parse(user);
+                    if (userData && Object.keys(userData).length > 0) {
+                        // Redirect based on user type
+                        window.location.href = loginType === 'merchant' ? '/dashboard' : '/';
+                    }
+                } catch (e) {
+                    console.error('Invalid session data, clearing...');
+                    clearSession();
+                }
+            }
+        }
+
+        function clearSession() {
+            sessionStorage.removeItem('amadeo_user');
+            sessionStorage.removeItem('amadeo_token');
+            sessionStorage.removeItem('amadeo_login_type');
+            localStorage.removeItem('amadeo_user');
+            localStorage.removeItem('amadeo_token');
+            localStorage.removeItem('amadeo_login_type');
+        }
+
+        // ============================================
+        // TAB SWITCHING
+        // ============================================
         function switchTab(type) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
+            const isCustomer = type === 'customer';
+            
+            // Update tab styles
+            document.getElementById('tabCustomer').classList.toggle('active', isCustomer);
+            document.getElementById('tabMerchant').classList.toggle('active', !isCustomer);
+            
+            // Update hidden input
             document.getElementById('loginType').value = type;
-            document.getElementById('emailLabel').textContent = type === 'merchant' ? 'Email' : 'Email or Phone';
-            document.getElementById('email').placeholder = type === 'merchant' ? 'Enter business email' : 'Enter email or phone';
-            document.getElementById('registerText').textContent = type === 'merchant' ? 'Want to sell on Amadeo?' : "Don't have an account?";
-            document.getElementById('registerLink').textContent = type === 'merchant' ? 'Apply as Merchant' : 'Register';
-            document.getElementById('registerLink').href = type === 'merchant' ? '/merchant-register' : '/register';
+            
+            // Update form labels and placeholders
+            document.getElementById('emailLabel').textContent = isCustomer ? 'Email or Phone' : 'Business Email';
+            document.getElementById('email').placeholder = isCustomer ? 'Enter email or phone' : 'Enter your business email';
+            
+            // Update footer text
+            document.getElementById('registerText').textContent = isCustomer 
+                ? "Don't have an account?" 
+                : "Want to sell on Amadeo?";
+            document.getElementById('registerLink').textContent = isCustomer 
+                ? 'Create Account →' 
+                : 'Register as Merchant →';
+            document.getElementById('registerLink').href = isCustomer 
+                ? '/signup' 
+                : '/merchant-register';
+            
+            // Update features hint
+            document.getElementById('featuresTitle').textContent = isCustomer 
+                ? 'Customer Benefits' 
+                : 'Merchant Benefits';
+            document.getElementById('featuresGrid').innerHTML = isCustomer 
+                ? `<span class="feature-item">🛒 Easy Shopping</span>
+                   <span class="feature-item">📦 Track Orders</span>
+                   <span class="feature-item">💳 Secure Payments</span>`
+                : `<span class="feature-item">📦 Manage Products</span>
+                   <span class="feature-item">📊 View Analytics</span>
+                   <span class="feature-item">💰 Track Earnings</span>`;
+            
+            // Hide any status messages
             hideStatus();
         }
-        
-        function showStatus(msg, type) {
+
+        // ============================================
+        // STATUS MESSAGES
+        // ============================================
+        function showStatus(message, type) {
             const el = document.getElementById('status');
-            el.textContent = msg;
+            el.textContent = message;
             el.className = 'status ' + type;
         }
-        
+
         function hideStatus() {
             document.getElementById('status').className = 'status';
         }
-        
+
+        // ============================================
+        // LOGIN HANDLER
+        // ============================================
         async function handleLogin(e) {
             e.preventDefault();
+            
             const btn = document.getElementById('loginBtn');
-            btn.disabled = true;
-            btn.textContent = 'Logging in...';
-            hideStatus();
+            const btnText = document.getElementById('loginBtnText');
             
             const loginType = document.getElementById('loginType').value;
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const rememberMe = document.getElementById('remember').checked;
             
-            // FIXED: Use correct action names from backend
-            // Backend has: 'merchantLogin' for merchants, 'userLogin' for customers
+            // Validate
+            if (!email || !password) {
+                showStatus('Please enter both email/phone and password.', 'error');
+                return;
+            }
+            
+            // Show loading
+            btn.disabled = true;
+            btnText.innerHTML = '<div class="spinner"></div> Signing in...';
+            hideStatus();
+            
+            // Determine action based on login type
             const action = loginType === 'merchant' ? 'merchantLogin' : 'userLogin';
             
             console.log('Login attempt:', { action, loginType, email });
             
             try {
-                const response = await fetch(SCRIPT_URL, {
+                const response = await fetch(CONFIG.API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify({ 
-                        action: action, 
-                        email: email, 
-                        phone: email, 
-                        password: password 
+                    body: JSON.stringify({
+                        action: action,
+                        email: email,
+                        phone: email, // For customer login that might use phone
+                        password: password
                     })
                 });
                 
@@ -130,11 +456,21 @@
                 if (result.success) {
                     showStatus('Login successful! Redirecting...', 'success');
                     
-                    // Get user data - backend returns it in 'data' field
-                    const userData = result.data || result.user || result.merchant || {};
-                    console.log('User data to store:', userData);
+                    // Get user data from response
+                    const userData = result.data || result.user || result.merchant || {
+                        email: email,
+                        loginTime: new Date().toISOString()
+                    };
                     
-                    // Store in both session and local storage based on remember me
+                    // Add merchant-specific data if available
+                    if (loginType === 'merchant' && result.merchantId) {
+                        userData.merchantId = result.merchantId;
+                        userData.businessName = result.businessName;
+                    }
+                    
+                    console.log('Storing user data:', userData);
+                    
+                    // Store session data
                     const storage = rememberMe ? localStorage : sessionStorage;
                     storage.setItem('amadeo_user', JSON.stringify(userData));
                     storage.setItem('amadeo_token', result.token || 'authenticated');
@@ -145,39 +481,29 @@
                     sessionStorage.setItem('amadeo_token', result.token || 'authenticated');
                     sessionStorage.setItem('amadeo_login_type', loginType);
                     
-                    setTimeout(() => { 
-                        window.location.href = loginType === 'merchant' ? '/dashboard' : '/'; 
+                    // Redirect based on user type
+                    setTimeout(() => {
+                        window.location.href = loginType === 'merchant' ? '/dashboard' : '/';
                     }, 1000);
+                    
                 } else {
                     showStatus(result.error || 'Invalid credentials. Please try again.', 'error');
-                    btn.disabled = false;
-                    btn.textContent = 'Login';
+                    resetButton();
                 }
+                
             } catch (error) {
                 console.error('Login error:', error);
                 showStatus('Connection error. Please check your internet and try again.', 'error');
-                btn.disabled = false;
-                btn.textContent = 'Login';
+                resetButton();
             }
         }
-        
-        // Check if already logged in
-        document.addEventListener('DOMContentLoaded', () => {
-            const user = sessionStorage.getItem('amadeo_user') || localStorage.getItem('amadeo_user');
-            const type = sessionStorage.getItem('amadeo_login_type') || localStorage.getItem('amadeo_login_type');
-            if (user && type) { 
-                try {
-                    const userData = JSON.parse(user);
-                    if (userData && Object.keys(userData).length > 0) {
-                        window.location.href = type === 'merchant' ? '/dashboard' : '/'; 
-                    }
-                } catch(e) {
-                    console.error('Invalid stored data, clearing...');
-                    sessionStorage.clear();
-                    localStorage.removeItem('amadeo_user');
-                }
-            }
-        });
+
+        function resetButton() {
+            const btn = document.getElementById('loginBtn');
+            const btnText = document.getElementById('loginBtnText');
+            btn.disabled = false;
+            btnText.textContent = 'Sign In';
+        }
     </script>
 </body>
 </html>
