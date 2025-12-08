@@ -8,8 +8,9 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏪</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
             background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #40916c 100%); 
             min-height: 100vh; 
             display: flex; 
@@ -18,7 +19,10 @@
             padding: 20px; 
         }
         
-        .login-container { width: 100%; max-width: 440px; }
+        .login-container { 
+            width: 100%; 
+            max-width: 440px; 
+        }
         
         .back-link {
             display: inline-flex;
@@ -31,7 +35,9 @@
             opacity: 0.9;
             transition: opacity 0.2s;
         }
-        .back-link:hover { opacity: 1; }
+        .back-link:hover { 
+            opacity: 1; 
+        }
         
         .login-card { 
             background: white; 
@@ -47,17 +53,31 @@
             color: white;
         }
         
-        .login-logo { font-size: 3rem; margin-bottom: 10px; }
-        .login-header h1 { font-size: 1.6rem; margin-bottom: 5px; }
-        .login-header p { opacity: 0.9; font-size: 0.9rem; }
+        .login-header .icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
         
-        .login-body { padding: 30px; }
+        .login-header h1 { 
+            font-size: 1.6rem; 
+            margin-bottom: 5px; 
+        }
+        
+        .login-header p { 
+            opacity: 0.9; 
+            font-size: 0.9rem; 
+        }
+        
+        .login-body { 
+            padding: 30px; 
+        }
         
         .tabs { 
             display: flex; 
             gap: 10px; 
             margin-bottom: 25px; 
         }
+        
         .tab { 
             flex: 1; 
             padding: 14px; 
@@ -70,11 +90,13 @@
             color: #6b7280; 
             transition: all 0.3s; 
         }
+        
         .tab.active { 
             border-color: #2d6a4f; 
             background: #f0fdf4; 
             color: #2d6a4f; 
         }
+        
         .tab:hover:not(.active) { 
             border-color: #40916c; 
             background: #f9fafb;
@@ -87,12 +109,14 @@
             font-size: 0.9rem; 
             display: none; 
         }
+        
         .status.error { 
             display: block; 
             background: #fef2f2; 
             color: #dc2626; 
             border: 1px solid #fecaca; 
         }
+        
         .status.success { 
             display: block; 
             background: #f0fdf4; 
@@ -100,7 +124,10 @@
             border: 1px solid #bbf7d0; 
         }
         
-        .form-group { margin-bottom: 20px; }
+        .form-group { 
+            margin-bottom: 20px; 
+        }
+        
         .form-group label { 
             display: block; 
             margin-bottom: 8px; 
@@ -108,6 +135,7 @@
             color: #1f2937; 
             font-size: 0.9rem; 
         }
+        
         .form-group input { 
             width: 100%; 
             padding: 14px 16px; 
@@ -116,12 +144,16 @@
             font-size: 1rem; 
             transition: all 0.3s; 
         }
+        
         .form-group input:focus { 
             outline: none; 
             border-color: #2d6a4f; 
             box-shadow: 0 0 0 3px rgba(45,106,79,0.1);
         }
-        .form-group input::placeholder { color: #9ca3af; }
+        
+        .form-group input::placeholder { 
+            color: #9ca3af; 
+        }
         
         .remember-row { 
             display: flex; 
@@ -130,6 +162,7 @@
             margin-bottom: 25px; 
             font-size: 0.9rem; 
         }
+        
         .remember-row label { 
             display: flex; 
             align-items: center; 
@@ -137,17 +170,22 @@
             cursor: pointer; 
             color: #6b7280; 
         }
+        
         .remember-row label input[type="checkbox"] {
             width: 18px;
             height: 18px;
             accent-color: #2d6a4f;
         }
+        
         .remember-row a { 
             color: #2d6a4f; 
             text-decoration: none; 
             font-weight: 500;
         }
-        .remember-row a:hover { text-decoration: underline; }
+        
+        .remember-row a:hover { 
+            text-decoration: underline; 
+        }
         
         .login-btn { 
             width: 100%; 
@@ -165,10 +203,12 @@
             justify-content: center;
             gap: 10px;
         }
+        
         .login-btn:hover { 
             transform: translateY(-2px); 
             box-shadow: 0 8px 25px rgba(45,106,79,0.35); 
         }
+        
         .login-btn:disabled { 
             opacity: 0.7; 
             cursor: not-allowed; 
@@ -182,19 +222,25 @@
             border-top: 1px solid #f3f4f6;
             background: #f9fafb;
         }
+        
         .login-footer p {
             font-size: 0.9rem; 
             color: #6b7280;
             margin-bottom: 5px;
         }
+        
         .login-footer a { 
             color: #2d6a4f; 
             font-weight: 600; 
             text-decoration: none; 
         }
-        .login-footer a:hover { text-decoration: underline; }
+        
+        .login-footer a:hover { 
+            text-decoration: underline; 
+        }
         
         .spinner {
+            display: inline-block;
             width: 20px;
             height: 20px;
             border: 2px solid rgba(255,255,255,0.3);
@@ -202,24 +248,30 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
         
         .features-hint {
             margin-top: 25px;
             text-align: center;
             color: white;
         }
+        
         .features-hint h3 {
             font-size: 0.9rem;
             margin-bottom: 15px;
             opacity: 0.9;
         }
+        
         .features-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 12px;
         }
+        
         .feature-item {
             background: rgba(255,255,255,0.15);
             padding: 8px 14px;
@@ -241,15 +293,15 @@
         
         <div class="login-card">
             <div class="login-header">
-                <div class="login-logo">🏪</div>
+                <div class="icon">🏪</div>
                 <h1>Amadeo Marketplace</h1>
                 <p>Welcome back!</p>
             </div>
             
             <div class="login-body">
                 <div class="tabs">
-                    <button class="tab" id="tabCustomer" onclick="switchTab('customer')">👤 Customer</button>
-                    <button class="tab" id="tabMerchant" onclick="switchTab('merchant')">🏪 Merchant</button>
+                    <button type="button" class="tab active" id="tabCustomer" onclick="switchTab('customer')">👤 Customer</button>
+                    <button type="button" class="tab" id="tabMerchant" onclick="switchTab('merchant')">🏪 Merchant</button>
                 </div>
                 
                 <div class="status" id="status"></div>
@@ -305,7 +357,7 @@
         // ============================================
         // INITIALIZATION
         // ============================================
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
             // Check URL for merchant login redirect
             const urlParams = new URLSearchParams(window.location.search);
             const type = urlParams.get('type');
@@ -384,12 +436,8 @@
                 ? 'Customer Benefits' 
                 : 'Merchant Benefits';
             document.getElementById('featuresGrid').innerHTML = isCustomer 
-                ? `<span class="feature-item">🛒 Easy Shopping</span>
-                   <span class="feature-item">📦 Track Orders</span>
-                   <span class="feature-item">💳 Secure Payments</span>`
-                : `<span class="feature-item">📦 Manage Products</span>
-                   <span class="feature-item">📊 View Analytics</span>
-                   <span class="feature-item">💰 Track Earnings</span>`;
+                ? '<span class="feature-item">🛒 Easy Shopping</span><span class="feature-item">📦 Track Orders</span><span class="feature-item">💳 Secure Payments</span>'
+                : '<span class="feature-item">📦 Manage Products</span><span class="feature-item">📊 View Analytics</span><span class="feature-item">💰 Track Earnings</span>';
             
             // Hide any status messages
             hideStatus();
@@ -430,7 +478,7 @@
             
             // Show loading
             btn.disabled = true;
-            btnText.innerHTML = '<div class="spinner"></div> Signing in...';
+            btnText.innerHTML = '<span class="spinner"></span> Signing in...';
             hideStatus();
             
             // Determine action based on login type
@@ -445,7 +493,7 @@
                     body: JSON.stringify({
                         action: action,
                         email: email,
-                        phone: email, // For customer login that might use phone
+                        phone: email,
                         password: password
                     })
                 });
@@ -463,9 +511,9 @@
                     };
                     
                     // Add merchant-specific data if available
-                    if (loginType === 'merchant' && result.merchantId) {
-                        userData.merchantId = result.merchantId;
-                        userData.businessName = result.businessName;
+                    if (loginType === 'merchant') {
+                        if (result.merchantId) userData.merchantId = result.merchantId;
+                        if (result.businessName) userData.businessName = result.businessName;
                     }
                     
                     console.log('Storing user data:', userData);
@@ -482,7 +530,7 @@
                     sessionStorage.setItem('amadeo_login_type', loginType);
                     
                     // Redirect based on user type
-                    setTimeout(() => {
+                    setTimeout(function() {
                         window.location.href = loginType === 'merchant' ? '/dashboard' : '/';
                     }, 1000);
                     
