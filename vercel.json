@@ -3,21 +3,15 @@
     { "source": "/", "destination": "/index.html" },
     { "source": "/login", "destination": "/login.html" },
     { "source": "/signup", "destination": "/signup.html" },
-    { "source": "/register", "destination": "/signup.html" },
-    { "source": "/merchant-login", "destination": "/login.html" },
+    { "source": "/register", "destination": "/register.html" },
+    { "source": "/merchant-login", "destination": "/merchant-login.html" },
     { "source": "/merchant-register", "destination": "/merchant-register.html" },
     { "source": "/dashboard", "destination": "/merchant-dashboard.html" },
-    { "source": "/admin", "destination": "/admin.html" },
     { "source": "/track", "destination": "/track.html" },
-    { "source": "/account", "destination": "/account.html" },
-    { "source": "/faq", "destination": "/faq.html" },
     { "source": "/terms", "destination": "/terms.html" },
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/forgot-password", "destination": "/forgot-password.html" },
-    { "source": "/join", "destination": "/join.html" },
-    { "source": "/landing", "destination": "/landing.html" },
-    { "source": "/qr", "destination": "/qr.html" },
-    { "source": "/checkout", "destination": "/checkout.html" }
+    { "source": "/qr", "destination": "/qr.html" }
   ],
   "headers": [
     {
