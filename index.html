@@ -1434,65 +1434,101 @@
         // ============================================
         // INITIALIZATION
         // ============================================
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function() {
             initApp();
             setupPaymentOptions();
         });
 
-        async function initApp() {
+        function initApp() {
             updateCartUI();
-            await loadData();
+            loadData();
         }
 
         // ============================================
         // DATA FETCHING
         // ============================================
-        async function loadData() {
-            try {
-                STATE.isLoading = true;
-                showLoading();
+        function loadData() {
+            STATE.isLoading = true;
+            showLoading();
 
-                const [merchantsRes, productsRes] = await Promise.all([
-                    fetch(`${CONFIG.API_URL}?action=getMerchants`),
-                    fetch(`${CONFIG.API_URL}?action=getAllInventory`)
-                ]);
+            // Add timeout to prevent infinite loading
+            var timeoutId = setTimeout(function() {
+                STATE.isLoading = false;
+                showNoMerchants('Connection timed out. The server might be busy.');
+                updateStats();
+            }, 15000);
 
-                const merchantsData = await merchantsRes.json();
-                const productsData = await productsRes.json();
+            Promise.all([
+                fetch(CONFIG.API_URL + '?action=getMerchants'),
+                fetch(CONFIG.API_URL + '?action=getAllInventory')
+            ])
+            .then(function(responses) {
+                clearTimeout(timeoutId);
+                return Promise.all([responses[0].json(), responses[1].json()]);
+            })
+            .then(function(data) {
+                var merchantsData = data[0];
+                var productsData = data[1];
 
-                if (merchantsData.success) {
-                    STATE.merchants = merchantsData.data.filter(m => m.Status === 'Active');
+                console.log('Merchants response:', merchantsData);
+                console.log('Products response:', productsData);
+
+                if (merchantsData.success && merchantsData.data) {
+                    STATE.merchants = merchantsData.data.filter(function(m) { 
+                        return m.Status === 'Active'; 
+                    });
+                } else {
+                    STATE.merchants = [];
                 }
-                if (productsData.success) {
-                    STATE.products = productsData.data.filter(p => p.Status === 'Active');
+
+                if (productsData.success && productsData.data) {
+                    STATE.products = productsData.data.filter(function(p) { 
+                        return p.Status === 'Active'; 
+                    });
+                } else {
+                    STATE.products = [];
                 }
 
                 updateStats();
                 renderMerchants();
                 STATE.isLoading = false;
-
-            } catch (error) {
+            })
+            .catch(function(error) {
+                clearTimeout(timeoutId);
                 console.error('Error loading data:', error);
-                showError('Failed to load marketplace data. Please refresh the page.');
-            }
+                STATE.isLoading = false;
+                showNoMerchants('Unable to connect to marketplace.');
+                updateStats();
+            });
         }
 
         function showLoading() {
-            document.getElementById('merchantsContainer').innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Loading verified merchants...</p>
-                </div>
-            `;
+            document.getElementById('merchantsContainer').innerHTML = 
+                '<div class="loading">' +
+                    '<div class="spinner"></div>' +
+                    '<p>Loading verified merchants...</p>' +
+                '</div>';
         }
 
         function showError(message) {
-            document.getElementById('merchantsContainer').innerHTML = `
-                <div style="text-align: center; grid-column: 1/-1; padding: 40px;">
-                    <p style="color: var(--error); font-size: 1.1rem;">⚠️ ${message}</p>
-                    <button class="btn btn-primary" onclick="loadData()" style="margin-top: 15px;">Try Again</button>
-                </div>
-            `;
+            document.getElementById('merchantsContainer').innerHTML = 
+                '<div style="text-align: center; grid-column: 1/-1; padding: 40px;">' +
+                    '<p style="color: var(--error); font-size: 1.1rem;">⚠️ ' + message + '</p>' +
+                    '<button class="btn btn-primary" onclick="loadData()" style="margin-top: 15px;">Try Again</button>' +
+                '</div>';
+        }
+
+        function showNoMerchants(reason) {
+            var message = reason || 'No merchants registered yet.';
+            document.getElementById('merchantsContainer').innerHTML = 
+                '<div style="text-align: center; grid-column: 1/-1; padding: 60px 20px;">' +
+                    '<p style="font-size: 3rem; margin-bottom: 15px;">🏪</p>' +
+                    '<h3 style="color: var(--primary-dark); margin-bottom: 10px;">Coming Soon!</h3>' +
+                    '<p style="color: var(--text-muted); margin-bottom: 20px;">' + message + '</p>' +
+                    '<p style="color: var(--text-muted); font-size: 0.9rem;">Amadeo Marketplace is launching soon with verified local businesses.</p>' +
+                    '<a href="/merchant-register" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">🏪 Register Your Business</a>' +
+                    '<button class="btn btn-outline" onclick="loadData()" style="margin-top: 10px; margin-left: 10px;">🔄 Refresh</button>' +
+                '</div>';
         }
 
         function updateStats() {
@@ -1504,65 +1540,80 @@
         // MERCHANT RENDERING
         // ============================================
         function renderMerchants() {
-            const container = document.getElementById('merchantsContainer');
-            let filtered = STATE.merchants;
+            var container = document.getElementById('merchantsContainer');
+            
+            // Check if we have ANY merchants at all
+            if (!STATE.merchants || STATE.merchants.length === 0) {
+                showNoMerchants('No merchants registered yet.');
+                return;
+            }
+            
+            var filtered = STATE.merchants;
 
             if (STATE.currentFilter !== 'all') {
-                filtered = STATE.merchants.filter(m => 
-                    m.Category === STATE.currentFilter || 
-                    (m.Categories && m.Categories.includes(STATE.currentFilter))
-                );
+                filtered = STATE.merchants.filter(function(m) {
+                    return m.Category === STATE.currentFilter || 
+                        (m.Categories && m.Categories.indexOf(STATE.currentFilter) !== -1);
+                });
             }
 
             if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; grid-column: 1/-1; padding: 60px 20px;">
-                        <p style="font-size: 3rem; margin-bottom: 15px;">🔍</p>
-                        <p style="color: var(--text-muted); font-size: 1.1rem;">No merchants found in this category.</p>
-                        <button class="btn btn-outline" onclick="filterCategory('all', document.querySelector('.cat-chip'))" style="margin-top: 15px;">View All Merchants</button>
-                    </div>
-                `;
+                container.innerHTML = 
+                    '<div style="text-align: center; grid-column: 1/-1; padding: 60px 20px;">' +
+                        '<p style="font-size: 3rem; margin-bottom: 15px;">🔍</p>' +
+                        '<p style="color: var(--text-muted); font-size: 1.1rem;">No merchants found in this category.</p>' +
+                        '<button class="btn btn-outline" onclick="filterCategory(\'all\', document.querySelector(\'.cat-chip\'))" style="margin-top: 15px;">View All Merchants</button>' +
+                    '</div>';
                 return;
             }
 
-            container.innerHTML = filtered.map(merchant => {
-                const productCount = STATE.products.filter(p => p.MerchantId === merchant.MerchantId).length;
-                const isOpen = checkIfOpen(merchant);
-                const logo = getImageUrl(merchant.Logo);
-                const banner = getImageUrl(merchant.Banner);
+            var html = '';
+            for (var i = 0; i < filtered.length; i++) {
+                var merchant = filtered[i];
+                var productCount = STATE.products.filter(function(p) { return p.MerchantId === merchant.MerchantId; }).length;
+                var isOpen = checkIfOpen(merchant);
+                var logo = getImageUrl(merchant.Logo);
+                var banner = getImageUrl(merchant.Banner);
+                var statusClass = isOpen ? 'open' : 'closed';
+                var statusText = isOpen ? '● Open' : '● Closed';
                 
-                return `
-                    <div class="merchant-card" onclick="openStore('${merchant.MerchantId}')">
-                        <div class="merchant-banner">
-                            ${banner ? `<img src="${banner}" alt="${merchant.BusinessName}" onerror="this.style.display='none'">` : ''}
-                            <span class="merchant-status ${isOpen ? 'open' : 'closed'}">${isOpen ? '● Open' : '● Closed'}</span>
-                        </div>
-                        <div class="merchant-header">
-                            <div class="merchant-logo">
-                                ${logo ? `<img src="${logo}" alt="${merchant.BusinessName}" onerror="this.textContent='🏪'">` : '🏪'}
-                            </div>
-                            <div class="merchant-info">
-                                <h3>${escapeHtml(merchant.BusinessName)}</h3>
-                                <p>📍 ${escapeHtml(merchant.Barangay || 'Amadeo, Cavite')}</p>
-                            </div>
-                        </div>
-                        <div class="merchant-body">
-                            ${escapeHtml(merchant.Description || 'Verified local business ready to serve you.')}
-                        </div>
-                        <div class="merchant-tags">
-                            <span class="merchant-tag">${merchant.Category || 'General'}</span>
-                            ${merchant.DeliveryAvailable ? '<span class="merchant-tag">🚚 Delivery</span>' : ''}
-                        </div>
-                        <div class="merchant-footer">
-                            <div class="merchant-meta">
-                                <span>📦 ${productCount} items</span>
-                                ${merchant.Rating ? `<span class="merchant-rating">⭐ ${merchant.Rating}</span>` : ''}
-                            </div>
-                            <button class="btn btn-primary" style="font-size: 0.85rem; padding: 8px 16px;">Visit Store →</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                html += '<div class="merchant-card" onclick="openStore(\'' + merchant.MerchantId + '\')">';
+                html += '<div class="merchant-banner">';
+                if (banner) {
+                    html += '<img src="' + banner + '" alt="' + escapeHtml(merchant.BusinessName) + '" onerror="this.style.display=\'none\'">';
+                }
+                html += '<span class="merchant-status ' + statusClass + '">' + statusText + '</span>';
+                html += '</div>';
+                html += '<div class="merchant-header">';
+                html += '<div class="merchant-logo">';
+                if (logo) {
+                    html += '<img src="' + logo + '" alt="' + escapeHtml(merchant.BusinessName) + '" onerror="this.textContent=\'🏪\'">';
+                } else {
+                    html += '🏪';
+                }
+                html += '</div>';
+                html += '<div class="merchant-info">';
+                html += '<h3>' + escapeHtml(merchant.BusinessName) + '</h3>';
+                html += '<p>📍 ' + escapeHtml(merchant.Barangay || 'Amadeo, Cavite') + '</p>';
+                html += '</div></div>';
+                html += '<div class="merchant-body">' + escapeHtml(merchant.Description || 'Verified local business ready to serve you.') + '</div>';
+                html += '<div class="merchant-tags">';
+                html += '<span class="merchant-tag">' + (merchant.Category || 'General') + '</span>';
+                if (merchant.DeliveryAvailable) {
+                    html += '<span class="merchant-tag">🚚 Delivery</span>';
+                }
+                html += '</div>';
+                html += '<div class="merchant-footer">';
+                html += '<div class="merchant-meta">';
+                html += '<span>📦 ' + productCount + ' items</span>';
+                if (merchant.Rating) {
+                    html += '<span class="merchant-rating">⭐ ' + merchant.Rating + '</span>';
+                }
+                html += '</div>';
+                html += '<button class="btn btn-primary" style="font-size: 0.85rem; padding: 8px 16px;">Visit Store →</button>';
+                html += '</div></div>';
+            }
+            container.innerHTML = html;
         }
 
         function checkIfOpen(merchant) {
@@ -1575,65 +1626,68 @@
 
         function getImageUrl(imageId) {
             if (!imageId) return null;
-            if (imageId.startsWith('http')) return imageId;
-            return `https://lh3.googleusercontent.com/d/${imageId}`;
+            if (imageId.indexOf('http') === 0) return imageId;
+            return 'https://lh3.googleusercontent.com/d/' + imageId;
         }
 
         // ============================================
         // STORE MODAL
         // ============================================
         function openStore(merchantId) {
-            const merchant = STATE.merchants.find(m => m.MerchantId === merchantId);
+            var merchant = STATE.merchants.find(function(m) { return m.MerchantId === merchantId; });
             if (!merchant) return;
 
             STATE.currentMerchant = merchant;
-            const products = STATE.products.filter(p => p.MerchantId === merchantId);
+            var products = STATE.products.filter(function(p) { return p.MerchantId === merchantId; });
 
             document.getElementById('storeModalTitle').textContent = merchant.BusinessName;
             document.getElementById('storeModalName').textContent = merchant.BusinessName;
             document.getElementById('storeModalDesc').textContent = merchant.Description || 'Welcome to our store!';
-            document.getElementById('storeModalLocation').textContent = `📍 ${merchant.Barangay || 'Amadeo'}, Cavite`;
-            document.getElementById('storeModalPhone').textContent = `📞 ${merchant.Phone || 'Contact via message'}`;
+            document.getElementById('storeModalLocation').textContent = '📍 ' + (merchant.Barangay || 'Amadeo') + ', Cavite';
+            document.getElementById('storeModalPhone').textContent = '📞 ' + (merchant.Phone || 'Contact via message');
 
-            const grid = document.getElementById('storeProducts');
+            var grid = document.getElementById('storeProducts');
 
             if (products.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
-                        <p style="font-size: 2rem; margin-bottom: 10px;">📦</p>
-                        <p>No products listed yet. Check back soon!</p>
-                    </div>
-                `;
+                grid.innerHTML = 
+                    '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">' +
+                        '<p style="font-size: 2rem; margin-bottom: 10px;">📦</p>' +
+                        '<p>No products listed yet. Check back soon!</p>' +
+                    '</div>';
             } else {
-                grid.innerHTML = products.map(product => {
-                    const image = getImageUrl(product.Image);
-                    const stock = product.Stock || 0;
-                    let stockClass = '';
-                    let stockText = `${stock} in stock`;
+                var productsHtml = '';
+                for (var i = 0; i < products.length; i++) {
+                    var product = products[i];
+                    var image = getImageUrl(product.Image);
+                    var stock = product.Stock || 0;
+                    var stockClass = '';
+                    var stockText = stock + ' in stock';
                     
                     if (stock <= 0) {
                         stockClass = 'out';
                         stockText = 'Out of stock';
                     } else if (stock <= 5) {
                         stockClass = 'low';
-                        stockText = `Only ${stock} left!`;
+                        stockText = 'Only ' + stock + ' left!';
                     }
 
-                    return `
-                        <div class="product-card">
-                            <div class="product-image">
-                                ${image ? `<img src="${image}" alt="${product.Name}" onerror="this.parentElement.innerHTML='📦'">` : '📦'}
-                            </div>
-                            <div class="product-name">${escapeHtml(product.Name)}</div>
-                            <div class="product-unit">${escapeHtml(product.Unit || 'per piece')}</div>
-                            <div class="product-price">₱${formatPrice(product.Price)}</div>
-                            <div class="product-stock ${stockClass}">${stockText}</div>
-                            <button class="btn-add" onclick="addToCart('${product.ProductId}')" ${stock <= 0 ? 'disabled' : ''}>
-                                ${stock <= 0 ? 'Out of Stock' : 'Add to Cart'}
-                            </button>
-                        </div>
-                    `;
-                }).join('');
+                    productsHtml += '<div class="product-card">';
+                    productsHtml += '<div class="product-image">';
+                    if (image) {
+                        productsHtml += '<img src="' + image + '" alt="' + escapeHtml(product.Name) + '" onerror="this.parentElement.innerHTML=\'📦\'">';
+                    } else {
+                        productsHtml += '📦';
+                    }
+                    productsHtml += '</div>';
+                    productsHtml += '<div class="product-name">' + escapeHtml(product.Name) + '</div>';
+                    productsHtml += '<div class="product-unit">' + escapeHtml(product.Unit || 'per piece') + '</div>';
+                    productsHtml += '<div class="product-price">₱' + formatPrice(product.Price) + '</div>';
+                    productsHtml += '<div class="product-stock ' + stockClass + '">' + stockText + '</div>';
+                    productsHtml += '<button class="btn-add" onclick="addToCart(\'' + product.ProductId + '\')"' + (stock <= 0 ? ' disabled' : '') + '>';
+                    productsHtml += stock <= 0 ? 'Out of Stock' : 'Add to Cart';
+                    productsHtml += '</button></div>';
+                }
+                grid.innerHTML = productsHtml;
             }
 
             document.getElementById('storeModal').classList.add('active');
@@ -1658,10 +1712,13 @@
         function filterCategory(category, element) {
             STATE.currentFilter = category;
             
-            document.querySelectorAll('.cat-chip').forEach(chip => chip.classList.remove('active'));
+            var chips = document.querySelectorAll('.cat-chip');
+            for (var i = 0; i < chips.length; i++) {
+                chips[i].classList.remove('active');
+            }
             element.classList.add('active');
 
-            const titleMap = {
+            var titleMap = {
                 'all': 'All Merchants',
                 'Water': 'Water Delivery',
                 'Food': 'Food & Restaurants',
@@ -1677,7 +1734,7 @@
             document.getElementById('sectionTitle').textContent = titleMap[category] || 'Merchants';
             document.getElementById('sectionSubtitle').textContent = category === 'all' 
                 ? 'Discover verified local businesses in Amadeo'
-                : `Browse ${titleMap[category]} merchants`;
+                : 'Browse ' + titleMap[category] + ' merchants';
 
             renderMerchants();
         }
@@ -1686,41 +1743,40 @@
         // SEARCH FUNCTIONALITY
         // ============================================
         function handleSearch(event) {
-            const query = event.target.value.toLowerCase().trim();
+            var query = event.target.value.toLowerCase().trim();
             
             if (query.length < 2) {
                 renderMerchants();
                 return;
             }
 
-            const filtered = STATE.merchants.filter(m => 
-                m.BusinessName.toLowerCase().includes(query) ||
-                (m.Description && m.Description.toLowerCase().includes(query)) ||
-                (m.Category && m.Category.toLowerCase().includes(query)) ||
-                (m.Barangay && m.Barangay.toLowerCase().includes(query))
-            );
+            var filtered = STATE.merchants.filter(function(m) {
+                return m.BusinessName.toLowerCase().indexOf(query) !== -1 ||
+                    (m.Description && m.Description.toLowerCase().indexOf(query) !== -1) ||
+                    (m.Category && m.Category.toLowerCase().indexOf(query) !== -1) ||
+                    (m.Barangay && m.Barangay.toLowerCase().indexOf(query) !== -1);
+            });
 
             renderSearchResults(filtered, query);
         }
 
         function renderSearchResults(merchants, query) {
-            const container = document.getElementById('merchantsContainer');
+            var container = document.getElementById('merchantsContainer');
 
-            document.getElementById('sectionTitle').textContent = `Search Results`;
-            document.getElementById('sectionSubtitle').textContent = `${merchants.length} results for "${query}"`;
+            document.getElementById('sectionTitle').textContent = 'Search Results';
+            document.getElementById('sectionSubtitle').textContent = merchants.length + ' results for "' + query + '"';
 
             if (merchants.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; grid-column: 1/-1; padding: 60px 20px;">
-                        <p style="font-size: 3rem; margin-bottom: 15px;">🔍</p>
-                        <p style="color: var(--text-muted); font-size: 1.1rem;">No results found for "${escapeHtml(query)}"</p>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">Try different keywords or browse categories above</p>
-                    </div>
-                `;
+                container.innerHTML = 
+                    '<div style="text-align: center; grid-column: 1/-1; padding: 60px 20px;">' +
+                        '<p style="font-size: 3rem; margin-bottom: 15px;">🔍</p>' +
+                        '<p style="color: var(--text-muted); font-size: 1.1rem;">No results found for "' + escapeHtml(query) + '"</p>' +
+                        '<p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">Try different keywords or browse categories above</p>' +
+                    '</div>';
                 return;
             }
 
-            const originalMerchants = STATE.merchants;
+            var originalMerchants = STATE.merchants;
             STATE.merchants = merchants;
             STATE.currentFilter = 'all';
             renderMerchants();
@@ -1731,20 +1787,26 @@
         // CART FUNCTIONALITY
         // ============================================
         function addToCart(productId) {
-            const product = STATE.products.find(p => p.ProductId === productId);
+            var product = STATE.products.find(function(p) { return p.ProductId === productId; });
             if (!product) return;
 
-            const existing = STATE.cart.find(item => item.ProductId === productId);
+            var existing = STATE.cart.find(function(item) { return item.ProductId === productId; });
 
             if (existing) {
                 existing.qty++;
             } else {
-                const merchant = STATE.merchants.find(m => m.MerchantId === product.MerchantId);
-                STATE.cart.push({
-                    ...product,
+                var merchant = STATE.merchants.find(function(m) { return m.MerchantId === product.MerchantId; });
+                var cartItem = {
+                    ProductId: product.ProductId,
+                    Name: product.Name,
+                    Price: product.Price,
+                    Image: product.Image,
+                    MerchantId: product.MerchantId,
+                    Unit: product.Unit,
                     qty: 1,
                     merchantName: merchant ? merchant.BusinessName : 'Unknown Store'
-                });
+                };
+                STATE.cart.push(cartItem);
             }
 
             saveCart();
@@ -1752,20 +1814,20 @@
         }
 
         function updateCartQuantity(productId, delta) {
-            const item = STATE.cart.find(i => i.ProductId === productId);
+            var item = STATE.cart.find(function(i) { return i.ProductId === productId; });
             if (!item) return;
 
             item.qty += delta;
 
             if (item.qty <= 0) {
-                STATE.cart = STATE.cart.filter(i => i.ProductId !== productId);
+                STATE.cart = STATE.cart.filter(function(i) { return i.ProductId !== productId; });
             }
 
             saveCart();
         }
 
         function removeFromCart(productId) {
-            STATE.cart = STATE.cart.filter(i => i.ProductId !== productId);
+            STATE.cart = STATE.cart.filter(function(i) { return i.ProductId !== productId; });
             saveCart();
             showToast('Item removed', 'success');
         }
@@ -1785,59 +1847,66 @@
         }
 
         function updateCartUI() {
-            const count = STATE.cart.reduce((sum, item) => sum + item.qty, 0);
-            const subtotal = STATE.cart.reduce((sum, item) => sum + (item.Price * item.qty), 0);
-            const delivery = subtotal > 0 ? CONFIG.DELIVERY_FEE : 0;
-            const total = subtotal + delivery;
+            var count = 0;
+            var subtotal = 0;
+            for (var i = 0; i < STATE.cart.length; i++) {
+                count += STATE.cart[i].qty;
+                subtotal += STATE.cart[i].Price * STATE.cart[i].qty;
+            }
+            var delivery = subtotal > 0 ? CONFIG.DELIVERY_FEE : 0;
+            var total = subtotal + delivery;
 
             document.getElementById('cartBadge').textContent = count;
 
-            document.getElementById('cartSubtotal').textContent = `₱${formatPrice(subtotal)}`;
-            document.getElementById('cartDelivery').textContent = `₱${formatPrice(delivery)}`;
-            document.getElementById('cartTotal').textContent = `₱${formatPrice(total)}`;
+            document.getElementById('cartSubtotal').textContent = '₱' + formatPrice(subtotal);
+            document.getElementById('cartDelivery').textContent = '₱' + formatPrice(delivery);
+            document.getElementById('cartTotal').textContent = '₱' + formatPrice(total);
 
-            const checkoutBtn = document.getElementById('checkoutBtn');
+            var checkoutBtn = document.getElementById('checkoutBtn');
             checkoutBtn.disabled = count === 0;
 
-            const cartItemsContainer = document.getElementById('cartItems');
+            var cartItemsContainer = document.getElementById('cartItems');
 
             if (count === 0) {
-                cartItemsContainer.innerHTML = `
-                    <div class="cart-empty">
-                        <div class="cart-empty-icon">🛒</div>
-                        <p>Your cart is empty</p>
-                        <p style="font-size: 0.85rem; margin-top: 5px;">Add items from local merchants to get started!</p>
-                    </div>
-                `;
+                cartItemsContainer.innerHTML = 
+                    '<div class="cart-empty">' +
+                        '<div class="cart-empty-icon">🛒</div>' +
+                        '<p>Your cart is empty</p>' +
+                        '<p style="font-size: 0.85rem; margin-top: 5px;">Add items from local merchants to get started!</p>' +
+                    '</div>';
             } else {
-                cartItemsContainer.innerHTML = STATE.cart.map(item => {
-                    const image = getImageUrl(item.Image);
-                    return `
-                        <div class="cart-item">
-                            <div class="cart-item-image">
-                                ${image ? `<img src="${image}" alt="${item.Name}" onerror="this.parentElement.innerHTML='📦'">` : '📦'}
-                            </div>
-                            <div class="cart-item-details">
-                                <div class="cart-item-name">${escapeHtml(item.Name)}</div>
-                                <div class="cart-item-price">₱${formatPrice(item.Price)}</div>
-                                <div class="cart-item-store">${escapeHtml(item.merchantName || '')}</div>
-                                <div class="cart-item-actions">
-                                    <button class="qty-btn" onclick="updateCartQuantity('${item.ProductId}', -1)">−</button>
-                                    <span class="cart-item-qty">${item.qty}</span>
-                                    <button class="qty-btn" onclick="updateCartQuantity('${item.ProductId}', 1)">+</button>
-                                    <button class="cart-item-remove" onclick="removeFromCart('${item.ProductId}')" title="Remove">🗑️</button>
-                                </div>
-                            </div>
-                            <div class="cart-item-subtotal">₱${formatPrice(item.Price * item.qty)}</div>
-                        </div>
-                    `;
-                }).join('');
+                var cartHtml = '';
+                for (var j = 0; j < STATE.cart.length; j++) {
+                    var item = STATE.cart[j];
+                    var image = getImageUrl(item.Image);
+                    cartHtml += '<div class="cart-item">';
+                    cartHtml += '<div class="cart-item-image">';
+                    if (image) {
+                        cartHtml += '<img src="' + image + '" alt="' + escapeHtml(item.Name) + '" onerror="this.parentElement.innerHTML=\'📦\'">';
+                    } else {
+                        cartHtml += '📦';
+                    }
+                    cartHtml += '</div>';
+                    cartHtml += '<div class="cart-item-details">';
+                    cartHtml += '<div class="cart-item-name">' + escapeHtml(item.Name) + '</div>';
+                    cartHtml += '<div class="cart-item-price">₱' + formatPrice(item.Price) + '</div>';
+                    cartHtml += '<div class="cart-item-store">' + escapeHtml(item.merchantName || '') + '</div>';
+                    cartHtml += '<div class="cart-item-actions">';
+                    cartHtml += '<button class="qty-btn" onclick="updateCartQuantity(\'' + item.ProductId + '\', -1)">−</button>';
+                    cartHtml += '<span class="cart-item-qty">' + item.qty + '</span>';
+                    cartHtml += '<button class="qty-btn" onclick="updateCartQuantity(\'' + item.ProductId + '\', 1)">+</button>';
+                    cartHtml += '<button class="cart-item-remove" onclick="removeFromCart(\'' + item.ProductId + '\')" title="Remove">🗑️</button>';
+                    cartHtml += '</div></div>';
+                    cartHtml += '<div class="cart-item-subtotal">₱' + formatPrice(item.Price * item.qty) + '</div>';
+                    cartHtml += '</div>';
+                }
+                cartItemsContainer.innerHTML = cartHtml;
             }
         }
 
         function toggleCart() {
-            const sidebar = document.getElementById('cartSidebar');
-            const overlay = document.getElementById('cartOverlay');
+            var sidebar = document.getElementById('cartSidebar');
+            var overlay = document.getElementById('cartOverlay');
             
             sidebar.classList.toggle('open');
             overlay.classList.toggle('active');
@@ -1852,26 +1921,31 @@
 
             toggleCart();
 
-            const subtotal = STATE.cart.reduce((sum, item) => sum + (item.Price * item.qty), 0);
-            const delivery = CONFIG.DELIVERY_FEE;
-            const total = subtotal + delivery;
+            var subtotal = 0;
+            for (var i = 0; i < STATE.cart.length; i++) {
+                subtotal += STATE.cart[i].Price * STATE.cart[i].qty;
+            }
+            var delivery = CONFIG.DELIVERY_FEE;
+            var total = subtotal + delivery;
 
-            document.getElementById('checkoutSummary').innerHTML = `
-                ${STATE.cart.map(item => `
-                    <div class="summary-item">
-                        <span>${escapeHtml(item.Name)} × ${item.qty}</span>
-                        <span>₱${formatPrice(item.Price * item.qty)}</span>
-                    </div>
-                `).join('')}
-                <div class="summary-item">
-                    <span>Delivery Fee</span>
-                    <span>₱${formatPrice(delivery)}</span>
-                </div>
-                <div class="summary-item total">
-                    <span>Total</span>
-                    <span>₱${formatPrice(total)}</span>
-                </div>
-            `;
+            var summaryHtml = '';
+            for (var j = 0; j < STATE.cart.length; j++) {
+                var item = STATE.cart[j];
+                summaryHtml += '<div class="summary-item">';
+                summaryHtml += '<span>' + escapeHtml(item.Name) + ' × ' + item.qty + '</span>';
+                summaryHtml += '<span>₱' + formatPrice(item.Price * item.qty) + '</span>';
+                summaryHtml += '</div>';
+            }
+            summaryHtml += '<div class="summary-item">';
+            summaryHtml += '<span>Delivery Fee</span>';
+            summaryHtml += '<span>₱' + formatPrice(delivery) + '</span>';
+            summaryHtml += '</div>';
+            summaryHtml += '<div class="summary-item total">';
+            summaryHtml += '<span>Total</span>';
+            summaryHtml += '<span>₱' + formatPrice(total) + '</span>';
+            summaryHtml += '</div>';
+
+            document.getElementById('checkoutSummary').innerHTML = summaryHtml;
 
             document.getElementById('checkoutModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1889,23 +1963,42 @@
         }
 
         function setupPaymentOptions() {
-            document.querySelectorAll('.payment-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+            var options = document.querySelectorAll('.payment-option');
+            for (var i = 0; i < options.length; i++) {
+                options[i].addEventListener('click', function() {
+                    var allOptions = document.querySelectorAll('.payment-option');
+                    for (var j = 0; j < allOptions.length; j++) {
+                        allOptions[j].classList.remove('selected');
+                    }
                     this.classList.add('selected');
                     this.querySelector('input').checked = true;
                 });
-            });
+            }
         }
 
-        async function submitOrder(event) {
+        function submitOrder(event) {
             event.preventDefault();
 
-            const btn = document.getElementById('placeOrderBtn');
+            var btn = document.getElementById('placeOrderBtn');
             btn.disabled = true;
             btn.innerHTML = '⏳ Processing...';
 
-            const formData = {
+            // Build items array
+            var orderItems = [];
+            var subtotal = 0;
+            for (var i = 0; i < STATE.cart.length; i++) {
+                var item = STATE.cart[i];
+                orderItems.push({
+                    productId: item.ProductId,
+                    merchantId: item.MerchantId,
+                    name: item.Name,
+                    quantity: item.qty,
+                    price: item.Price
+                });
+                subtotal += item.Price * item.qty;
+            }
+
+            var formData = {
                 action: 'createOrder',
                 customerName: document.getElementById('customerName').value.trim(),
                 customerPhone: document.getElementById('customerPhone').value.trim(),
@@ -1915,55 +2008,54 @@
                 landmark: document.getElementById('landmark').value.trim(),
                 paymentMethod: document.querySelector('input[name="paymentMethod"]:checked').value,
                 orderNotes: document.getElementById('orderNotes').value.trim(),
-                items: STATE.cart.map(item => ({
-                    productId: item.ProductId,
-                    merchantId: item.MerchantId,
-                    name: item.Name,
-                    quantity: item.qty,
-                    price: item.Price
-                })),
-                subtotal: STATE.cart.reduce((sum, item) => sum + (item.Price * item.qty), 0),
+                items: orderItems,
+                subtotal: subtotal,
                 deliveryFee: CONFIG.DELIVERY_FEE
             };
 
-            try {
-                const response = await fetch(CONFIG.API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-
+            fetch(CONFIG.API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(formData)
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(result) {
                 if (result.success) {
-                    const orderRef = result.orderId || generateOrderRef();
+                    var orderRef = result.orderId || generateOrderRef();
                     
                     STATE.cart = [];
                     saveCart();
                     
                     closeCheckout();
                     
-                    alert(`✅ Order Placed Successfully!\n\nOrder ID: ${orderRef}\n\nWe'll contact you shortly to confirm your order.\n\nThank you for shopping local!`);
+                    alert('✅ Order Placed Successfully!\n\nOrder ID: ' + orderRef + '\n\nWe\'ll contact you shortly to confirm your order.\n\nThank you for shopping local!');
                     
                     document.getElementById('checkoutForm').reset();
                     
                 } else {
                     throw new Error(result.error || 'Failed to place order');
                 }
-            } catch (error) {
+            })
+            .catch(function(error) {
                 console.error('Order error:', error);
                 showToast('Failed to place order. Please try again.', 'error');
-            } finally {
+            })
+            .finally(function() {
                 btn.disabled = false;
                 btn.innerHTML = '🛒 Place Order';
-            }
+            });
         }
 
         function generateOrderRef() {
-            const date = new Date();
-            const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '');
-            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-            return `AMV-${dateStr}-${random}`;
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = String(date.getMonth() + 1).padStart(2, '0');
+            var day = String(date.getDate()).padStart(2, '0');
+            var dateStr = year + month + day;
+            var random = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+            return 'AMV-' + dateStr + '-' + random;
         }
 
         // ============================================
@@ -1978,29 +2070,31 @@
 
         function escapeHtml(text) {
             if (!text) return '';
-            const div = document.createElement('div');
+            var div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const icon = document.getElementById('toastIcon');
-            const msg = document.getElementById('toastMessage');
+        function showToast(message, type) {
+            type = type || 'success';
+            var toast = document.getElementById('toast');
+            var icon = document.getElementById('toastIcon');
+            var msg = document.getElementById('toastMessage');
 
             icon.textContent = type === 'success' ? '✓' : '⚠️';
             msg.textContent = message;
-            toast.className = `toast ${type} show`;
+            toast.className = 'toast ' + type + ' show';
 
-            setTimeout(() => {
+            setTimeout(function() {
                 toast.classList.remove('show');
             }, 3000);
         }
 
+
         // ============================================
         // KEYBOARD SHORTCUTS
         // ============================================
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 if (document.getElementById('checkoutModal').classList.contains('active')) {
                     closeCheckout();
