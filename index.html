@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amadeo Verified Marketplace | Shop Local</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
             --primary: #2d6a4f;
             --primary-light: #40916c;
             --primary-dark: #1b4332;
             --accent: #f77f00;
+            --accent-light: #fcbf49;
             --cream: #fefae0;
             --warm-white: #fffef7;
             --text-dark: #1a1a1a;
@@ -26,7 +26,8 @@
 
         /* HEADER */
         .header { background: white; position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow-sm); }
-        .header-main { max-width: 14
+        .header-top { background: linear-gradient(90deg, #dc2626 0%, #b91c1c 100%); color: white; padding: 8px 20px; text-align: center; font-weight: 600; font-size: 0.8rem; }
+        .header-main { max-width: 1400px; margin: 0 auto; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
         .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--primary-dark); font-weight: 700; font-size: 1.2rem; }
         .logo span { font-size: 1.5rem; }
         
@@ -42,7 +43,7 @@
         .cart-badge { position: absolute; top: -5px; right: -5px; background: var(--accent); color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.7rem; }
 
         /* CATEGORIES */
-        .categories-nav { background: white; border-bottom: 1px solid var(--border); position: sticky; top: 68px; z-index: 900; }
+        .categories-nav { background: white; border-bottom: 1px solid var(--border); position: sticky; top: 78px; z-index: 900; }
         .categories-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 20px; max-width: 1400px; margin: 0 auto; scrollbar-width: none; }
         .cat-chip { padding: 8px 16px; background: #f3f4f6; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.2s; border: 1px solid transparent; }
         .cat-chip:hover { background: var(--cream); border-color: var(--primary); }
@@ -94,6 +95,13 @@
         .cart-footer { padding: 20px; border-top: 1px solid #eee; background: #f9fafb; }
         .cart-total { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; }
 
+        /* FOOTER */
+        footer { background: #1f2937; color: white; padding: 50px 20px; margin-top: 50px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .footer-col h4 { margin-bottom: 15px; color: var(--accent); }
+        .footer-col a { display: block; color: #d1d5db; text-decoration: none; margin-bottom: 8px; font-size: 0.9rem; }
+        .footer-col a:hover { color: white; }
+
         /* LOADING */
         .loading { text-align: center; padding: 50px; color: var(--text-muted); }
         .spinner { width: 40px; height: 40px; border: 4px solid #e5e7eb; border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 15px; }
@@ -115,8 +123,9 @@
 <body>
 
     <header class="header">
+        <div class="header-top">🚨 24/7 EMERGENCY: Plumbing • Electrical • Locksmith</div>
         <div class="header-main">
-            <a href="#" class="logo"><span>🏪</span> Amadeo Verified</a>
+            <a href="index.html" class="logo"><span>🏪</span> Amadeo Verified</a>
             
             <div class="search-box">
                 <input type="text" id="search" class="search-input" placeholder="Search businesses or products..." onkeyup="searchMerchants()">
@@ -126,7 +135,8 @@
                 <button class="btn btn-cart" onclick="toggleCart()">
                     🛒 <span id="cartCount">0</span>
                 </button>
-                <a href="merchant-login.html" class="btn btn-outline">Merchant Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                <a href="merchant-login.html" class="btn btn-outline">Seller Login</a>
             </div>
         </div>
     </header>
@@ -189,6 +199,35 @@
     </div>
 
     <div class="toast" id="toast">Item added to cart!</div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Amadeo Verified</h4>
+                <p style="font-size: 0.9rem; color: #d1d5db;">Supporting local businesses and connecting communities in Amadeo, Cavite.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="index.html">Home</a>
+                <a href="track.html">Track Order</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+            <div class="footer-col">
+                <h4>For Merchants</h4>
+                <a href="merchant-login.html">Login</a>
+                <a href="merchant-register.html">Register</a>
+                <a href="admin.html">Admin</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <a href="#">📞 0966 960 6060</a>
+                <a href="#">📧 tygfsb@gmail.com</a>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #374151; font-size: 0.8rem; color: #9ca3af;">
+            © 2025 Amadeo Marketplace. Powered by TYG Services.
+        </div>
+    </footer>
 
     <script>
         // CONFIGURATION
@@ -310,15 +349,33 @@
                 m.Description?.toLowerCase().includes(q)
             );
             
-            // Re-render manually with filtered list (bypassing standard render for search)
             const container = document.getElementById('merchantsContainer');
             if (filtered.length === 0) {
                 container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found.</p>';
                 return;
             }
-            // Reuse render logic but with specific array
-            // Ideally we refactor renderMerchants to accept array, but for speed:
-            // ... (Simple re-implementation of map logic above)
+            
+            // Re-render manually for search
+            container.innerHTML = filtered.map(m => {
+                const prodCount = PRODUCTS.filter(p => p.MerchantId === m.MerchantId).length;
+                return `
+                <div class="merchant-card" onclick="openStore('${m.MerchantId}')">
+                    <div class="merchant-header">
+                        <div class="merchant-logo">🏪</div>
+                        <div class="merchant-info">
+                            <h3>${m.BusinessName}</h3>
+                            <p>📍 ${m.Barangay || 'Amadeo'}</p>
+                        </div>
+                    </div>
+                    <div class="merchant-body">
+                        ${m.Description || 'No description provided.'}
+                    </div>
+                    <div class="merchant-footer">
+                        <span>📦 ${prodCount} Products</span>
+                        <button class="btn btn-primary" style="font-size:0.8rem">Visit Store</button>
+                    </div>
+                </div>
+            `}).join('');
         }
 
         // CART LOGIC
@@ -345,12 +402,15 @@
             const count = cart.reduce((a, b) => a + b.qty, 0);
             const total = cart.reduce((a, b) => a + (b.Price * b.qty), 0);
 
-            document.getElementById('cartCount').textContent = count;
+            // Update header badges
+            const badges = document.querySelectorAll('.cart-badge');
+            badges.forEach(b => b.textContent = count);
+
             document.getElementById('cartTotal').textContent = '₱' + total.toFixed(2);
 
             const itemsDiv = document.getElementById('cartItems');
             if (count === 0) {
-                itemsDiv.innerHTML = '<p style="text-align:center;color:#888">Cart is empty</p>';
+                itemsDiv.innerHTML = '<p style="text-align:center;color:#888;margin-top:20px">Cart is empty</p>';
             } else {
                 itemsDiv.innerHTML = cart.map((item, idx) => `
                     <div class="cart-item">
@@ -369,7 +429,6 @@
             document.querySelector('.cart-overlay').classList.toggle('active');
         }
         
-        // Make overlay clickable to close cart
         document.querySelector('.cart-overlay').addEventListener('click', toggleCart);
 
         function showToast() {
@@ -381,10 +440,8 @@
         function checkout() {
             if (cart.length === 0) return alert('Cart is empty');
             
-            // Simple checkout process for MVP
             const orderData = {
                 action: 'createOrder',
-                // In a real flow, you'd get customer details here
                 customerName: 'Guest User', 
                 items: cart.map(i => ({ productId: i.ProductId, quantity: i.qty, price: i.Price })),
                 paymentMethod: 'COD'
