@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amadeo Verified Marketplace | Shop Local</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         :root {
             --primary: #2d6a4f;
@@ -38,7 +39,8 @@
         .nav-actions { display: flex; gap: 10px; align-items: center; }
         .btn { padding: 8px 16px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: 0.2s; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-outline { border: 2px solid var(--primary); color: var(--primary); background: white; }
+        .btn-outline { border: 2px solid #ddd; color: #666; background: white; }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
         .btn-cart { background: var(--cream); color: var(--primary-dark); position: relative; }
         .cart-badge { position: absolute; top: -5px; right: -5px; background: var(--accent); color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.7rem; }
 
@@ -96,11 +98,13 @@
         .cart-total { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; }
 
         /* FOOTER */
-        footer { background: #1f2937; color: white; padding: 50px 20px; margin-top: 50px; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        .footer-col h4 { margin-bottom: 15px; color: var(--accent); }
-        .footer-col a { display: block; color: #d1d5db; text-decoration: none; margin-bottom: 8px; font-size: 0.9rem; }
-        .footer-col a:hover { color: white; }
+        footer { background: #1f2937; color: white; padding: 60px 20px 30px; margin-top: 60px; border-top: 5px solid var(--primary); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; max-width: 1400px; margin: 0 auto; }
+        .footer-col h4 { margin-bottom: 20px; color: var(--accent); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-col p { color: #9ca3af; font-size: 0.9rem; line-height: 1.6; }
+        .footer-col a { display: block; color: #d1d5db; text-decoration: none; margin-bottom: 10px; font-size: 0.9rem; transition: 0.2s; }
+        .footer-col a:hover { color: var(--accent); padding-left: 5px; }
+        .footer-bottom { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #374151; color: #6b7280; font-size: 0.85rem; }
 
         /* LOADING */
         .loading { text-align: center; padding: 50px; color: var(--text-muted); }
@@ -117,6 +121,7 @@
             .search-box { order: 3; min-width: 100%; }
             .merchants-grid { grid-template-columns: 1fr; }
             .cart-sidebar { width: 100%; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -203,29 +208,40 @@
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
-                <h4>Amadeo Verified</h4>
-                <p style="font-size: 0.9rem; color: #d1d5db;">Supporting local businesses and connecting communities in Amadeo, Cavite.</p>
+                <h4>🏪 Amadeo Verified</h4>
+                <p>Supporting verified local businesses across Amadeo, Cavite. We connect community members with trusted products and services.</p>
             </div>
+            
             <div class="footer-col">
                 <h4>Quick Links</h4>
-                <a href="index.html">Home</a>
-                <a href="track.html">Track Order</a>
-                <a href="faq.html">FAQ</a>
+                <a href="index.html">🏠 Home</a>
+                <a href="track.html">📦 Track Order</a>
+                <a href="faq.html">❓ FAQ</a>
+                <a href="signup.html">👤 Customer Sign Up</a>
             </div>
+
             <div class="footer-col">
                 <h4>For Merchants</h4>
-                <a href="merchant-login.html">Login</a>
-                <a href="merchant-register.html">Register</a>
-                <a href="admin.html">Admin</a>
+                <a href="merchant-login.html">🔐 Merchant Login</a>
+                <a href="merchant-register.html">📝 Register Business</a>
+                <a href="admin.html">⚙️ Admin Access</a>
+                <a href="join.html">🚀 Why Join?</a>
             </div>
+
             <div class="footer-col">
-                <h4>Contact</h4>
-                <a href="#">📞 0966 960 6060</a>
-                <a href="#">📧 tygfsb@gmail.com</a>
+                <h4>Our Network</h4>
+                <a href="https://tyg-services.com" target="_blank">🔧 TYG Services</a>
+                <a href="https://luntian.net" target="_blank">🏡 Luntian Staycation</a>
+                <a href="https://soleblessing.com" target="_blank">👟 Sole Blessing</a>
+                <a href="https://www.ast3r.store/" target="_blank">👗 AST3R Fashion</a>
+                <a href="https://www.thegoldblessing.com/" target="_blank">💎 The Gold Blessing</a>
+                <a href="https://musthavecorner.com" target="_blank">🛒 Must Have Corner</a>
             </div>
         </div>
-        <div style="text-align:center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #374151; font-size: 0.8rem; color: #9ca3af;">
-            © 2025 Amadeo Marketplace. Powered by TYG Services.
+        
+        <div class="footer-bottom">
+            &copy; 2025 Amadeo Verified Marketplace. All rights reserved. <br>
+            <a href="mailto:tygfsb@gmail.com" style="color:#6b7280; text-decoration:none;">Contact: tygfsb@gmail.com</a>
         </div>
     </footer>
 
@@ -354,9 +370,8 @@
                 container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No results found.</p>';
                 return;
             }
-            
-            // Re-render manually for search
-            container.innerHTML = filtered.map(m => {
+            // Re-render manually for search (simplified)
+             container.innerHTML = filtered.map(m => {
                 const prodCount = PRODUCTS.filter(p => p.MerchantId === m.MerchantId).length;
                 return `
                 <div class="merchant-card" onclick="openStore('${m.MerchantId}')">
@@ -402,7 +417,7 @@
             const count = cart.reduce((a, b) => a + b.qty, 0);
             const total = cart.reduce((a, b) => a + (b.Price * b.qty), 0);
 
-            // Update header badges
+            // Update badge (if exists)
             const badges = document.querySelectorAll('.cart-badge');
             badges.forEach(b => b.textContent = count);
 
