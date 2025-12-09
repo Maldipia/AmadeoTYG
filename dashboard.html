@@ -473,7 +473,27 @@
                         </select>
                     </div>
                     <div class="form-group"><label>Description</label><textarea id="prodDesc" rows="3"></textarea></div>
-                    <div class="form-group"><label>Image URL</label><input type="url" id="prodImage" placeholder="https://..."></div>
+                    <div class="form-group">
+                        <label>Product Image *</label>
+                        <input type="file" id="prodImageFile" accept="image/*" onchange="previewProductImage(event)">
+                        <input type="hidden" id="prodImage">
+                        <div id="imagePreview" style="margin-top:10px;display:none">
+                            <img id="previewImg" style="max-width:200px;max-height:200px;border-radius:8px;border:1px solid var(--g2)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="hasVariants" onchange="toggleVariants()" style="width:auto;margin-right:8px">
+                            This product has variants (e.g., different sizes/weights)
+                        </label>
+                    </div>
+                    <div id="variantsSection" style="display:none;padding:15px;background:var(--g1);border-radius:8px;margin-top:10px">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                            <strong>Variants</strong>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="addVariant()">+ Add Variant</button>
+                        </div>
+                        <div id="variantsList"></div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -807,10 +827,16 @@
     }
     
     // PRODUCT FUNCTIONS
+    let productVariants = [];
+    
     function openProductModal(productId){
         document.getElementById('productForm').reset();
         document.getElementById('prodId').value='';
         document.getElementById('productModalTitle').textContent='Add Product';
+        document.getElementById('imagePreview').style.display='none';
+        document.getElementById('hasVariants').checked=false;
+        document.getElementById('variantsSection').style.display='none';
+        productVariants = [];
         
         if(productId){
             const p=products.find(x=>x.ProductId===productId);
@@ -822,10 +848,73 @@
                 document.getElementById('prodCategory').value=p.Category||'';
                 document.getElementById('prodDesc').value=p.Description||'';
                 document.getElementById('prodImage').value=p.Image||'';
+                
+                // Show existing image
+                if(p.Image){
+                    document.getElementById('previewImg').src=p.Image;
+                    document.getElementById('imagePreview').style.display='block';
+                }
+                
+                // Load variants if present
+                if(p.HasVariants && p.Variants){
+                    document.getElementById('hasVariants').checked=true;
+                    document.getElementById('variantsSection').style.display='block';
+                    try{
+                        productVariants = typeof p.Variants === 'string' ? JSON.parse(p.Variants) : p.Variants;
+                        renderVariants();
+                    }catch(e){productVariants=[]}
+                }
+                
                 document.getElementById('productModalTitle').textContent='Edit Product';
             }
         }
         openModal('productModal')
+    }
+    
+    function previewProductImage(event){
+        const file = event.target.files[0];
+        if(!file)return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e){
+            document.getElementById('previewImg').src = e.target.result;
+            document.getElementById('imagePreview').style.display = 'block';
+            document.getElementById('prodImage').value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+    
+    function toggleVariants(){
+        const checked = document.getElementById('hasVariants').checked;
+        document.getElementById('variantsSection').style.display = checked ? 'block' : 'none';
+        if(checked && productVariants.length === 0){
+            addVariant();
+        }
+    }
+    
+    function addVariant(){
+        productVariants.push({name:'', price:0});
+        renderVariants();
+    }
+    
+    function removeVariant(index){
+        productVariants.splice(index, 1);
+        renderVariants();
+    }
+    
+    function renderVariants(){
+        const list = document.getElementById('variantsList');
+        list.innerHTML = productVariants.map((v, i) => `
+            <div style="display:flex;gap:10px;margin-bottom:10px;align-items:center">
+                <input type="text" placeholder="Variant name (e.g., Dozen 600g)" value="${v.name||''}" 
+                    onchange="productVariants[${i}].name=this.value" 
+                    style="flex:2;padding:8px;border:1px solid var(--g2);border-radius:6px">
+                <input type="number" placeholder="Price" value="${v.price||0}" min="0" step="0.01"
+                    onchange="productVariants[${i}].price=parseFloat(this.value)||0" 
+                    style="flex:1;padding:8px;border:1px solid var(--g2);border-radius:6px">
+                <button type="button" class="btn btn-sm btn-danger" onclick="removeVariant(${i})">×</button>
+            </div>
+        `).join('');
     }
     
     function editProduct(id){openProductModal(id)}
@@ -833,16 +922,41 @@
     async function saveProduct(e){
         e.preventDefault();
         
+        const imageData = document.getElementById('prodImage').value;
+        const hasVariants = document.getElementById('hasVariants').checked;
+        
+        // Validate: Image is required
+        if(!imageData){
+            alert('Product image is required!');
+            return;
+        }
+        
+        // Validate variants if enabled
+        if(hasVariants){
+            if(productVariants.length === 0){
+                alert('Please add at least one variant or uncheck the variants option.');
+                return;
+            }
+            for(let v of productVariants){
+                if(!v.name || !v.price || v.price <= 0){
+                    alert('All variants must have a name and valid price.');
+                    return;
+                }
+            }
+        }
+        
         const data={
             action:document.getElementById('prodId').value?'updateProduct':'addProduct',
             productId:document.getElementById('prodId').value||undefined,
             merchantId:merchant.MerchantId,
             name:document.getElementById('prodName').value,
-            price:parseFloat(document.getElementById('prodPrice').value),
+            price:hasVariants ? 0 : parseFloat(document.getElementById('prodPrice').value),
             stockLevel:parseInt(document.getElementById('prodStock').value),
             category:document.getElementById('prodCategory').value,
             description:document.getElementById('prodDesc').value,
-            image:document.getElementById('prodImage').value
+            imageData: imageData,
+            hasVariants: hasVariants,
+            variants: hasVariants ? productVariants : null
         };
         
         try{
