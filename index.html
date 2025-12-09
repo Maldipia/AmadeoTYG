@@ -1329,9 +1329,26 @@
             .then(function(data) {
                 console.log('Merchants response:', data);
                 if (data.success && data.data) {
-                    // Filter only Active merchants
+                    // Filter only Active merchants and map properties
                     STATE.merchants = data.data.filter(function(m) {
                         return m.Status === 'Active';
+                    }).map(function(m) {
+                        return {
+                            id: m.MerchantId,
+                            merchantId: m.MerchantId,
+                            businessName: m.BusinessName,
+                            ownerName: m.OwnerName,
+                            phone: m.Phone,
+                            email: m.Email,
+                            category: m.Category,
+                            address: m.Address,
+                            barangay: m.Barangay,
+                            description: m.Description,
+                            status: m.Status,
+                            logo: m.LogoUrl,
+                            services: m.Services,
+                            operatingHours: m.OperatingHours
+                        };
                     });
                 }
                 return fetch(API_BASE + '?action=getProducts');
@@ -1344,21 +1361,37 @@
                 if (data.success && data.data) {
                     // Filter products from active merchants only
                     var activeMerchantIds = STATE.merchants.map(function(m) {
-                        return m.MerchantId;
+                        return m.merchantId;
                     });
                     STATE.products = data.data.filter(function(p) {
                         return p.Status === 'Active' && activeMerchantIds.indexOf(p.MerchantId) !== -1;
                     }).map(function(p) {
                         // Parse variants if present
-                        if (p.hasVariants && p.variants) {
+                        var variants = [];
+                        var hasVariants = false;
+                        if (p.HasVariants && p.Variants) {
                             try {
-                                p.variants = typeof p.variants === 'string' ? JSON.parse(p.variants) : p.variants;
+                                variants = typeof p.Variants === 'string' ? JSON.parse(p.Variants) : p.Variants;
+                                hasVariants = variants.length > 0;
                             } catch (e) {
-                                p.variants = [];
-                                p.hasVariants = false;
+                                variants = [];
+                                hasVariants = false;
                             }
                         }
-                        return p;
+                        return {
+                            id: p.ProductId,
+                            productId: p.ProductId,
+                            merchantId: p.MerchantId,
+                            name: p.Name,
+                            description: p.Description,
+                            category: p.Category,
+                            price: parseFloat(p.Price) || 0,
+                            image: p.Image,
+                            stockLevel: parseInt(p.StockLevel) || 0,
+                            status: p.Status,
+                            hasVariants: hasVariants,
+                            variants: variants
+                        };
                     });
                 }
                 
