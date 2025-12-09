@@ -653,6 +653,48 @@ function createOrder(data) {
 
 
 // ============================================================
+// GET PRODUCTS
+// ============================================================
+
+function getProducts(merchantId) {
+  try {
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('Products');
+    
+    if (!sheet) {
+      return { success: false, error: 'Products sheet not found' };
+    }
+    
+    const data = sheet.getDataRange().getValues();
+    const headers = data[0];
+    const products = [];
+    
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      const product = {};
+      headers.forEach((h, idx) => product[h] = row[idx]);
+      
+      // Filter by merchantId if provided
+      if (!merchantId || product.MerchantId === merchantId) {
+        // Only return active products
+        if (product.Status === 'active') {
+          products.push(product);
+        }
+      }
+    }
+    
+    return {
+      success: true,
+      data: products
+    };
+    
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+
+// ============================================================
 // ADD/UPDATE PRODUCT (with Variants & Flash Sale support)
 // ============================================================
 
