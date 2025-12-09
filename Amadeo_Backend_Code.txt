@@ -243,6 +243,11 @@ function registerMerchant(data) {
     const merchantId = `MER-${Date.now()}`;
     const now = new Date();
     
+    // DEBUG: Log headers and incoming data
+    Logger.log('=== REGISTER MERCHANT DEBUG ===');
+    Logger.log('Headers: ' + JSON.stringify(headers));
+    Logger.log('Incoming data: ' + JSON.stringify(data));
+    
     const rowData = headers.map(header => {
       switch(header) {
         case 'MerchantId': return merchantId;
@@ -267,6 +272,10 @@ function registerMerchant(data) {
         default: return '';
       }
     });
+    
+    // DEBUG: Log the row data being appended
+    Logger.log('Row data to append: ' + JSON.stringify(rowData));
+    Logger.log('Row length: ' + rowData.length + ', Headers length: ' + headers.length);
     
     sheet.appendRow(rowData);
     
