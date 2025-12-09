@@ -303,16 +303,8 @@
         status.className = 'status';
         status.style.display = 'none';
         
-        // FIXED: Use POST request instead of GET
-        fetch(API_BASE, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify({
-                action: 'merchantLogin',
-                email: email,
-                password: password
-            })
-        })
+        // Use GET request to avoid CORS issues with Google Apps Script
+        fetch(API_BASE + '?action=merchantLogin&email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password))
         .then(function(response) {
             return response.json();
         })
@@ -353,16 +345,8 @@
         status.className = 'status';
         status.style.display = 'none';
         
-        // FIXED: Use POST request instead of GET
-        fetch(API_BASE, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify({
-                action: 'customerLogin',
-                phone: phone,
-                password: password
-            })
-        })
+        // Use GET request to avoid CORS issues with Google Apps Script
+        fetch(API_BASE + '?action=customerLogin&phone=' + encodeURIComponent(phone) + '&password=' + encodeURIComponent(password))
         .then(function(response) {
             return response.json();
         })
