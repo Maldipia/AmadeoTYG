@@ -1394,8 +1394,8 @@
                             logo: m.LogoUrl,
                             services: m.Services,
                             operatingHours: m.OperatingHours,
-                            offersPickup: m.OffersPickup === 'TRUE' || m.OffersPickup === true,
-                            offersDelivery: m.OffersDelivery === 'TRUE' || m.OffersDelivery === true
+                            offersPickup: ['TRUE', 'YES', 'true', 'yes', '1', 1, true].indexOf(m.OffersPickup) !== -1,
+                            offersDelivery: ['TRUE', 'YES', 'true', 'yes', '1', 1, true].indexOf(m.OffersDelivery) !== -1
                         };
                     });
                 }
