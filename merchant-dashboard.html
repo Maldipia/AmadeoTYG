@@ -490,16 +490,13 @@
     
     <!-- PRODUCT MODAL -->
     <div class="modal-bg" id="productModal">
-        <div class="modal">
+        <div class="modal" style="max-width:600px">
             <div class="modal-header"><h2 id="productModalTitle">Add Product</h2><button class="modal-close" onclick="closeModal('productModal')">×</button></div>
-            <div class="modal-body">
+            <div class="modal-body" style="max-height:70vh;overflow-y:auto">
                 <form id="productForm" onsubmit="saveProduct(event)">
                     <input type="hidden" id="prodId">
-                    <div class="form-group"><label>Product Name *</label><input type="text" id="prodName" required></div>
-                    <div class="form-row">
-                        <div class="form-group"><label>Price (₱) *</label><input type="number" id="prodPrice" min="0" step="0.01" required></div>
-                        <div class="form-group"><label>Stock *</label><input type="number" id="prodStock" min="0" required></div>
-                    </div>
+                    <input type="hidden" id="prodVariantsData">
+                    <div class="form-group"><label>Product Name *</label><input type="text" id="prodName" required placeholder="e.g., Fresh Brown Eggs"></div>
                     <div class="form-group"><label>Category *</label>
                         <select id="prodCategory" required>
                             <option value="">Select</option>
@@ -514,8 +511,41 @@
                             <option>Pet Supplies</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>Description</label><textarea id="prodDesc" rows="3"></textarea></div>
-                    <div class="form-group">
+                    <div class="form-group"><label>Description</label><textarea id="prodDesc" rows="2" placeholder="Describe your product..."></textarea></div>
+                    
+                    <!-- VARIANTS TOGGLE -->
+                    <div class="form-group" style="background:var(--g1);padding:12px;border-radius:8px;margin:15px 0">
+                        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin:0">
+                            <input type="checkbox" id="hasVariants" onchange="toggleVariants()" style="width:18px;height:18px;accent-color:var(--p)">
+                            <span style="font-weight:600">🥚 This product has variants (sizes/weights)</span>
+                        </label>
+                        <div style="font-size:12px;color:var(--g5);margin-top:5px;margin-left:28px">Enable to add different sizes like "Dozen (516g) - ₱132"</div>
+                    </div>
+                    
+                    <!-- SINGLE PRICE (shown when NO variants) -->
+                    <div id="singlePriceSection">
+                        <div class="form-row">
+                            <div class="form-group"><label>Price (₱) *</label><input type="number" id="prodPrice" min="0" step="0.01" placeholder="0.00"></div>
+                            <div class="form-group"><label>Stock *</label><input type="number" id="prodStock" min="0" placeholder="0"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- VARIANTS SECTION (shown when HAS variants) -->
+                    <div id="variantsSection" style="display:none">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                            <label style="font-weight:600;color:var(--p)">📦 Product Variants</label>
+                            <button type="button" class="btn btn-outline" onclick="addVariantRow()" style="padding:6px 12px;font-size:13px">+ Add Variant</button>
+                        </div>
+                        <div id="variantsList" style="display:flex;flex-direction:column;gap:8px">
+                            <!-- Variant rows will be added here -->
+                        </div>
+                        <div style="font-size:12px;color:var(--g5);margin-top:8px;padding:8px;background:var(--g1);border-radius:6px">
+                            💡 <strong>Example:</strong> "Dozen (516g)" at ₱132, "Tray (1290g)" at ₱270
+                        </div>
+                    </div>
+                    
+                    <!-- IMAGE UPLOAD -->
+                    <div class="form-group" style="margin-top:15px">
                         <label>Product Image</label>
                         <input type="hidden" id="prodImage">
                         <div id="imageUploadArea" style="border:2px dashed var(--g3);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s" onclick="document.getElementById('prodImageFile').click()">
@@ -853,18 +883,52 @@
         var html='';
         for(var i=0;i<products.length;i++){
             var p=products[i];
+            var hasVariants = false;
+            var variantCount = 0;
+            var priceRange = '₱'+Number(p.Price||0).toLocaleString();
+            
+            // Check for variants
+            if(p.Variants){
+                try{
+                    var variants = typeof p.Variants === 'string' ? JSON.parse(p.Variants) : p.Variants;
+                    if(variants && variants.length > 0){
+                        hasVariants = true;
+                        variantCount = variants.length;
+                        var prices = variants.map(function(v){return v.price;});
+                        var minPrice = Math.min.apply(null, prices);
+                        var maxPrice = Math.max.apply(null, prices);
+                        if(minPrice === maxPrice){
+                            priceRange = '₱'+Number(minPrice).toLocaleString();
+                        }else{
+                            priceRange = '₱'+Number(minPrice).toLocaleString()+' - ₱'+Number(maxPrice).toLocaleString();
+                        }
+                    }
+                }catch(e){}
+            }
+            
+            // Fix image URL - ensure proper format
+            var imgUrl = p.Image || p.ImageUrl || '';
+            if(imgUrl && imgUrl.indexOf('drive.google.com') > -1){
+                // Convert old drive URLs to lh3 format
+                var match = imgUrl.match(/[-\w]{25,}/);
+                if(match) imgUrl = 'https://lh3.googleusercontent.com/d/' + match[0];
+            }
+            
             html+='<div class="item-card">';
             html+='<div class="item-img">';
-            if(p.Image){
-                html+='<img src="'+p.Image+'" onerror="this.parentElement.innerHTML=\'📦\'">';
+            if(imgUrl){
+                html+='<img src="'+imgUrl+'" alt="'+(p.Name||'Product')+'" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'📦\'">';
             }else{
                 html+='📦';
             }
             html+='</div>';
             html+='<div class="item-body">';
             html+='<div class="item-name">'+(p.Name||'Product')+'</div>';
-            html+='<div class="item-meta">'+(p.Category||'-')+' • Stock: '+(p.StockLevel||0)+'</div>';
-            html+='<div class="item-price">₱'+Number(p.Price||0).toLocaleString()+'</div>';
+            html+='<div class="item-meta">'+(p.Category||'-')+' • Stock: '+(p.StockLevel||p.Stock||0)+'</div>';
+            if(hasVariants){
+                html+='<div style="font-size:11px;color:var(--p);margin:4px 0;font-weight:600">🥚 '+variantCount+' variant'+(variantCount>1?'s':'')+'</div>';
+            }
+            html+='<div class="item-price">'+priceRange+'</div>';
             html+='<div class="item-actions">';
             html+='<button class="btn btn-sm btn-outline" onclick="editProduct(\''+p.ProductId+'\')">Edit</button>';
             html+='<button class="btn btn-sm btn-danger" onclick="deleteProduct(\''+p.ProductId+'\')">Delete</button>';
@@ -1009,11 +1073,21 @@
     }
     
     // PRODUCT FUNCTIONS
+    var productVariants = [];
+    
     function openProductModal(productId){
         document.getElementById('productForm').reset();
         document.getElementById('prodId').value='';
         document.getElementById('prodImage').value='';
+        document.getElementById('prodVariantsData').value='';
         document.getElementById('productModalTitle').textContent='Add Product';
+        
+        // Reset variants
+        productVariants = [];
+        document.getElementById('hasVariants').checked = false;
+        document.getElementById('singlePriceSection').style.display = 'block';
+        document.getElementById('variantsSection').style.display = 'none';
+        document.getElementById('variantsList').innerHTML = '';
         
         // Reset image upload area
         document.getElementById('imagePreview').style.display='none';
@@ -1029,11 +1103,24 @@
                     document.getElementById('prodId').value=p.ProductId;
                     document.getElementById('prodName').value=p.Name||'';
                     document.getElementById('prodPrice').value=p.Price||'';
-                    document.getElementById('prodStock').value=p.StockLevel||'';
+                    document.getElementById('prodStock').value=p.StockLevel||p.Stock||'';
                     document.getElementById('prodCategory').value=p.Category||'';
                     document.getElementById('prodDesc').value=p.Description||'';
                     document.getElementById('prodImage').value=p.Image||'';
                     document.getElementById('productModalTitle').textContent='Edit Product';
+                    
+                    // Load variants if exist
+                    if(p.Variants){
+                        try{
+                            var variants = typeof p.Variants === 'string' ? JSON.parse(p.Variants) : p.Variants;
+                            if(variants && variants.length > 0){
+                                productVariants = variants;
+                                document.getElementById('hasVariants').checked = true;
+                                toggleVariants();
+                                renderVariantRows();
+                            }
+                        }catch(e){console.log('Variants parse error',e);}
+                    }
                     
                     // Show existing image if available
                     if(p.Image){
@@ -1050,6 +1137,76 @@
     }
     
     function editProduct(id){openProductModal(id);}
+    
+    // VARIANTS FUNCTIONS
+    function toggleVariants(){
+        var hasVariants = document.getElementById('hasVariants').checked;
+        document.getElementById('singlePriceSection').style.display = hasVariants ? 'none' : 'block';
+        document.getElementById('variantsSection').style.display = hasVariants ? 'block' : 'none';
+        
+        // Remove required from single price/stock when using variants
+        document.getElementById('prodPrice').required = !hasVariants;
+        document.getElementById('prodStock').required = !hasVariants;
+        
+        // Add one default variant row if empty
+        if(hasVariants && document.getElementById('variantsList').children.length === 0){
+            addVariantRow();
+        }
+    }
+    
+    function addVariantRow(name, price, stock){
+        var variantsList = document.getElementById('variantsList');
+        var index = variantsList.children.length;
+        
+        var row = document.createElement('div');
+        row.className = 'variant-row';
+        row.style.cssText = 'display:grid;grid-template-columns:1fr 100px 80px 40px;gap:8px;align-items:center;padding:10px;background:var(--g1);border-radius:8px;border:1px solid var(--g2)';
+        
+        row.innerHTML = 
+            '<input type="text" class="var-name" placeholder="e.g., Dozen (516g)" value="'+(name||'')+'" style="padding:10px;border:1px solid var(--g2);border-radius:6px">'+
+            '<input type="number" class="var-price" placeholder="Price" min="0" step="0.01" value="'+(price||'')+'" style="padding:10px;border:1px solid var(--g2);border-radius:6px">'+
+            '<input type="number" class="var-stock" placeholder="Stock" min="0" value="'+(stock||'')+'" style="padding:10px;border:1px solid var(--g2);border-radius:6px">'+
+            '<button type="button" onclick="removeVariantRow(this)" style="width:36px;height:36px;border:none;background:#fee;color:#e74c3c;border-radius:6px;cursor:pointer;font-size:18px">×</button>';
+        
+        variantsList.appendChild(row);
+    }
+    
+    function removeVariantRow(btn){
+        var row = btn.parentElement;
+        row.remove();
+        
+        // If no variants left, add one empty row
+        if(document.getElementById('variantsList').children.length === 0){
+            addVariantRow();
+        }
+    }
+    
+    function renderVariantRows(){
+        var variantsList = document.getElementById('variantsList');
+        variantsList.innerHTML = '';
+        
+        for(var i=0; i<productVariants.length; i++){
+            var v = productVariants[i];
+            addVariantRow(v.name, v.price, v.stock);
+        }
+    }
+    
+    function collectVariantsData(){
+        var variants = [];
+        var rows = document.querySelectorAll('#variantsList .variant-row');
+        
+        for(var i=0; i<rows.length; i++){
+            var name = rows[i].querySelector('.var-name').value.trim();
+            var price = parseFloat(rows[i].querySelector('.var-price').value) || 0;
+            var stock = parseInt(rows[i].querySelector('.var-stock').value) || 0;
+            
+            if(name && price > 0){
+                variants.push({name:name, price:price, stock:stock});
+            }
+        }
+        
+        return variants;
+    }
     
     // Image upload handler
     function handleImageUpload(input){
@@ -1168,16 +1325,31 @@
     function saveProduct(e){
         e.preventDefault();
         
+        var hasVariants = document.getElementById('hasVariants').checked;
+        var variants = hasVariants ? collectVariantsData() : [];
+        
+        // Validation
+        if(hasVariants && variants.length === 0){
+            alert('Please add at least one variant with name and price');
+            return;
+        }
+        
+        // For products with variants, use lowest price as base price
+        var basePrice = hasVariants ? Math.min.apply(null, variants.map(function(v){return v.price;})) : parseFloat(document.getElementById('prodPrice').value);
+        var totalStock = hasVariants ? variants.reduce(function(sum,v){return sum + v.stock;}, 0) : parseInt(document.getElementById('prodStock').value);
+        
         var data={
             action:document.getElementById('prodId').value?'updateProduct':'addProduct',
             productId:document.getElementById('prodId').value||undefined,
             merchantId:merchant.MerchantId,
             name:document.getElementById('prodName').value,
-            price:parseFloat(document.getElementById('prodPrice').value),
-            stockLevel:parseInt(document.getElementById('prodStock').value),
+            price:basePrice,
+            stockLevel:totalStock,
             category:document.getElementById('prodCategory').value,
             description:document.getElementById('prodDesc').value,
-            image:document.getElementById('prodImage').value
+            image:document.getElementById('prodImage').value,
+            hasVariants:hasVariants,
+            variants:hasVariants ? JSON.stringify(variants) : ''
         };
         
         fetch(API,{
