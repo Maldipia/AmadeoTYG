@@ -251,14 +251,19 @@ function registerMerchant(data) {
         case 'Email': return data.email || '';
         case 'Password': return data.password || '';
         case 'Phone': return data.phone || '';
+        case 'Category': return data.category || data.businessType || '';
         case 'Address': return data.address || '';
         case 'Barangay': return data.barangay || '';
-        case 'BusinessType': return data.businessType || '';
+        case 'Description': return data.description || '';
+        case 'Services': return data.services || '';
+        case 'OperatingHours': return data.operatingHours || '';
+        case 'BusinessType': return data.businessType || data.category || '';
         case 'Status': return 'pending';
         case 'OffersPickup': return 'Yes';
         case 'OffersCourier': return 'Yes';
         case 'IsOpen': return 'TRUE';
         case 'CreatedAt': return now;
+        case 'UpdatedAt': return now;
         default: return '';
       }
     });
