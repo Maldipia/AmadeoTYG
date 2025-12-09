@@ -161,6 +161,17 @@ function customerLogin(email, password) {
       headers.forEach((h, idx) => customer[h] = row[idx]);
       
       if (customer.Email === email && customer.Password === password) {
+        // Check if customer is active
+        if (customer.Status && customer.Status.toLowerCase() !== 'active') {
+          return { success: false, error: 'Account is not active. Please contact support.' };
+        }
+        
+        // Update LastLogin timestamp
+        const lastLoginCol = headers.indexOf('LastLogin');
+        if (lastLoginCol !== -1) {
+          sheet.getRange(i + 1, lastLoginCol + 1).setValue(new Date());
+        }
+        
         delete customer.Password;
         return {
           success: true,
@@ -223,6 +234,70 @@ function customerSignup(data) {
       customerId: customerId,
       message: 'Account created successfully'
     };
+    
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+
+// ============================================================
+// ADMIN LOGIN
+// ============================================================
+
+function adminLogin(username, password) {
+  try {
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    let sheet = ss.getSheetByName('Admin');
+    
+    // Create Admin sheet if it doesn't exist
+    if (!sheet) {
+      sheet = ss.insertSheet('Admin');
+      sheet.appendRow(['AdminId', 'Username', 'Password', 'Role', 'Status', 'CreatedAt', 'LastLogin']);
+      
+      // Create default admin account
+      const defaultAdmin = [
+        'ADMIN-001',
+        'admin',
+        'Amadeo2025!',
+        'SuperAdmin',
+        'active',
+        new Date(),
+        ''
+      ];
+      sheet.appendRow(defaultAdmin);
+    }
+    
+    const data = sheet.getDataRange().getValues();
+    const headers = data[0];
+    
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      const admin = {};
+      headers.forEach((h, idx) => admin[h] = row[idx]);
+      
+      if (admin.Username === username && admin.Password === password) {
+        // Check if admin is active
+        if (admin.Status && admin.Status.toLowerCase() !== 'active') {
+          return { success: false, error: 'Admin account is not active.' };
+        }
+        
+        // Update LastLogin timestamp
+        const lastLoginCol = headers.indexOf('LastLogin');
+        if (lastLoginCol !== -1) {
+          sheet.getRange(i + 1, lastLoginCol + 1).setValue(new Date());
+        }
+        
+        delete admin.Password;
+        return {
+          success: true,
+          data: admin,
+          message: 'Admin login successful'
+        };
+      }
+    }
+    
+    return { success: false, error: 'Invalid username or password' };
     
   } catch (error) {
     return { success: false, error: error.toString() };
