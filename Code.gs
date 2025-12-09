@@ -1076,11 +1076,13 @@ function doGet(e) {
   
   switch(action) {
     case 'getAllInventory': result = getAllInventory(); break;
+    case 'getProducts': result = getProducts(e.parameter.merchantId); break;
     case 'getMerchantOrders': result = getMerchantOrders(e.parameter.merchantId); break;
     case 'getCustomerOrders': result = getCustomerOrders(e.parameter.phone); break;
     case 'trackOrder': result = trackOrder(e.parameter.orderId, e.parameter.phone); break;
     case 'merchantLogin': result = merchantLogin(e.parameter.email, e.parameter.password); break;
-    case 'customerLogin': result = customerLogin(e.parameter.phone, e.parameter.password); break;
+    case 'customerLogin': result = customerLogin(e.parameter.email, e.parameter.password); break;
+    case 'adminLogin': result = adminLogin(e.parameter.username, e.parameter.password); break;
     case 'clearCache': result = clearCache(); break;
     case 'setupSchema': result = setupCompleteSchema(); break;
     default: result = { error: 'Unknown action' };
