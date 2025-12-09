@@ -1058,3 +1058,91 @@ function debugMerchantData() {
   
   return 'Check execution log for results';
 }
+
+
+// FIX SHIFTED DATA - Run this ONCE to correct misaligned columns
+function fixShiftedData() {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const sheet = ss.getSheetByName('Merchants');
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+  
+  Logger.log('=== FIXING SHIFTED DATA ===');
+  
+  // Expected column order based on headers
+  const expectedOrder = [
+    'MerchantId', 'BusinessName', 'OwnerName', 'Email', 'Phone', 'Category',
+    'Address', 'Barangay', 'Description', 'Services', 'OperatingHours',
+    'Status', 'Password', 'CreatedAt', 'UpdatedAt', 'LogoUrl', 'TotalOrders',
+    'TotalSales', 'Rating', 'ReviewCount', 'DocumentUrls', 'DocumentFolderUrl',
+    'OffersPickup', 'OffersDelivery', 'IsOpen', 'PickupInstructions', 'OffersCourier'
+  ];
+  
+  // Create column index map
+  const colMap = {};
+  headers.forEach((h, idx) => {
+    colMap[h] = idx;
+  });
+  
+  Logger.log('Current headers: ' + headers.join(', '));
+  
+  // Process each merchant row
+  let fixedCount = 0;
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    
+    // Check if Email column contains an actual email
+    const emailCol = colMap['Email'];
+    const emailValue = row[emailCol];
+    
+    // If Email column doesn't contain @, data is shifted
+    if (emailValue && !String(emailValue).includes('@')) {
+      Logger.log(`Row ${i + 1}: Data is shifted. Fixing...`);
+      
+      // Find where the actual email is
+      let actualEmailIdx = -1;
+      for (let j = 0; j < row.length; j++) {
+        if (row[j] && String(row[j]).includes('@')) {
+          actualEmailIdx = j;
+          break;
+        }
+      }
+      
+      if (actualEmailIdx !== -1) {
+        // Calculate shift amount
+        const shift = actualEmailIdx - emailCol;
+        Logger.log(`  Shift detected: ${shift} columns to the right`);
+        
+        // Create corrected row
+        const correctedRow = new Array(headers.length).fill('');
+        
+        // Map data to correct positions
+        for (let j = 0; j < row.length; j++) {
+          const newIdx = j - shift;
+          if (newIdx >= 0 && newIdx < correctedRow.length) {
+            correctedRow[newIdx] = row[j];
+          }
+        }
+        
+        // Write corrected row back
+        sheet.getRange(i + 1, 1, 1, correctedRow.length).setValues([correctedRow]);
+        fixedCount++;
+        
+        Logger.log(`  ✅ Fixed row ${i + 1}`);
+        Logger.log(`  Email: ${correctedRow[colMap['Email']]}`);
+        Logger.log(`  Password: ${correctedRow[colMap['Password']]}`);
+      }
+    } else {
+      Logger.log(`Row ${i + 1}: Data looks correct`);
+    }
+  }
+  
+  Logger.log(`\n=== SUMMARY ===`);
+  Logger.log(`Fixed ${fixedCount} row(s)`);
+  
+  return {
+    success: true,
+    message: `Fixed ${fixedCount} merchant row(s)`,
+    fixedCount: fixedCount
+  };
+}
