@@ -695,6 +695,46 @@ function getProducts(merchantId) {
 
 
 // ============================================================
+// GET MERCHANTS
+// ============================================================
+
+function getMerchants() {
+  try {
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('Merchants');
+    
+    if (!sheet) {
+      return { success: false, error: 'Merchants sheet not found' };
+    }
+    
+    const data = sheet.getDataRange().getValues();
+    const headers = data[0];
+    const merchants = [];
+    
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      const merchant = {};
+      headers.forEach((h, idx) => merchant[h] = row[idx]);
+      
+      // Only return approved/active merchants
+      if (merchant.Status === 'approved' || merchant.Status === 'active') {
+        delete merchant.Password; // Don't expose passwords
+        merchants.push(merchant);
+      }
+    }
+    
+    return {
+      success: true,
+      data: merchants
+    };
+    
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+
+// ============================================================
 // ADD/UPDATE PRODUCT (with Variants & Flash Sale support)
 // ============================================================
 
@@ -1076,6 +1116,7 @@ function doGet(e) {
   
   switch(action) {
     case 'getAllInventory': result = getAllInventory(); break;
+    case 'getMerchants': result = getMerchants(); break;
     case 'getProducts': result = getProducts(e.parameter.merchantId); break;
     case 'getMerchantOrders': result = getMerchantOrders(e.parameter.merchantId); break;
     case 'getCustomerOrders': result = getCustomerOrders(e.parameter.phone); break;
