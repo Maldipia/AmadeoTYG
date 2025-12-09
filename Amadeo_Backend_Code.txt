@@ -254,7 +254,6 @@ function registerMerchant(data) {
         case 'BusinessName': return data.businessName || '';
         case 'OwnerName': return data.ownerName || '';
         case 'Email': return data.email || '';
-        case 'Password': return data.password || '';
         case 'Phone': return data.phone || '';
         case 'Category': return data.category || data.businessType || '';
         case 'Address': return data.address || '';
@@ -264,11 +263,21 @@ function registerMerchant(data) {
         case 'OperatingHours': return data.operatingHours || '';
         case 'BusinessType': return data.businessType || data.category || '';
         case 'Status': return 'pending';
-        case 'OffersPickup': return 'Yes';
-        case 'OffersCourier': return 'Yes';
-        case 'IsOpen': return 'TRUE';
+        case 'Password': return data.password || '';
         case 'CreatedAt': return now;
         case 'UpdatedAt': return now;
+        case 'LogoUrl': return '';
+        case 'TotalOrders': return 0;
+        case 'TotalSales': return 0;
+        case 'Rating': return 0;
+        case 'ReviewCount': return 0;
+        case 'DocumentUrls': return '';
+        case 'DocumentFolderUrl': return '';
+        case 'OffersPickup': return 'Yes';
+        case 'OffersDelivery': return 'Yes';
+        case 'IsOpen': return 'TRUE';
+        case 'PickupInstructions': return '';
+        case 'OffersCourier': return 'Yes';
         default: return '';
       }
     });
