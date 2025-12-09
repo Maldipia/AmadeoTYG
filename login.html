@@ -322,10 +322,10 @@
                 status.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
                 status.style.display = 'block';
                 
-                sessionStorage.setItem('merchant', JSON.stringify(data.data));
+                localStorage.setItem('amadeo_merchant', JSON.stringify(data.data));
                 
                 setTimeout(function() {
-                    window.location.href = '/dashboard';
+                    window.location.href = '/merchant-dashboard';
                 }, 1000);
             } else {
                 throw new Error(data.error || 'Invalid credentials');
@@ -372,7 +372,7 @@
                 status.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
                 status.style.display = 'block';
                 
-                sessionStorage.setItem('customer', JSON.stringify(data.customer));
+                localStorage.setItem('amadeo_customer', JSON.stringify(data.customer));
                 
                 setTimeout(function() {
                     window.location.href = '/';
