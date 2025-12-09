@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Amadeo Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #7c2d12 0%, #991b1b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+        }
+        .login-header {
+            background: linear-gradient(135deg, #7c2d12, #dc2626);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .login-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .login-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        .login-form {
+            padding: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #dc2626;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #7c2d12, #dc2626);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-login:hover {
+            transform: translateY(-2px);
+        }
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .form-footer {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .form-footer a {
+            color: #dc2626;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        .status {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        .status.error {
+            display: block;
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+        }
+        .status.success {
+            display: block;
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+        .home-link {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .home-link a {
+            color: #dc2626;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .home-link a i {
+            margin-right: 5px;
+        }
+        .other-logins {
+            text-align: center;
+            padding: 15px;
+            background: #f9fafb;
+            border-top: 1px solid #e0e0e0;
+        }
+        .other-logins a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+            margin: 0 10px;
+        }
+        .other-logins a:hover {
+            color: #dc2626;
+        }
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            color: #92400e;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            text-align: center;
+        }
+        .warning-box i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1><i class="fas fa-shield-alt"></i> Admin Login</h1>
+            <p>Restricted Access - Administrators Only</p>
+        </div>
+        
+        <form id="adminForm" class="login-form" onsubmit="handleAdminLogin(event)">
+            <div class="warning-box">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>Authorized Personnel Only</strong><br>
+                Unauthorized access attempts are logged and monitored.
+            </div>
+            
+            <div id="adminStatus" class="status"></div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-user-shield"></i> Admin Username</label>
+                <input type="text" id="adminUsername" required placeholder="Enter admin username">
+            </div>
+            
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="adminPassword" required placeholder="Enter admin password">
+            </div>
+            
+            <button type="submit" class="btn-login" id="adminLoginBtn">
+                <i class="fas fa-sign-in-alt"></i> Login as Admin
+            </button>
+        </form>
+        
+        <div class="other-logins">
+            <a href="/merchant-login"><i class="fas fa-store"></i> Merchant Login</a> | 
+            <a href="/customer-login"><i class="fas fa-user"></i> Customer Login</a>
+        </div>
+        
+        <div class="home-link">
+            <a href="/"><i class="fas fa-arrow-left"></i> Back to Marketplace</a>
+        </div>
+    </div>
+    
+    <script>
+    var API_BASE = 'https://script.google.com/macros/s/AKfycbwYLHLNRqKBypflzs3QYAz1XFJlUfZ93m6IIfvxeemxkq9fvn4lCJkz9hym1eHU0HPRDw/exec';
+    
+    // Check if already logged in
+    document.addEventListener('DOMContentLoaded', function() {
+        var admin = localStorage.getItem('amadeo_admin');
+        if (admin) {
+            window.location.href = '/admin';
+        }
+    });
+    
+    function handleAdminLogin(e) {
+        e.preventDefault();
+        
+        var username = document.getElementById('adminUsername').value;
+        var password = document.getElementById('adminPassword').value;
+        var btn = document.getElementById('adminLoginBtn');
+        var status = document.getElementById('adminStatus');
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+        status.className = 'status';
+        status.style.display = 'none';
+        
+        // Use GET request to avoid CORS issues with Google Apps Script
+        fetch(API_BASE + '?action=adminLogin&username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password))
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.success) {
+                status.className = 'status success';
+                status.innerHTML = '<i class="fas fa-check-circle"></i> Access granted! Redirecting...';
+                status.style.display = 'block';
+                
+                localStorage.setItem('amadeo_admin', JSON.stringify(data.data));
+                
+                setTimeout(function() {
+                    window.location.href = '/admin';
+                }, 1000);
+            } else {
+                throw new Error(data.error || 'Invalid credentials');
+            }
+        })
+        .catch(function(error) {
+            status.className = 'status error';
+            status.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + error.message;
+            status.style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login as Admin';
+        });
+    }
+    </script>
+</body>
+</html>

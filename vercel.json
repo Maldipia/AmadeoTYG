@@ -3,6 +3,9 @@
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/login", "destination": "/login.html" },
+    { "source": "/merchant-login", "destination": "/merchant-login.html" },
+    { "source": "/customer-login", "destination": "/customer-login.html" },
+    { "source": "/admin-login", "destination": "/admin-login.html" },
     { "source": "/signup", "destination": "/signup.html" },
     { "source": "/merchant-register", "destination": "/merchant-register.html" },
     { "source": "/dashboard", "destination": "/dashboard.html" },
