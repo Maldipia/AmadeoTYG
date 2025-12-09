@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell on Amadeo Marketplace - Grow Your Business Locally</title>
+    <meta name="description" content="Join Amadeo Marketplace for free and reach thousands of local customers in Amadeo, Cavite. No setup fees, powerful tools, and dedicated support.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base styles from index.html for consistency */
+        :root {
+            --primary: #0f766e;
+            --primary-dark: #0d5f58;
+            --primary-light: #14b8a6;
+            --secondary: #ff9800;
+            --accent: #ff5722;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --border: #e0e0e0;
+            --success: #4caf50;
+            --warning: #ffc107;
+            --error: #f44336;
+            --shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-lg: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
+        .btn-secondary { background-color: var(--secondary); color: white; }
+        .btn-secondary:hover { background-color: #f57c00; transform: translateY(-2px); }
+
+        /* Header */
+        .header { background: white; padding: 1rem 0; box-shadow: var(--shadow); position: sticky; top: 0; z-index: 1000; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .hero p { font-size: 1.25rem; max-width: 700px; margin: 0 auto 2rem; opacity: 0.9; }
+
+        /* Main Content */
+        .section { padding: 4rem 1rem; }
+        .section-title { text-align: center; font-size: 2.5rem; font-weight: 700; margin-bottom: 3rem; }
+        .section-title span { color: var(--primary); }
+
+        /* Benefits Section */
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .benefit-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        .benefit-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+        .benefit-card .icon { font-size: 3rem; color: var(--primary); margin-bottom: 1rem; }
+        .benefit-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+        /* How It Works Section */
+        .how-it-works { background: var(--surface); }
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .timeline::after { content: ''; position: absolute; width: 4px; background-color: var(--primary-light); top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+        .timeline-item { padding: 1rem 2rem; position: relative; background-color: inherit; width: 50%; }
+        .timeline-item.left { left: 0; padding-right: 4rem; }
+        .timeline-item.right { left: 50%; padding-left: 4rem; }
+        .timeline-item::after { content: ''; position: absolute; width: 25px; height: 25px; right: -12.5px; background-color: white; border: 4px solid var(--primary); top: 25px; border-radius: 50%; z-index: 1; }
+        .timeline-item.right::after { left: -12.5px; }
+        .timeline-content { padding: 1.5rem; background-color: var(--surface); border-radius: 8px; box-shadow: var(--shadow); }
+
+        /* Pricing Section */
+        .pricing-card {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+        .pricing-card h3 { font-size: 2rem; color: var(--primary); }
+        .price { font-size: 4rem; font-weight: 800; margin: 1rem 0; }
+        .price span { font-size: 1.5rem; font-weight: 400; }
+        .pricing-card ul { list-style: none; padding: 0; margin: 2rem 0; text-align: left; }
+        .pricing-card li { margin-bottom: 1rem; display: flex; align-items: center; }
+        .pricing-card li i { color: var(--success); margin-right: 0.5rem; }
+
+        /* Testimonials */
+        .testimonials { background: var(--surface); }
+        .testimonial-card { text-align: center; max-width: 700px; margin: 0 auto; }
+        .testimonial-card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; }
+        .testimonial-quote { font-size: 1.2rem; font-style: italic; margin-bottom: 1rem; }
+        .testimonial-author { font-weight: 600; }
+
+        /* FAQ Section */
+        .faq-item { background: white; margin-bottom: 1rem; border-radius: 8px; box-shadow: var(--shadow); }
+        .faq-question { padding: 1.5rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 0; overflow: hidden; transition: all 0.4s ease; }
+        .faq-item.active .faq-answer { max-height: 300px; }
+
+        /* CTA Section */
+        .cta { background: linear-gradient(135deg, var(--secondary) 0%, #f57c00 100%); color: white; text-align: center; padding: 4rem 1rem; }
+        .cta h2 { font-size: 2.5rem; margin-bottom: 2rem; }
+
+        /* Footer */
+        .footer { background: var(--primary-dark); color: white; text-align: center; padding: 2rem 1rem; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="/" class="logo"><i class="fas fa-store"></i> Amadeo Marketplace</a>
+            <a href="#" class="btn btn-secondary">Sign Up Now</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Sell to Your Neighbors. Grow Your Business.</h1>
+        <p>Join Amadeo's exclusive online marketplace and connect with thousands of local customers right in your community. Zero setup fees, powerful tools, and a partner dedicated to your growth.</p>
+        <a href="#" class="btn btn-secondary">Start Selling for FREE</a>
+    </section>
+
+    <section class="section benefits">
+        <div class="container">
+            <h2 class="section-title">Your <span>Growth Partner</span> in Amadeo</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Zero Risk, All Reward</h3>
+                    <p>It's completely **FREE** to join. No setup fees, no monthly costs. We only succeed when you make a sale through online payments.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-users"></i></div>
+                    <h3>Reach More Customers</h3>
+                    <p>Tap into our growing community of local shoppers actively looking to support businesses right here in Amadeo.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-bullhorn"></i></div>
+                    <h3>Free Marketing Boost</h3>
+                    <p>We provide you with **7 to 30 days of marketing materials** to post on your social media, driving more traffic to your store.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section how-it-works">
+        <div class="container">
+            <h2 class="section-title">Get Started in <span>3 Simple Steps</span></h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>1. Sign Up for Free</h3>
+                        <p>Fill out our simple application form. All you need is your business permit and a passion for your products.</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>2. Set Up Your Store</h3>
+                        <p>Easily upload your products, set your prices, and add beautiful photos. Our dashboard makes it simple to manage your inventory.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>3. Start Selling!</h3>
+                        <p>Your store goes live! Receive orders, manage them through your dashboard, and watch your business grow.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section pricing">
+        <div class="container">
+            <h2 class="section-title">Simple, Transparent <span>Pricing</span></h2>
+            <div class="pricing-card">
+                <h3>It's FREE to Join!</h3>
+                <div class="price">₱0<span>/month</span></div>
+                <p>No hidden fees. No surprises.</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i>Unlimited Product Listings</li>
+                    <li><i class="fas fa-check-circle"></i>Your Own Storefront Page</li>
+                    <li><i class="fas fa-check-circle"></i>Powerful Merchant Dashboard</li>
+                    <li><i class="fas fa-check-circle"></i>Free Marketing Materials</li>
+                    <li><i class="fas fa-check-circle"></i>Access to Thousands of Local Buyers</li>
+                </ul>
+                <hr style="border: none; border-top: 1px solid var(--border); margin: 2rem 0;">
+                <p style="font-size: 1.2rem; font-weight: 600;">Commission Structure</p>
+                <p>You keep 100% of your earnings on COD sales. For online payments (GCash, Maya, Bank), we take a small 5% platform fee to cover costs and marketing. It's a true partnership!</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section testimonials">
+        <div class="container">
+            <h2 class="section-title">Join Our <span>Thriving Community</span></h2>
+            <div class="testimonial-card">
+                <img src="https://i.pravatar.cc/80?u=musthavecorner" alt="Merchant Testimonial">
+                <p class="testimonial-quote">"Joining Amadeo Marketplace was the best decision for my business. I reached so many new customers in my own barangay that I couldn't reach before. The team is incredibly supportive!"</p>
+                <p class="testimonial-author">- Juana D., Owner of MustHaveCorner</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+            <div class="faq-item">
+                <div class="faq-question">What are the requirements to join? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer"><p>You must have a registered business located in Amadeo, Cavite, and a valid business permit. That's it!</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How do I get paid? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer"><p>For COD orders, you are paid directly by the customer. For online payments, we transfer your earnings (minus the 5% fee) to your designated bank account or e-wallet on a weekly basis.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Who handles delivery? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer"><p>You do! You have full control over your delivery process. Customers book and pay their chosen rider directly, so you don't have to worry about platform delivery fees.</p></div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What kind of marketing support do you provide? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer"><p>We provide our new merchants with a starter kit of marketing materials (graphics and post templates) that you can use on your own social media pages for 7 to 30 days. We also regularly feature our merchants on our official Amadeo Marketplace Facebook page.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Grow Your Business in Amadeo?</h2>
+            <a href="#" class="btn btn-primary" style="background: white; color: var(--primary);">Apply Now - It's 100% FREE!</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Amadeo Marketplace. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const currentlyActive = document.querySelector('.faq-item.active');
+                if (currentlyActive && currentlyActive !== item) {
+                    currentlyActive.classList.remove('active');
+                }
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
+</html>
