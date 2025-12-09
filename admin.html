@@ -393,7 +393,7 @@
     </div>
     
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2-JISVaQWv-Iao8C-dcox7-R_lxnIqDQws_rlgM9Y00I5j1XAY8pA2ySL1f2Fn4M40Q/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyh4V3zwuJsrDfETlXAyLgwAYd0TPpoZhtt3uCx6ajq8JOcV2mXp9b4HvWvav0Gixa2tA/exec';
         
         let allMerchants = [];
         let allOrders = [];
@@ -411,12 +411,24 @@
             const username = document.getElementById('adminUsername').value;
             const password = document.getElementById('adminPassword').value;
             
-            if (username === 'admin' && password === 'Amadeo2025!') {
-                sessionStorage.setItem('admin_logged_in', 'true');
-                showDashboard();
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-            }
+            // Authenticate via backend
+            fetch(`${API_BASE}?action=adminLogin&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        sessionStorage.setItem('admin_logged_in', 'true');
+                        sessionStorage.setItem('admin_username', username);
+                        showDashboard();
+                    } else {
+                        document.getElementById('loginError').textContent = data.message || 'Invalid credentials';
+                        document.getElementById('loginError').style.display = 'block';
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('loginError').textContent = 'Login failed. Please try again.';
+                    document.getElementById('loginError').style.display = 'block';
+                });
         }
         
         function showDashboard() {
