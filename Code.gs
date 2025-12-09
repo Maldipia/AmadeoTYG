@@ -676,8 +676,9 @@ function getProducts(merchantId) {
       
       // Filter by merchantId if provided
       if (!merchantId || product.MerchantId === merchantId) {
-        // Only return active products
-        if (product.Status === 'active') {
+        // Only return active products (case-insensitive)
+        const status = (product.Status || '').toLowerCase();
+        if (status === 'active') {
           products.push(product);
         }
       }
@@ -716,8 +717,9 @@ function getMerchants() {
       const merchant = {};
       headers.forEach((h, idx) => merchant[h] = row[idx]);
       
-      // Only return approved/active merchants
-      if (merchant.Status === 'approved' || merchant.Status === 'active') {
+      // Only return approved/active merchants (case-insensitive)
+      const status = (merchant.Status || '').toLowerCase();
+      if (status === 'approved' || status === 'active') {
         delete merchant.Password; // Don't expose passwords
         merchants.push(merchant);
       }
