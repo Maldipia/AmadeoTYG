@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amadeo Marketplace - Shop Local, Win Big! (Variant C)</title>
+    <meta name="description" content="Discover the best of Amadeo, Cavite. Shop from local stores, save with every online purchase, and win amazing prizes in our monthly raffle.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Consistent styles from merchant-landing.html */
+        :root {
+            --primary: #0f766e;
+            --primary-dark: #0d5f58;
+            --primary-light: #14b8a6;
+            --secondary: #ff9800;
+            --accent: #ff5722;
+            --background: #f8f9fa;
+            --surface: #ffffff;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --border: #e0e0e0;
+            --success: #4caf50;
+            --warning: #ffc107;
+            --error: #f44336;
+            --shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-lg: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        body { font-family: 'Poppins', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+        .btn { display: inline-block; padding: 0.8rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; border: none; cursor: pointer; }
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
+        .btn-secondary { background-color: var(--secondary); color: white; }
+        .btn-secondary:hover { background-color: #f57c00; transform: translateY(-2px); }
+
+        /* Header */
+        .header { background: white; padding: 1rem 0; box-shadow: var(--shadow); position: sticky; top: 0; z-index: 1000; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+
+        /* Hero Section */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980') no-repeat center center/cover;
+            color: white;
+            padding: 6rem 1rem;
+            text-align: center;
+            position: relative;
+        }
+        .hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 118, 110, 0.8); }
+        .hero-content { position: relative; z-index: 2; }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; text-shadow: 0 3px 6px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1.25rem; max-width: 700px; margin: 0 auto 2rem; opacity: 0.9; }
+
+        /* Main Content */
+        .section { padding: 4rem 1rem; }
+        .section-title { text-align: center; font-size: 2.5rem; font-weight: 700; margin-bottom: 3rem; }
+        .section-title span { color: var(--primary); }
+
+        /* Features Section */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .feature-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+        .feature-card .icon { font-size: 3rem; color: var(--secondary); margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+        /* Raffle Section */
+        .raffle-section { background: var(--surface); }
+        .raffle-content { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; }
+        .raffle-text { flex: 1; min-width: 300px; }
+        .raffle-image { flex: 1; min-width: 300px; text-align: center; }
+        .raffle-image img { max-width: 100%; border-radius: 12px; box-shadow: var(--shadow-lg); }
+
+        /* How to Shop */
+        .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center; }
+        .step-card .step-number { font-size: 3rem; font-weight: 800; color: var(--primary-light); }
+
+        /* Testimonials */
+        .testimonials { background: var(--surface); }
+        .testimonial-card { text-align: center; max-width: 700px; margin: 0 auto; }
+        .testimonial-card img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; }
+        .testimonial-quote { font-size: 1.2rem; font-style: italic; margin-bottom: 1rem; }
+        .testimonial-author { font-weight: 600; }
+
+        /* CTA Section */
+        .cta { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; text-align: center; padding: 4rem 1rem; }
+        .cta h2 { font-size: 2.5rem; margin-bottom: 2rem; }
+
+        /* Footer */
+        .footer { background: var(--primary-dark); color: white; text-align: center; padding: 2rem 1rem; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <a href="/" class="logo"><i class="fas fa-store"></i> Amadeo Marketplace</a>
+            <a href="/" class="btn btn-secondary">Shop Now</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Shop Local. Save Money. Win Big.</h1>
+            <p>Discover the heart of Amadeo from the comfort of your home. Get exclusive discounts and a chance to win amazing prizes every month, just for supporting your local community.</p>
+            <a href="/" class="btn btn-secondary">Save 3% + Win Prizes Today!</a>
+        </div>
+    </section>
+
+    <section class="section features">
+        <div class="container">
+            <h2 class="section-title">Why Shop on <span>Amadeo Marketplace?</span></h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon"><i class="fas fa-percent"></i></div>
+                    <h3>Save on Every Order</h3>
+                    <p>Enjoy an instant **3% discount** on your total bill every time you pay online with GCash, Maya, or Bank Transfer.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"><i class="fas fa-gift"></i></div>
+                    <h3>Win Amazing Prizes</h3>
+                    <p>Get a **FREE raffle entry** with every online payment for a chance to win staycations, gadgets, and more in our monthly draw!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"><i class="fas fa-heart"></i></div>
+                    <h3>Support Your Community</h3>
+                    <p>Every purchase you make directly supports the hardworking local business owners and artisans of Amadeo, Cavite.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section raffle-section">
+        <div class="container">
+            <div class="raffle-content">
+                <div class="raffle-text">
+                    <h2 class="section-title" style="text-align: left;">Pay Online, <span>Win Big!</span></h2>
+                    <p>Forget the hassle of cash. Paying online is faster, safer, and way more rewarding. This month, you could win:</p>
+                    <ul>
+                        <li>A relaxing 2D1N Staycation in Tagaytay</li>
+                        <li>A fresh pair of original Nike Air Max shoes</li>
+                        <li>A ₱500 Uniqlo Gift Certificate</li>
+                    </ul>
+                    <p>The more you shop and pay online, the more chances you have to win. It's our way of saying thank you for being part of our community.</p>
+                    <a href="/" class="btn btn-primary">See This Month's Prizes</a>
+                </div>
+                <div class="raffle-image">
+                    <img src="https://images.unsplash.com/photo-1599228133409-109451423757?q=80&w=1974" alt="Raffle Prizes">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section how-to-shop">
+        <div class="container">
+            <h2 class="section-title">Shopping is <span>Easy as 1-2-3</span></h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Browse & Discover</h3>
+                    <p>Explore a wide variety of products from verified local merchants all across Amadeo.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Add to Cart & Check Out</h3>
+                    <p>Fill your cart with local goodies and proceed to our simple and secure checkout.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Pay Online & Win</h3>
+                    <p>Choose GCash, Maya, or Bank Transfer to get your discount and automatic raffle entry.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our <span>Shoppers Say</span></h2>
+            <div class="testimonial-card">
+                <img src="https://i.pravatar.cc/80?u=customer1" alt="Customer Testimonial">
+                <p class="testimonial-quote">"I love how I can support my favorite local stores and get a discount at the same time. Winning the raffle would just be the cherry on top! It feels good to shop here."</p>
+                <p class="testimonial-author">- Maria S., Bucal</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Discover the Best of Amadeo?</h2>
+            <p style="margin-bottom: 2rem; opacity: 0.9;">Your next favorite local product is just a click away.</p>
+            <a href="/" class="btn btn-secondary">Save 3% + Win Prizes Today!</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Amadeo Marketplace. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
