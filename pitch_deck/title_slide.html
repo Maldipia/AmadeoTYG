@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Lato', sans-serif;
+            color: #2D3748;
+        }
+        
+        /* Decorative Shapes */
+        .shape-1 {
+            position: absolute;
+            top: -150px;
+            right: -100px;
+            width: 600px;
+            height: 600px;
+            background-color: #E07A5F;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        
+        .shape-2 {
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 500px;
+            height: 500px;
+            background-color: #81B29A;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .shape-3 {
+            position: absolute;
+            top: 20%;
+            left: 15%;
+            width: 100px;
+            height: 100px;
+            background-color: #E07A5F;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            padding: 40px;
+            border: 2px solid rgba(224, 122, 95, 0.3);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 84px;
+            font-weight: 900;
+            color: #2D3748;
+            margin-bottom: 24px;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        h1 span {
+            color: #E07A5F;
+        }
+
+        h2 {
+            font-family: 'Lato', sans-serif;
+            font-size: 32px;
+            font-weight: 300;
+            color: #555;
+            margin-bottom: 48px;
+            letter-spacing: 1px;
+        }
+
+        .tagline-box {
+            display: inline-block;
+            background-color: #81B29A;
+            color: #FFFFFF;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 20px rgba(129, 178, 154, 0.3);
+        }
+
+        .icon-decoration {
+            font-size: 40px;
+            color: #E07A5F;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
+        <div class="shape-3"></div>
+        
+        <div class="content-wrapper">
+            <div class="icon-decoration">
+                <i class="fas fa-store"></i>
+            </div>
+            <h1>Amadeo <span>Marketplace</span></h1>
+            <h2>Connecting Local Businesses with Community Customers</h2>
+            <div class="tagline-box">
+                Shop Local. Support Local. Win Big.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

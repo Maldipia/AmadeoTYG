@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 60px 80px; /* keep top padding consistent for title */
+            padding-bottom: 32px; /* reduced bottom padding to fit within 720 */
+            font-family: 'Lato', sans-serif;
+            color: #2D3748;
+        }
+
+        /* Decorative Background Element */
+        .bg-shape {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            background-color: #81B29A;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #2D3748;
+            margin-bottom: 16px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        h2 span { color: #81B29A; }
+
+        .subtitle {
+            text-align: center;
+            font-size: 24px;
+            color: #555;
+            margin-bottom: 24px; /* reduced from 60 to save height */
+            z-index: 1;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background-color: #F7FAFC;
+            padding: 28px 24px; /* reduced vertical padding */
+            border-radius: 16px;
+            text-align: center;
+            border-bottom: 3px solid #E07A5F; /* slightly thinner to save height */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .icon-circle {
+            width: 64px; /* reduced from 80 */
+            height: 64px; /* reduced from 80 */
+            background-color: rgba(224, 122, 95, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .icon-circle i {
+            font-size: 32px;
+            color: #E07A5F;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px; /* reduced from 16 */
+            color: #2D3748;
+        }
+
+        p { font-size: 18px; line-height: 1.6; color: #555; }
+
+        .highlight-box {
+            margin-top: 24px; /* reduced from 60 */
+            background-color: #E07A5F;
+            color: #FFFFFF;
+            padding: 20px; /* reduced from 30 top/bottom */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .highlight-box i { font-size: 40px; margin-right: 24px; }
+
+        .highlight-text {
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="bg-shape"></div>
+
+        <h2>A Community-First <span>Online Marketplace</span></h2>
+        <p class="subtitle">Built specifically for Amadeo businesses and customers, solving the gap left by national platforms.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon-circle">
+                    <i class="fas fa-store"></i>
+                </div>
+                <h3>Merchant Friendly</h3>
+                <p>Free listing for unlimited products. Merchants keep 100% of COD sales and handle their own delivery.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-circle">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3>Customer Incentives</h3>
+                <p>Shoppers enjoy a 3% discount on online payments plus free entries to our monthly raffle.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-circle">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <h3>Transparent Model</h3>
+                <p>Simple 5% commission only on online payments (GCash, Maya, Bank). No hidden fees.</p>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <i class="fas fa-users"></i>
+            <div class="highlight-text">Every transaction supports a local business and strengthens the Amadeo community.</div>
+        </div>
+    </div>
+</body>
+</html>

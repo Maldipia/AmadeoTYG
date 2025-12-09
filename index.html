@@ -1386,21 +1386,21 @@
                         </label>
                         <label class="payment-option recommended">
                             <input type="radio" name="paymentMethod" value="gcash">
-                            <div class="payment-badge">Save 3% + Raffle Entry</div>
+                            <div class="payment-badge">FREE Raffle Entry</div>
                             <i class="fas fa-mobile-alt"></i>
                             <span>GCash</span>
                             <small class="payment-benefit">🎁 1 raffle entry • ✨ Instant confirmation</small>
                         </label>
                         <label class="payment-option recommended">
                             <input type="radio" name="paymentMethod" value="maya">
-                            <div class="payment-badge">Save 3% + Raffle Entry</div>
+                            <div class="payment-badge">FREE Raffle Entry</div>
                             <i class="fas fa-wallet"></i>
                             <span>Maya (PayMaya)</span>
                             <small class="payment-benefit">🎁 1 raffle entry • ✨ Instant confirmation</small>
                         </label>
                         <label class="payment-option recommended">
                             <input type="radio" name="paymentMethod" value="bank">
-                            <div class="payment-badge">Save 3% + Raffle Entry</div>
+                            <div class="payment-badge">FREE Raffle Entry</div>
                             <i class="fas fa-university"></i>
                             <span>Bank Transfer</span>
                             <small class="payment-benefit">🎁 1 raffle entry • ✨ Instant confirmation</small>
@@ -2279,11 +2279,9 @@
         
         var total = subtotal;
         
-        // Apply 3% discount for online payments
+        // No discount - raffle entry is the incentive
         var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
-        if (paymentMethod && paymentMethod !== 'cod') {
-            total = subtotal * 0.97;
-        }
+        total = subtotal;
         
         document.getElementById('checkoutSubtotal').textContent = '₱' + formatNumber(subtotal);
         document.getElementById('checkoutTotal').textContent = '₱' + formatNumber(total);
@@ -2314,7 +2312,7 @@
             items: STATE.cart,
             subtotal: subtotal,
             deliveryFee: 0,
-            total: paymentMethod !== 'cod' ? subtotal * 0.97 : subtotal
+            total: subtotal
         };
         
         fetch(API_BASE, {

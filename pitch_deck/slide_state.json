@@ -1,0 +1,140 @@
+{
+  "project_info": {
+    "title": "Amadeo Marketplace",
+    "created": 1765309431.6994681,
+    "last_updated": 1765309589.4988308,
+    "total_slides": 16
+  },
+  "slides": {
+    "title_slide": "edited",
+    "the_problem": "edited",
+    "the_solution": "edited",
+    "market_opportunity": "edit_pending",
+    "business_model": "edit_pending",
+    "raffle_system": "edit_pending",
+    "competitive_advantage": "edit_pending",
+    "early_traction": "edit_pending",
+    "go_to_market": "edit_pending",
+    "partnerships": "edit_pending",
+    "financials": "edit_pending",
+    "team": "edit_pending",
+    "ask_funds": "edit_pending",
+    "risks": "edit_pending",
+    "call_to_action": "edit_pending",
+    "thank_you": "edit_pending"
+  },
+  "outline": [
+    {
+      "id": "title_slide",
+      "title": "Amadeo Marketplace",
+      "summary": "Title slide introducing Amadeo Marketplace: Connecting Local Businesses with Community Customers.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "the_problem",
+      "title": "The Problem",
+      "summary": "Local businesses are losing sales to big e-commerce platforms and lack a trusted local marketplace.",
+      "image_plan": "/home/ubuntu/upload/search_images/E0QWzbCi7S2D.jpg - Image 2 shows a crowded, traditional local market setting in the Philippines, which visually contrasts with the modern e-commerce platforms mentioned, highlighting the struggle of these local businesses.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "the_solution",
+      "title": "The Solution",
+      "summary": "A community-first online marketplace built for Amadeo with free listing and customer incentives.",
+      "image_plan": "/home/ubuntu/upload/search_images/AG0HokgNVKK2.jpg - Image 4 is a diagram titled \"E Commerce Platform Architecture,\" which is highly relevant for a slide discussing the technical solution and platform build.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "market_opportunity",
+      "title": "Market Opportunity",
+      "summary": "A massive untapped market in Amadeo with 50,000+ active online shoppers and high growth potential.",
+      "image_plan": "/home/ubuntu/upload/search_images/X5j2PAd3Ohxg.png - Image 5 is a chart/graph related to \"E-commerce Analysis & Management\" and net revenue, which is suitable for a slide discussing market size and financial targets.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "business_model",
+      "title": "Business Model",
+      "summary": "Sustainable revenue model aligned with merchant success, earning 5% on online payments.",
+      "image_plan": "/home/ubuntu/upload/search_images/FTTvj9XrOBR8.png - Image 6 is a diagram of the \"Key Elements of a Successful E-Commerce Business,\" which is relevant for explaining the overall business model and strategy.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "raffle_system",
+      "title": "Raffle System",
+      "summary": "Monthly raffle drives 4X increase in online payment adoption and viral marketing.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "competitive_advantage",
+      "title": "Competitive Advantage",
+      "summary": "Unique positioning with local focus, zero friction, community trust, and gamification.",
+      "image_plan": "/home/ubuntu/upload/search_images/WtpDxJJQcE80.webp - Image 7 shows a collage of people in a Sari-Sari store setting, representing the local, community-focused business environment that the marketplace aims to serve, contrasting with generic platforms.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "early_traction",
+      "title": "Early Traction",
+      "summary": "Proven concept with real merchants, customers, and completed technical milestones.",
+      "image_plan": "/home/ubuntu/upload/search_images/hPXvz6gPSQUc.jpeg - Image 8 shows a smiling woman and child in front of a well-stocked local store (Sari-Sari store), which visually represents the \"Early Traction\" and the type of local business being onboarded.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "go_to_market",
+      "title": "Go-to-Market Strategy",
+      "summary": "Multi-channel growth strategy to scale merchant and customer acquisition.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "partnerships",
+      "title": "Partnership Opportunities",
+      "summary": "Strategic partnerships with municipality, sponsors, logistics, and financial providers.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "financials",
+      "title": "Financial Projections",
+      "summary": "3-year plan showing path to profitability and sustainable growth.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "team",
+      "title": "Team & Execution",
+      "summary": "Experienced team committed to local commerce with deep community understanding.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "ask_funds",
+      "title": "Ask & Use of Funds",
+      "summary": "Investment needed to scale, with clear allocation for marketing, support, and tech.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "risks",
+      "title": "Risk Mitigation",
+      "summary": "Identified key risks and planned mitigation strategies for sustainable success.",
+      "image_plan": "",
+      "slide_template_key": ""
+    },
+    {
+      "id": "call_to_action",
+      "title": "Call to Action",
+      "summary": "Join us in building Amadeo's local commerce future - for merchants, partners, and customers.",
+      "image_plan": "/home/ubuntu/upload/search_images/DwWnTzueDlBF.jpg - Image 1 shows a busy market with various goods, suitable for a Call to Action to merchants and customers to join the marketplace.",
+      "slide_template_key": ""
+    },
+    {
+      "id": "thank_you",
+      "title": "Thank You & Q&A",
+      "summary": "Closing slide with key takeaways and contact information.",
+      "image_plan": "",
+      "slide_template_key": ""
+    }
+  ]
+}
