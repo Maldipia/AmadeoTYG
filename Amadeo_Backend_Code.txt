@@ -1029,3 +1029,32 @@ function forceAuthorization() {
     };
   }
 }
+
+
+// DEBUG FUNCTION - Run this to see merchant data
+function debugMerchantData() {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const sheet = ss.getSheetByName('Merchants');
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+  
+  Logger.log('=== HEADERS ===');
+  Logger.log(headers);
+  
+  Logger.log('\n=== FIRST MERCHANT ROW ===');
+  if (data.length > 1) {
+    const row = data[1];
+    const merchant = {};
+    headers.forEach((h, idx) => {
+      merchant[h] = row[idx];
+      Logger.log(`${h}: "${row[idx]}" (type: ${typeof row[idx]})`);
+    });
+    
+    Logger.log('\n=== LOGIN TEST ===');
+    Logger.log(`Email match: ${merchant.Email === 'musthavecor@gmail.com'}`);
+    Logger.log(`Password match: ${merchant.Password === 'amadeo123'}`);
+    Logger.log(`Status: "${merchant.Status}"`);
+  }
+  
+  return 'Check execution log for results';
+}
