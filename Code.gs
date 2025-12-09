@@ -125,7 +125,7 @@ function merchantLogin(email, password) {
         
         return {
           success: true,
-          merchant: merchant,
+          data: merchant,
           message: 'Login successful'
         };
       }
@@ -164,7 +164,7 @@ function customerLogin(email, password) {
         delete customer.Password;
         return {
           success: true,
-          customer: customer,
+          data: customer,
           message: 'Login successful'
         };
       }
