@@ -957,7 +957,9 @@
             border: 1px solid var(--border);
             border-radius: 8px;
             cursor: pointer;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            flex-wrap: wrap;
         }
         
         .payment-option:hover,
@@ -965,8 +967,61 @@
             border-color: var(--primary);
         }
         
+        .payment-option.recommended {
+            border-color: #22c55e;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(34, 197, 94, 0.02));
+        }
+        
+        .payment-option.recommended:hover {
+            border-color: #16a34a;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(34, 197, 94, 0.03));
+        }
+        
         .payment-option input {
             accent-color: var(--primary);
+        }
+        
+        .payment-badge {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: #22c55e;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(34, 197, 94, 0.3);
+        }
+        
+        .payment-benefit {
+            width: 100%;
+            margin-left: 2.5rem;
+            font-size: 0.8rem;
+            color: #16a34a;
+            font-weight: 500;
+        }
+        
+        .payment-incentive {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #dbeafe, #e0f2fe);
+            border: 1px solid #7dd3fc;
+            border-radius: 8px;
+            margin-top: 1rem;
+            color: #0369a1;
+            font-size: 0.9rem;
+        }
+        
+        .payment-incentive i {
+            font-size: 1.2rem;
+            color: #0284c7;
+        }
+        
+        .payment-incentive strong {
+            color: #0c4a6e;
         }
         
         .order-summary {
@@ -1327,16 +1382,24 @@
                             <i class="fas fa-money-bill-wave"></i>
                             <span>Cash on Delivery (COD)</span>
                         </label>
-                        <label class="payment-option">
+                        <label class="payment-option recommended">
                             <input type="radio" name="paymentMethod" value="gcash">
+                            <div class="payment-badge">Save 3%</div>
                             <i class="fas fa-mobile-alt"></i>
                             <span>GCash</span>
+                            <small class="payment-benefit">✨ Instant confirmation</small>
                         </label>
-                        <label class="payment-option">
+                        <label class="payment-option recommended">
                             <input type="radio" name="paymentMethod" value="maya">
+                            <div class="payment-badge">Save 3%</div>
                             <i class="fas fa-wallet"></i>
                             <span>Maya</span>
+                            <small class="payment-benefit">✨ Instant confirmation</small>
                         </label>
+                    </div>
+                    <div class="payment-incentive">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Pay online and save <strong>3%</strong> on your order! Plus get instant order confirmation.</span>
                     </div>
                     
                     <div class="order-summary">
