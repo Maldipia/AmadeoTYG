@@ -303,32 +303,41 @@
         status.className = 'status';
         status.style.display = 'none';
         
-        fetch(API_BASE + '?action=merchantLogin&email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password))
-            .then(function(response) {
-                return response.json();
+        // FIXED: Use POST request instead of GET
+        fetch(API_BASE, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+                action: 'merchantLogin',
+                email: email,
+                password: password
             })
-            .then(function(data) {
-                if (data.success) {
-                    status.className = 'status success';
-                    status.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
-                    status.style.display = 'block';
-                    
-                    sessionStorage.setItem('merchant', JSON.stringify(data.merchant));
-                    
-                    setTimeout(function() {
-                        window.location.href = '/dashboard';
-                    }, 1000);
-                } else {
-                    throw new Error(data.error || 'Invalid credentials');
-                }
-            })
-            .catch(function(error) {
-                status.className = 'status error';
-                status.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + error.message;
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.success) {
+                status.className = 'status success';
+                status.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
                 status.style.display = 'block';
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login as Merchant';
-            });
+                
+                sessionStorage.setItem('merchant', JSON.stringify(data.data));
+                
+                setTimeout(function() {
+                    window.location.href = '/dashboard';
+                }, 1000);
+            } else {
+                throw new Error(data.error || 'Invalid credentials');
+            }
+        })
+        .catch(function(error) {
+            status.className = 'status error';
+            status.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + error.message;
+            status.style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login as Merchant';
+        });
     }
     
     function handleCustomerLogin(e) {
@@ -344,32 +353,41 @@
         status.className = 'status';
         status.style.display = 'none';
         
-        fetch(API_BASE + '?action=customerLogin&phone=' + encodeURIComponent(phone) + '&password=' + encodeURIComponent(password))
-            .then(function(response) {
-                return response.json();
+        // FIXED: Use POST request instead of GET
+        fetch(API_BASE, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+                action: 'customerLogin',
+                phone: phone,
+                password: password
             })
-            .then(function(data) {
-                if (data.success) {
-                    status.className = 'status success';
-                    status.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
-                    status.style.display = 'block';
-                    
-                    sessionStorage.setItem('customer', JSON.stringify(data.customer));
-                    
-                    setTimeout(function() {
-                        window.location.href = '/';
-                    }, 1000);
-                } else {
-                    throw new Error(data.error || 'Invalid credentials');
-                }
-            })
-            .catch(function(error) {
-                status.className = 'status error';
-                status.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + error.message;
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.success) {
+                status.className = 'status success';
+                status.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
                 status.style.display = 'block';
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login as Customer';
-            });
+                
+                sessionStorage.setItem('customer', JSON.stringify(data.customer));
+                
+                setTimeout(function() {
+                    window.location.href = '/';
+                }, 1000);
+            } else {
+                throw new Error(data.error || 'Invalid credentials');
+            }
+        })
+        .catch(function(error) {
+            status.className = 'status error';
+            status.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + error.message;
+            status.style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login as Customer';
+        });
     }
     </script>
 </body>
