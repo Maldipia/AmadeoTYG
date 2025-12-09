@@ -515,7 +515,25 @@
                         </select>
                     </div>
                     <div class="form-group"><label>Description</label><textarea id="prodDesc" rows="3"></textarea></div>
-                    <div class="form-group"><label>Image URL</label><input type="url" id="prodImage" placeholder="https://..."></div>
+                    <div class="form-group">
+                        <label>Product Image</label>
+                        <input type="hidden" id="prodImage">
+                        <div id="imageUploadArea" style="border:2px dashed var(--g3);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all .2s" onclick="document.getElementById('prodImageFile').click()">
+                            <div id="imagePreview" style="display:none;margin-bottom:10px">
+                                <img id="previewImg" src="" style="max-width:200px;max-height:150px;border-radius:8px">
+                            </div>
+                            <div id="uploadPrompt">
+                                <div style="font-size:32px;margin-bottom:8px">📷</div>
+                                <div style="color:var(--g5)">Click to upload image</div>
+                                <div style="font-size:12px;color:var(--g5);margin-top:4px">JPG, PNG (max 5MB)</div>
+                            </div>
+                            <div id="uploadProgress" style="display:none">
+                                <div class="spinner" style="margin:0 auto 10px"></div>
+                                <div style="color:var(--p)">Uploading to Drive...</div>
+                            </div>
+                        </div>
+                        <input type="file" id="prodImageFile" accept="image/*" style="display:none" onchange="handleImageUpload(this)">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -994,7 +1012,15 @@
     function openProductModal(productId){
         document.getElementById('productForm').reset();
         document.getElementById('prodId').value='';
+        document.getElementById('prodImage').value='';
         document.getElementById('productModalTitle').textContent='Add Product';
+        
+        // Reset image upload area
+        document.getElementById('imagePreview').style.display='none';
+        document.getElementById('uploadPrompt').style.display='block';
+        document.getElementById('uploadProgress').style.display='none';
+        document.getElementById('imageUploadArea').style.borderColor='var(--g3)';
+        document.getElementById('prodImageFile').value='';
         
         if(productId){
             for(var i=0;i<products.length;i++){
@@ -1008,6 +1034,14 @@
                     document.getElementById('prodDesc').value=p.Description||'';
                     document.getElementById('prodImage').value=p.Image||'';
                     document.getElementById('productModalTitle').textContent='Edit Product';
+                    
+                    // Show existing image if available
+                    if(p.Image){
+                        document.getElementById('previewImg').src=p.Image;
+                        document.getElementById('imagePreview').style.display='block';
+                        document.getElementById('uploadPrompt').style.display='none';
+                        document.getElementById('imageUploadArea').style.borderColor='var(--g)';
+                    }
                     break;
                 }
             }
@@ -1016,6 +1050,120 @@
     }
     
     function editProduct(id){openProductModal(id);}
+    
+    // Image upload handler
+    function handleImageUpload(input){
+        if(!input.files||!input.files[0])return;
+        
+        var file=input.files[0];
+        
+        // Validate file size (5MB max)
+        if(file.size>5*1024*1024){
+            alert('Image too large. Maximum 5MB allowed.');
+            return;
+        }
+        
+        // Validate file type
+        if(!file.type.match(/image\/(jpeg|jpg|png|gif|webp)/)){
+            alert('Please upload a valid image (JPG, PNG, GIF, or WebP)');
+            return;
+        }
+        
+        // Show preview immediately
+        var reader=new FileReader();
+        reader.onload=function(e){
+            document.getElementById('previewImg').src=e.target.result;
+            document.getElementById('imagePreview').style.display='block';
+            document.getElementById('uploadPrompt').style.display='none';
+        };
+        reader.readAsDataURL(file);
+        
+        // Show uploading state
+        document.getElementById('uploadProgress').style.display='block';
+        document.getElementById('imageUploadArea').style.borderColor='var(--p)';
+        
+        // Resize and upload
+        resizeAndUploadImage(file);
+    }
+    
+    function resizeAndUploadImage(file){
+        var reader=new FileReader();
+        reader.onload=function(e){
+            var img=new Image();
+            img.onload=function(){
+                // Resize if needed (max 800px)
+                var maxSize=800;
+                var width=img.width;
+                var height=img.height;
+                
+                if(width>maxSize||height>maxSize){
+                    if(width>height){
+                        height=Math.round(height*maxSize/width);
+                        width=maxSize;
+                    }else{
+                        width=Math.round(width*maxSize/height);
+                        height=maxSize;
+                    }
+                }
+                
+                // Create canvas and resize
+                var canvas=document.createElement('canvas');
+                canvas.width=width;
+                canvas.height=height;
+                var ctx=canvas.getContext('2d');
+                ctx.drawImage(img,0,0,width,height);
+                
+                // Get base64 data (as JPEG for smaller size)
+                var base64=canvas.toDataURL('image/jpeg',0.8);
+                var base64Data=base64.split(',')[1];
+                
+                // Upload to Google Drive via API
+                uploadToGoogleDrive(base64Data,file.name);
+            };
+            img.src=e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+    
+    function uploadToGoogleDrive(base64Data,fileName){
+        // Generate unique filename
+        var timestamp=new Date().getTime();
+        var cleanName=fileName.replace(/[^a-zA-Z0-9.]/g,'_');
+        var finalName=merchant.MerchantId+'_'+timestamp+'_'+cleanName;
+        
+        fetch(API,{
+            method:'POST',
+            mode:'cors',
+            headers:{'Content-Type':'text/plain;charset=utf-8'},
+            body:JSON.stringify({
+                action:'uploadProductImage',
+                merchantId:merchant.MerchantId,
+                fileName:finalName,
+                base64Data:base64Data,
+                mimeType:'image/jpeg'
+            })
+        })
+        .then(function(res){return res.json();})
+        .then(function(result){
+            document.getElementById('uploadProgress').style.display='none';
+            
+            if(result.success&&result.imageUrl){
+                // Store the image URL
+                document.getElementById('prodImage').value=result.imageUrl;
+                document.getElementById('imageUploadArea').style.borderColor='var(--g)';
+                toast('Image uploaded!');
+            }else{
+                throw new Error(result.error||'Upload failed');
+            }
+        })
+        .catch(function(e){
+            document.getElementById('uploadProgress').style.display='none';
+            document.getElementById('uploadPrompt').style.display='block';
+            document.getElementById('imagePreview').style.display='none';
+            document.getElementById('imageUploadArea').style.borderColor='var(--r)';
+            alert('Upload error: '+e.message);
+        });
+    }
     
     function saveProduct(e){
         e.preventDefault();
