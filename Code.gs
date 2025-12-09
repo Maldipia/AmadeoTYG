@@ -987,3 +987,43 @@ function doPost(e) {
 // 4. Execute as: Me, Access: Anyone
 // 5. Copy the new API URL and update frontend
 // ============================================================
+
+
+// ============================================================
+// FORCE AUTHORIZATION - Run this function to authorize the script
+// ============================================================
+
+function forceAuthorization() {
+  try {
+    // This function accesses all the services the script needs
+    // Running it will trigger the authorization dialog
+    
+    // Access Spreadsheet
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('Merchants');
+    const data = sheet.getDataRange().getValues();
+    
+    // Access Drive (for image uploads)
+    const files = DriveApp.getFiles();
+    
+    // Log success
+    Logger.log('Authorization successful!');
+    Logger.log('Spreadsheet ID: ' + CONFIG.SPREADSHEET_ID);
+    Logger.log('Sheet name: ' + sheet.getName());
+    Logger.log('Rows: ' + data.length);
+    
+    return {
+      success: true,
+      message: 'Authorization completed successfully!',
+      spreadsheetId: CONFIG.SPREADSHEET_ID,
+      rowCount: data.length
+    };
+    
+  } catch (error) {
+    Logger.log('Authorization failed: ' + error.toString());
+    return {
+      success: false,
+      error: error.toString()
+    };
+  }
+}
