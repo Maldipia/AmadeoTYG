@@ -15,7 +15,7 @@
 > Your local purchase could be your lucky ticket.
 
 **Value Proposition:**
-> Save 3% instantly and get a FREE entry to win amazing prizes. Why pay COD?
+> FREE raffle entry instantly and get a FREE entry to win amazing prizes. Why pay COD?
 
 ---
 
@@ -39,7 +39,7 @@ Starting this December, your everyday local shopping gets a whole lot more excit
 **How to Enter? It's simple!**
 1.  Shop at amadeomarketplace.com
 2.  Pay for your order with **GCash, Maya, or Bank Transfer**.
-3.  That's it! You automatically get **1 FREE raffle entry** (plus a 3% discount on your order!).
+3.  That's it! You automatically get **1 FREE raffle entry** (plus a FREE raffle entry on your order!).
 
 Every online payment is a new chance to win. The more you shop, the more entries you get!
 
@@ -84,7 +84,7 @@ Your lucky ticket is waiting at checkout!
 *   **Slide 1:** Title: "Pay Online, Win Big!" - How to Enter in 3 Easy Steps.
 *   **Slide 2:** Step 1: SHOP - Icon of a shopping cart. "Browse amazing local products on amadeomarketplace.com"
 *   **Slide 3:** Step 2: PAY ONLINE - Icons of GCash, Maya, Bank. "Choose GCash, Maya, or Bank Transfer at checkout."
-*   **Slide 4:** Step 3: WIN! - Icon of a trophy/gift. "You automatically get 1 FREE raffle entry + a 3% discount!"
+*   **Slide 4:** Step 3: WIN! - Icon of a trophy/gift. "You automatically get 1 FREE raffle entry !"
 
 **Copy:**
 
@@ -94,7 +94,7 @@ Ready to win? Here’s your simple guide to joining the Amadeo Marketplace Month
 
 It's a win-win situation:
 ✅ You support local Amadeo businesses.
-✅ You save 3% on your order instantly.
+✅ You FREE raffle entry on your order instantly.
 ✅ You get a FREE chance to win incredible prizes.
 
 COD gives you none of these benefits. The choice is clear!
@@ -163,7 +163,7 @@ Thank you for supporting local and choosing to pay online!
 
 *   **Main Graphic:**
     *   **Headline:** PAY ONLINE, WIN BIG!
-    *   **Sub-headline:** Get a FREE Raffle Entry + 3% OFF When You Pay with GCash, Maya, or Bank Transfer.
+    *   **Sub-headline:** Get a FREE Raffle Entry + FREE raffle entry When You Pay with GCash, Maya, or Bank Transfer.
     *   **Prizes:** (Images of prizes) Tagaytay Staycation | Nike Shoes | Uniqlo GC
     *   **CTA:** Shop Now at amadeomarketplace.com
 

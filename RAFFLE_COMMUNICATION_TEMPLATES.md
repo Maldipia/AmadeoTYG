@@ -89,7 +89,7 @@ Thank you for your order! Your order #[Order ID] has been placed and will be pro
 
 Next time you shop, try paying with GCash, Maya, or Bank Transfer to get exclusive rewards!
 
-*   **Save 3% Instantly:** Get an automatic discount on your total bill.
+*   **FREE raffle entry Instantly:** Get an automatic discount on your total bill.
 *   **Win Big:** Receive a FREE entry into our Monthly Raffle for a chance to win prizes like staycations, shoes, and more!
 
 We'd love for you to have a chance to win. We hope you'll consider paying online for your next purchase!
@@ -142,7 +142,7 @@ The Amadeo Marketplace Team
 ### SMS 1: Campaign Launch Announcement
 
 **Text:**
-> Amadeo Marketplace: Pay online & win! Get a FREE raffle entry for a chance to win a Tagaytay staycation, Nike shoes & more when you pay with GCash/Maya/Bank. Plus, get 3% OFF your order! Shop now: [amadeomarketplace.com](https://amadeomarketplace.com)
+> Amadeo Marketplace: Pay online & win! Get a FREE raffle entry for a chance to win a Tagaytay staycation, Nike shoes & more when you pay with GCash/Maya/Bank. Plus, get FREE raffle entry your order! Shop now: [amadeomarketplace.com](https://amadeomarketplace.com)
 
 ---
 
@@ -156,7 +156,7 @@ The Amadeo Marketplace Team
 ### SMS 3: Order Confirmation (COD - Gentle Nudge)
 
 **Text:**
-> Your Amadeo Marketplace order is confirmed. Next time, pay with GCash/Maya to get 3% OFF + a FREE raffle entry for a chance to win amazing prizes! View your order: [link-to-order]
+> Your Amadeo Marketplace order is confirmed. Next time, pay with GCash/Maya to get FREE raffle entry  for a chance to win amazing prizes! View your order: [link-to-order]
 
 ---
 

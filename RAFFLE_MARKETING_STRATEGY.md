@@ -12,7 +12,7 @@ Our goal is not just to convince customers to pay online once, but to make it th
 > **Paying online is not just a transaction; it's a rewarding experience.**
 
 **The Value Stack:**
-1.  **Instant Savings:** 3% discount on every order.
+1.  **Instant Savings:** FREE raffle entry on every order.
 2.  **Exciting Prizes:** A free chance to win valuable prizes every month.
 3.  **Convenience:** Faster, cashless, and instant confirmation.
 4.  **Exclusivity:** A feeling of being part of a rewarding club.
@@ -34,7 +34,7 @@ Our goal is not just to convince customers to pay online once, but to make it th
 
 1.  **Existing Customers:** Our most valuable asset. We need to convert them from COD to online payers.
 2.  **New Local Shoppers:** Residents of Amadeo and nearby barangays who are digitally savvy but may not be aware of the platform.
-3.  **Bargain Hunters & Contest Enthusiasts:** People actively looking for discounts and opportunities to win prizes.
+3.  **Contest Enthusiasts:** People actively looking for discounts and opportunities to win prizes.
 
 ---
 

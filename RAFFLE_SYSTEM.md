@@ -377,7 +377,7 @@ if (paymentMethod !== 'cod') {
 🎉 NEW! Monthly Raffle Draw at Amadeo Marketplace! 🎁
 
 Pay online (GCash/Maya/Bank Transfer) and automatically get:
-✅ 3% discount
+✅ FREE raffle entry
 ✅ 1 FREE raffle entry
 
 Win amazing prizes:

@@ -370,7 +370,7 @@ Shop now: amadeomarketplace.com
 ### 3. Send SMS to Existing Customers
 
 ```
-🎁 RAFFLE PROMO! Pay online at amadeomarketplace.com and win staycations, shoes & more! 3% discount + 1 raffle entry per order. Draw Dec 31!
+🎁 RAFFLE PROMO! Pay online at amadeomarketplace.com and win staycations, shoes & more! FREE raffle entry + 1 raffle entry per order. Draw Dec 31!
 ```
 
 ---
