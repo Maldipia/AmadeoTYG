@@ -1,0 +1,24 @@
+graph TD
+    A[External Source] --> B(Homepage)
+    B --> C{Browse/Search}
+    C --> D[Product Page]
+    D --> E(Add to Cart)
+    E --> F[Cart Page]
+    F --> G[Checkout]
+    G --> H{Select Payment}
+    H -- COD --> I(Place Order)
+    H -- Online Payment --> J(Place Order & Get Raffle Entry)
+    I --> K[Order Success Page]
+    J --> K
+    K --> L[Customer Account]
+    L --> M(View Order History)
+    L --> N(View Raffle Entries)
+
+    LP_C(Customer Landing) --> B
+    LP_M(Merchant Landing) --> B
+
+    style B fill:#F0FFF4,stroke:#81B29A,stroke-width:2px
+    style D fill:#F0FFF4,stroke:#81B29A,stroke-width:2px
+    style G fill:#F0FFF4,stroke:#81B29A,stroke-width:2px
+    style L fill:#F0FFF4,stroke:#81B29A,stroke-width:2px
+    style J fill:#E07A5F,stroke:#BF6D56,stroke-width:2px,color:#fff
