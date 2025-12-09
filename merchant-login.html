@@ -264,7 +264,7 @@
     
     // Check if already logged in
     document.addEventListener('DOMContentLoaded', function() {
-        var merchant = sessionStorage.getItem('merchant');
+        var merchant = localStorage.getItem('amadeo_merchant');
         if (merchant) {
             window.location.href = '/dashboard';
         }
@@ -325,7 +325,7 @@
                 localStorage.setItem('amadeo_merchant', JSON.stringify(data.data));
                 
                 setTimeout(function() {
-                    window.location.href = '/merchant-dashboard';
+                    window.location.href = '/dashboard';
                 }, 1000);
             } else {
                 throw new Error(data.error || 'Invalid credentials');
