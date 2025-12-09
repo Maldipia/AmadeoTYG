@@ -1330,7 +1330,7 @@
                 if (data.success && data.data) {
                     // Filter only Active merchants
                     STATE.merchants = data.data.filter(function(m) {
-                        return m.status === 'Active';
+                        return m.Status === 'Active';
                     });
                 }
                 return fetch(API_BASE + '?action=getProducts');
@@ -1343,10 +1343,10 @@
                 if (data.success && data.data) {
                     // Filter products from active merchants only
                     var activeMerchantIds = STATE.merchants.map(function(m) {
-                        return m.id;
+                        return m.MerchantId;
                     });
                     STATE.products = data.data.filter(function(p) {
-                        return p.status === 'Active' && activeMerchantIds.indexOf(p.merchantId) !== -1;
+                        return p.Status === 'Active' && activeMerchantIds.indexOf(p.MerchantId) !== -1;
                     }).map(function(p) {
                         // Parse variants if present
                         if (p.hasVariants && p.variants) {
