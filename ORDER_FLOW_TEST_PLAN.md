@@ -228,18 +228,20 @@ Verify order summary displays correct calculations
 | 8.1 | Check order summary section | Visible on right side | ☐ Pass ☐ Fail | |
 | 8.2 | Check items list | Shows all cart items | ☐ Pass ☐ Fail | |
 | 8.3 | Check subtotal | Correct sum of items | ☐ Pass ☐ Fail | |
-| 8.4 | Check delivery fee | Shows ₱50.00 | ☐ Pass ☐ Fail | |
-| 8.5 | Check total (COD selected) | Subtotal + ₱50 | ☐ Pass ☐ Fail | |
+| 8.4 | Check delivery note | Shows "📦 Delivery arranged directly with rider" | ☐ Pass ☐ Fail | |
+| 8.5 | Check total (COD selected) | Equals subtotal (no delivery fee) | ☐ Pass ☐ Fail | |
 | 8.6 | Select GCash | Total updates | ☐ Pass ☐ Fail | |
 | 8.7 | Check discount (GCash) | Shows -3% discount line | ☐ Pass ☐ Fail | |
-| 8.8 | Check new total (GCash) | (Subtotal × 0.97) + ₱50 | ☐ Pass ☐ Fail | |
-| 8.9 | Switch to Maya | Total recalculates with 3% discount | ☐ Pass ☐ Fail | |
-| 8.10 | Switch to Bank Transfer | Total recalculates with 3% discount | ☐ Pass ☐ Fail | |
+| 8.8 | Check new total (GCash) | Subtotal × 0.97 (3% discount) | ☐ Pass ☐ Fail | |
+| 8.9 | Switch to Maya | Total = Subtotal × 0.97 | ☐ Pass ☐ Fail | |
+| 8.10 | Switch to Bank Transfer | Total = Subtotal × 0.97 | ☐ Pass ☐ Fail | |
 | 8.11 | Switch back to COD | Discount removed, full price | ☐ Pass ☐ Fail | |
 
 **Example Calculation (for ₱1,000 subtotal):**
-- COD: ₱1,000 + ₱50 = ₱1,050
-- GCash: (₱1,000 × 0.97) + ₱50 = ₱1,020 (saved ₱30)
+- COD: ₱1,000 (no discount, no delivery fee)
+- GCash: ₱1,000 × 0.97 = ₱970 (saved ₱30)
+
+**Note:** Delivery is arranged and paid directly between customer and rider
 
 **Overall Result:** ☐ Pass ☐ Fail
 
