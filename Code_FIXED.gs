@@ -853,7 +853,7 @@ function updateProduct(productId, data) {
         
         // Update each field if provided
         Object.keys(data).forEach(key => {
-          const columnName = fieldMap[key] || key;
+          const columnName = fieldMap[key] || key; // Use mapped name or original
           const col = headers.indexOf(columnName);
           if (col !== -1 && data[key] !== undefined) {
             sheet.getRange(i + 1, col + 1).setValue(data[key]);
