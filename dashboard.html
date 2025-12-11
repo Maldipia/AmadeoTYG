@@ -720,13 +720,55 @@
         }).join('')
     }
     
+    function getImageUrl(url) {
+        if (!url) return '';
+        
+        // Already correct format
+        if (url.indexOf('lh3.googleusercontent.com') !== -1) {
+            return url;
+        }
+        
+        // Extract file ID from various Google Drive URL formats
+        var fileId = null;
+        
+        // Format: drive.google.com/file/d/{fileId}/view
+        var match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (match) {
+            fileId = match[1];
+        }
+        
+        // Format: drive.google.com/open?id={fileId}
+        if (!fileId) {
+            match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (match) {
+                fileId = match[1];
+            }
+        }
+        
+        // Format: drive.google.com/uc?export=view&id={fileId}
+        if (!fileId) {
+            match = url.match(/uc\?.*id=([a-zA-Z0-9_-]+)/);
+            if (match) {
+                fileId = match[1];
+            }
+        }
+        
+        // If we found a file ID, convert to the correct format
+        if (fileId) {
+            return 'https://lh3.googleusercontent.com/d/' + fileId;
+        }
+        
+        // Return original URL if no conversion needed
+        return url;
+    }
+    
     function renderProducts(){
         const grid=document.getElementById('productsGrid');
         if(!products.length){grid.innerHTML='<div class="empty"><div class="icon">📦</div><h3>No Products Yet</h3><p>Add products to start selling</p><button class="btn btn-primary" onclick="openProductModal()">Add Product</button></div>';return}
         
         grid.innerHTML=products.map(p=>`
             <div class="item-card">
-                <div class="item-img">${p.Image?`<img src="${p.Image}" onerror="this.parentElement.innerHTML='📦'">`:'📦'}</div>
+                <div class="item-img">${p.Image?`<img src="${getImageUrl(p.Image)}" onerror="this.parentElement.innerHTML='📦'">`:'📦'}</div>
                 <div class="item-body">
                     <div class="item-name">${p.Name||'Product'}</div>
                     <div class="item-meta">${p.Category||'-'} • Stock: ${p.StockLevel||0}</div>
