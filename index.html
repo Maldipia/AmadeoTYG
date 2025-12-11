@@ -1604,7 +1604,7 @@
                         return m.merchantId;
                     });
                     STATE.products = data.data.filter(function(p) {
-                        return p.Status === 'Active' && activeMerchantIds.indexOf(p.MerchantId) !== -1;
+                        return p.Status && p.Status.toLowerCase() === 'active' && activeMerchantIds.indexOf(p.MerchantId) !== -1;
                     }).map(function(p) {
                         // Parse variants if present
                         var variants = [];
@@ -1797,7 +1797,7 @@
                 (merchant && merchant.offersPickup ? '<span class="fulfillment-badge pickup"><i class="fas fa-shopping-bag"></i> Pickup</span>' : '') +
                 (merchant && merchant.offersDelivery ? '<span class="fulfillment-badge delivery"><i class="fas fa-truck"></i> Delivery</span>' : '') +
                 '</div>' +
-                '<div class="product-price">₱' + formatNumber(product.price) + '</div>' +
+                '<div class="product-price">' + (product.hasVariants ? 'From ₱' : '₱') + formatNumber(product.price) + '</div>' +
                 '</div>' +
                 '</div>' +
                 '</div>';
@@ -1938,7 +1938,7 @@
                 (merchant && merchant.offersPickup ? '<span class="fulfillment-badge pickup"><i class="fas fa-shopping-bag"></i> Pickup</span>' : '') +
                 (merchant && merchant.offersDelivery ? '<span class="fulfillment-badge delivery"><i class="fas fa-truck"></i> Delivery</span>' : '') +
                 '</div>' +
-                '<div class="product-price">₱' + formatNumber(product.price) + '</div>' +
+                '<div class="product-price">' + (product.hasVariants ? 'From ₱' : '₱') + formatNumber(product.price) + '</div>' +
                 '</div>' +
                 '</div>' +
                 '</div>';
@@ -2221,7 +2221,7 @@
                     '<img src="' + imageUrl + '" alt="' + escapeHtml(product.name) + '" class="product-image" style="height: 150px;" onerror="this.src=\'https://via.placeholder.com/200x150?text=No+Image\'">' +
                     '<div class="product-info">' +
                     '<div class="product-name">' + escapeHtml(product.name) + '</div>' +
-                    '<div class="product-price">₱' + formatNumber(product.price) + '</div>' +
+                    '<div class="product-price">' + (product.hasVariants ? 'From ₱' : '₱') + formatNumber(product.price) + '</div>' +
                     '</div>' +
                     '</div>';
             }
