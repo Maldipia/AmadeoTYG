@@ -518,7 +518,7 @@ function customerLogin(email, password) {
         delete customer.Password;
         return {
           success: true,
-          data: customer,
+          customer: customer,
           sessionToken: sessionToken,
           message: 'Login successful'
         };
@@ -624,7 +624,7 @@ function getCustomerProfile(data) {
         delete customer.Password;
         return {
           success: true,
-          data: customer
+          customer: customer
         };
       }
     }
@@ -755,7 +755,7 @@ function getCustomerOrderHistory(data) {
     
     return {
       success: true,
-      data: orders,
+      orders: orders,
       count: orders.length
     };
   } catch (error) {
