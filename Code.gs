@@ -311,6 +311,21 @@ function adminLogin(username, password) {
 
 function registerMerchant(data) {
   try {
+    // Validate phone number format
+    if (data.phone && !/^[0-9+\-\s()]+$/.test(data.phone)) {
+      return { success: false, error: 'Invalid phone number format. Please use numbers only.' };
+    }
+    
+    // Validate category is not a number
+    if (data.category && /^\d+$/.test(data.category)) {
+      return { success: false, error: 'Invalid category. Category cannot be a phone number.' };
+    }
+    
+    // Validate required fields
+    if (!data.businessName || !data.email || !data.phone) {
+      return { success: false, error: 'Missing required fields: businessName, email, phone' };
+    }
+    
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const sheet = ss.getSheetByName('Merchants');
     const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
