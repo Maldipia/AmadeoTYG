@@ -4,506 +4,898 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account - Amadeo Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root{--p:#0f766e;--pd:#134e4a;--pl:#14b8a6;--r:#ef4444;--g:#22c55e;--o:#f97316;--y:#eab308;--v:#7c3aed;--g1:#f9fafb;--g2:#e5e7eb;--g5:#6b7280;--g7:#374151;--g9:#111827;--sh:0 4px 6px -1px rgba(0,0,0,0.1);--rd:12px}
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:system-ui,-apple-system,sans-serif;background:var(--g1);color:var(--g9);line-height:1.5}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f9fafb;
+            color: #111827;
+            line-height: 1.6;
+        }
         
-        .hdr{background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;padding:14px 20px;position:sticky;top:0;z-index:100;box-shadow:var(--sh)}
-        .hdr-in{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-        .logo{font-size:20px;font-weight:700}
-        .logo a{color:#fff;text-decoration:none}
-        .nav{display:flex;gap:10px}
-        .nav a{color:#fff;text-decoration:none;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:500}
-        .nav a:hover{background:rgba(255,255,255,.2)}
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0f766e, #14b8a6);
+            color: white;
+            padding: 16px 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
         
-        .container{max-width:1200px;margin:0 auto;padding:20px;display:grid;grid-template-columns:280px 1fr;gap:24px}
-        @media(max-width:768px){.container{grid-template-columns:1fr}}
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+        }
         
-        .sidebar{background:#fff;border-radius:var(--rd);box-shadow:var(--sh);padding:24px;height:fit-content;position:sticky;top:80px}
-        .profile-card{text-align:center;padding-bottom:20px;border-bottom:1px solid var(--g2);margin-bottom:20px}
-        .avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;margin:0 auto 12px}
-        .profile-name{font-size:18px;font-weight:600;color:var(--g9);margin-bottom:4px}
-        .profile-email{font-size:13px;color:var(--g5)}
-        .profile-phone{font-size:13px;color:var(--g5);margin-top:2px}
-        .profile-since{font-size:11px;color:var(--g5);margin-top:8px;background:var(--g1);padding:4px 10px;border-radius:12px;display:inline-block}
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 24px;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+        .profile-section {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 20px;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0f766e, #14b8a6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 auto 12px;
+        }
+        .profile-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .profile-email {
+            font-size: 13px;
+            color: #6b7280;
+        }
         
-        .menu{list-style:none}
-        .menu li{margin-bottom:4px}
-        .menu a{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:8px;color:var(--g7);text-decoration:none;font-weight:500;font-size:14px;transition:all .2s}
-        .menu a:hover{background:var(--g1);color:var(--p)}
-        .menu a.active{background:rgba(15,118,110,.1);color:var(--p)}
-        .menu .icon{font-size:18px}
-        .menu .badge{background:var(--p);color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto}
+        .menu {
+            list-style: none;
+        }
+        .menu li {
+            margin-bottom: 4px;
+        }
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #374151;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .menu a:hover {
+            background: #f9fafb;
+            color: #0f766e;
+        }
+        .menu a.active {
+            background: rgba(15,118,110,0.1);
+            color: #0f766e;
+        }
+        .menu .badge {
+            background: #0f766e;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            margin-left: auto;
+        }
         
-        .logout-btn{width:100%;padding:12px;border:2px solid var(--r);background:#fff;color:var(--r);border-radius:8px;font-weight:600;cursor:pointer;margin-top:20px;transition:all .2s}
-        .logout-btn:hover{background:var(--r);color:#fff}
+        .logout-btn {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ef4444;
+            background: white;
+            color: #ef4444;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+        .logout-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
         
-        .main{min-height:60vh}
-        .page-title{font-size:24px;color:var(--p);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+        /* Main Content */
+        .main {
+            min-height: 60vh;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .page-title {
+            font-size: 28px;
+            color: #0f766e;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
         
-        .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-bottom:24px}
-        .stat-card{background:#fff;padding:20px;border-radius:var(--rd);box-shadow:var(--sh);text-align:center}
-        .stat-num{font-size:28px;font-weight:700;color:var(--p)}
-        .stat-label{font-size:13px;color:var(--g5);margin-top:4px}
-        .stat-card.active .stat-num{color:var(--o)}
-        .stat-card.completed .stat-num{color:var(--g)}
+        /* Stats Cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-num {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f766e;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
         
-        .tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-        .tab-btn{padding:10px 20px;border:none;background:#fff;border-radius:20px;cursor:pointer;font-weight:500;font-size:13px;color:var(--g5);box-shadow:var(--sh);transition:all .2s}
-        .tab-btn:hover{color:var(--p)}
-        .tab-btn.active{background:var(--p);color:#fff}
+        /* Orders List */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .order-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f3f4f6;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .order-id {
+            font-weight: 600;
+            color: #0f766e;
+            font-size: 14px;
+        }
+        .order-date {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        .order-status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-pending { background: #fef3c7; color: #d97706; }
+        .status-confirmed { background: #dbeafe; color: #2563eb; }
+        .status-preparing { background: #e0e7ff; color: #4f46e5; }
+        .status-out_for_delivery { background: #cffafe; color: #0891b2; }
+        .status-delivered, .status-completed { background: #dcfce7; color: #16a34a; }
+        .status-cancelled { background: #fee2e2; color: #dc2626; }
         
-        .orders-list{display:flex;flex-direction:column;gap:16px}
-        .order-card{background:#fff;border-radius:var(--rd);box-shadow:var(--sh);overflow:hidden}
-        .order-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--g1);flex-wrap:wrap;gap:10px}
-        .order-id{font-weight:600;color:var(--p)}
-        .order-date{font-size:13px;color:var(--g5)}
-        .order-status{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
-        .status-pending{background:#fef3c7;color:#d97706}
-        .status-confirmed{background:#dbeafe;color:#2563eb}
-        .status-preparing{background:#e0e7ff;color:#4f46e5}
-        .status-out_for_delivery{background:#cffafe;color:#0891b2}
-        .status-delivered,.status-completed{background:#dcfce7;color:#16a34a}
-        .status-cancelled{background:#fee2e2;color:#dc2626}
+        .order-body {
+            padding: 16px 20px;
+        }
+        .order-merchant {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        .order-merchant strong {
+            color: #374151;
+        }
+        .order-items {
+            margin-bottom: 12px;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 14px;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .item-name {
+            color: #374151;
+        }
+        .item-qty {
+            color: #6b7280;
+            margin-left: 8px;
+        }
+        .item-price {
+            font-weight: 600;
+            color: #0f766e;
+        }
         
-        .order-body{padding:16px 20px}
-        .order-items{margin-bottom:12px}
-        .order-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--g1);font-size:14px}
-        .order-item:last-child{border-bottom:none}
-        .item-name{color:var(--g7)}
-        .item-qty{color:var(--g5)}
-        .item-price{font-weight:600;color:var(--p)}
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 2px solid #e5e7eb;
+            margin-top: 12px;
+        }
+        .order-total-label {
+            font-weight: 600;
+            color: #374151;
+        }
+        .order-total {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f766e;
+        }
         
-        .order-summary{display:flex;justify-content:space-between;padding-top:12px;border-top:2px solid var(--g2)}
-        .order-total-label{font-weight:600;color:var(--g7)}
-        .order-total{font-size:18px;font-weight:700;color:var(--p)}
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #f9fafb;
+        }
+        .delivery-info {
+            font-size: 13px;
+            color: #6b7280;
+        }
         
-        .order-footer{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:var(--g1);flex-wrap:wrap;gap:10px}
-        .order-shop{font-size:13px;color:var(--g5)}
-        .order-actions{display:flex;gap:8px}
-        .btn-sm{padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-block}
-        .btn-primary{background:var(--p);color:#fff}
-        .btn-primary:hover{background:var(--pd)}
-        .btn-outline{background:#fff;border:1px solid var(--g2);color:var(--g7)}
-        .btn-outline:hover{border-color:var(--p);color:var(--p)}
+        /* Profile Form */
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .form-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #0f766e;
+        }
+        .btn-save {
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #0f766e, #14b8a6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-save:hover {
+            opacity: 0.9;
+        }
+        .btn-save:disabled {
+            background: #e5e7eb;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
         
-        .booking-card{background:#fff;border-radius:var(--rd);box-shadow:var(--sh);padding:20px;margin-bottom:16px}
-        .booking-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-        .booking-title{font-weight:600;font-size:16px;color:var(--g9)}
-        .booking-type{font-size:12px;padding:4px 10px;border-radius:12px;background:var(--g1);color:var(--g5)}
-        .booking-type.service{background:#f3e8ff;color:var(--v)}
-        .booking-type.stay{background:#ffedd5;color:var(--o)}
-        .booking-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:12px}
-        .booking-detail{font-size:13px}
-        .booking-detail .label{color:var(--g5);display:block}
-        .booking-detail .value{color:var(--g9);font-weight:500}
-        .booking-footer{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--g2)}
-        .booking-price{font-size:18px;font-weight:700;color:var(--p)}
+        /* Empty State */
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .empty .icon {
+            font-size: 60px;
+            margin-bottom: 16px;
+        }
+        .empty h3 {
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        .empty p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .btn-shop {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0f766e;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+        }
         
-        .form-card{background:#fff;border-radius:var(--rd);box-shadow:var(--sh);padding:24px;margin-bottom:20px}
-        .form-title{font-size:16px;font-weight:600;color:var(--g9);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--g2)}
-        .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
-        .form-group{margin-bottom:16px}
-        .form-group label{display:block;font-size:13px;font-weight:600;color:var(--g7);margin-bottom:6px}
-        .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px;border:1px solid var(--g2);border-radius:8px;font-size:14px;font-family:inherit}
-        .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--p)}
-        .form-group input:disabled{background:var(--g1);color:var(--g5)}
-        .btn-save{padding:12px 32px;background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px}
-        .btn-save:hover{opacity:.9}
-        .btn-save:disabled{background:var(--g2);color:var(--g5);cursor:not-allowed}
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e5e7eb;
+            border-top-color: #0f766e;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto 12px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
         
-        .empty{text-align:center;padding:60px 20px;background:#fff;border-radius:var(--rd);box-shadow:var(--sh)}
-        .empty .icon{font-size:60px;margin-bottom:16px}
-        .empty h3{color:var(--g7);margin-bottom:8px}
-        .empty p{color:var(--g5);font-size:14px;margin-bottom:20px}
-        .btn-shop{display:inline-block;padding:12px 24px;background:var(--p);color:#fff;text-decoration:none;border-radius:8px;font-weight:600}
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0f766e;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s;
+        }
+        .toast.error {
+            background: #ef4444;
+        }
+        .toast.success {
+            background: #22c55e;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
         
-        .loading{text-align:center;padding:40px}
-        .spinner{width:40px;height:40px;border:3px solid var(--g2);border-top-color:var(--p);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        
-        .toast{position:fixed;bottom:20px;right:20px;background:var(--p);color:#fff;padding:12px 24px;border-radius:8px;box-shadow:var(--sh);z-index:1000;animation:slideIn .3s}
-        @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-        
-        .ftr{background:var(--pd);color:#fff;padding:30px 20px;margin-top:40px;text-align:center}
-        .ftr p{opacity:.8;font-size:13px}
-        .ftr a{color:#fff}
-        
-        .section{display:none}
-        .section.active{display:block}
-        
-        .lookup-box{max-width:350px;margin:20px auto 0;text-align:left}
-        .lookup-box input{width:100%;padding:12px;border:1px solid var(--g2);border-radius:8px;margin-bottom:10px;font-size:14px}
-        .lookup-box button{width:100%;padding:12px;background:var(--p);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer}
-        .lookup-box button:hover{background:var(--pd)}
-        
-        @media(max-width:768px){
-            .sidebar{position:relative;top:0}
-            .stats{grid-template-columns:repeat(2,1fr)}
-            .order-header{flex-direction:column;align-items:flex-start}
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-    <header class="hdr">
-        <div class="hdr-in">
-            <div class="logo"><a href="/">🏪 Amadeo Marketplace</a></div>
-            <nav class="nav">
-                <a href="/">Shop</a>
-                <a href="/track">Track Order</a>
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo"><i class="fas fa-store"></i> Amadeo Marketplace</a>
+            <nav class="nav-links">
+                <a href="/"><i class="fas fa-shopping-bag"></i> Shop</a>
+                <a href="/track"><i class="fas fa-search-location"></i> Track Order</a>
             </nav>
         </div>
     </header>
     
     <div class="container">
         <aside class="sidebar">
-            <div class="profile-card">
+            <div class="profile-section">
                 <div class="avatar" id="userAvatar">?</div>
                 <div class="profile-name" id="userName">Loading...</div>
                 <div class="profile-email" id="userEmail">-</div>
-                <div class="profile-phone" id="userPhone"></div>
-                <div class="profile-since" id="userSince">Member</div>
             </div>
             
             <ul class="menu">
-                <li><a href="#orders" class="active" onclick="showSection('orders')"><span class="icon">📦</span> My Orders <span class="badge" id="ordersBadge">0</span></a></li>
-                <li><a href="#services" onclick="showSection('services')"><span class="icon">🔧</span> Service Bookings <span class="badge" id="svcBadge">0</span></a></li>
-                <li><a href="#stays" onclick="showSection('stays')"><span class="icon">🏡</span> Stay Bookings <span class="badge" id="stayBadge">0</span></a></li>
-                <li><a href="#profile" onclick="showSection('profile')"><span class="icon">👤</span> My Profile</a></li>
-                <li><a href="#addresses" onclick="showSection('addresses')"><span class="icon">📍</span> Addresses</a></li>
+                <li><a href="#orders" class="active" onclick="showSection('orders')">
+                    <i class="fas fa-box"></i> My Orders
+                    <span class="badge" id="ordersBadge">0</span>
+                </a></li>
+                <li><a href="#profile" onclick="showSection('profile')">
+                    <i class="fas fa-user"></i> My Profile
+                </a></li>
             </ul>
             
-            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
         </aside>
         
         <main class="main">
-            <!-- ORDERS -->
+            <!-- ORDERS SECTION -->
             <section id="orders" class="section active">
-                <h1 class="page-title">📦 My Orders</h1>
+                <h1 class="page-title"><i class="fas fa-box"></i> My Orders</h1>
                 
                 <div class="stats">
-                    <div class="stat-card"><div class="stat-num" id="totalOrders">0</div><div class="stat-label">Total Orders</div></div>
-                    <div class="stat-card active"><div class="stat-num" id="activeOrders">0</div><div class="stat-label">Active</div></div>
-                    <div class="stat-card completed"><div class="stat-num" id="completedOrders">0</div><div class="stat-label">Completed</div></div>
-                    <div class="stat-card"><div class="stat-num" id="totalSpent">₱0</div><div class="stat-label">Total Spent</div></div>
-                </div>
-                
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="filterOrders('all')">All</button>
-                    <button class="tab-btn" onclick="filterOrders('active')">Active</button>
-                    <button class="tab-btn" onclick="filterOrders('completed')">Completed</button>
-                    <button class="tab-btn" onclick="filterOrders('cancelled')">Cancelled</button>
+                    <div class="stat-card">
+                        <div class="stat-num" id="totalOrders">0</div>
+                        <div class="stat-label">Total Orders</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" id="activeOrders">0</div>
+                        <div class="stat-label">Active</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" id="completedOrders">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num" id="totalSpent">₱0</div>
+                        <div class="stat-label">Total Spent</div>
+                    </div>
                 </div>
                 
                 <div class="orders-list" id="ordersList">
-                    <div class="loading"><div class="spinner"></div><p>Loading orders...</p></div>
-                </div>
-            </section>
-            
-            <!-- SERVICES -->
-            <section id="services" class="section">
-                <h1 class="page-title">🔧 Service Bookings</h1>
-                <div class="stats">
-                    <div class="stat-card"><div class="stat-num" id="totalSvc">0</div><div class="stat-label">Total</div></div>
-                    <div class="stat-card active"><div class="stat-num" id="pendingSvc">0</div><div class="stat-label">Pending</div></div>
-                    <div class="stat-card completed"><div class="stat-num" id="completedSvc">0</div><div class="stat-label">Completed</div></div>
-                </div>
-                <div id="svcList">
-                    <div class="empty">
-                        <div class="icon">🔧</div>
-                        <h3>No Service Bookings Yet</h3>
-                        <p>Book laundry, beauty, massage, repairs and more!</p>
-                        <a href="/" class="btn-shop">Browse Services</a>
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading your orders...</p>
                     </div>
                 </div>
             </section>
             
-            <!-- STAYS -->
-            <section id="stays" class="section">
-                <h1 class="page-title">🏡 Stay Bookings</h1>
-                <div class="stats">
-                    <div class="stat-card"><div class="stat-num" id="totalStays">0</div><div class="stat-label">Total</div></div>
-                    <div class="stat-card active"><div class="stat-num" id="upcomingStays">0</div><div class="stat-label">Upcoming</div></div>
-                    <div class="stat-card completed"><div class="stat-num" id="pastStays">0</div><div class="stat-label">Past</div></div>
-                </div>
-                <div id="stayList">
-                    <div class="empty">
-                        <div class="icon">🏡</div>
-                        <h3>No Stay Bookings Yet</h3>
-                        <p>Discover pools, rest houses, resorts in Amadeo!</p>
-                        <a href="/" class="btn-shop">Browse Stays</a>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- PROFILE -->
+            <!-- PROFILE SECTION -->
             <section id="profile" class="section">
-                <h1 class="page-title">👤 My Profile</h1>
+                <h1 class="page-title"><i class="fas fa-user"></i> My Profile</h1>
+                
                 <div class="form-card">
                     <div class="form-title">Personal Information</div>
                     <form id="profileForm" onsubmit="saveProfile(event)">
                         <div class="form-grid">
-                            <div class="form-group"><label>Full Name *</label><input type="text" id="profName" required></div>
-                            <div class="form-group"><label>Phone Number *</label><input type="tel" id="profPhone" required placeholder="09XX XXX XXXX"></div>
-                            <div class="form-group"><label>Email Address</label><input type="email" id="profEmail" placeholder="your@email.com"></div>
-                            <div class="form-group"><label>Birthday</label><input type="date" id="profBday"></div>
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" id="profName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address *</label>
+                                <input type="email" id="profEmail" required disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" id="profPhone" required placeholder="09XX XXX XXXX">
+                            </div>
+                            <div class="form-group">
+                                <label>Barangay *</label>
+                                <select id="profBarangay" required>
+                                    <option value="">Select Barangay</option>
+                                    <option value="Barangay I (Poblacion)">Barangay I (Poblacion)</option>
+                                    <option value="Barangay II (Poblacion)">Barangay II (Poblacion)</option>
+                                    <option value="Barangay III (Poblacion)">Barangay III (Poblacion)</option>
+                                    <option value="Barangay IV (Poblacion)">Barangay IV (Poblacion)</option>
+                                    <option value="Barangay V (Poblacion)">Barangay V (Poblacion)</option>
+                                    <option value="Barangay VI (Poblacion)">Barangay VI (Poblacion)</option>
+                                    <option value="Barangay VII (Poblacion)">Barangay VII (Poblacion)</option>
+                                    <option value="Barangay VIII (Poblacion)">Barangay VIII (Poblacion)</option>
+                                    <option value="Barangay IX (Poblacion)">Barangay IX (Poblacion)</option>
+                                    <option value="Barangay X (Poblacion)">Barangay X (Poblacion)</option>
+                                    <option value="Barangay XI (Poblacion)">Barangay XI (Poblacion)</option>
+                                    <option value="Barangay XII (Poblacion)">Barangay XII (Poblacion)</option>
+                                    <option value="Banaybanay">Banaybanay</option>
+                                    <option value="Bucal">Bucal</option>
+                                    <option value="Buho">Buho</option>
+                                    <option value="Dagatan">Dagatan</option>
+                                    <option value="Halang">Halang</option>
+                                    <option value="Loma">Loma</option>
+                                    <option value="Maitim I">Maitim I</option>
+                                    <option value="Maymangga">Maymangga</option>
+                                    <option value="Minantok Kanluran">Minantok Kanluran</option>
+                                    <option value="Minantok Silangan">Minantok Silangan</option>
+                                    <option value="Pangil">Pangil</option>
+                                    <option value="Salaban">Salaban</option>
+                                    <option value="Talon">Talon</option>
+                                    <option value="Tamacan">Tamacan</option>
+                                </select>
+                            </div>
                         </div>
-                        <button type="submit" class="btn-save" id="saveBtn">Save Changes</button>
+                        <div class="form-group">
+                            <label>Delivery Address *</label>
+                            <input type="text" id="profAddress" required placeholder="House/Unit No., Street, Purok/Sitio">
+                        </div>
+                        <button type="submit" class="btn-save" id="saveBtn">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
                     </form>
                 </div>
+                
                 <div class="form-card">
-                    <div class="form-title">Account Info</div>
-                    <div class="form-group"><label>Customer ID</label><input type="text" id="profId" disabled></div>
-                    <div class="form-group"><label>Member Since</label><input type="text" id="profJoined" disabled></div>
-                </div>
-            </section>
-            
-            <!-- ADDRESSES -->
-            <section id="addresses" class="section">
-                <h1 class="page-title">📍 My Addresses</h1>
-                <div class="form-card">
-                    <div class="form-title">Default Delivery Address</div>
-                    <form id="addrForm" onsubmit="saveAddress(event)">
-                        <div class="form-group">
-                            <label>Barangay *</label>
-                            <select id="addrBrgy" required>
-                                <option value="">Select Barangay</option>
-                                <option>Barangay I (Poblacion)</option><option>Barangay II (Poblacion)</option><option>Barangay III (Poblacion)</option><option>Barangay IV (Poblacion)</option><option>Barangay V (Poblacion)</option><option>Barangay VI (Poblacion)</option><option>Barangay VII (Poblacion)</option><option>Barangay VIII (Poblacion)</option><option>Banaybanay</option><option>Buho</option><option>Dagatan</option><option>Halang</option><option>Loma</option><option>Lucsuhin</option><option>Magallanes</option><option>Maymangga</option><option>Minantok Kanluran</option><option>Minantok Silangan</option><option>Pangil</option><option>Salaban</option><option>Talon</option><option>Tamacan</option><option>Tibig</option><option>Ulo</option>
-                            </select>
+                    <div class="form-title">Change Password</div>
+                    <form id="passwordForm" onsubmit="changePassword(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>New Password *</label>
+                                <input type="password" id="newPassword" required minlength="6" placeholder="Min 6 characters">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password *</label>
+                                <input type="password" id="confirmPassword" required placeholder="Confirm password">
+                            </div>
                         </div>
-                        <div class="form-group"><label>Complete Address *</label><textarea id="addrFull" rows="3" required placeholder="House #, Street, Landmark"></textarea></div>
-                        <button type="submit" class="btn-save">Save Address</button>
+                        <button type="submit" class="btn-save" id="passwordBtn">
+                            <i class="fas fa-key"></i> Update Password
+                        </button>
                     </form>
                 </div>
             </section>
         </main>
     </div>
     
-    <footer class="ftr">
-        <p>© 2025 Amadeo Marketplace. Powered by <a href="https://tyg-services.com">TYG Services</a></p>
-    </footer>
-    
     <script>
-    const API='https://script.google.com/macros/s/AKfycbzBw-bLMAooXcWvcCo0VHsndaC_RpaZz-xKNpGn-nljZ4H4fyKAerf7u12-SUFfOG2nAQ/exec';
-    let user=null,orders=[],currentFilter='all';
-    
-    document.addEventListener('DOMContentLoaded',()=>{loadUser();checkHash()});
-    
-    function checkHash(){const h=window.location.hash.replace('#','');if(h&&['orders','services','stays','profile','addresses'].includes(h))showSection(h)}
-    
-    function loadUser(){
-        const stored=localStorage.getItem('amadeo_user')||localStorage.getItem('amadeo_guest');
-        if(stored){user=JSON.parse(stored);displayUser();loadOrders()}
-        else showLookup()
-    }
-    
-    function displayUser(){
-        if(!user)return;
-        const name=user.Name||user.CustomerName||'Guest';
-        const email=user.Email||user.CustomerEmail||'';
-        const phone=user.Phone||user.CustomerPhone||'';
-        const since=user.CreatedAt?new Date(user.CreatedAt).toLocaleDateString('en-PH',{month:'short',year:'numeric'}):'Recently';
+        var API_BASE = 'https://script.google.com/macros/s/AKfycbzBw-bLMAooXcWvcCo0VHsndaC_RpaZz-xKNpGn-nljZ4H4fyKAerf7u12-SUFfOG2nAQ/exec';
+        var customer = null;
+        var sessionToken = null;
+        var orders = [];
         
-        document.getElementById('userAvatar').textContent=name.charAt(0).toUpperCase();
-        document.getElementById('userName').textContent=name;
-        document.getElementById('userEmail').textContent=email||'No email';
-        document.getElementById('userPhone').textContent=phone?`📞 ${phone}`:'';
-        document.getElementById('userSince').textContent=`Member since ${since}`;
-        
-        document.getElementById('profName').value=name!=='Guest'?name:'';
-        document.getElementById('profPhone').value=phone;
-        document.getElementById('profEmail').value=email;
-        document.getElementById('profId').value=user.CustomerId||'GUEST';
-        document.getElementById('profJoined').value=since;
-        
-        if(user.Barangay)document.getElementById('addrBrgy').value=user.Barangay;
-        if(user.Address)document.getElementById('addrFull').value=user.Address;
-    }
-    
-    function showLookup(){
-        document.getElementById('userName').textContent='Guest';
-        document.getElementById('userEmail').textContent='Not signed in';
-        document.getElementById('userAvatar').textContent='?';
-        document.getElementById('userSince').textContent='Look up your orders';
-        
-        document.getElementById('ordersList').innerHTML=`
-            <div class="empty">
-                <div class="icon">📦</div>
-                <h3>Find Your Orders</h3>
-                <p>Enter your phone number to see order history</p>
-                <div class="lookup-box">
-                    <input type="tel" id="lookupPhone" placeholder="Phone (09XX XXX XXXX)">
-                    <button onclick="lookupOrders()">Find My Orders</button>
-                </div>
-            </div>
-        `;
-    }
-    
-    async function lookupOrders(){
-        const phone=document.getElementById('lookupPhone').value.trim();
-        if(!phone){alert('Enter your phone number');return}
-        
-        user={Phone:phone,CustomerPhone:phone,Name:'Guest'};
-        localStorage.setItem('amadeo_guest',JSON.stringify(user));
-        displayUser();
-        
-        document.getElementById('ordersList').innerHTML='<div class="loading"><div class="spinner"></div><p>Finding orders...</p></div>';
-        await loadOrders()
-    }
-    
-    async function loadOrders(){
-        const listEl=document.getElementById('ordersList');
-        const identifier=user?.Phone||user?.Email||user?.CustomerId;
-        
-        if(!identifier){showLookup();return}
-        
-        try{
-            // Try direct customer orders endpoint
-            let res=await fetch(`${API}?action=getCustomerOrders&phone=${encodeURIComponent(identifier)}`);
-            let data=await res.json();
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            customer = JSON.parse(localStorage.getItem('amadeo_customer') || 'null');
+            sessionToken = localStorage.getItem('amadeo_customer_token');
             
-            if(data.success&&data.data?.length){
-                orders=data.data;
-            }else{
-                // Fallback: get all orders and filter
-                res=await fetch(`${API}?action=getOrders`);
-                data=await res.json();
-                
-                if(data.success&&data.data){
-                    orders=data.data.filter(o=>
-                        o.CustomerPhone===identifier||
-                        o.CustomerEmail===identifier||
-                        (o.CustomerPhone&&o.CustomerPhone.includes(identifier.replace(/^0/,'')))||
-                        (o.CustomerPhone&&o.CustomerPhone.includes(identifier))
-                    );
-                }
+            if (!customer || !sessionToken) {
+                window.location.href = '/customer-login';
+                return;
             }
             
-            if(orders.length){updateStats();renderOrders()}
-            else showEmpty()
-        }catch(e){
-            console.error(e);
-            listEl.innerHTML=`<div class="empty"><div class="icon">😕</div><h3>Unable to Load</h3><p>Check connection</p><button onclick="loadOrders()" class="btn-shop">Retry</button></div>`;
-        }
-    }
-    
-    function updateStats(){
-        const total=orders.length;
-        const active=orders.filter(o=>['pending','confirmed','preparing','out_for_delivery'].includes(o.Status?.toLowerCase())).length;
-        const completed=orders.filter(o=>o.Status?.toLowerCase()==='delivered').length;
-        const spent=orders.filter(o=>o.Status?.toLowerCase()==='delivered').reduce((s,o)=>s+(parseFloat(o.Total)||0),0);
-        
-        document.getElementById('totalOrders').textContent=total;
-        document.getElementById('activeOrders').textContent=active;
-        document.getElementById('completedOrders').textContent=completed;
-        document.getElementById('totalSpent').textContent=`₱${spent.toLocaleString()}`;
-        document.getElementById('ordersBadge').textContent=active;
-    }
-    
-    function renderOrders(){
-        const listEl=document.getElementById('ordersList');
-        let list=orders;
-        
-        if(currentFilter==='active')list=orders.filter(o=>['pending','confirmed','preparing','out_for_delivery'].includes(o.Status?.toLowerCase()));
-        else if(currentFilter==='completed')list=orders.filter(o=>o.Status?.toLowerCase()==='delivered');
-        else if(currentFilter==='cancelled')list=orders.filter(o=>o.Status?.toLowerCase()==='cancelled');
-        
-        if(!list.length){
-            listEl.innerHTML=`<div class="empty"><div class="icon">📦</div><h3>No ${currentFilter==='all'?'':currentFilter} Orders</h3>${currentFilter==='all'?'<a href="/" class="btn-shop">Start Shopping</a>':''}</div>`;
-            return
-        }
-        
-        listEl.innerHTML=list.map(order=>{
-            const items=parseItems(order.Items);
-            const status=order.Status?.toLowerCase()||'pending';
-            const date=order.CreatedAt?new Date(order.CreatedAt).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}):'-';
-            
-            return`
-                <div class="order-card">
-                    <div class="order-header">
-                        <div><div class="order-id">${order.OrderId||'-'}</div><div class="order-date">${date}</div></div>
-                        <span class="order-status status-${status}">${fmtStatus(status)}</span>
-                    </div>
-                    <div class="order-body">
-                        <div class="order-items">
-                            ${items.map(i=>`<div class="order-item"><span class="item-name">${i.productName||i.name||'Item'}</span><span class="item-qty">x${i.quantity||1}</span><span class="item-price">₱${Number(i.price||0).toLocaleString()}</span></div>`).join('')}
-                        </div>
-                        <div class="order-summary"><span class="order-total-label">Total</span><span class="order-total">₱${Number(order.Total||0).toLocaleString()}</span></div>
-                    </div>
-                    <div class="order-footer">
-                        <div class="order-shop">📍 ${order.Barangay||'-'} • 💳 ${fmtPay(order.PaymentMethod)}</div>
-                        <div class="order-actions">
-                            <a href="/track?id=${order.OrderId}" class="btn-sm btn-primary">Track</a>
-                            ${status==='delivered'?`<button class="btn-sm btn-outline" onclick="reorder('${order.OrderId}')">Reorder</button>`:''}
-                        </div>
-                    </div>
-                </div>
-            `
-        }).join('')
-    }
-    
-    function showEmpty(){
-        document.getElementById('ordersList').innerHTML=`<div class="empty"><div class="icon">📦</div><h3>No Orders Yet</h3><p>Start shopping to see orders here</p><a href="/" class="btn-shop">Shop Now</a></div>`;
-    }
-    
-    function parseItems(items){if(!items)return[];if(Array.isArray(items))return items;try{return JSON.parse(items)}catch{return[]}}
-    function fmtStatus(s){const m={pending:'⏳ Pending',confirmed:'✅ Confirmed',preparing:'👨‍🍳 Preparing',out_for_delivery:'🚚 On the Way',delivered:'✅ Delivered',cancelled:'❌ Cancelled'};return m[s]||s}
-    function fmtPay(m){const p={cod:'COD',gcash:'GCash',paymaya:'PayMaya',bank:'Bank'};return p[m?.toLowerCase()]||m||'-'}
-    
-    function filterOrders(f){
-        currentFilter=f;
-        document.querySelectorAll('.tabs .tab-btn').forEach((btn,i)=>{
-            const filters=['all','active','completed','cancelled'];
-            btn.classList.toggle('active',filters[i]===f)
+            loadProfile();
+            loadOrders();
         });
-        renderOrders()
-    }
-    
-    function showSection(id){
-        document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-        document.querySelectorAll('.menu a').forEach(a=>a.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        document.querySelector(`.menu a[href="#${id}"]`)?.classList.add('active');
-        window.location.hash=id
-    }
-    
-    function saveProfile(e){
-        e.preventDefault();
-        const btn=document.getElementById('saveBtn');
-        btn.disabled=true;btn.textContent='Saving...';
         
-        const updated={...user,Name:document.getElementById('profName').value,Phone:document.getElementById('profPhone').value,Email:document.getElementById('profEmail').value,Birthday:document.getElementById('profBday').value};
-        localStorage.setItem('amadeo_user',JSON.stringify(updated));
-        localStorage.setItem('amadeo_guest',JSON.stringify(updated));
-        user=updated;displayUser();
+        function loadProfile() {
+            document.getElementById('userName').textContent = customer.Name || 'Customer';
+            document.getElementById('userEmail').textContent = customer.Email || '';
+            document.getElementById('userAvatar').textContent = (customer.Name || 'C')[0].toUpperCase();
+            
+            // Populate profile form
+            document.getElementById('profName').value = customer.Name || '';
+            document.getElementById('profEmail').value = customer.Email || '';
+            document.getElementById('profPhone').value = customer.Phone || '';
+            document.getElementById('profBarangay').value = customer.Barangay || '';
+            document.getElementById('profAddress').value = customer.Address || '';
+        }
         
-        toast('Profile saved!');
-        btn.disabled=false;btn.textContent='Save Changes'
-    }
-    
-    function saveAddress(e){
-        e.preventDefault();
-        const updated={...user,Barangay:document.getElementById('addrBrgy').value,Address:document.getElementById('addrFull').value};
-        localStorage.setItem('amadeo_user',JSON.stringify(updated));
-        localStorage.setItem('amadeo_guest',JSON.stringify(updated));
-        user=updated;
-        toast('Address saved!')
-    }
-    
-    function reorder(orderId){
-        const order=orders.find(o=>o.OrderId===orderId);
-        if(!order)return;
-        const items=parseItems(order.Items);
-        const cart=items.map(i=>({id:i.productId,name:i.productName||i.name,price:i.price,qty:i.quantity||1}));
-        localStorage.setItem('cart',JSON.stringify(cart));
-        toast('Added to cart!');
-        setTimeout(()=>window.location.href='/',1000)
-    }
-    
-    function logout(){if(confirm('Logout?')){localStorage.removeItem('amadeo_user');localStorage.removeItem('amadeo_guest');window.location.href='/'}}
-    
-    function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3000)}
+        function loadOrders() {
+            fetch(API_BASE, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({
+                    action: 'getCustomerOrderHistory',
+                    sessionToken: sessionToken
+                })
+            })
+            .then(function(response) { return response.text(); })
+            .then(function(text) { return JSON.parse(text); })
+            .then(function(result) {
+                if (result.success) {
+                    orders = result.data || [];
+                    displayOrders();
+                    updateStats();
+                } else {
+                    if (result.code === 'AUTH_REQUIRED') {
+                        showToast('Session expired. Please login again.', 'error');
+                        setTimeout(function() {
+                            logout();
+                        }, 2000);
+                    } else {
+                        document.getElementById('ordersList').innerHTML = '<div class="empty"><div class="icon">📦</div><h3>No Orders Yet</h3><p>Start shopping to see your orders here!</p><a href="/" class="btn-shop">Start Shopping</a></div>';
+                    }
+                }
+            })
+            .catch(function(error) {
+                console.error('Error loading orders:', error);
+                document.getElementById('ordersList').innerHTML = '<div class="empty"><div class="icon">⚠️</div><h3>Error Loading Orders</h3><p>Please try again later.</p></div>';
+            });
+        }
+        
+        function displayOrders() {
+            var container = document.getElementById('ordersList');
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<div class="empty"><div class="icon">📦</div><h3>No Orders Yet</h3><p>Start shopping to see your orders here!</p><a href="/" class="btn-shop">Start Shopping</a></div>';
+                return;
+            }
+            
+            var html = '';
+            orders.forEach(function(order) {
+                var items = [];
+                try {
+                    items = JSON.parse(order.Items || '[]');
+                } catch (e) {
+                    items = [];
+                }
+                
+                var statusClass = 'status-' + (order.Status || 'pending').toLowerCase().replace(/ /g, '_');
+                var statusLabel = order.Status || 'Pending';
+                
+                html += '<div class="order-card">';
+                html += '<div class="order-header">';
+                html += '<div><div class="order-id">' + (order.OrderId || 'N/A') + '</div>';
+                html += '<div class="order-date">' + formatDate(order.CreatedAt || order.OrderDate) + '</div></div>';
+                html += '<span class="order-status ' + statusClass + '">' + statusLabel + '</span>';
+                html += '</div>';
+                
+                html += '<div class="order-body">';
+                html += '<div class="order-merchant"><strong>Merchant:</strong> ' + (order.MerchantName || order.BusinessName || 'N/A') + '</div>';
+                html += '<div class="order-items">';
+                
+                items.forEach(function(item) {
+                    html += '<div class="order-item">';
+                    html += '<span class="item-name">' + item.name + '<span class="item-qty"> × ' + item.quantity + '</span></span>';
+                    html += '<span class="item-price">₱' + (item.price * item.quantity).toFixed(2) + '</span>';
+                    html += '</div>';
+                });
+                
+                html += '</div>';
+                html += '<div class="order-summary">';
+                html += '<span class="order-total-label">Total</span>';
+                html += '<span class="order-total">₱' + parseFloat(order.TotalAmount || 0).toFixed(2) + '</span>';
+                html += '</div>';
+                html += '</div>';
+                
+                html += '<div class="order-footer">';
+                html += '<div class="delivery-info"><i class="fas fa-map-marker-alt"></i> ' + (order.DeliveryAddress || 'N/A') + '</div>';
+                html += '</div>';
+                html += '</div>';
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function updateStats() {
+            var total = orders.length;
+            var active = orders.filter(function(o) {
+                var s = (o.Status || '').toLowerCase();
+                return s === 'pending' || s === 'confirmed' || s === 'preparing' || s === 'out for delivery';
+            }).length;
+            var completed = orders.filter(function(o) {
+                var s = (o.Status || '').toLowerCase();
+                return s === 'delivered' || s === 'completed';
+            }).length;
+            var totalSpent = orders.reduce(function(sum, o) {
+                return sum + parseFloat(o.TotalAmount || 0);
+            }, 0);
+            
+            document.getElementById('totalOrders').textContent = total;
+            document.getElementById('activeOrders').textContent = active;
+            document.getElementById('completedOrders').textContent = completed;
+            document.getElementById('totalSpent').textContent = '₱' + totalSpent.toFixed(2);
+            document.getElementById('ordersBadge').textContent = active;
+        }
+        
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            var date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        
+        function showSection(sectionId) {
+            // Hide all sections
+            var sections = document.querySelectorAll('.section');
+            sections.forEach(function(s) { s.classList.remove('active'); });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update menu
+            var links = document.querySelectorAll('.menu a');
+            links.forEach(function(l) { l.classList.remove('active'); });
+            document.querySelector('.menu a[href="#' + sectionId + '"]').classList.add('active');
+        }
+        
+        function saveProfile(e) {
+            e.preventDefault();
+            
+            var btn = document.getElementById('saveBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            
+            var data = {
+                action: 'updateCustomerProfile',
+                sessionToken: sessionToken,
+                name: document.getElementById('profName').value,
+                phone: document.getElementById('profPhone').value,
+                barangay: document.getElementById('profBarangay').value,
+                address: document.getElementById('profAddress').value
+            };
+            
+            fetch(API_BASE, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(data)
+            })
+            .then(function(response) { return response.text(); })
+            .then(function(text) { return JSON.parse(text); })
+            .then(function(result) {
+                if (result.success) {
+                    // Update local storage
+                    customer.Name = data.name;
+                    customer.Phone = data.phone;
+                    customer.Barangay = data.barangay;
+                    customer.Address = data.address;
+                    localStorage.setItem('amadeo_customer', JSON.stringify(customer));
+                    
+                    loadProfile();
+                    showToast('Profile updated successfully!', 'success');
+                } else {
+                    showToast(result.error || 'Failed to update profile', 'error');
+                }
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+                showToast('Connection error. Please try again.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+            });
+        }
+        
+        function changePassword(e) {
+            e.preventDefault();
+            
+            var newPass = document.getElementById('newPassword').value;
+            var confirmPass = document.getElementById('confirmPassword').value;
+            
+            if (newPass !== confirmPass) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (newPass.length < 6) {
+                showToast('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            var btn = document.getElementById('passwordBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+            
+            fetch(API_BASE, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({
+                    action: 'updateCustomerProfile',
+                    sessionToken: sessionToken,
+                    newPassword: newPass
+                })
+            })
+            .then(function(response) { return response.text(); })
+            .then(function(text) { return JSON.parse(text); })
+            .then(function(result) {
+                if (result.success) {
+                    showToast('Password updated successfully!', 'success');
+                    document.getElementById('passwordForm').reset();
+                } else {
+                    showToast(result.error || 'Failed to update password', 'error');
+                }
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-key"></i> Update Password';
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+                showToast('Connection error. Please try again.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-key"></i> Update Password';
+            });
+        }
+        
+        function logout() {
+            fetch(API_BASE, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({
+                    action: 'customerLogout',
+                    sessionToken: sessionToken
+                })
+            })
+            .then(function() {
+                localStorage.removeItem('amadeo_customer');
+                localStorage.removeItem('amadeo_customer_token');
+                window.location.href = '/customer-login';
+            })
+            .catch(function() {
+                localStorage.removeItem('amadeo_customer');
+                localStorage.removeItem('amadeo_customer_token');
+                window.location.href = '/customer-login';
+            });
+        }
+        
+        function showToast(message, type) {
+            var toast = document.createElement('div');
+            toast.className = 'toast ' + (type || '');
+            toast.innerHTML = '<i class="fas fa-' + (type === 'success' ? 'check-circle' : 'exclamation-circle') + '"></i> ' + message;
+            document.body.appendChild(toast);
+            
+            setTimeout(function() {
+                toast.remove();
+            }, 3000);
+        }
     </script>
 </body>
 </html>
