@@ -627,7 +627,7 @@
     
     async function loadOrders(){
         try{
-            const res=await fetch(`${API}?action=getOrders&merchantId=${merchant.MerchantId}`);
+            const res=await fetch(`${API}?action=getMerchantOrders&merchantId=${merchant.MerchantId}`);
             const data=await res.json();
             if(data.success)orders=data.data||[];
             renderOrders();renderRecentOrders()
