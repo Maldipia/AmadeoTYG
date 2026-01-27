@@ -669,11 +669,12 @@ function updateCustomerProfile(data) {
           }
         });
         
-        // Update password if provided
-        if (data.newPassword) {
+        // Update password if provided (accept both 'password' and 'newPassword')
+        const newPassword = data.password || data.newPassword;
+        if (newPassword) {
           const passwordCol = headers.indexOf('Password');
           if (passwordCol !== -1) {
-            sheet.getRange(i + 1, passwordCol + 1).setValue(hashPassword(data.newPassword));
+            sheet.getRange(i + 1, passwordCol + 1).setValue(hashPassword(newPassword));
           }
         }
         
