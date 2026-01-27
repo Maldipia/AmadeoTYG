@@ -1183,9 +1183,9 @@
                     <i class="fas fa-truck"></i>
                     <span>Track Order</span>
                 </a>
-                <a href="/login" class="header-btn">
+                <a href="/login" class="header-btn" id="accountLink">
                     <i class="fas fa-user"></i>
-                    <span>Login</span>
+                    <span id="accountText">Login</span>
                 </a>
                 <button class="header-btn cart-btn" onclick="openCart()">
                     <i class="fas fa-shopping-cart"></i>
@@ -1517,7 +1517,27 @@
         loadCart();
         loadData();
         setupEventListeners();
+        checkCustomerLogin();
     });
+    
+    // Check if customer is logged in and update header
+    function checkCustomerLogin() {
+        var customer = localStorage.getItem('amadeo_customer');
+        if (customer) {
+            try {
+                var customerData = JSON.parse(customer);
+                var accountLink = document.getElementById('accountLink');
+                var accountText = document.getElementById('accountText');
+                
+                if (accountLink && accountText) {
+                    accountLink.href = '/account';
+                    accountText.textContent = customerData.Name ? customerData.Name.split(' ')[0] : 'Account';
+                }
+            } catch (e) {
+                console.error('Error loading customer data:', e);
+            }
+        }
+    }
     
     // Setup event listeners
     function setupEventListeners() {
@@ -2251,6 +2271,22 @@
         }
         
         closeCart();
+        
+        // Pre-fill form if customer is logged in
+        var customer = localStorage.getItem('amadeo_customer');
+        if (customer) {
+            try {
+                var customerData = JSON.parse(customer);
+                document.getElementById('customerName').value = customerData.Name || '';
+                document.getElementById('customerPhone').value = customerData.Phone || '';
+                document.getElementById('customerEmail').value = customerData.Email || '';
+                document.getElementById('deliveryBarangay').value = customerData.Barangay || '';
+                document.getElementById('deliveryAddress').value = customerData.Address || '';
+            } catch (e) {
+                console.error('Error loading customer data:', e);
+            }
+        }
+        
         renderCheckoutSummary();
         document.getElementById('checkoutModal').classList.add('active');
     }
