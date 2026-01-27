@@ -600,10 +600,33 @@
     
     function checkHash(){const h=window.location.hash.replace('#','');if(h)showSection(h)}
     
-    function loadMerchant(){
+        function loadMerchant(){
         const stored=localStorage.getItem('amadeo_merchant');
-        if(stored){merchant=JSON.parse(stored);displayMerchant();loadData()}
-        else window.location.href='/merchant-login'
+        console.log('Loading merchant from localStorage:', stored);
+        
+        if(stored && stored !== 'undefined' && stored !== 'null'){
+            try {
+                merchant=JSON.parse(stored);
+                console.log('Parsed merchant:', merchant);
+                
+                if (!merchant || !merchant.MerchantId) {
+                    console.error('Invalid merchant data - missing MerchantId');
+                    localStorage.clear();
+                    window.location.href='/merchant-login?error=invalid_data';
+                    return;
+                }
+                
+                displayMerchant();
+                loadData();
+            } catch (e) {
+                console.error('Error parsing merchant data:', e);
+                localStorage.clear();
+                window.location.href='/merchant-login?error=parse_error';
+            }
+        } else {
+            console.log('No valid merchant data found, redirecting to login');
+            window.location.href='/merchant-login';
+        }
     }
     
     function displayMerchant(){
