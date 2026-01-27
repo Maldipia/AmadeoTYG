@@ -548,7 +548,7 @@ function getCustomerOrders(phone) {
 // TRACK ORDER (Public)
 // ============================================================
 
-function trackOrder(orderId, phone) {
+function trackOrder(orderId, phone, token) {
   try {
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const sheet = ss.getSheetByName('Orders');
@@ -560,16 +560,22 @@ function trackOrder(orderId, phone) {
       const order = {};
       headers.forEach((h, idx) => order[h] = row[idx]);
       
-      if (order.OrderId === orderId && order.CustomerPhone === phone) {
+      // Support both token-based (new) and phone-based (legacy) tracking
+      const isValidToken = token && order.TrackingToken && order.TrackingToken === token;
+      const isValidPhone = !token && order.CustomerPhone === phone;
+      
+      if (order.OrderId === orderId && (isValidToken || isValidPhone)) {
         // Parse items if JSON string
         if (typeof order.Items === 'string') {
           try { order.Items = JSON.parse(order.Items); } catch (e) { order.Items = []; }
         }
+        // Don't expose tracking token in response
+        delete order.TrackingToken;
         return { success: true, order: order };
       }
     }
     
-    return { success: false, error: 'Order not found or phone mismatch' };
+    return { success: false, error: 'Order not found or invalid credentials' };
     
   } catch (error) {
     return { success: false, error: error.toString() };
@@ -586,11 +592,14 @@ function createOrder(data) {
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const ordersSheet = ss.getSheetByName('Orders');
     
-    // Generate Order ID
+    // Generate Order ID with improved randomness
     const now = new Date();
     const dateStr = Utilities.formatDate(now, 'Asia/Manila', 'yyyyMMdd');
-    const uniqueId = now.getTime().toString().slice(-4);
+    const uniqueId = Utilities.getUuid().split('-')[0].toUpperCase(); // 8 random chars
     const orderId = data.orderId || `AMV-${dateStr}-${uniqueId}`;
+    
+    // Generate tracking token for secure order tracking
+    const trackingToken = Utilities.getUuid();
     
     // Get merchant details for confirmation
     const merchant = getMerchantById(data.merchantId);
@@ -635,6 +644,7 @@ function createOrder(data) {
         case 'FulfillmentType': return data.fulfillmentType || 'pickup';
         case 'ScheduledTime': return data.scheduledTime || '';
         case 'CourierStatus': return data.fulfillmentType === 'courier' ? 'pending' : '';
+        case 'TrackingToken': return trackingToken;
         case 'CreatedAt': return now;
         case 'UpdatedAt': return now;
         default: return '';
@@ -647,6 +657,7 @@ function createOrder(data) {
     return {
       success: true,
       orderId: orderId,
+      trackingToken: trackingToken,
       total: total,
       fulfillmentType: data.fulfillmentType || 'pickup',
       scheduledTime: data.scheduledTime || '',
@@ -1149,7 +1160,7 @@ function doGet(e) {
     case 'getProducts': result = getProducts(e.parameter.merchantId); break;
     case 'getMerchantOrders': result = getMerchantOrders(e.parameter.merchantId); break;
     case 'getCustomerOrders': result = getCustomerOrders(e.parameter.phone); break;
-    case 'trackOrder': result = trackOrder(e.parameter.orderId, e.parameter.phone); break;
+    case 'trackOrder': result = trackOrder(e.parameter.orderId, e.parameter.phone, e.parameter.token); break;
     case 'merchantLogin': result = merchantLogin(e.parameter.email, e.parameter.password); break;
     case 'customerLogin': result = customerLogin(e.parameter.email, e.parameter.password); break;
     case 'adminLogin': result = adminLogin(e.parameter.username, e.parameter.password); break;

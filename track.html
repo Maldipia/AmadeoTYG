@@ -4,264 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track Order - Amadeo Marketplace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary: #0f766e;
-            --primary-dark: #0d5f58;
-            --primary-light: #14b8a6;
-            --secondary: #ff9800;
-            --background: #f5f5f5;
-            --surface: #ffffff;
-            --text-primary: #212121;
-            --text-secondary: #757575;
-            --border: #e0e0e0;
-            --success: #4caf50;
-            --warning: #ff9800;
-            --error: #f44336;
-            --shadow: 0 2px 8px rgba(0,0,0,0.1);
-            --shadow-lg: 0 4px 16px rgba(0,0,0,0.15);
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--background);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
-        .track-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            margin-bottom: 2rem;
-        }
-        
-        .search-box {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .search-box input {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 1rem;
-        }
-        
-        .search-box button {
-            padding: 1rem 2rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .search-box button:hover {
-            background: var(--primary-dark);
-        }
-        
-        .order-details {
-            display: none;
-            margin-top: 2rem;
-        }
-        
-        .order-details.active {
-            display: block;
-        }
-        
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border);
-            margin-bottom: 1.5rem;
-        }
-        
-        .order-id {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        
-        .order-status {
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        
-        .status-pending {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-        
-        .status-processing {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-        
-        .status-shipped {
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-        
-        .status-delivered {
-            background: #e8f5e9;
-            color: #388e3c;
-        }
-        
-        .status-cancelled {
-            background: #ffebee;
-            color: #d32f2f;
-        }
-        
-        .order-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .info-item {
-            padding: 1rem;
-            background: var(--background);
-            border-radius: 8px;
-        }
-        
-        .info-label {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.25rem;
-        }
-        
-        .info-value {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        
-        .order-items {
-            margin-top: 2rem;
-        }
-        
-        .order-items h3 {
-            margin-bottom: 1rem;
-        }
-        
-        .order-item {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--background);
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-        }
-        
-        .item-image {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        
-        .item-info {
-            flex: 1;
-        }
-        
-        .item-name {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-        
-        .item-price {
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .error-message {
-            display: none;
-            padding: 1rem;
-            background: #ffebee;
-            color: #d32f2f;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-        
-        .error-message.active {
-            display: block;
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-        }
-        
-        .loading.active {
-            display: block;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { width: 100%; max-width: 600px; }
+        .track-card { background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); padding: 40px; }
+        h1 { text-align: center; color: #333; margin-bottom: 30px; font-size: 28px; }
+        .search-box { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .search-box input { padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; transition: border-color 0.3s; }
+        .search-box input:focus { outline: none; border-color: #667eea; }
+        .search-box button { padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        .search-box button:hover { transform: translateY(-2px); }
+        .help-text { text-align: center; font-size: 12px; color: #666; margin-top: 10px; line-height: 1.6; }
+        .loading { display: none; text-align: center; padding: 40px; }
+        .loading.active { display: block; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #667eea; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .error-message { display: none; background: #fee; color: #c33; padding: 15px; border-radius: 10px; margin: 20px 0; text-align: center; }
+        .error-message.active { display: block; }
+        .order-details { display: none; margin-top: 30px; }
+        .order-details.active { display: block; }
+        .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #f0f0f0; }
+        .order-id { font-size: 18px; font-weight: 600; color: #333; }
+        .order-status { padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-confirmed { background: #d1ecf1; color: #0c5460; }
+        .status-preparing { background: #d1ecf1; color: #0c5460; }
+        .status-out_for_delivery { background: #cfe2ff; color: #084298; }
+        .status-delivered { background: #d1e7dd; color: #0f5132; }
+        .status-cancelled { background: #f8d7da; color: #842029; }
+        .order-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .info-item { }
+        .info-label { font-size: 12px; color: #666; margin-bottom: 5px; }
+        .info-value { font-size: 16px; color: #333; font-weight: 500; }
+        .order-items h3 { font-size: 18px; color: #333; margin-bottom: 15px; }
+        .item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .item:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1><i class="fas fa-shipping-fast"></i> Track Your Order</h1>
-        <p>Enter your order ID to track your delivery</p>
-    </div>
-    
     <div class="container">
         <div class="track-card">
+            <h1><i class="fas fa-shipping-fast"></i> Track Your Order</h1>
             <div class="search-box">
-                <input type="text" id="orderIdInput" placeholder="Enter Order ID (e.g., ORD-1234567890)">
-                <button onclick="trackOrder()"><i class="fas fa-search"></i> Track</button>
+                <input type="text" id="orderIdInput" placeholder="Enter Order ID (e.g., AMV-20251211-ABCD1234)">
+                <input type="text" id="tokenInput" placeholder="Tracking Token (optional, for new orders)">
+                <button onclick="trackOrder()"><i class="fas fa-search"></i> Track Order</button>
             </div>
+            <p class="help-text">
+                <strong>New orders:</strong> Use Order ID + Tracking Token<br>
+                <strong>Old orders:</strong> Use Order ID only (phone verification required)
+            </p>
             
             <div class="loading" id="loading">
                 <div class="spinner"></div>
@@ -286,8 +80,8 @@
                         <div class="info-value" id="orderTotal"></div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">Merchant</div>
-                        <div class="info-value" id="orderMerchant"></div>
+                        <div class="info-label">Customer</div>
+                        <div class="info-value" id="orderCustomer"></div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">Delivery Address</div>
@@ -318,58 +112,74 @@
             document.getElementById('errorMessage').classList.remove('active');
             document.getElementById('orderDetails').classList.remove('active');
             
-            const phone = prompt('Please enter your phone number for verification:');
-            if (!phone) {
-                document.getElementById('loading').classList.remove('active');
-                return;
-            }
+            const token = document.getElementById('tokenInput').value.trim();
             
-            fetch(`${API_BASE}?action=trackOrder&orderId=${orderId}&phone=${encodeURIComponent(phone)}`)
-                .then(r => r.json())
-                .then(data => {
+            if (token) {
+                fetch(`${API_BASE}?action=trackOrder&orderId=${orderId}&token=${encodeURIComponent(token)}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        document.getElementById('loading').classList.remove('active');
+                        if (data.success && data.order) {
+                            displayOrder(data.order);
+                        } else {
+                            showError('Order not found. Please check your order ID and tracking token.');
+                        }
+                    })
+                    .catch(err => {
+                        document.getElementById('loading').classList.remove('active');
+                        showError('Failed to track order. Please try again later.');
+                    });
+            } else {
+                const phone = prompt('Please enter your phone number for verification:');
+                if (!phone) {
                     document.getElementById('loading').classList.remove('active');
-                    
-                    if (data.success && data.order) {
-                        displayOrder(data.order);
-                    } else {
-                        showError('Order not found. Please check your order ID and try again.');
-                    }
-                })
-                .catch(err => {
-                    document.getElementById('loading').classList.remove('active');
-                    showError('Failed to track order. Please try again later.');
-                    console.error(err);
-                });
+                    return;
+                }
+                
+                fetch(`${API_BASE}?action=trackOrder&orderId=${orderId}&phone=${encodeURIComponent(phone)}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        document.getElementById('loading').classList.remove('active');
+                        if (data.success && data.order) {
+                            displayOrder(data.order);
+                        } else {
+                            showError('Order not found. Please check your order ID and phone number.');
+                        }
+                    })
+                    .catch(err => {
+                        document.getElementById('loading').classList.remove('active');
+                        showError('Failed to track order. Please try again later.');
+                    });
+            }
         }
         
         function displayOrder(order) {
             document.getElementById('orderId').textContent = order.OrderId;
             document.getElementById('orderDate').textContent = new Date(order.CreatedAt).toLocaleDateString();
-            document.getElementById('orderTotal').textContent = '₱' + parseFloat(order.TotalAmount).toFixed(2);
-            document.getElementById('orderMerchant').textContent = order.MerchantName || 'N/A';
+            document.getElementById('orderTotal').textContent = '₱' + parseFloat(order.Total || order.TotalAmount || 0).toFixed(2);
+            document.getElementById('orderCustomer').textContent = order.CustomerName || 'N/A';
             document.getElementById('orderAddress').textContent = order.DeliveryAddress || 'N/A';
             
             const statusEl = document.getElementById('orderStatus');
-            statusEl.textContent = order.Status;
-            statusEl.className = 'order-status status-' + order.Status.toLowerCase();
+            statusEl.textContent = (order.Status || 'pending').toUpperCase();
+            statusEl.className = 'order-status status-' + (order.Status || 'pending').toLowerCase();
             
-            // Display order items
             const itemsList = document.getElementById('orderItemsList');
             itemsList.innerHTML = '';
             
-            if (order.Items && order.Items.length > 0) {
-                order.Items.forEach(item => {
-                    const itemEl = document.createElement('div');
-                    itemEl.className = 'order-item';
-                    itemEl.innerHTML = `
-                        <img src="${item.Image || '/placeholder.png'}" alt="${item.Name}" class="item-image">
-                        <div class="item-info">
-                            <div class="item-name">${item.Name}</div>
-                            <div class="item-price">₱${parseFloat(item.Price).toFixed(2)} x ${item.Quantity}</div>
-                        </div>
+            try {
+                const items = typeof order.Items === 'string' ? JSON.parse(order.Items) : order.Items;
+                items.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'item';
+                    itemDiv.innerHTML = `
+                        <span>${item.name} x${item.quantity}</span>
+                        <span>₱${parseFloat(item.price).toFixed(2)}</span>
                     `;
-                    itemsList.appendChild(itemEl);
+                    itemsList.appendChild(itemDiv);
                 });
+            } catch (e) {
+                itemsList.innerHTML = '<p>Unable to load order items</p>';
             }
             
             document.getElementById('orderDetails').classList.add('active');
@@ -381,11 +191,11 @@
             errorEl.classList.add('active');
         }
         
-        // Allow Enter key to trigger search
         document.getElementById('orderIdInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                trackOrder();
-            }
+            if (e.key === 'Enter') trackOrder();
+        });
+        document.getElementById('tokenInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') trackOrder();
         });
     </script>
 </body>

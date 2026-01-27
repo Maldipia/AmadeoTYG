@@ -2333,7 +2333,9 @@
                 closeCheckout();
                 
                 var orderRef = data.orderReference || data.orderId || 'AMV-' + Date.now();
-                alert('Order placed successfully!\n\nOrder Reference: ' + orderRef + '\n\nYou can track your order at /track');
+                var trackingToken = data.trackingToken || '';
+                var trackingMsg = trackingToken ? '\n\nTracking Token: ' + trackingToken + '\n\n⚠️ SAVE THIS TOKEN! You will need it to track your order.' : '';
+                alert('Order placed successfully!\n\nOrder ID: ' + orderRef + trackingMsg + '\n\nYou can track your order at /track');
                 
                 document.getElementById('checkoutForm').reset();
             } else {
