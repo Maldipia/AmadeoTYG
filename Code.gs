@@ -104,6 +104,96 @@ function setupCompleteSchema() {
 
 
 // ============================================================
+// PASSWORD HASHING
+// ============================================================
+
+function hashPassword(password) {
+  const salt = 'AMADEO_MARKETPLACE_2025_SECURE_SALT';
+  const combined = password + salt;
+  const hash = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, combined);
+  return hash.map(b => ('0' + (b & 0xFF).toString(16)).slice(-2)).join('');
+}
+
+function verifyPassword(inputPassword, storedHash) {
+  return hashPassword(inputPassword) === storedHash;
+}
+
+
+// ============================================================
+// SESSION TOKEN SYSTEM
+// ============================================================
+
+function getOrCreateSheet(name) {
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  let sheet = ss.getSheetByName(name);
+  
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    // Add headers based on sheet type
+    if (name === 'Sessions') {
+      sheet.appendRow(['Token', 'MerchantId', 'CreatedAt', 'ExpiresAt', 'Status']);
+    } else if (name === 'RateLimits') {
+      sheet.appendRow(['Identifier', 'Count', 'WindowStart', 'LastRequest']);
+    }
+  }
+  
+  return sheet;
+}
+
+function generateSessionToken(merchantId) {
+  const token = Utilities.getUuid();
+  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+  
+  // Store session in Sessions sheet
+  const sheet = getOrCreateSheet('Sessions');
+  sheet.appendRow([
+    token,
+    merchantId,
+    new Date().toISOString(),
+    expiresAt.toISOString(),
+    'active'
+  ]);
+  
+  return token;
+}
+
+function validateSessionToken(token) {
+  if (!token) return { valid: false, error: 'No token provided' };
+  
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const sheet = ss.getSheetByName('Sessions');
+  if (!sheet) return { valid: false, error: 'Sessions not configured' };
+  
+  const rows = sheet.getDataRange().getValues();
+  const headers = rows[0];
+  
+  for (let i = 1; i < rows.length; i++) {
+    const session = {};
+    headers.forEach((h, idx) => session[h] = rows[i][idx]);
+    
+    if (session.Token === token) {
+      // Check if expired
+      if (new Date(session.ExpiresAt) < new Date()) {
+        return { valid: false, error: 'Token expired' };
+      }
+      
+      // Check if active
+      if (session.Status !== 'active') {
+        return { valid: false, error: 'Token revoked' };
+      }
+      
+      return { 
+        valid: true, 
+        merchantId: session.MerchantId 
+      };
+    }
+  }
+  
+  return { valid: false, error: 'Invalid token' };
+}
+
+
+// ============================================================
 // MERCHANT LOGIN
 // ============================================================
 
@@ -119,15 +209,27 @@ function merchantLogin(email, password) {
       const merchant = {};
       headers.forEach((h, idx) => merchant[h] = row[idx]);
       
-      if (merchant.Email === email && merchant.Password === password) {
-        // Don't send password back
-        delete merchant.Password;
+      if (merchant.Email === email) {
+        // Verify password (supports both hashed and legacy plaintext)
+        const isValidPassword = merchant.Password.length === 64 
+          ? verifyPassword(password, merchant.Password)
+          : merchant.Password === password;
         
-        return {
-          success: true,
-          data: merchant,
-          message: 'Login successful'
-        };
+        if (isValidPassword) {
+          // Generate session token
+          const sessionToken = generateSessionToken(merchant.MerchantId);
+          
+          // Don't send password back
+          delete merchant.Password;
+          
+          return {
+            success: true,
+            merchant: merchant,
+            sessionToken: sessionToken,
+            expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+            message: 'Login successful'
+          };
+        }
       }
     }
     
@@ -218,7 +320,7 @@ function customerSignup(data) {
         case 'CustomerId': return customerId;
         case 'Name': return data.name || '';
         case 'Email': return data.email || '';
-        case 'Password': return data.password || '';
+        case 'Password': return data.password ? hashPassword(data.password) : '';
         case 'Phone': return data.phone || '';
         case 'Barangay': return data.barangay || '';
         case 'Address': return data.address || '';
@@ -353,7 +455,7 @@ function registerMerchant(data) {
         case 'OperatingHours': return data.operatingHours || '';
         case 'BusinessType': return data.businessType || data.category || '';
         case 'Status': return 'pending';
-        case 'Password': return data.password || '';
+        case 'Password': return data.password ? hashPassword(data.password) : '';
         case 'CreatedAt': return now;
         case 'UpdatedAt': return now;
         case 'LogoUrl': return '';
@@ -394,12 +496,17 @@ function registerMerchant(data) {
 // UPDATE STORE STATUS (IsOpen)
 // ============================================================
 
-function updateStoreStatus(merchantId, isOpen) {
+function updateStoreStatus(data) {
   try {
+    // Verify merchant is updating their own store
+    if (data.merchantId !== data.authenticatedMerchantId) {
+      return { success: false, error: 'Not authorized to update this store' };
+    }
+    
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const sheet = ss.getSheetByName('Merchants');
-    const data = sheet.getDataRange().getValues();
-    const headers = data[0];
+    const rows = sheet.getDataRange().getValues();
+    const headers = rows[0];
     
     const idCol = headers.indexOf('MerchantId');
     const isOpenCol = headers.indexOf('IsOpen');
@@ -408,14 +515,14 @@ function updateStoreStatus(merchantId, isOpen) {
       return { success: false, error: 'IsOpen column not found. Run setupCompleteSchema() first.' };
     }
     
-    for (let i = 1; i < data.length; i++) {
-      if (data[i][idCol] === merchantId) {
-        sheet.getRange(i + 1, isOpenCol + 1).setValue(isOpen ? 'TRUE' : 'FALSE');
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i][idCol] === data.merchantId) {
+        sheet.getRange(i + 1, isOpenCol + 1).setValue(data.isOpen ? 'TRUE' : 'FALSE');
         clearCache();
         return { 
           success: true, 
-          isOpen: isOpen,
-          message: isOpen ? 'Store is now OPEN' : 'Store is now CLOSED'
+          isOpen: data.isOpen,
+          message: data.isOpen ? 'Store is now OPEN' : 'Store is now CLOSED'
         };
       }
     }
@@ -432,22 +539,27 @@ function updateStoreStatus(merchantId, isOpen) {
 // UPDATE MERCHANT FULFILLMENT SETTINGS
 // ============================================================
 
-function updateMerchantSettings(merchantId, settings) {
+function updateMerchantSettings(data) {
   try {
+    // Verify merchant is updating their own settings
+    if (data.merchantId !== data.authenticatedMerchantId) {
+      return { success: false, error: 'Not authorized to update this merchant' };
+    }
+    
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const sheet = ss.getSheetByName('Merchants');
-    const data = sheet.getDataRange().getValues();
-    const headers = data[0];
+    const rows = sheet.getDataRange().getValues();
+    const headers = rows[0];
     
     const idCol = headers.indexOf('MerchantId');
     
-    for (let i = 1; i < data.length; i++) {
-      if (data[i][idCol] === merchantId) {
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i][idCol] === data.merchantId) {
         // Update each setting if provided
-        Object.keys(settings).forEach(key => {
+        Object.keys(data.settings).forEach(key => {
           const col = headers.indexOf(key);
           if (col !== -1) {
-            sheet.getRange(i + 1, col + 1).setValue(settings[key]);
+            sheet.getRange(i + 1, col + 1).setValue(data.settings[key]);
           }
         });
         
@@ -768,6 +880,11 @@ function getMerchants() {
 
 function addProduct(data) {
   try {
+    // Verify merchant is adding to their own store
+    if (data.merchantId !== data.authenticatedMerchantId) {
+      return { success: false, error: 'Not authorized to add products for this merchant' };
+    }
+    
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const sheet = ss.getSheetByName('Products');
     const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
@@ -831,7 +948,7 @@ function addProduct(data) {
 }
 
 
-function updateProduct(productId, data) {
+function updateProduct(data) {
   try {
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const sheet = ss.getSheetByName('Products');
@@ -839,9 +956,15 @@ function updateProduct(productId, data) {
     const headers = sheetData[0];
     
     const idCol = headers.indexOf('ProductId');
+    const merchantIdCol = headers.indexOf('MerchantId');
     
     for (let i = 1; i < sheetData.length; i++) {
-      if (sheetData[i][idCol] === productId) {
+      if (sheetData[i][idCol] === data.productId) {
+        // Verify merchant owns this product
+        if (sheetData[i][merchantIdCol] !== data.authenticatedMerchantId) {
+          return { success: false, error: 'Not authorized to modify this product' };
+        }
+        
         // Handle image upload if new image provided
         if (data.imageData && data.imageData.startsWith('data:')) {
           const uploadResult = uploadImage({
@@ -899,17 +1022,23 @@ function updateProduct(productId, data) {
 }
 
 
-function deleteProduct(productId) {
+function deleteProduct(data) {
   try {
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const sheet = ss.getSheetByName('Products');
-    const data = sheet.getDataRange().getValues();
-    const headers = data[0];
+    const rows = sheet.getDataRange().getValues();
+    const headers = rows[0];
     
     const idCol = headers.indexOf('ProductId');
+    const merchantIdCol = headers.indexOf('MerchantId');
     
-    for (let i = 1; i < data.length; i++) {
-      if (data[i][idCol] === productId) {
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i][idCol] === data.productId) {
+        // Verify merchant owns this product
+        if (rows[i][merchantIdCol] !== data.authenticatedMerchantId) {
+          return { success: false, error: 'Not authorized to delete this product' };
+        }
+        
         sheet.deleteRow(i + 1);
         clearCache();
         return { success: true, message: 'Product deleted' };
@@ -1043,25 +1172,31 @@ function getAllInventory() {
 // UPDATE ORDER STATUS
 // ============================================================
 
-function updateOrderStatus(orderId, status, courierStatus) {
+function updateOrderStatus(data) {
   try {
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const sheet = ss.getSheetByName('Orders');
-    const data = sheet.getDataRange().getValues();
-    const headers = data[0];
+    const rows = sheet.getDataRange().getValues();
+    const headers = rows[0];
     
     const orderIdCol = headers.indexOf('OrderId');
+    const merchantIdCol = headers.indexOf('MerchantId');
     const statusCol = headers.indexOf('Status');
     const courierStatusCol = headers.indexOf('CourierStatus');
     const updatedAtCol = headers.indexOf('UpdatedAt');
     
-    for (let i = 1; i < data.length; i++) {
-      if (data[i][orderIdCol] === orderId) {
-        if (status && statusCol !== -1) {
-          sheet.getRange(i + 1, statusCol + 1).setValue(status);
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i][orderIdCol] === data.orderId) {
+        // Verify merchant owns this order
+        if (rows[i][merchantIdCol] !== data.authenticatedMerchantId) {
+          return { success: false, error: 'Not authorized to modify this order' };
         }
-        if (courierStatus && courierStatusCol !== -1) {
-          sheet.getRange(i + 1, courierStatusCol + 1).setValue(courierStatus);
+        
+        if (data.status && statusCol !== -1) {
+          sheet.getRange(i + 1, statusCol + 1).setValue(data.status);
+        }
+        if (data.courierStatus && courierStatusCol !== -1) {
+          sheet.getRange(i + 1, courierStatusCol + 1).setValue(data.courierStatus);
         }
         if (updatedAtCol !== -1) {
           sheet.getRange(i + 1, updatedAtCol + 1).setValue(new Date());
@@ -1173,24 +1308,58 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+// Authentication wrapper
+function requireAuth(data) {
+  const token = data.sessionToken || data.token;
+  const validation = validateSessionToken(token);
+  
+  if (!validation.valid) {
+    return { 
+      success: false, 
+      error: 'Authentication required',
+      code: 'AUTH_REQUIRED'
+    };
+  }
+  
+  return { valid: true, merchantId: validation.merchantId };
+}
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
     let result;
     
+    // Public endpoints (no auth required)
+    const publicEndpoints = ['createOrder', 'registerMerchant', 'merchantLogin', 'customerLogin', 'customerSignup'];
+    
+    // Protected endpoints (require auth)
+    const protectedEndpoints = ['updateOrderStatus', 'addProduct', 'updateProduct', 'deleteProduct', 'uploadImage', 'updateStoreStatus', 'updateMerchantSettings', 'merchantLogout'];
+    
+    // Check auth for protected endpoints
+    if (protectedEndpoints.includes(data.action)) {
+      const auth = requireAuth(data);
+      if (!auth.valid) {
+        return ContentService.createTextOutput(JSON.stringify(auth))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
+      // Add authenticated merchantId to data
+      data.authenticatedMerchantId = auth.merchantId;
+    }
+    
     switch(data.action) {
       case 'merchantLogin': result = merchantLogin(data.email, data.password); break;
-      case 'updateStoreStatus': result = updateStoreStatus(data.merchantId, data.isOpen); break;
-      case 'updateMerchantSettings': result = updateMerchantSettings(data.merchantId, data.settings); break;
+      case 'updateStoreStatus': result = updateStoreStatus(data); break;
+      case 'updateMerchantSettings': result = updateMerchantSettings(data); break;
       case 'createOrder': result = createOrder(data); break;
-      case 'updateOrderStatus': result = updateOrderStatus(data.orderId, data.status, data.courierStatus); break;
+      case 'updateOrderStatus': result = updateOrderStatus(data); break;
       case 'addProduct': result = addProduct(data); break;
-      case 'updateProduct': result = updateProduct(data.productId, data); break;
-      case 'deleteProduct': result = deleteProduct(data.productId); break;
+      case 'updateProduct': result = updateProduct(data); break;
+      case 'deleteProduct': result = deleteProduct(data); break;
       case 'uploadImage': result = uploadImage(data); break;
       case 'registerMerchant': result = registerMerchant(data); break;
       case 'customerLogin': result = customerLogin(data.email, data.password); break;
       case 'customerSignup': result = customerSignup(data); break;
+      case 'merchantLogout': result = merchantLogout(data); break;
       default: result = { error: 'Unknown action' };
     }
     
