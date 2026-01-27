@@ -120,6 +120,73 @@ function verifyPassword(inputPassword, storedHash) {
 
 
 // ============================================================
+// RATE LIMITING SYSTEM
+// ============================================================
+
+function checkRateLimit(identifier, maxRequests, windowSeconds) {
+  const sheet = getOrCreateSheet('RateLimits');
+  const rows = sheet.getDataRange().getValues();
+  const headers = rows[0];
+  const now = new Date();
+  const windowMs = windowSeconds * 1000;
+  
+  // Find existing record
+  for (let i = 1; i < rows.length; i++) {
+    const record = {};
+    headers.forEach((h, idx) => record[h] = rows[i][idx]);
+    record.rowIndex = i + 1;
+    
+    if (record.Identifier === identifier) {
+      const windowStart = new Date(record.WindowStart);
+      
+      // Check if window expired
+      if (now - windowStart > windowMs) {
+        // Reset window
+        sheet.getRange(record.rowIndex, 2).setValue(1);
+        sheet.getRange(record.rowIndex, 3).setValue(now.toISOString());
+        sheet.getRange(record.rowIndex, 4).setValue(now.toISOString());
+        return { allowed: true, remaining: maxRequests - 1 };
+      }
+      
+      // Check if over limit
+      if (record.Count >= maxRequests) {
+        const resetTime = new Date(windowStart.getTime() + windowMs);
+        return { 
+          allowed: false, 
+          remaining: 0,
+          resetAt: resetTime.toISOString(),
+          error: 'Rate limit exceeded. Try again later.'
+        };
+      }
+      
+      // Increment counter
+      sheet.getRange(record.rowIndex, 2).setValue(record.Count + 1);
+      sheet.getRange(record.rowIndex, 4).setValue(now.toISOString());
+      return { allowed: true, remaining: maxRequests - record.Count - 1 };
+    }
+  }
+  
+  // New identifier - create record
+  sheet.appendRow([identifier, 1, now.toISOString(), now.toISOString()]);
+  return { allowed: true, remaining: maxRequests - 1 };
+}
+
+const RATE_LIMITS = {
+  createOrder: { max: 10, window: 60 },
+  registerMerchant: { max: 5, window: 300 },
+  merchantLogin: { max: 10, window: 60 },
+  addProduct: { max: 20, window: 60 },
+  updateProduct: { max: 30, window: 60 },
+  deleteProduct: { max: 10, window: 60 },
+  default: { max: 60, window: 60 }
+};
+
+function getRateLimitConfig(action) {
+  return RATE_LIMITS[action] || RATE_LIMITS.default;
+}
+
+
+// ============================================================
 // SESSION TOKEN SYSTEM
 // ============================================================
 
@@ -190,6 +257,90 @@ function validateSessionToken(token) {
   }
   
   return { valid: false, error: 'Invalid token' };
+}
+
+function merchantLogout(data) {
+  try {
+    const token = data.sessionToken;
+    if (!token) {
+      return { success: true, message: 'Already logged out' };
+    }
+    
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('Sessions');
+    if (!sheet) return { success: true };
+    
+    const rows = sheet.getDataRange().getValues();
+    const headers = rows[0];
+    const statusCol = headers.indexOf('Status');
+    
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i][0] === token) {
+        sheet.getRange(i + 1, statusCol + 1).setValue('revoked');
+        break;
+      }
+    }
+    
+    return { success: true, message: 'Logged out successfully' };
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+function cleanupExpiredSessions() {
+  try {
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('Sessions');
+    if (!sheet) return { success: true, cleaned: 0 };
+    
+    const rows = sheet.getDataRange().getValues();
+    const now = new Date();
+    const rowsToDelete = [];
+    
+    for (let i = rows.length - 1; i >= 1; i--) {
+      const expiresAt = new Date(rows[i][3]);
+      const status = rows[i][4];
+      
+      // Delete if expired more than 7 days ago or revoked more than 1 day ago
+      const daysSinceExpiry = (now - expiresAt) / (24 * 60 * 60 * 1000);
+      if ((status === 'revoked' && daysSinceExpiry > 1) || daysSinceExpiry > 7) {
+        rowsToDelete.push(i + 1);
+      }
+    }
+    
+    rowsToDelete.forEach(row => sheet.deleteRow(row));
+    
+    return { success: true, cleaned: rowsToDelete.length };
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+function cleanupRateLimits() {
+  try {
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('RateLimits');
+    if (!sheet) return { success: true, cleaned: 0 };
+    
+    const rows = sheet.getDataRange().getValues();
+    const now = new Date();
+    const rowsToDelete = [];
+    
+    for (let i = rows.length - 1; i >= 1; i--) {
+      const lastRequest = new Date(rows[i][3]);
+      
+      // Delete if no requests in last hour
+      if (now - lastRequest > 60 * 60 * 1000) {
+        rowsToDelete.push(i + 1);
+      }
+    }
+    
+    rowsToDelete.forEach(row => sheet.deleteRow(row));
+    
+    return { success: true, cleaned: rowsToDelete.length };
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
 }
 
 
@@ -1287,6 +1438,22 @@ function clearCache() {
 
 function doGet(e) {
   const action = e.parameter.action;
+  
+  // Rate limiting
+  const clientId = e.parameter.clientId || 'anonymous';
+  const identifier = `${action}_${clientId}`;
+  const config = getRateLimitConfig(action);
+  const rateCheck = checkRateLimit(identifier, config.max, config.window);
+  
+  if (!rateCheck.allowed) {
+    return ContentService.createTextOutput(JSON.stringify({
+      success: false,
+      error: rateCheck.error,
+      code: 'RATE_LIMITED',
+      resetAt: rateCheck.resetAt
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+  
   let result;
   
   switch(action) {
@@ -1327,6 +1494,23 @@ function requireAuth(data) {
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
+    const action = data.action;
+    
+    // Rate limiting
+    const clientId = data.clientId || data.customerPhone || data.email || 'anonymous';
+    const identifier = `${action}_${clientId}`;
+    const config = getRateLimitConfig(action);
+    const rateCheck = checkRateLimit(identifier, config.max, config.window);
+    
+    if (!rateCheck.allowed) {
+      return ContentService.createTextOutput(JSON.stringify({
+        success: false,
+        error: rateCheck.error,
+        code: 'RATE_LIMITED',
+        resetAt: rateCheck.resetAt
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
     let result;
     
     // Public endpoints (no auth required)
