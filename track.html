@@ -318,13 +318,19 @@
             document.getElementById('errorMessage').classList.remove('active');
             document.getElementById('orderDetails').classList.remove('active');
             
-            fetch(`${API_BASE}?action=getOrder&orderId=${orderId}`)
+            const phone = prompt('Please enter your phone number for verification:');
+            if (!phone) {
+                document.getElementById('loading').classList.remove('active');
+                return;
+            }
+            
+            fetch(`${API_BASE}?action=trackOrder&orderId=${orderId}&phone=${encodeURIComponent(phone)}`)
                 .then(r => r.json())
                 .then(data => {
                     document.getElementById('loading').classList.remove('active');
                     
-                    if (data.success && data.data) {
-                        displayOrder(data.data);
+                    if (data.success && data.order) {
+                        displayOrder(data.order);
                     } else {
                         showError('Order not found. Please check your order ID and try again.');
                     }
