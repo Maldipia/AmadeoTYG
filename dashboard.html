@@ -620,6 +620,59 @@
         document.getElementById('setDesc').value=merchant.Description||'';
     }
     
+    // API call wrapper with authentication
+    async function apiCall(action, data = {}) {
+        const sessionToken = localStorage.getItem('amadeo_session_token');
+        
+        const response = await fetch(API, {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+                action: action,
+                sessionToken: sessionToken,
+                ...data
+            })
+        });
+        
+        const result = await response.json();
+        
+        // Handle auth errors
+        if (result.code === 'AUTH_REQUIRED') {
+            localStorage.clear();
+            alert('Session expired. Please login again.');
+            window.location.href = '/merchant-login?error=session_expired';
+            return null;
+        }
+        
+        // Handle rate limit errors
+        if (result.code === 'RATE_LIMITED') {
+            const resetTime = new Date(result.resetAt);
+            const waitSeconds = Math.ceil((resetTime - new Date()) / 1000);
+            alert(`Too many requests. Please wait ${waitSeconds} seconds.`);
+            return null;
+        }
+        
+        return result;
+    }
+    
+    function logout() {
+        const sessionToken = localStorage.getItem('amadeo_session_token');
+        
+        // Revoke token on server
+        fetch(API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+                action: 'merchantLogout',
+                sessionToken: sessionToken
+            })
+        }).finally(() => {
+            localStorage.clear();
+            window.location.href = '/merchant-login';
+        });
+    }
+    
     async function loadData(){
         await Promise.all([loadOrders(),loadProducts()]);
         updateDashboard()
@@ -849,15 +902,18 @@
         newStatus=newStatus||document.getElementById('newStatus')?.value;
         
         try{
-            const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'updateOrderStatus',orderId:selectedOrder.OrderId,status:newStatus})});
-            const data=await res.json();
+            const data = await apiCall('updateOrderStatus', {
+                orderId: selectedOrder.OrderId,
+                status: newStatus,
+                merchantId: merchant.MerchantId
+            });
             
-            if(data.success){
+            if(data && data.success){
                 toast('Order updated!');
                 closeModal('orderModal');
                 await loadOrders();
                 updateDashboard()
-            }else{throw new Error(data.error)}
+            }else if(data){throw new Error(data.error)}
         }catch(e){alert('Error: '+e.message)}
     }
     
@@ -1002,15 +1058,9 @@
         };
         
         try{
-            const res=await fetch(API,{
-                method:'POST',
-                mode:'cors',
-                headers:{'Content-Type':'text/plain;charset=utf-8'},
-                body:JSON.stringify(data)
-            });
-            const result=await res.json();
+            const result = await apiCall(data.action, data);
             
-            if(result.success){
+            if(result && result.success){
                 toast('Product saved!');
                 closeModal('productModal');
                 await loadProducts();
@@ -1023,14 +1073,16 @@
         if(!confirm('Delete this product?'))return;
         
         try{
-            const res=await fetch(API,{method:'POST',mode:'cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'deleteProduct',productId:id})});
-            const data=await res.json();
+            const data = await apiCall('deleteProduct', {
+                productId: id,
+                merchantId: merchant.MerchantId
+            });
             
-            if(data.success){
+            if(data && data.success){
                 toast('Product deleted');
                 await loadProducts();
                 updateDashboard()
-            }else{throw new Error(data.error)}
+            }else if(data){throw new Error(data.error)}
         }catch(e){alert('Error: '+e.message)}
     }
     

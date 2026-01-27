@@ -237,8 +237,16 @@
         status.className = 'status';
         status.style.display = 'none';
         
-        // Use GET request to avoid CORS issues with Google Apps Script
-        fetch(API_BASE + '?action=merchantLogin&email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password))
+        // Use POST request with session token support
+        fetch(API_BASE, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+                action: 'merchantLogin',
+                email: email,
+                password: password
+            })
+        })
         .then(function(response) {
             return response.json();
         })
@@ -248,7 +256,10 @@
                 status.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
                 status.style.display = 'block';
                 
-                localStorage.setItem('amadeo_merchant', JSON.stringify(data.data));
+                // Store merchant data and session token
+                localStorage.setItem('amadeo_merchant', JSON.stringify(data.merchant));
+                localStorage.setItem('amadeo_session_token', data.sessionToken);
+                localStorage.setItem('amadeo_token_expires', data.expiresAt);
                 
                 setTimeout(function() {
                     window.location.href = '/dashboard';
