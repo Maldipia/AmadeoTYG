@@ -224,6 +224,30 @@ function generateSessionToken(merchantId) {
   return token;
 }
 
+function generateCustomerSessionToken(customerId) {
+  const token = Utilities.getUuid();
+  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+  
+  // Store session in CustomerSessions sheet
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  let sheet = ss.getSheetByName('CustomerSessions');
+  
+  if (!sheet) {
+    sheet = ss.insertSheet('CustomerSessions');
+    sheet.appendRow(['Token', 'CustomerId', 'CreatedAt', 'ExpiresAt', 'Status']);
+  }
+  
+  sheet.appendRow([
+    token,
+    customerId,
+    new Date().toISOString(),
+    expiresAt.toISOString(),
+    'active'
+  ]);
+  
+  return token;
+}
+
 function validateSessionToken(token) {
   if (!token) return { valid: false, error: 'No token provided' };
   
@@ -259,6 +283,41 @@ function validateSessionToken(token) {
   return { valid: false, error: 'Invalid token' };
 }
 
+function validateCustomerSessionToken(token) {
+  if (!token) return { valid: false, error: 'No token provided' };
+  
+  const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+  const sheet = ss.getSheetByName('CustomerSessions');
+  if (!sheet) return { valid: false, error: 'Customer sessions not configured' };
+  
+  const rows = sheet.getDataRange().getValues();
+  const headers = rows[0];
+  
+  for (let i = 1; i < rows.length; i++) {
+    const session = {};
+    headers.forEach((h, idx) => session[h] = rows[i][idx]);
+    
+    if (session.Token === token) {
+      // Check if expired
+      if (new Date(session.ExpiresAt) < new Date()) {
+        return { valid: false, error: 'Token expired' };
+      }
+      
+      // Check if active
+      if (session.Status !== 'active') {
+        return { valid: false, error: 'Token revoked' };
+      }
+      
+      return { 
+        valid: true, 
+        customerId: session.CustomerId 
+      };
+    }
+  }
+  
+  return { valid: false, error: 'Invalid token' };
+}
+
 function merchantLogout(data) {
   try {
     const token = data.sessionToken;
@@ -268,6 +327,34 @@ function merchantLogout(data) {
     
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const sheet = ss.getSheetByName('Sessions');
+    if (!sheet) return { success: true };
+    
+    const rows = sheet.getDataRange().getValues();
+    const headers = rows[0];
+    const statusCol = headers.indexOf('Status');
+    
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i][0] === token) {
+        sheet.getRange(i + 1, statusCol + 1).setValue('revoked');
+        break;
+      }
+    }
+    
+    return { success: true, message: 'Logged out successfully' };
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+function customerLogout(data) {
+  try {
+    const token = data.sessionToken;
+    if (!token) {
+      return { success: true, message: 'Already logged out' };
+    }
+    
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('CustomerSessions');
     if (!sheet) return { success: true };
     
     const rows = sheet.getDataRange().getValues();
@@ -413,7 +500,7 @@ function customerLogin(email, password) {
       const customer = {};
       headers.forEach((h, idx) => customer[h] = row[idx]);
       
-      if (customer.Email === email && customer.Password === password) {
+      if (customer.Email === email && verifyPassword(password, customer.Password)) {
         // Check if customer is active
         if (customer.Status && customer.Status.toLowerCase() !== 'active') {
           return { success: false, error: 'Account is not active. Please contact support.' };
@@ -425,10 +512,14 @@ function customerLogin(email, password) {
           sheet.getRange(i + 1, lastLoginCol + 1).setValue(new Date());
         }
         
+        // Generate session token
+        const sessionToken = generateCustomerSessionToken(customer.CustomerId);
+        
         delete customer.Password;
         return {
           success: true,
           data: customer,
+          sessionToken: sessionToken,
           message: 'Login successful'
         };
       }
@@ -482,12 +573,234 @@ function customerSignup(data) {
     
     sheet.appendRow(rowData);
     
+    // Link existing orders to this customer account
+    if (data.phone) {
+      linkOrdersToCustomer(customerId, data.phone);
+    }
+    
+    // Generate session token for auto-login after signup
+    const sessionToken = generateCustomerSessionToken(customerId);
+    
     return {
       success: true,
       customerId: customerId,
+      sessionToken: sessionToken,
       message: 'Account created successfully'
     };
     
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+
+// ============================================================
+// CUSTOMER ACCOUNT ENDPOINTS
+// ============================================================
+
+// Get customer profile by session token
+function getCustomerProfile(data) {
+  try {
+    const validation = validateCustomerSessionToken(data.sessionToken);
+    if (!validation.valid) {
+      return { success: false, error: 'Authentication required', code: 'AUTH_REQUIRED' };
+    }
+    
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('Customers');
+    if (!sheet) {
+      return { success: false, error: 'Customers sheet not found' };
+    }
+    
+    const data_rows = sheet.getDataRange().getValues();
+    const headers = data_rows[0];
+    
+    for (let i = 1; i < data_rows.length; i++) {
+      const row = data_rows[i];
+      const customer = {};
+      headers.forEach((h, idx) => customer[h] = row[idx]);
+      
+      if (customer.CustomerId === validation.customerId) {
+        delete customer.Password;
+        return {
+          success: true,
+          data: customer
+        };
+      }
+    }
+    
+    return { success: false, error: 'Customer not found' };
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+// Update customer profile
+function updateCustomerProfile(data) {
+  try {
+    const validation = validateCustomerSessionToken(data.sessionToken);
+    if (!validation.valid) {
+      return { success: false, error: 'Authentication required', code: 'AUTH_REQUIRED' };
+    }
+    
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('Customers');
+    if (!sheet) {
+      return { success: false, error: 'Customers sheet not found' };
+    }
+    
+    const rows = sheet.getDataRange().getValues();
+    const headers = rows[0];
+    
+    for (let i = 1; i < rows.length; i++) {
+      const customer = {};
+      headers.forEach((h, idx) => customer[h] = rows[i][idx]);
+      
+      if (customer.CustomerId === validation.customerId) {
+        // Update allowed fields
+        const updateableFields = ['Name', 'Phone', 'Barangay', 'Address'];
+        
+        updateableFields.forEach(field => {
+          if (data[field.toLowerCase()] !== undefined) {
+            const colIndex = headers.indexOf(field);
+            if (colIndex !== -1) {
+              sheet.getRange(i + 1, colIndex + 1).setValue(data[field.toLowerCase()]);
+            }
+          }
+        });
+        
+        // Update password if provided
+        if (data.newPassword) {
+          const passwordCol = headers.indexOf('Password');
+          if (passwordCol !== -1) {
+            sheet.getRange(i + 1, passwordCol + 1).setValue(hashPassword(data.newPassword));
+          }
+        }
+        
+        return {
+          success: true,
+          message: 'Profile updated successfully'
+        };
+      }
+    }
+    
+    return { success: false, error: 'Customer not found' };
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+// Get customer's order history
+function getCustomerOrderHistory(data) {
+  try {
+    const validation = validateCustomerSessionToken(data.sessionToken);
+    if (!validation.valid) {
+      return { success: false, error: 'Authentication required', code: 'AUTH_REQUIRED' };
+    }
+    
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const ordersSheet = ss.getSheetByName('Orders');
+    const customersSheet = ss.getSheetByName('Customers');
+    
+    if (!ordersSheet || !customersSheet) {
+      return { success: false, error: 'Required sheets not found' };
+    }
+    
+    // Get customer's phone number
+    const customerRows = customersSheet.getDataRange().getValues();
+    const customerHeaders = customerRows[0];
+    let customerPhone = null;
+    
+    for (let i = 1; i < customerRows.length; i++) {
+      const customer = {};
+      customerHeaders.forEach((h, idx) => customer[h] = customerRows[i][idx]);
+      
+      if (customer.CustomerId === validation.customerId) {
+        customerPhone = customer.Phone;
+        break;
+      }
+    }
+    
+    if (!customerPhone) {
+      return { success: false, error: 'Customer not found' };
+    }
+    
+    // Normalize phone number (remove leading zeros)
+    const normalizedPhone = customerPhone.toString().replace(/^0+/, '');
+    
+    // Get all orders for this customer
+    const orderRows = ordersSheet.getDataRange().getValues();
+    const orderHeaders = orderRows[0];
+    const orders = [];
+    
+    for (let i = 1; i < orderRows.length; i++) {
+      const row = orderRows[i];
+      const order = {};
+      orderHeaders.forEach((h, idx) => order[h] = row[idx]);
+      
+      // Normalize order phone number for comparison
+      const orderPhone = order.CustomerPhone ? order.CustomerPhone.toString().replace(/^0+/, '') : '';
+      
+      if (orderPhone === normalizedPhone) {
+        orders.push(order);
+      }
+    }
+    
+    // Sort by date (newest first)
+    orders.sort((a, b) => {
+      const dateA = new Date(a.CreatedAt || a.OrderDate);
+      const dateB = new Date(b.CreatedAt || b.OrderDate);
+      return dateB - dateA;
+    });
+    
+    return {
+      success: true,
+      data: orders,
+      count: orders.length
+    };
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+// Link existing orders to customer account (when customer signs up with existing phone)
+function linkOrdersToCustomer(customerId, phone) {
+  try {
+    const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+    const ordersSheet = ss.getSheetByName('Orders');
+    
+    if (!ordersSheet) return { success: false, error: 'Orders sheet not found' };
+    
+    const rows = ordersSheet.getDataRange().getValues();
+    const headers = rows[0];
+    const customerIdCol = headers.indexOf('CustomerId');
+    const phoneCol = headers.indexOf('CustomerPhone');
+    
+    // If CustomerId column doesn't exist, add it
+    if (customerIdCol === -1) {
+      ordersSheet.getRange(1, headers.length + 1).setValue('CustomerId');
+      return { success: true, message: 'CustomerId column added, re-run to link orders' };
+    }
+    
+    // Normalize the phone number
+    const normalizedPhone = phone.toString().replace(/^0+/, '');
+    let linkedCount = 0;
+    
+    // Link orders with matching phone number
+    for (let i = 1; i < rows.length; i++) {
+      const orderPhone = rows[i][phoneCol] ? rows[i][phoneCol].toString().replace(/^0+/, '') : '';
+      
+      if (orderPhone === normalizedPhone && !rows[i][customerIdCol]) {
+        ordersSheet.getRange(i + 1, customerIdCol + 1).setValue(customerId);
+        linkedCount++;
+      }
+    }
+    
+    return {
+      success: true,
+      linkedCount: linkedCount,
+      message: `Linked ${linkedCount} orders to customer account`
+    };
   } catch (error) {
     return { success: false, error: error.toString() };
   }
@@ -825,7 +1138,9 @@ function trackOrder(orderId, phone, token) {
       
       // Support both token-based (new) and phone-based (legacy) tracking
       const isValidToken = token && order.TrackingToken && order.TrackingToken === token;
-      const isValidPhone = !token && order.CustomerPhone === phone;
+      // Normalize phone numbers (remove leading zeros and convert to string for comparison)
+      const normalizePhone = (p) => String(p).replace(/^0+/, '');
+      const isValidPhone = !token && normalizePhone(order.CustomerPhone) === normalizePhone(phone);
       
       if (order.OrderId === orderId && (isValidToken || isValidPhone)) {
         // Parse items if JSON string
@@ -1519,6 +1834,9 @@ function doPost(e) {
     // Protected endpoints (require auth)
     const protectedEndpoints = ['updateOrderStatus', 'addProduct', 'updateProduct', 'deleteProduct', 'uploadImage', 'updateStoreStatus', 'updateMerchantSettings', 'merchantLogout'];
     
+    // Customer protected endpoints
+    const customerProtectedEndpoints = ['getCustomerProfile', 'updateCustomerProfile', 'getCustomerOrderHistory', 'customerLogout'];
+    
     // Check auth for protected endpoints
     if (protectedEndpoints.includes(data.action)) {
       const auth = requireAuth(data);
@@ -1544,6 +1862,10 @@ function doPost(e) {
       case 'customerLogin': result = customerLogin(data.email, data.password); break;
       case 'customerSignup': result = customerSignup(data); break;
       case 'merchantLogout': result = merchantLogout(data); break;
+      case 'getCustomerProfile': result = getCustomerProfile(data); break;
+      case 'updateCustomerProfile': result = updateCustomerProfile(data); break;
+      case 'getCustomerOrderHistory': result = getCustomerOrderHistory(data); break;
+      case 'customerLogout': result = customerLogout(data); break;
       default: result = { error: 'Unknown action' };
     }
     

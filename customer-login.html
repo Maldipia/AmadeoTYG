@@ -248,7 +248,9 @@
                 status.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
                 status.style.display = 'block';
                 
+                // Store customer data and session token
                 localStorage.setItem('amadeo_customer', JSON.stringify(data.data));
+                localStorage.setItem('amadeo_customer_token', data.sessionToken);
                 
                 setTimeout(function() {
                     window.location.href = '/account';

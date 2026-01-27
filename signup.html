@@ -184,8 +184,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="email" placeholder="your@email.com (optional)">
+                    <label>Email Address *</label>
+                    <input type="email" id="email" required placeholder="your@email.com">
                 </div>
                 
                 <div class="form-group">
@@ -305,10 +305,23 @@
             })
             .then(function(result) {
                 if (result.success) {
-                    showStatus('Account created successfully! Redirecting to login...', 'success');
+                    showStatus('Account created successfully! Logging you in...', 'success');
+                    
+                    // Auto-login: Store customer data and session token
+                    var customerData = {
+                        CustomerId: result.customerId,
+                        Name: formData.name,
+                        Email: formData.email,
+                        Phone: formData.phone,
+                        Barangay: formData.barangay,
+                        Address: formData.address
+                    };
+                    localStorage.setItem('amadeo_customer', JSON.stringify(customerData));
+                    localStorage.setItem('amadeo_customer_token', result.sessionToken);
+                    
                     setTimeout(function() {
-                        window.location.href = '/login';
-                    }, 2000);
+                        window.location.href = '/account';
+                    }, 1500);
                 } else {
                     showStatus(result.error || 'Registration failed. Please try again.', 'error');
                     btn.disabled = false;
