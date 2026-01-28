@@ -1626,9 +1626,7 @@
             console.log('Using cached data');
             STATE.merchants = cachedData.merchants;
             STATE.products = cachedData.products;
-            renderMerchants();
-            renderProducts();
-            updateStats();
+            renderContent();
             return;
         }
         
