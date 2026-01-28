@@ -720,35 +720,12 @@ function getCustomerOrderHistory(data) {
     
     const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
     const ordersSheet = ss.getSheetByName('Orders');
-    const customersSheet = ss.getSheetByName('Customers');
     
-    if (!ordersSheet || !customersSheet) {
-      return { success: false, error: 'Required sheets not found' };
+    if (!ordersSheet) {
+      return { success: false, error: 'Orders sheet not found' };
     }
     
-    // Get customer's phone number
-    const customerRows = customersSheet.getDataRange().getValues();
-    const customerHeaders = customerRows[0];
-    let customerPhone = null;
-    
-    for (let i = 1; i < customerRows.length; i++) {
-      const customer = {};
-      customerHeaders.forEach((h, idx) => customer[h] = customerRows[i][idx]);
-      
-      if (customer.CustomerId === validation.customerId) {
-        customerPhone = customer.Phone;
-        break;
-      }
-    }
-    
-    if (!customerPhone) {
-      return { success: false, error: 'Customer not found' };
-    }
-    
-    // Normalize phone number (remove leading zeros)
-    const normalizedPhone = customerPhone.toString().replace(/^0+/, '');
-    
-    // Get all orders for this customer
+    // Get all orders for this customer by CustomerId
     const orderRows = ordersSheet.getDataRange().getValues();
     const orderHeaders = orderRows[0];
     const orders = [];
@@ -758,10 +735,8 @@ function getCustomerOrderHistory(data) {
       const order = {};
       orderHeaders.forEach((h, idx) => order[h] = row[idx]);
       
-      // Normalize order phone number for comparison
-      const orderPhone = order.CustomerPhone ? order.CustomerPhone.toString().replace(/^0+/, '') : '';
-      
-      if (orderPhone === normalizedPhone) {
+      // Match by CustomerId (primary method)
+      if (order.CustomerId === validation.customerId) {
         orders.push(order);
       }
     }
@@ -775,10 +750,12 @@ function getCustomerOrderHistory(data) {
     
     return {
       success: true,
-      orders: orders,
+      data: orders,
       count: orders.length
     };
+    
   } catch (error) {
+    Logger.log('getCustomerOrderHistory error: ' + error.toString());
     return { success: false, error: error.toString() };
   }
 }
