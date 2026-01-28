@@ -1406,6 +1406,18 @@
                             <small class="payment-benefit">🎁 1 raffle entry • ✨ Instant confirmation</small>
                         </label>
                     </div>
+                    
+                    <!-- Payment Screenshot Upload Section (Hidden by default) -->
+                    <div id="paymentUploadSection" style="display: none; margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border: 2px dashed #14b8a6;">
+                        <h4 style="margin-bottom: 0.75rem; color: #14b8a6;"><i class="fas fa-upload"></i> Upload Payment Screenshot</h4>
+                        <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Please upload a screenshot of your payment confirmation. This helps us verify your order faster!</p>
+                        <input type="file" id="paymentScreenshot" accept="image/*" style="display: block; width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; background: white;">
+                        <div id="paymentPreview" style="margin-top: 1rem; display: none;">
+                            <img id="paymentPreviewImg" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #14b8a6;">
+                            <p style="font-size: 0.85rem; color: #14b8a6; margin-top: 0.5rem;"><i class="fas fa-check-circle"></i> Screenshot ready to upload</p>
+                        </div>
+                    </div>
+                    
                     <div class="payment-incentive">
                         <i class="fas fa-gift"></i>
                         <div>
@@ -1561,6 +1573,33 @@
                 this.classList.add('selected');
                 // Update checkout summary to reflect discount
                 updateCheckoutSummary();
+                
+                // Show/hide payment screenshot upload section
+                var selectedMethod = this.querySelector('input[name="paymentMethod"]').value;
+                var uploadSection = document.getElementById('paymentUploadSection');
+                if (selectedMethod === 'gcash' || selectedMethod === 'maya' || selectedMethod === 'bank') {
+                    uploadSection.style.display = 'block';
+                } else {
+                    uploadSection.style.display = 'none';
+                }
+            });
+        }
+        
+        // Payment screenshot preview
+        var paymentScreenshot = document.getElementById('paymentScreenshot');
+        if (paymentScreenshot) {
+            paymentScreenshot.addEventListener('change', function(e) {
+                var file = e.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        var preview = document.getElementById('paymentPreview');
+                        var img = document.getElementById('paymentPreviewImg');
+                        img.src = event.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
             });
         }
     }
@@ -2422,23 +2461,58 @@
             }
         }
         
-        var orderData = {
-            action: 'createOrder',
-            merchantId: merchantId,
-            merchantName: merchantName,
-            customerId: customerId,
-            customerName: document.getElementById('customerName').value,
-            customerPhone: document.getElementById('customerPhone').value,
-            customerEmail: document.getElementById('customerEmail').value || '',
-            barangay: document.getElementById('deliveryBarangay').value,
-            deliveryAddress: document.getElementById('deliveryAddress').value,
-            notes: document.getElementById('deliveryNotes').value || '',
-            paymentMethod: paymentMethod,
-            items: STATE.cart,
-            subtotal: subtotal,
-            deliveryFee: 0,
-            total: subtotal
-        };
+        // Check if payment screenshot is required and uploaded
+        var screenshotInput = document.getElementById('paymentScreenshot');
+        if ((paymentMethod === 'gcash' || paymentMethod === 'maya' || paymentMethod === 'bank') && screenshotInput && screenshotInput.files.length > 0) {
+            // Read file asynchronously first
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var paymentScreenshot = e.target.result;
+                // Now submit with screenshot
+                submitOrderWithData({
+                    action: 'createOrder',
+                    merchantId: merchantId,
+                    merchantName: merchantName,
+                    customerId: customerId,
+                    customerName: document.getElementById('customerName').value,
+                    customerPhone: document.getElementById('customerPhone').value,
+                    customerEmail: document.getElementById('customerEmail').value || '',
+                    barangay: document.getElementById('deliveryBarangay').value,
+                    deliveryAddress: document.getElementById('deliveryAddress').value,
+                    notes: document.getElementById('deliveryNotes').value || '',
+                    paymentMethod: paymentMethod,
+                    paymentScreenshot: paymentScreenshot,
+                    items: STATE.cart,
+                    subtotal: subtotal,
+                    deliveryFee: 0,
+                    total: subtotal
+                }, btn);
+            };
+            reader.readAsDataURL(screenshotInput.files[0]);
+        } else {
+            // No screenshot needed or COD, submit directly
+            submitOrderWithData({
+                action: 'createOrder',
+                merchantId: merchantId,
+                merchantName: merchantName,
+                customerId: customerId,
+                customerName: document.getElementById('customerName').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                customerEmail: document.getElementById('customerEmail').value || '',
+                barangay: document.getElementById('deliveryBarangay').value,
+                deliveryAddress: document.getElementById('deliveryAddress').value,
+                notes: document.getElementById('deliveryNotes').value || '',
+                paymentMethod: paymentMethod,
+                paymentScreenshot: '',
+                items: STATE.cart,
+                subtotal: subtotal,
+                deliveryFee: 0,
+                total: subtotal
+            }, btn);
+        }
+    }
+    
+    function submitOrderWithData(orderData, btn) {
         
         fetch(API_BASE, {
             method: 'POST',
@@ -2459,8 +2533,22 @@
                 
                 var orderRef = data.orderReference || data.orderId || 'AMV-' + Date.now();
                 var trackingToken = data.trackingToken || '';
-                var trackingMsg = trackingToken ? '\n\nTracking Token: ' + trackingToken + '\n\n⚠️ SAVE THIS TOKEN! You will need it to track your order.' : '';
-                alert('Order placed successfully!\n\nOrder ID: ' + orderRef + trackingMsg + '\n\nYou can track your order at /track');
+                
+                // Show success message with order reference
+                var successMsg = '✅ Order Placed Successfully!\n\n';
+                successMsg += '━━━━━━━━━━━━━━━━━━━━━\n';
+                successMsg += '📋 ORDER REFERENCE NUMBER:\n';
+                successMsg += orderRef + '\n';
+                successMsg += '━━━━━━━━━━━━━━━━━━━━━\n\n';
+                successMsg += '⚠️ IMPORTANT: Save this reference number!\n';
+                successMsg += 'You will need it to track your order.\n\n';
+                if (trackingToken) {
+                    successMsg += '🔑 Tracking Token: ' + trackingToken + '\n\n';
+                }
+                successMsg += '📦 Track your order at:\n';
+                successMsg += window.location.origin + '/track.html';
+                
+                alert(successMsg);
                 
                 document.getElementById('checkoutForm').reset();
             } else {
