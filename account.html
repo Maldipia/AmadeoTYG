@@ -714,7 +714,7 @@
                 html += '</div>';
                 html += '<div class="order-summary">';
                 html += '<span class="order-total-label">Total</span>';
-                html += '<span class="order-total">₱' + parseFloat(order.TotalAmount || 0).toFixed(2) + '</span>';
+                html += '<span class="order-total">₱' + parseFloat(order.Total || 0).toFixed(2) + '</span>';
                 html += '</div>';
                 html += '</div>';
                 
@@ -738,7 +738,7 @@
                 return s === 'delivered' || s === 'completed';
             }).length;
             var totalSpent = orders.reduce(function(sum, o) {
-                return sum + parseFloat(o.TotalAmount || 0);
+                return sum + parseFloat(o.Total || 0);
             }, 0);
             
             document.getElementById('totalOrders').textContent = total;

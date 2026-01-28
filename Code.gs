@@ -1203,6 +1203,7 @@ function createOrder(data) {
       switch(header) {
         case 'OrderId': return orderId;
         case 'MerchantId': return data.merchantId || '';
+        case 'MerchantName': return data.merchantName || '';
         case 'CustomerId': return data.customerId || '';
         case 'CustomerName': return data.customerName || '';
         case 'CustomerPhone': return data.customerPhone || '';

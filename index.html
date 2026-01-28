@@ -2404,14 +2404,28 @@
             console.error('Error getting customer ID:', e);
         }
         
+        // Get merchantId from first cart item (all items should be from same merchant)
+        var merchantId = STATE.cart.length > 0 && STATE.cart[0].merchantId ? STATE.cart[0].merchantId : '';
+        
+        // Get merchant name from STATE.merchants
+        var merchantName = '';
+        if (merchantId) {
+            var merchant = STATE.merchants.find(function(m) { return m.id === merchantId; });
+            if (merchant) {
+                merchantName = merchant.businessName || '';
+            }
+        }
+        
         var orderData = {
             action: 'createOrder',
+            merchantId: merchantId,
+            merchantName: merchantName,
             customerId: customerId,
             customerName: document.getElementById('customerName').value,
             customerPhone: document.getElementById('customerPhone').value,
             customerEmail: document.getElementById('customerEmail').value || '',
             barangay: document.getElementById('deliveryBarangay').value,
-            address: document.getElementById('deliveryAddress').value,
+            deliveryAddress: document.getElementById('deliveryAddress').value,
             notes: document.getElementById('deliveryNotes').value || '',
             paymentMethod: paymentMethod,
             items: STATE.cart,
