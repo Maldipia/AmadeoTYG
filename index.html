@@ -1647,7 +1647,7 @@
                 // Process merchants
                 if (merchantsData.success && merchantsData.data) {
                     STATE.merchants = merchantsData.data.filter(function(m) {
-                        return m.Status === 'Active';
+                        return m.Status && m.Status.toLowerCase() === 'active';
                     }).map(function(m) {
                         return {
                             id: m.MerchantId,
