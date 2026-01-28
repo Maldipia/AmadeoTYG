@@ -1565,6 +1565,47 @@
         }
     }
     
+    // Caching functions (10 minute cache)
+    function getCachedData() {
+        try {
+            var cached = localStorage.getItem('amadeo_marketplace_cache');
+            if (!cached) return null;
+            
+            var data = JSON.parse(cached);
+            var now = new Date().getTime();
+            var cacheAge = now - data.timestamp;
+            var tenMinutes = 10 * 60 * 1000;
+            
+            if (cacheAge < tenMinutes) {
+                return {
+                    merchants: data.merchants,
+                    products: data.products
+                };
+            }
+            
+            // Cache expired
+            localStorage.removeItem('amadeo_marketplace_cache');
+            return null;
+        } catch (e) {
+            console.error('Cache read error:', e);
+            return null;
+        }
+    }
+    
+    function setCachedData(merchants, products) {
+        try {
+            var data = {
+                timestamp: new Date().getTime(),
+                merchants: merchants,
+                products: products
+            };
+            localStorage.setItem('amadeo_marketplace_cache', JSON.stringify(data));
+            console.log('Data cached successfully');
+        } catch (e) {
+            console.error('Cache write error:', e);
+        }
+    }
+    
     // Load data from API
     function loadData() {
         var timeout = null;
@@ -1579,16 +1620,33 @@
             }
         }, 15000);
         
-        // Fetch merchants
-        fetch(API_BASE + '?action=getMerchants')
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                console.log('Merchants response:', data);
-                if (data.success && data.data) {
-                    // Filter only Active merchants and map properties
-                    STATE.merchants = data.data.filter(function(m) {
+        // Check cache first (10 minute expiry)
+        var cachedData = getCachedData();
+        if (cachedData) {
+            console.log('Using cached data');
+            STATE.merchants = cachedData.merchants;
+            STATE.products = cachedData.products;
+            renderMerchants();
+            renderProducts();
+            updateStats();
+            return;
+        }
+        
+        // Fetch merchants and products in parallel for faster loading
+        Promise.all([
+            fetch(API_BASE + '?action=getMerchants').then(function(r) { return r.json(); }),
+            fetch(API_BASE + '?action=getProducts').then(function(r) { return r.json(); })
+        ])
+            .then(function(results) {
+                var merchantsData = results[0];
+                var productsData = results[1];
+                
+                console.log('Merchants response:', merchantsData);
+                console.log('Products response:', productsData);
+                
+                // Process merchants
+                if (merchantsData.success && merchantsData.data) {
+                    STATE.merchants = merchantsData.data.filter(function(m) {
                         return m.Status === 'Active';
                     }).map(function(m) {
                         return {
@@ -1611,12 +1669,9 @@
                         };
                     });
                 }
-                return fetch(API_BASE + '?action=getProducts');
-            })
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
+                
+                // Process products
+                var data = productsData;
                 console.log('Products response:', data);
                 if (data.success && data.data) {
                     // Filter products from active merchants only
@@ -1655,12 +1710,16 @@
                     });
                 }
                 
+                // Save to cache
+                setCachedData(STATE.merchants, STATE.products);
+                
                 if (!completed) {
                     completed = true;
                     clearTimeout(timeout);
                     STATE.isLoading = false;
                     renderContent();
                 }
+            })
             })
             .catch(function(error) {
                 console.error('API Error:', error);
