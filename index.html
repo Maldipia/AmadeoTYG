@@ -2410,9 +2410,15 @@
         // Get merchant name from STATE.merchants
         var merchantName = '';
         if (merchantId) {
+            console.log('Looking for merchant with ID:', merchantId);
+            console.log('Available merchants:', STATE.merchants);
             var merchant = STATE.merchants.find(function(m) { return m.id === merchantId; });
+            console.log('Found merchant:', merchant);
             if (merchant) {
                 merchantName = merchant.businessName || '';
+                console.log('Merchant name:', merchantName);
+            } else {
+                console.error('Merchant not found in STATE.merchants!');
             }
         }
         
