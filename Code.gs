@@ -60,6 +60,8 @@ function setupCompleteSchema() {
     let headers = ordersSheet.getRange(1, 1, 1, ordersSheet.getLastColumn()).getValues()[0];
     
     const orderColumns = [
+      { name: 'MerchantName', defaultValue: '' },
+      { name: 'CustomerId', defaultValue: '' },
       { name: 'FulfillmentType', defaultValue: 'pickup' },
       { name: 'ScheduledTime', defaultValue: '' },
       { name: 'CourierStatus', defaultValue: '' }
