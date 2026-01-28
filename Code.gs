@@ -516,6 +516,10 @@ function customerLogin(email, password) {
         const sessionToken = generateCustomerSessionToken(customer.CustomerId);
         
         delete customer.Password;
+        // Format phone number with leading 0 if it's a number
+        if (customer.Phone && typeof customer.Phone === 'number') {
+          customer.Phone = '0' + customer.Phone;
+        }
         return {
           success: true,
           customer: customer,
@@ -563,7 +567,12 @@ function customerSignup(data) {
         case 'Name': return data.name || '';
         case 'Email': return data.email || '';
         case 'Password': return data.password ? hashPassword(data.password) : '';
-        case 'Phone': return data.phone || '';
+        case 'Phone': 
+          if (data.phone && typeof data.phone === 'string') {
+            const phoneNum = data.phone.replace(/^0+/, '');
+            return parseInt(phoneNum, 10);
+          }
+          return data.phone || '';
         case 'Barangay': return data.barangay || '';
         case 'Address': return data.address || '';
         case 'CreatedAt': return now;
@@ -622,6 +631,10 @@ function getCustomerProfile(data) {
       
       if (customer.CustomerId === validation.customerId) {
         delete customer.Password;
+        // Format phone number with leading 0 if it's a number
+        if (customer.Phone && typeof customer.Phone === 'number') {
+          customer.Phone = '0' + customer.Phone;
+        }
         return {
           success: true,
           customer: customer
@@ -664,7 +677,13 @@ function updateCustomerProfile(data) {
           if (data[field.toLowerCase()] !== undefined) {
             const colIndex = headers.indexOf(field);
             if (colIndex !== -1) {
-              sheet.getRange(i + 1, colIndex + 1).setValue(data[field.toLowerCase()]);
+              let value = data[field.toLowerCase()];
+              // Convert phone to number if it's a string starting with 0
+              if (field === 'Phone' && typeof value === 'string') {
+                value = value.replace(/^0+/, ''); // Remove leading zeros
+                value = parseInt(value, 10);
+              }
+              sheet.getRange(i + 1, colIndex + 1).setValue(value);
             }
           }
         });
