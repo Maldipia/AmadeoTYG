@@ -1160,6 +1160,44 @@
         .mb-2 {
             margin-bottom: 2rem;
         }
+        
+        /* Skeleton Loading */
+        .skeleton-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            animation: skeleton-pulse 1.5s ease-in-out infinite;
+        }
+        
+        .skeleton-card::before {
+            content: '';
+            display: block;
+            padding-top: 100%;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes skeleton-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Lazy loading images */
+        img[loading="lazy"] {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        img[loading="lazy"].loaded {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -1261,10 +1299,13 @@
             </div>
             
             <div id="productsContainer" class="product-grid">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Loading products...</p>
-                </div>
+                <!-- Skeleton loading cards -->
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
             </div>
         </section>
     </main>
@@ -1613,9 +1654,9 @@
             var data = JSON.parse(cached);
             var now = new Date().getTime();
             var cacheAge = now - data.timestamp;
-            var tenMinutes = 10 * 60 * 1000;
+            var thirtyMinutes = 30 * 60 * 1000;
             
-            if (cacheAge < tenMinutes) {
+            if (cacheAge < thirtyMinutes) {
                 return {
                     merchants: data.merchants,
                     products: data.products
@@ -1902,7 +1943,7 @@
                 '<button class="wishlist-btn' + (isWishlisted ? ' active' : '') + '" onclick="event.stopPropagation(); toggleWishlist(\'' + product.id + '\')" title="' + (isWishlisted ? 'Remove from wishlist' : 'Add to wishlist') + '">' +
                 '<i class="' + (isWishlisted ? 'fas' : 'far') + ' fa-heart"></i>' +
                 '</button>' +
-                '<img src="' + imageUrl + '" alt="' + escapeHtml(product.name) + '" class="product-image" onerror="this.src=\'https://via.placeholder.com/300x200?text=No+Image\'">' +
+                '<img src="' + imageUrl + '" alt="' + escapeHtml(product.name) + '" class="product-image" loading="lazy" onerror="this.src=\'https://via.placeholder.com/300x200?text=No+Image\'">' +
                 (isOutOfStock ? '<div class="stock-overlay"><span class="stock-badge out"><i class="fas fa-times-circle"></i> Out of Stock</span></div>' : '') +
                 (isLowStock ? '<div class="stock-badge low"><i class="fas fa-exclamation-triangle"></i> Only ' + stockLevel + ' left</div>' : '') +
                 '<div class="product-info">' +
@@ -2043,7 +2084,7 @@
                 '<button class="wishlist-btn' + (isWishlisted ? ' active' : '') + '" onclick="event.stopPropagation(); toggleWishlist(\'' + product.id + '\')" title="' + (isWishlisted ? 'Remove from wishlist' : 'Add to wishlist') + '">' +
                 '<i class="' + (isWishlisted ? 'fas' : 'far') + ' fa-heart"></i>' +
                 '</button>' +
-                '<img src="' + imageUrl + '" alt="' + escapeHtml(product.name) + '" class="product-image" onerror="this.src=\'https://via.placeholder.com/300x200?text=No+Image\'">' +
+                '<img src="' + imageUrl + '" alt="' + escapeHtml(product.name) + '" class="product-image" loading="lazy" onerror="this.src=\'https://via.placeholder.com/300x200?text=No+Image\'">' +
                 (isOutOfStock ? '<div class="stock-overlay"><span class="stock-badge out"><i class="fas fa-times-circle"></i> Out of Stock</span></div>' : '') +
                 (isLowStock ? '<div class="stock-badge low"><i class="fas fa-exclamation-triangle"></i> Only ' + stockLevel + ' left</div>' : '') +
                 '<div class="product-info">' +
