@@ -1230,6 +1230,28 @@ function createOrder(data) {
       }
     });
     
+    // Deduct stock for ordered items
+    if (data.items && data.items.length > 0) {
+      const productsSheet = ss.getSheetByName('Products');
+      const productData = productsSheet.getDataRange().getValues();
+      const productHeaders = productData[0];
+      const productIdCol = productHeaders.indexOf('ProductId');
+      const stockCol = productHeaders.indexOf('StockLevel');
+      
+      if (productIdCol !== -1 && stockCol !== -1) {
+        data.items.forEach(item => {
+          for (let i = 1; i < productData.length; i++) {
+            if (productData[i][productIdCol] === item.productId) {
+              const currentStock = parseInt(productData[i][stockCol]) || 0;
+              const newStock = Math.max(0, currentStock - (item.quantity || 0));
+              productsSheet.getRange(i + 1, stockCol + 1).setValue(newStock);
+              break;
+            }
+          }
+        });
+      }
+    }
+    
     ordersSheet.appendRow(rowData);
     clearCache();
     
